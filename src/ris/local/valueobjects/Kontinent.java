@@ -1,5 +1,5 @@
 package ris.local.valueobjects;
 
-public class Continent {
+public class Kontinent {
 
 }
