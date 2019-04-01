@@ -3,13 +3,21 @@ package ris.local.ui.cui;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-public class RisikoClientUI {
-	private BufferedReader in;
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+import ris.local.domain.Weltverwaltung;
 
+public class RisikoClientUI {
+	private Weltverwaltung welt;
+	private BufferedReader in;
+	public RisikoClientUI() {
+		welt = new Weltverwaltung();
 	}
 	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+
 	/*public int[] zufallLaenderverteilung(int wieviel) {
 	int neueZahl = Math.random();
 	int[] arrayInt = new int[wieviel];

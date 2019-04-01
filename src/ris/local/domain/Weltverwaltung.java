@@ -15,6 +15,8 @@ public class Weltverwaltung {
 	Land newSouthWales = new Land("New South Wales", 9);
 	Land victoria = new Land("Victoria", 10);
 	
+	Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
+	
 	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false},
 							{true, false, true, false, false, false, false, false, false, false, false},
 							{false, true, false, true, false, false, false, false, false, false, false},
@@ -33,10 +35,7 @@ public class Weltverwaltung {
 	}
 	
 	public boolean isBenachbart(Land land1, Land land2){
-		if (nachbarn[land1.getNummer()][land2.getNummer()]) {
-			return true;
-		}
-		return false;
+		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
 
 }
