@@ -1,5 +1,6 @@
 package ris.local.valueobjects;
 
+import java.util.ArrayList;
 
 public class Land {
 	private int einheiten;
@@ -8,6 +9,8 @@ public class Land {
 	public String toString() {
 		return name;
 	}
+	
+	static ArrayList<Land> laender = new ArrayList<Land>();
 	public Land(String name, int nummer) {
 		this.nummer = nummer;
 		this.name = name;
