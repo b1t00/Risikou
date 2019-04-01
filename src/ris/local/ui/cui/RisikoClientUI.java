@@ -8,6 +8,7 @@ import ris.local.domain.Weltverwaltung;
 public class RisikoClientUI {
 	private Weltverwaltung welt;
 	private BufferedReader in;
+	
 	public RisikoClientUI() {
 		welt = new Weltverwaltung();
 	}
@@ -15,6 +16,11 @@ public class RisikoClientUI {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		
+		/*erster Versuch für einen möglich Ablauf von einem Angriff*/
+		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift:" + spieler1.gibLaenderAus());
+		String name = liesEingabe();
+		System.out.println("Welches Land soll angegriffen werden:" + );
 	}
 	
 
@@ -33,9 +39,13 @@ public class RisikoClientUI {
 		System.out.println("Name von spieler 2: ");
 	}
 	
-	private String liesEingabe() {
+	private static String liesEingabe() {
 		return in.readLine();
 	}
+	
+
+	
+	
 	
 }
 	

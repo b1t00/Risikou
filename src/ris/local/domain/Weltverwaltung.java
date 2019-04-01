@@ -37,5 +37,16 @@ public class Weltverwaltung {
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
+	
+	public Land[] hatNachbarn(Land land) {
+		int j = 0;
+		Land[] feinde = new Land[10];
+		for (int i = 0; i < nachbarn.length; i++) {
+			if (nachbarn[land.getNummer()][i]) {
+				feinde[j] = laender[i];
+			}
+		}
+		return feinde;
+	}
 
 }
