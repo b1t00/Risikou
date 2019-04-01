@@ -1,13 +1,12 @@
 package ris.local.valueobjects;
 
 
-
 public class Land {
 	private int einheiten;
 	private int nummer;
 	private String name;
 	
-	private Land(int nummer, String name) {
+	public Land(String name, int nummer) {
 		this.nummer = nummer;
 		this.name = name;
 	}
@@ -18,5 +17,9 @@ public class Land {
 	
 	public int getEinheiten() {
 		return einheiten;
+	}
+	
+	public String getName() {
+		return name;
 	}
 }
