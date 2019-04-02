@@ -38,18 +38,20 @@ public class Weltverwaltung {
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
 		
-	public String angriff(int land) {
+	public String angriff(int land){
 		Land[] feinde = new Land[10];
 		int j = 0;
-		for (int i = 0; i < nachbarn.length; i++) {
+		for (int i = 0; i < nachbarn[land].length; i++) {
 			if (nachbarn[land][i]) {
 				feinde[j] = laender[i];
 				j++;
 			}
 		}
+		String result = "";
 		for (Land feind: feinde) {
 			result += feind.getNummer() + " > " + feind.getName() + "\n";
 		}
+		return result;
 	}
 
 }
