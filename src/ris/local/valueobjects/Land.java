@@ -28,7 +28,7 @@ public class Land {
 	}
 	
 	// Methode um Einheiten zu setzten 
-	// evtl exeption wenn einheiten unter 0 oder 1 gehen.
+	// evtl exception wenn einheiten unter 0 oder 1 gehen.
 	public void setEinheiten(int einheit) {
 		this.einheiten = this.einheiten + einheit;
 	}
