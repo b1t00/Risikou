@@ -3,6 +3,10 @@ package ris.local.domain;
 import ris.local.valueobjects.Land;
 
 public class Weltverwaltung {
+	
+	
+		
+	
 	Land portugal = new Land("Portugal", 0);
 	Land spanien = new Land("Spanien", 1);
 	Land frankreich = new Land("Frankreich", 2);
@@ -15,7 +19,7 @@ public class Weltverwaltung {
 	Land newSouthWales = new Land("New South Wales", 9);
 	Land victoria = new Land("Victoria", 10);
 	
-	Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
+	public Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
 	
 	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false},
 							{true, false, true, false, false, false, false, false, false, false, false},
@@ -30,6 +34,7 @@ public class Weltverwaltung {
 							{false, false, false, false, false, false, false, false, true, true, false}
 							};
 	
+	
 	public Weltverwaltung() {
 		
 	}
@@ -37,5 +42,6 @@ public class Weltverwaltung {
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
-
+	
+	
 }
