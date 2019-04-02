@@ -11,12 +11,12 @@ import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
-	public Weltverwaltung welt;
+	private Weltverwaltung welt;
 	private BufferedReader in;
 	
 	
 	public RisikoClientUI() {
-		//welt = new Weltverwaltung();
+		welt = new Weltverwaltung();
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
@@ -28,6 +28,15 @@ public class RisikoClientUI {
 	private int liesNummer() {
 		int eingabe = Integer.parseInt(liesEingabe());
 		return eingabe;
+	}
+	
+	/*erster Versuch für einen möglich Ablauf von einem Angriff*/
+	public void attack(Player spieler1) {
+		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
+		//int nummer = Integer.parseInt(liesEingabe());
+		System.out.println("Welches Land soll angegriffen werden:" + world.angriff(0));
+		//int feind = Integer.parseInt(liesEingabe());
+		
 	}
 	
 	public static void main(String[] args) {
