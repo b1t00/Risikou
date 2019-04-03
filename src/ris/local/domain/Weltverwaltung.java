@@ -1,14 +1,14 @@
 package ris.local.domain;
 
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
+
 
 import ris.local.valueobjects.Land;
 import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Gamer;
 
 public class Weltverwaltung {
+
 	Land portugal = new Land("Portugal", 0, "blau");
 	Land spanien = new Land("Spanien", 1, "blau");
 	Land frankreich = new Land("Frankreich", 2, "rot");
@@ -20,8 +20,9 @@ public class Weltverwaltung {
 	Land southAustralia = new Land("South Australia", 8, "b");
 	Land newSouthWales = new Land("New South Wales", 9, "b");
 	Land victoria = new Land("Victoria", 10, "b");
+
 	
-	Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
+	public Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
 	
 	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false},
 							{true, false, true, false, false, false, false, false, false, false, false},
@@ -36,19 +37,26 @@ public class Weltverwaltung {
 							{false, false, false, false, false, false, false, false, true, true, false}
 							};
 	
-	ArrayList<Land> europa = new ArrayList<Land>();
 	
+	ArrayList<Land> europa = new ArrayList<Land>();
+
 	public Weltverwaltung() {
-		europa.add(portugal);
-		europa.add(spanien);
-		europa.add(frankreich);
-		europa.add(belgien);
-		europa.add(niederlande);	
+	europa.add(portugal);
+	europa.add(spanien);
+	europa.add(frankreich);
+	europa.add(belgien);
+	europa.add(niederlande);
+	}
+	
+	public ArrayList<Land> getEuropa(){
+		return europa;
+
 	}
 	
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
+
 		
 	public String angriff(int land, Gamer spieler){
 		ArrayList<Land> feinde = new ArrayList<Land>();

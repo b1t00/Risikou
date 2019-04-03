@@ -1,74 +1,159 @@
 package ris.local.ui.cui;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+
 
 import ris.local.domain.Weltverwaltung;
 import ris.local.valueobjects.Gamer;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Player;
+
 
 public class RisikoClientUI {
-	private Weltverwaltung world;
+//	private Weltverwaltung welt;
+
+	private Weltverwaltung welt = new Weltverwaltung();
 	private BufferedReader in;
-	
-	
-	public RisikoClientUI() {
-		world = new Weltverwaltung();
+	private String name, farbe;
+	private Gamer spieler;
+	private Collection<String> farbenAuswahl  = new HashSet();
+
+	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
+	int anzahlAnSpielern;
+
+	private RisikoClientUI() {
 		in = new BufferedReader(new InputStreamReader(System.in));
+		farbenAuswahl.add("rot");
+		farbenAuswahl.add("gruen"); //
+		farbenAuswahl.add("blau");
+
+
 	}
-	
-	private String liesEingabe throws IOException() {
-		String rueckgabe = in.readLine();
-		// einlesen von Konsole
-		return rueckgabe;
-	}
-	
-	/*erster Versuch für einen möglich Ablauf von einem Angriff*/
-	public void attack(Player spieler1) {
-		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
-//		try {
-//			int nummer = Integer.parseInt(liesEingabe());
-//		} catch (IOException e) {}
-//		
-		//int nummer = Integer.parseInt(liesEingabe());
-		System.out.println("Welches Land soll angegriffen werden: \n" + world.angriff(1, spieler1));
-		//int feind = Integer.parseInt(liesEingabe());
-		
-	}
-	
+
 	public static void main(String[] args) {
+
+		System.out.println("Lust Risiko zu spielen?");
 		RisikoClientUI cui = new RisikoClientUI();
-		ArrayList<Land> laender1 = new ArrayList<Land>();
-		laender1.add(new Land("Portugal", 0, "blau"));
-		laender1.add(new Land("Spanien", 1, "blau"));
-		Gamer spieler1 = new Gamer("Otto", laender1, "blau");
-		cui.attack(spieler1);
-		
-		
-		//System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Zahl zwischen 1 und" + spieler1.inBesitz[nummer].getEinheiten());
-		//int angreifer = Integer.parseInt(liesEingabe());*/
+		cui.leg2SpielerAn(2);
 	}
-	
-}
-	/*public int[] zufallLaenderverteilung(int wieviel) {
-	int neueZahl = Math.random();
-	int[] arrayInt = new int[wieviel];
+
+	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
+	public void leg2SpielerAn(int anzahlSpieler) {
+
+		for ( int i = 0 ; i < anzahlSpieler ; i++) {
+		// ******* hier wird Spieler1 angelegt
+		System.out.print("Name von spieler 1: ");
+		try {
+			name = liesEingabe();
+		} catch (IOException e) {}
+		farbe = farbeAuswaehlen();
+
+		spieler = new Gamer(name, farbe, laenderZuweisung(5)); //laender müssen noch einer Farbe hinzugewiesen werden
+		// ausgabe für spieler
+		System.out.println("Spieler wurde angelegt");
+		System.out.println(spieler.getName() + " ist " + spieler.getFarbe() + " und besitzt die Laender : "
+				+ spieler.getBesitz());
+		}
+//		// ******* hier wird spieler2 angelegt
+//
+//		System.out.print("Name von spieler 2: ");
+//		try {
+//			name = liesEingabe();
+//		} catch (IOException e) {}
+//		farbe = farbeAuswaehlen();
+//
+//		spieler2 = new Gamer(name, farbe, laenderZuweisung(5));
+//		System.out.println("Spieler2 wurde angelegt");
+//		System.out.println(spieler2.getName() + " ist " + spieler2.getFarbe() + " und besitzt die Laender : "
+//				+ spieler2.getBesitz());
+//
+//		// entscheidung wer anfängt
+//		System.out.println("spieler 2 fängt an");
 	}
-	*/
-	
-	/*
-	
-	
-	public void legSpielerAn() {
-		System.out.println("Name von spieler 1: ");
-		Player gamer1 = new Player(liesEingabe());
-		System.out.println("Name von spieler 2: ");
-	}
-	
-	private static String liesEingabe() {
+
+	// einlesen von Konsole
+	private String liesEingabe() throws IOException {
 		return in.readLine();
 	}
-	*/
+
+	// laufvariablen für zufällige Länderverteilung
+	private int i = 0;
+	private int k = 0;
+	// hier werden Länderkarten gemischt.
+	private ArrayList<Integer> zufall = shuffleIntegerArrayList();
+
+	private ArrayList<Land> laenderZuweisung(int anzahlAnLaendern) {
+
+		ArrayList<Land> besitzt = new ArrayList<Land>();
+
+		for (; i < (k + anzahlAnLaendern); i++) {
+			besitzt.add(welt.laender[zufall.get(i)]);
+		}
+		k = k + anzahlAnLaendern;
+		return besitzt;
+	}
+
+	// return: gibt Arraylist<Integer> mit zufälligen Integers zurück
+	public ArrayList<Integer> shuffleIntegerArrayList() {
+		int laenderanzahl = 11;
+		ArrayList nummern = new ArrayList();
+		for (int i = 0; i < laenderanzahl; i++) {
+			nummern.add(i);
+		}
+		Collections.shuffle(nummern);
+		return nummern;
+	}
+
+	// muss überarbeitet werden, falsche collection
+	public String farbeAuswaehlen() {
+		System.out.println("Welche Farbe möchtest nehmen?");
+		if(farbenAuswahl.contains("rot")) {
+			System.out.println("r : rot");
+		}
+		if(farbenAuswahl.contains("gruen")) {
+			System.out.println("g : grün");
+		}
+		if(farbenAuswahl.contains("blau")) {
+			System.out.println("b : blaus");
+		}
+		try {
+			farbe = liesEingabe();
+		} catch (IOException e) {
+		}
+		switch (farbe) {
+		case "r":
+			farbe = "rot";
+			farbenAuswahl.remove("rot");
+			break;
+		case "g":
+			farbenAuswahl.remove("gruen");
+			farbe = "gruen";
+			break;
+		case "b":
+			farbenAuswahl.remove("blau");
+			farbe = "blau";
+			break;
+		default:
+			farbeAuswaehlen();
+		}
+		return farbe;
+
+	}
+	
+	
+}
+
+//Collection zahlen = new HashSet();
+//zahlen.
+//public Collection farben(int wieviele) {
+//while(zahlen.size() < wieviele) {
+//zahlen.
+//System.out.println(zahlen);
+//return zahlen;
+//}h
