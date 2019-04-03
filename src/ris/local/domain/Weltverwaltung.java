@@ -58,20 +58,7 @@ public class Weltverwaltung {
 	}
 
 		
-	public String angriff(int land, Gamer spieler){
-		ArrayList<Land> feinde = new ArrayList<Land>();
-		for (int i = 0; i < nachbarn[land].length; i++) {
-			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {
-				feinde.add(laender[i]);
-			}
-		}
-		String result = "";
-		for (Land feind: feinde) {
-			result += feind.getNummer() + " > " + feind.getName() + "\n";
-		}
-		return result;
-	}
-	
+
 	public void attack(Gamer spieler1) {
 		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
 //		try {
