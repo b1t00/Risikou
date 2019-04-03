@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ris.local.valueobjects.Land;
+import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Gamer;
 
 public class Weltverwaltung {
@@ -62,5 +63,25 @@ public class Weltverwaltung {
 		}
 		return result;
 	}
+	
+	public void attack(Gamer spieler1) {
+		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
+//		try {
+//			int nummer = Integer.parseInt(liesEingabe());
+//		} catch (IOException e) {}
+//		
+		//int nummer = Integer.parseInt(liesEingabe());
+		System.out.println("Welches Land soll angegriffen werden: \n" + world.angriff(1, spieler1));
+		//int feind = Integer.parseInt(liesEingabe());
+		
+	}
+	
+	public static void main(String[] args) {
+		RisikoClientUI cui = new RisikoClientUI();
+		ArrayList<Land> laender1 = new ArrayList<Land>();
+		laender1.add(new Land("Portugal", 0, "blau"));
+		laender1.add(new Land("Spanien", 1, "blau"));
+		Gamer spieler1 = new Gamer("Otto", laender1, "blau");
+		cui.attack(spieler1);
 
 }
