@@ -8,22 +8,25 @@ import ris.local.domain.Weltverwaltung;
 public class Gamer {
 	private String name;
 	private String farbe;
-	// private int besatzerNr; //für spielablauf
+	private int besatzerNr; //für spielablauf
 	private int darfsetzten; // variable für die Spieler die er in der Runde setzten darf
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	private ArrayList<Land> europa, autralien;
 	
 	Weltverwaltung welt = new Weltverwaltung();
 
-	public Gamer(String name, String farbe, ArrayList inBesitz) {
+	public Gamer(String name, String farbe, ArrayList inBesitz, int besatzerNr) {
 		this.name = name;
+		this.besatzerNr = besatzerNr;
 		this.farbe = farbe;
 		this.inBesitz = inBesitz;
 		kontinentCheck(inBesitz, welt.getEuropa());    // <----------- diese Methode equals überschreibung #to
 	}
 
-	public String getName() {
-		return name;
+	public String getName(int zahl) {
+		if(besatzerNr == zahl) {
+		return name;}
+		return "nichts";
 	}
 
 	public String getFarbe() {
@@ -42,7 +45,7 @@ public class Gamer {
 					return false;
 					
 				} else {
-					System.out.println(europa.get(k));
+//					System.out.println(europa.get(k));
 					k++; 
 					
 					}

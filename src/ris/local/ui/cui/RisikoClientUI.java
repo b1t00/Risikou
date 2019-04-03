@@ -37,6 +37,9 @@ public class RisikoClientUI {
 		System.out.println("Lust Risiko zu spielen?");
 		RisikoClientUI cui = new RisikoClientUI();
 		cui.leg2SpielerAn(2);
+		
+		System.out.println(cui.spieler.getName(0));
+		System.out.println(cui.spieler.getName(1));
 	}
 
 	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
@@ -50,10 +53,10 @@ public class RisikoClientUI {
 		} catch (IOException e) {}
 		farbe = farbeAuswaehlen();
 
-		spieler = new Gamer(name, farbe, laenderZuweisung(5)); //laender müssen noch einer Farbe hinzugewiesen werden
+		spieler = new Gamer(name, farbe, laenderZuweisung(5),i); //laender müssen noch einer Farbe hinzugewiesen werden
 		// ausgabe für spieler
 		System.out.println("Spieler wurde angelegt");
-		System.out.println(spieler.getName() + " ist " + spieler.getFarbe() + " und besitzt die Laender : "
+		System.out.println(spieler.getName(i) + " ist " + spieler.getFarbe() + " und besitzt die Laender : "
 				+ spieler.getBesitz());
 		}
 //		// ******* hier wird spieler2 angelegt
