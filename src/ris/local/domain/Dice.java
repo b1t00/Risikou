@@ -9,7 +9,7 @@ public class Dice {
 		Dice dice=new Dice();
 		dice.rollDice(3, 3);
 	}
-	public void rollDice(int attUnits,int defUnits) {
+	public ArrayList<Integer> rollDice(int attUnits,int defUnits) {
 		int lossDef=0;
 		int lossAtt=0;
 		ArrayList<Integer> aList= new ArrayList<Integer>();
@@ -88,9 +88,11 @@ public class Dice {
 			else
 				lossAtt= lossAtt-1;
 		}
-		
+		ArrayList<Integer> unitLoss= new ArrayList<Integer>();
+		unitLoss.add(lossDef);
+		unitLoss.add(lossAtt);
 		System.out.println("Def:" + lossDef + " " + "Att" + lossAtt);
-		
+		return unitLoss;
 	
 	}
 }

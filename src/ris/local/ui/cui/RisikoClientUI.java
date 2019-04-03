@@ -75,6 +75,7 @@ public class RisikoClientUI {
 //
 //		// entscheidung wer anfängt
 //		System.out.println("spieler 2 fängt an");
+
 	}
 
 	// einlesen von Konsole
