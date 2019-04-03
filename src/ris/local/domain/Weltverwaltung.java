@@ -82,6 +82,6 @@ public class Weltverwaltung {
 		laender1.add(new Land("Portugal", 0, "blau"));
 		laender1.add(new Land("Spanien", 1, "blau"));
 		Gamer spieler1 = new Gamer("Otto", laender1, "blau");
-		cui.attack(spieler1);
+		this.attack(spieler1);
 
 }
