@@ -40,6 +40,7 @@ public class RisikoClientUI {
 		System.out.println("Lust Risiko zu spielen?");
 		RisikoClientUI cui = new RisikoClientUI();
 		cui.leg2SpielerAn(2);
+//		cui.spieler.getName();
 	}
 
 	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
@@ -110,7 +111,7 @@ public class RisikoClientUI {
 		return nummern;
 	}
 
-	// muss überarbeitet werden, falsche collection
+	// muss überarbeitet werden, falsche collection und die 
 	public String farbeAuswaehlen() {
 		System.out.println("Welche Farbe möchtest nehmen?");
 		if(farbenAuswahl.contains("rot")) {
