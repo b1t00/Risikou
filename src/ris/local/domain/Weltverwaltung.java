@@ -1,5 +1,7 @@
 package ris.local.domain;
 
+import java.util.*;
+
 import ris.local.valueobjects.Land;
 
 public class Weltverwaltung {
@@ -35,8 +37,18 @@ public class Weltverwaltung {
 							};
 	
 	
+	ArrayList<Land> europa = new ArrayList<Land>();
+
 	public Weltverwaltung() {
-		
+	europa.add(portugal);
+	europa.add(spanien);
+	europa.add(frankreich);
+	europa.add(belgien);
+	europa.add(niederlande);
+	}
+	
+	public ArrayList<Land> getEuropa(){
+		return europa;
 	}
 	
 	public boolean isBenachbart(Land land1, Land land2){

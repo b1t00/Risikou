@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
 import ris.local.domain.Weltverwaltung;
 import ris.local.valueobjects.Gamer;
@@ -20,17 +19,16 @@ public class RisikoClientUI {
 	private Weltverwaltung welt = new Weltverwaltung();
 	private BufferedReader in;
 	private String name, farbe;
-	private Gamer spieler1, spieler2, spieler3;
-	private Collection<String> farbenAuswahl;
+	private Gamer spieler;
+	private Collection<String> farbenAuswahl  = new HashSet();
 
 	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
 	int anzahlAnSpielern;
 
 	private RisikoClientUI() {
 		in = new BufferedReader(new InputStreamReader(System.in));
-		farbenAuswahl = new HashSet();
 		farbenAuswahl.add("rot");
-		farbenAuswahl.add("gruen");
+		farbenAuswahl.add("gruen"); //
 		farbenAuswahl.add("blau");
 
 	}
@@ -38,12 +36,13 @@ public class RisikoClientUI {
 	public static void main(String[] args) {
 		System.out.println("Lust Risiko zu spielen?");
 		RisikoClientUI cui = new RisikoClientUI();
-		cui.leg2SpielerAn();
+		cui.leg2SpielerAn(2);
 	}
 
 	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
-	public void leg2SpielerAn() {
+	public void leg2SpielerAn(int anzahlSpieler) {
 
+		for ( int i = 0 ; i < anzahlSpieler ; i++) {
 		// ******* hier wird Spieler1 angelegt
 		System.out.print("Name von spieler 1: ");
 		try {
@@ -51,26 +50,27 @@ public class RisikoClientUI {
 		} catch (IOException e) {}
 		farbe = farbeAuswaehlen();
 
-		spieler1 = new Gamer(name, farbe, laenderZuweisung(6));
-		System.out.println("Spieler1 wurde angelegt");
-		System.out.println(spieler1.getName() + " ist " + spieler1.getFarbe() + " und besitzt die Laender : "
-				+ spieler1.getBesitz());
-
-		// ******* hier wird spieler2 angelegt
-
-		System.out.print("Name von spieler 2: ");
-		try {
-			name = liesEingabe();
-		} catch (IOException e) {}
-		farbe = farbeAuswaehlen();
-
-		spieler2 = new Gamer(name, farbe, laenderZuweisung(5));
-		System.out.println("Spieler2 wurde angelegt");
-		System.out.println(spieler2.getName() + " ist " + spieler2.getFarbe() + " und besitzt die Laender : "
-				+ spieler2.getBesitz());
-
-		// entscheidung wer anfängt
-		System.out.println("spieler 2 fängt an");
+		spieler = new Gamer(name, farbe, laenderZuweisung(5)); //laender müssen noch einer Farbe hinzugewiesen werden
+		// ausgabe für spieler
+		System.out.println("Spieler wurde angelegt");
+		System.out.println(spieler.getName() + " ist " + spieler.getFarbe() + " und besitzt die Laender : "
+				+ spieler.getBesitz());
+		}
+//		// ******* hier wird spieler2 angelegt
+//
+//		System.out.print("Name von spieler 2: ");
+//		try {
+//			name = liesEingabe();
+//		} catch (IOException e) {}
+//		farbe = farbeAuswaehlen();
+//
+//		spieler2 = new Gamer(name, farbe, laenderZuweisung(5));
+//		System.out.println("Spieler2 wurde angelegt");
+//		System.out.println(spieler2.getName() + " ist " + spieler2.getFarbe() + " und besitzt die Laender : "
+//				+ spieler2.getBesitz());
+//
+//		// entscheidung wer anfängt
+//		System.out.println("spieler 2 fängt an");
 	}
 
 	// einlesen von Konsole
@@ -108,8 +108,16 @@ public class RisikoClientUI {
 
 	// muss überarbeitet werden, falsche collection
 	public String farbeAuswaehlen() {
-		System.out.println("Welche Farbe möchtest nehmen? \n r : rot  \n g : gruen \n b : blau ");
-//		farbe = "rot";
+		System.out.println("Welche Farbe möchtest nehmen?");
+		if(farbenAuswahl.contains("rot")) {
+			System.out.println("r : rot");
+		}
+		if(farbenAuswahl.contains("gruen")) {
+			System.out.println("g : grün");
+		}
+		if(farbenAuswahl.contains("blau")) {
+			System.out.println("b : blaus");
+		}
 		try {
 			farbe = liesEingabe();
 		} catch (IOException e) {

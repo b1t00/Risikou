@@ -45,6 +45,16 @@ public class Land {
 	public String toString() {
 		return name;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+				if(obj instanceof Land) {
+					Land neuesLand = (Land) obj;
+					return ((this.name.equals(neuesLand.name)));
+				}
+				return false;
+	}
+	
 	
 	
 }
