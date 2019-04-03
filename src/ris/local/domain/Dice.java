@@ -24,7 +24,7 @@ public class Dice {
 		}
 		System.out.println("d1" + " " + defList.get(0));
 		System.out.println("d2" + " " + defList.get(1));
-		System.out.println("d3" + " " + aList.get(2));
+		System.out.println("d3" + " " + defList.get(2));
 		System.out.println("a1" + " " + aList.get(0));
 		System.out.println("a2" + " " + aList.get(1));
 		System.out.println("a3" + " " + aList.get(2));
@@ -35,7 +35,7 @@ public class Dice {
 		Collections.reverse(defList);
 		System.out.println("d1" + " " + defList.get(0));
 		System.out.println("d2" + " " + defList.get(1));
-		System.out.println("d3" + " " + aList.get(2));
+		System.out.println("d3" + " " + defList.get(2));
 		System.out.println("a1" + " " + aList.get(0));
 		System.out.println("a2" + " " + aList.get(1));
 		System.out.println("a3" + " " + aList.get(2));
