@@ -14,7 +14,6 @@ import ris.local.domain.Weltverwaltung;
 import ris.local.valueobjects.Gamer;
 import ris.local.valueobjects.Land;
 
-
 public class RisikoClientUI {
 //	private Weltverwaltung welt;
 
@@ -158,3 +157,4 @@ public class RisikoClientUI {
 //System.out.println(zahlen);
 //return zahlen;
 //}h
+
