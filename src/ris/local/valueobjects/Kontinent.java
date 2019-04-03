@@ -19,4 +19,8 @@ public class Kontinent {
 		return laender;
 	}
 	
+	public boolean isOwnedByGamer(Gamer gamer) {
+		return false; // TODO
+	}
+	
 }

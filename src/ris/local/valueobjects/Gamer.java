@@ -7,6 +7,10 @@ import ris.local.domain.Weltverwaltung;
 
 public class Gamer {
 	private String name;
+	private String farbe;
+	// private int besatzerNr; //für spielablauf
+	private int darfsetzten; // variable für die Spieler die er in der Runde setzten darf
+	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 
 	public String toString() {
 		return name;
@@ -20,19 +24,20 @@ public class Gamer {
 		return rueckgabe;
 	}
 
-	private String farbe;
-	// private int besatzerNr; //für spielablauf
-	private int darfsetzten; // variable für die Spieler die er in der Runde setzten darf
-	private ArrayList<Land> inBesitz = new ArrayList<Land>();
-	private ArrayList<Land> europa, autralien;
+//	private ArrayList<Land> europa, autralien;
 	
-	Weltverwaltung welt = new Weltverwaltung();
+//	Weltverwaltung welt = new Weltverwaltung();
+
+	public Gamer(String name, String farbe) {
+		this.name = name;
+		this.farbe = farbe;
+	}
 
 	public Gamer(String name, String farbe, ArrayList inBesitz) {
 		this.name = name;
 		this.farbe = farbe;
 		this.inBesitz = inBesitz;
-		kontinentCheck(inBesitz, welt.getEuropa());    
+//		kontinentCheck(inBesitz, welt.getEuropa());    
 	}
 
 	public String getName() {

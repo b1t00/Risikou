@@ -1,7 +1,6 @@
 package ris.local.ui.cui;
 
 import java.io.BufferedReader;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -9,7 +8,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 
-
+import ris.local.domain.Risiko;
 import ris.local.domain.Weltverwaltung;
 import ris.local.valueobjects.Gamer;
 import ris.local.valueobjects.Land;
@@ -17,6 +16,9 @@ import ris.local.valueobjects.Land;
 public class RisikoClientUI {
 //	private Weltverwaltung welt;
 
+	private Risiko risiko;
+	private Gamer aktiverSpieler;
+	
 	private Weltverwaltung welt = new Weltverwaltung();
 	private BufferedReader in;
 	private String name, farbe;
@@ -27,6 +29,8 @@ public class RisikoClientUI {
 	int anzahlAnSpielern;
 
 	private RisikoClientUI() {
+		risiko = new Risiko();
+		
 		in = new BufferedReader(new InputStreamReader(System.in));
 		farbenAuswahl.add("rot");
 		farbenAuswahl.add("gruen"); //
@@ -39,10 +43,27 @@ public class RisikoClientUI {
 
 		System.out.println("Lust Risiko zu spielen?");
 		RisikoClientUI cui = new RisikoClientUI();
+		
+		cui.zeigeStartMenu();
+		
 		cui.leg2SpielerAn(2);
 //		cui.spieler.getName();
 	}
 
+	public void spielAnlegen() {
+		// Abfragen: wie viele Spieler?
+		
+		risiko.spielAnlegen(3);
+	}
+	
+	public void spielerHinzufuegen() {
+		// Name einlesen
+		// Farbe einlesen
+		Gamer gamer = risiko.spielerAnlegen("Klaus", "rot");
+		
+		System.out.println("Spieler " + gamer.getName() + " angelegt.");
+	}
+	
 	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
 	public void leg2SpielerAn(int anzahlSpieler) {
 
