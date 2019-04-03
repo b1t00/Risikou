@@ -44,7 +44,7 @@ public class RisikoClientUI {
 		ArrayList<Land> laender1 = new ArrayList<Land>();
 		laender1.add(new Land("Portugal", 0, "blau"));
 		laender1.add(new Land("Spanien", 1, "blau"));
-		Player spieler1 = new Player("Otto", laender1, "blau");
+		Gamer spieler1 = new Gamer("Otto", laender1, "blau");
 		cui.attack(spieler1);
 		
 		
