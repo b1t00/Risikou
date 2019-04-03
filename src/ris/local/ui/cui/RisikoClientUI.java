@@ -20,20 +20,20 @@ public class RisikoClientUI {
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	private String liesEingabe throws IOException() {
+	private String liesEingabe() throws IOException {
 		String rueckgabe = in.readLine();
 		// einlesen von Konsole
 		return rueckgabe;
 	}
 	
 	/*erster Versuch für einen möglich Ablauf von einem Angriff*/
-	public void attack(Player spieler1) {
+	public void attack(Gamer spieler1) {
 		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
-//		try {
-//			int nummer = Integer.parseInt(liesEingabe());
-//		} catch (IOException e) {}
-//		
-		//int nummer = Integer.parseInt(liesEingabe());
+		try {
+			int nummer = Integer.parseInt(liesEingabe());
+		} catch (IOException e) {}
+		
+		int nummer = Integer.parseInt(liesEingabe());
 		System.out.println("Welches Land soll angegriffen werden: \n" + world.angriff(1, spieler1));
 		//int feind = Integer.parseInt(liesEingabe());
 		
