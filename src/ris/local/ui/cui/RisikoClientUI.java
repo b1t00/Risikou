@@ -11,47 +11,42 @@ import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
-	private Weltverwaltung welt;
+	private Weltverwaltung world;
 	private BufferedReader in;
 	
 	
 	public RisikoClientUI() {
-		welt = new Weltverwaltung();
+		world = new Weltverwaltung();
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	private String liesEingabe() {
+	private String liesEingabe throws IOException() {
+		String rueckgabe = in.readLine();
 		// einlesen von Konsole
-		return in.readLine();
-	}
-	
-	private int liesNummer() {
-		int eingabe = Integer.parseInt(liesEingabe());
-		return eingabe;
+		return rueckgabe;
 	}
 	
 	/*erster Versuch für einen möglich Ablauf von einem Angriff*/
 	public void attack(Player spieler1) {
 		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
+//		try {
+//			int nummer = Integer.parseInt(liesEingabe());
+//		} catch (IOException e) {}
+//		
 		//int nummer = Integer.parseInt(liesEingabe());
-		System.out.println("Welches Land soll angegriffen werden:" + world.angriff(0));
+		System.out.println("Welches Land soll angegriffen werden: \n" + world.angriff(1, spieler1));
 		//int feind = Integer.parseInt(liesEingabe());
 		
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Weltverwaltung world = new Weltverwaltung();
+		RisikoClientUI cui = new RisikoClientUI();
 		ArrayList<Land> laender1 = new ArrayList<Land>();
-		laender1.add(new Land("Portugal", 0));
-		laender1.add(new Land("Frankreich", 1));
-		Player spieler1 = new Player("Otto", laender1);
+		laender1.add(new Land("Portugal", 0, "blau"));
+		laender1.add(new Land("Spanien", 1, "blau"));
+		Player spieler1 = new Player("Otto", laender1, "blau");
+		cui.attack(spieler1);
 		
-		/*erster Versuch für einen möglich Ablauf von einem Angriff*/
-		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
-		//int nummer = Integer.parseInt(liesEingabe());
-		System.out.println("Welches Land soll angegriffen werden:" + world.angriff(0));
-		//int feind = Integer.parseInt(liesEingabe());
 		
 		//System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Zahl zwischen 1 und" + spieler1.inBesitz[nummer].getEinheiten());
 		//int angreifer = Integer.parseInt(liesEingabe());*/

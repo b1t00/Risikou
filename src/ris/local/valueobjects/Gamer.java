@@ -2,12 +2,15 @@ package ris.local.valueobjects;
 
 import java.util.ArrayList;
 
-	public class Player {
+public class Gamer {
 	private String name;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
-	public Player(String name, ArrayList<Land> inBesitz){
+	private String farbe = "rot";
+	
+	public Gamer(String name, ArrayList<Land> inBesitz, String farbe){
 		this.name = name;
 		this.inBesitz = inBesitz;
+		this.farbe = farbe;
 	}
 
 	public String toString() {
@@ -20,5 +23,9 @@ import java.util.ArrayList;
 			rueckgabe += land.getNummer() + " > " + land.getName() + "\n";
 		}
 		return rueckgabe;
+	}
+	
+	public String getFarbe() {
+		return farbe;
 	}
 }
