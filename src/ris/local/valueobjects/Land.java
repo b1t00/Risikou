@@ -3,15 +3,6 @@ package ris.local.valueobjects;
 
 
 public class Land {
-	
-	public static void main(String[] args) {
-		Land nl = new Land("NL",5);
-		System.out.println(nl.getEinheiten());
-		nl.setEinheiten(2);
-		nl.setEinheiten(-1);
-		System.out.println(nl.getEinheiten());
-	}
-	
 	private int einheiten = 1;
 	private int nummer;
 	private String name;
