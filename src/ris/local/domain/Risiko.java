@@ -5,14 +5,14 @@ import ris.local.valueobjects.Player;
 public class Risiko {
 
 	private Worldmanagement worldMg;
-	private PlayerManagement playerMg;
+	private Playermanagement playerMg;
 	private Spiellogik logik;
 	
 	// Konstruktor
 	
 	public Risiko() {
 		worldMg = new Worldmanagement();
-		playerMg = new PlayerManagement();
+		playerMg = new Playermanagement();
 		logik = new Spiellogik(worldMg, playerMg);
 	}
 	
