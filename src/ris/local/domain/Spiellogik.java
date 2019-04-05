@@ -19,24 +19,14 @@ public class Spiellogik {
 
 //	********** SpielAnfang *************
 
-	// return: gibt Arraylist<Integer> mit zufälligen Zahlen für Verteilung zurück
-	// zurück
-	public ArrayList<Integer> shuffleIntegerArrayList() {
-		int laenderanzahl = 11;
-		ArrayList nummern = new ArrayList();
-		for (int i = 0; i < laenderanzahl; i++) {
-			nummern.add(i);
-		}
-		Collections.shuffle(nummern);
-		return nummern;
-	}
 
-	// Methode um Alle Lander durchzumischen
+	// Methode um Alle LanderKarten durchzumischen
 	public ArrayList<Land> shuffleLaender() {
 		ArrayList<Land> shuffle = worldMg.getLaender();
 		Collections.shuffle(shuffle);
 		return shuffle;
 	}
+	
 
 //	public ArrayList<Integer> verteileEinheiten(){}
 //	
