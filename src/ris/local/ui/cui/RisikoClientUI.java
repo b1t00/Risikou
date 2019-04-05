@@ -17,7 +17,6 @@ public class RisikoClientUI {
 
 	private Risiko risiko;
 
-	private Worldmanagement welt = new Worldmanagement();
 	private BufferedReader in;
 	private String name, farbe;
 	private Player spieler;

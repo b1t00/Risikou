@@ -8,18 +8,18 @@ import ris.local.valueobjects.Land;
 
 public class Spiellogik {
 	
-	public ArrayList<Integer> verteileEinheiten(){}
-	
-	
-	boolean angriffMoeglich() {}
-	
-	public void angriffAuswerten(verteileEinheiten) {}
-	
-	public void moveUnits() {}
-	public boolean movePossible() {}
-	
-	public String landStatus() {}
-	public int unitsAvailable(Land) {}
+//	public ArrayList<Integer> verteileEinheiten(){}
+//	
+//	
+//	boolean angriffMoeglich() {}
+//	
+//	public void angriffAuswerten(int verteileEinheiten) {}
+//	
+//	public void moveUnits() {}
+//	public boolean movePossible() {}
+//	
+//	public String landStatus() {}
+//	public int unitsAvailable(int Land) {}
 	
 	Playermanagement gamerVW;
 	private Worldmanagement worldMg;
