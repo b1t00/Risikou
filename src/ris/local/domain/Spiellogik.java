@@ -51,6 +51,7 @@ public class Spiellogik {
 			if (p.getBesitz().contains(attacker)) {
 				return p;
 			}
+		return null;
 	}
 //	public void moveUnits() {}
 //	public boolean movePossible() {}
