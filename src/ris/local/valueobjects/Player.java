@@ -25,6 +25,7 @@ public class Player {
 	public String getFarbe() {
 		return farbe;
 	}
+	
 
 	public ArrayList<Land> getBesitz() {
 		return inBesitz;

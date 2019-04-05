@@ -21,10 +21,10 @@ public class Playermanagement {
 		return player;
 	}
 	
-	// gibt Anzahl an spielern zurï¿½ck
-//	public int getPlayerAnzahl(){
-//		return gamerListe.size();
-//	}
+	// gibt Anzahl an spielern zurueck
+	public int getPlayerAnzahl(){  // es könnte sein das diese Methode ueberfluessig ist..
+		return gamerListe.size();
+	}
 		
 	//public void addElements(ArrayList<Land>) {
 		

@@ -4,9 +4,10 @@ package ris.local.domain;
 import ris.local.domain.Playermanagement;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
-
 
 public class Spiellogik {
 
@@ -14,28 +15,77 @@ public class Spiellogik {
 	private Worldmanagement worldMg;
 	private Playermanagement playerMg;
 
+	public int laenderAnzahl;
+
 	public Spiellogik(Worldmanagement worldMg, Playermanagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
+
+		laenderAnzahl = worldMg.getLaender().size();
 	}
 
 //	*********************************** SpielAnfang **********************************
 
-	// Methode um Alle LanderKarten durchzumischen
+	// Methode um Alle "LaenderKarten" durchzumischen
 	public ArrayList<Land> shuffleLaender() {
 		ArrayList<Land> shuffle = worldMg.getLaender();
 		Collections.shuffle(shuffle);
 		return shuffle;
 	}
 
+	// Methode um Laender am Anfang zufällig zu verteilen;
+	public void verteileLaender() {
+		ArrayList<Land> shuffle = shuffleLaender();
+		List<Player> playerList = playerMg.getPlayers();
+
+		int i = 0;
+		while (i < 11) {
+			for (Player playerVert : playerList) {
+				if (i == 11) {
+					break;
+				} else {
+					playerVert.addLand(shuffle.get(i));
+					i++;
+				}
+			}
+		}
+	}
+
+	// Methode die sagt wer anfängt
+	public void whoBegins() {
+		List<Player> playerList = playerMg.getPlayers(); // mittlerweile doppelt. vlt global anlegen
+		for (int i = 0; i < playerList.size(); i++) {
+			if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
+				
+				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuersr
+																					// anfängt
+				break;
+			}
+		}
+	}
+
+//	// laufvariablen für zufällige Länderverteilung
+//	private int i = 0;
+//	private int k = 0;
+//	// hier werden Länderkarten gemischt.
+//
+//	private ArrayList<Land> laenderZuweisung(int anzahlAnLaendern) {
+//
+//
+//		for (; i < (k + anzahlAnLaendern); i++) {
+//			besitzt.add(welt.laender[zufall.get(i)]);
+//		}
+//		k = k + anzahlAnLaendern;
+//		return besitzt;
+//	}
 //	
 //	
 //	********************************** Angriffslogik **********************************
-	
+
 //	boolean angriffMoeglich() {}
-	
+
 //	public ArrayList<Integer> verteileEinheiten(){}
-	
+
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
 		int defNew = dice.get(0);
