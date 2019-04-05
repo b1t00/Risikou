@@ -13,7 +13,7 @@ public class Risiko {
 	public Risiko() {
 		worldMg = new Worldmanagement();
 		playerMg = new Playermanagement();
-		logik = new Spiellogik();
+		logik = new Spiellogik(worldMg, playerMg);
 	}
 	
 	public void spielAnlegen(int anzahl) {
@@ -21,9 +21,10 @@ public class Risiko {
 		// return gameObjekt;
 	}
 	
-	public Player spielerAnlegen(String name, String farbe) {
-		Player player = new Player(name, farbe);
-		playerMg.addPlayer(player);
+	public Player spielerAnlegen(String name, String farbe, int nummer) {
+		playerMg.addPlayer(name, farbe, nummer);
+	
+		// playerMg.addPlayer(player);
 		// gameObjekt.add(gamer);
 		return player;
 	}

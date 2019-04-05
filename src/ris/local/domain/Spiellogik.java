@@ -11,7 +11,7 @@ public class Spiellogik {
 	public ArrayList<Integer> verteileEinheiten(){}
 	
 	
-	boolean angriffMöglich() {}
+	boolean angriffMï¿½glich() {}
 	
 	public void angriffAuswerten(verteileEinheiten) {}
 	
@@ -23,7 +23,13 @@ public class Spiellogik {
 	public String showInBesitz(inBesitz) {}
 	
 	Playermanagement gamerVW;
+	private Worldmanagement worldMg;
+	private Playermanagement playerMg;
 	
+	public Spiellogik(Worldmanagement worldMg, Playermanagement playerMg) {
+		this.worldMg = worldMg;
+		this.playerMg = playerMg;
+	}
 	
 	public String angriff(int land, Player spieler){
 		ArrayList<Land> feinde = new ArrayList<Land>();
