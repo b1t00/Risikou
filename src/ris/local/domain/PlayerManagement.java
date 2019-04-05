@@ -10,9 +10,10 @@ public class Playermanagement {
 
 	private List<Player> gamerListe = new ArrayList<Player>();
 
-	public void addPlayer(String name, String farbe, int nummer) {
+	public Player addPlayer(String name, String farbe, int nummer) {
 		Player player = new Player(name, farbe, nummer);
 		gamerListe.add(player);
+		return player;
 	}
 		
 	//public void addElements(ArrayList<Land>) {

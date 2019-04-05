@@ -11,7 +11,7 @@ public class Spiellogik {
 	public ArrayList<Integer> verteileEinheiten(){}
 	
 	
-	boolean angriffM�glich() {}
+	boolean angriffMoeglich() {}
 	
 	public void angriffAuswerten(verteileEinheiten) {}
 	
@@ -20,7 +20,6 @@ public class Spiellogik {
 	
 	public String landStatus() {}
 	public int unitsAvailable(Land) {}
-	public String showInBesitz(inBesitz) {}
 	
 	Playermanagement gamerVW;
 	private Worldmanagement worldMg;
@@ -31,20 +30,20 @@ public class Spiellogik {
 		this.playerMg = playerMg;
 	}
 	
-	public String angriff(int land, Player spieler){
-		ArrayList<Land> feinde = new ArrayList<Land>();
-		for (int i = 0; i < nachbarn[land].length; i++) {
-			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {
-				feinde.add(laender[i]);
-			}
-		}
-		String result = "";
-		for (Land feind: feinde) {
-			result += feind.getNummer() + " > " + feind.getName() + "\n";
-		}
-		return result;
-	}
-	
+//	public String angriff(int land, Player spieler){
+//		ArrayList<Land> feinde = new ArrayList<Land>();
+//		for (int i = 0; i < nachbarn[land].length; i++) {
+//			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {
+//				feinde.add(laender[i]);
+//			}
+//		}
+//		String result = "";
+//		for (Land feind: feinde) {
+//			result += feind.getNummer() + " > " + feind.getName() + "\n";
+//		}
+//		return result;
+//	}
+//	
 	
 	public ArrayList<Integer> rollDice(int attUnits,int defUnits) {
 		int lossDef=0;
