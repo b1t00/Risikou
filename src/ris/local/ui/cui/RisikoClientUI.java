@@ -25,7 +25,7 @@ public class RisikoClientUI {
 		risiko = new Risiko();
 		in = new BufferedReader(new InputStreamReader(System.in));
 		farbenAuswahl.add("rot");
-		farbenAuswahl.add("gruen"); //
+		farbenAuswahl.add("gruen"); 
 		farbenAuswahl.add("blau");
 
 	}
@@ -140,107 +140,4 @@ public class RisikoClientUI {
 	
 	
 }
-////	private Weltverwaltung welt;
-//
-//	private Weltverwaltung welt = new Weltverwaltung();
-//	private String name, farbe;
-//	private Gamer spieler;
-//	private Collection<String> farbenAuswahl  = new HashSet();
-//
-//	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
-//	int anzahlAnSpielern;
-//
-//	private RisikoClientUI() {
-//		in = new BufferedReader(new InputStreamReader(System.in));
-//		farbenAuswahl.add("rot");
-//		farbenAuswahl.add("gruen"); //
-//		farbenAuswahl.add("blau");
-//
-//	}
-//
-//	public static void main(String[] args) {
-//		System.out.println("Lust Risiko zu spielen?");
-//		RisikoClientUI cui = new RisikoClientUI();
-//		cui.leg2SpielerAn(2);
-//		
-//		System.out.println(cui.spieler.getName(0));
-//		System.out.println(cui.spieler.getName(1));
-//	}
-//
-//	// anlegen von zwei Spielern, erweiterbar?? for schleife?? #to
-//	public void leg2SpielerAn(int anzahlSpieler) {
-//
-//		for ( int i = 0 ; i < anzahlSpieler ; i++) {
-//		// ******* hier wird Spieler1 angelegt
-//		System.out.print("Name von spieler 1: ");
-//		try {
-//			name = liesEingabe();
-//		} catch (IOException e) {}
-//		farbe = farbeAuswaehlen();
-//
-//		spieler = new Gamer(name, farbe, laenderZuweisung(5),i); //laender müssen noch einer Farbe hinzugewiesen werden
-//		// ausgabe für spieler
-//		System.out.println("Spieler wurde angelegt");
-//		System.out.println(spieler.getName(i) + " ist " + spieler.getFarbe() + " und besitzt die Laender : "
-//				+ spieler.getBesitz());
-//		}
-////		// ******* hier wird spieler2 angelegt
-////
-////		System.out.print("Name von spieler 2: ");
-////		try {
-////			name = liesEingabe();
-////		} catch (IOException e) {}
-////		farbe = farbeAuswaehlen();
-////
-////		spieler2 = new Gamer(name, farbe, laenderZuweisung(5));
-////		System.out.println("Spieler2 wurde angelegt");
-////		System.out.println(spieler2.getName() + " ist " + spieler2.getFarbe() + " und besitzt die Laender : "
-////				+ spieler2.getBesitz());
-////
-////		// entscheidung wer anfängt
-////		System.out.println("spieler 2 fängt an");
-//	}
-//
-//
-//	// laufvariablen für zufällige Länderverteilung
-//	private int i = 0;
-//	private int k = 0;
-//	// hier werden Länderkarten gemischt.
-//	private ArrayList<Integer> zufall = shuffleIntegerArrayList();
-//
-//	private ArrayList<Land> laenderZuweisung(int anzahlAnLaendern) {
-//
-//		ArrayList<Land> besitzt = new ArrayList<Land>();
-//
-//		for (; i < (k + anzahlAnLaendern); i++) {
-//			besitzt.add(welt.laender[zufall.get(i)]);
-//		}
-//		k = k + anzahlAnLaendern;
-//		return besitzt;
-//	}
-//
-//	// return: gibt Arraylist<Integer> mit zufälligen Integers zurück
-//	public ArrayList<Integer> shuffleIntegerArrayList() {
-//		int laenderanzahl = 11;
-//		ArrayList nummern = new ArrayList();
-//		for (int i = 0; i < laenderanzahl; i++) {
-//			nummern.add(i);
-//		}
-//		Collections.shuffle(nummern);
-//		return nummern;
-//	}
-//
 
-//	
-//	
-//}
-//
-////Collection zahlen = new HashSet();
-////zahlen.
-////public Collection farben(int wieviele) {
-////while(zahlen.size() < wieviele) {
-////zahlen.
-////System.out.println(zahlen);
-////return zahlen;
-////}h
-//
