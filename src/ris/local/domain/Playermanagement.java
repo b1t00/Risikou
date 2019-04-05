@@ -13,18 +13,18 @@ public class Playermanagement {
 	public List<Player> getPlayers(){
 		return gamerListe;
 	}
-	public void addPlayer(String name, String farbe, int nummer) {
+//	public void addPlayer(String name, String farbe, int nummer) {} // 
 
-	public Player addPlayer(String name, String farbe, int nummer) {
+	public Player addPlayer(String name, String farbe, int nummer) { // hier die von Teschke Methode. Warum Player?
 		Player player = new Player(name, farbe, nummer);
 		gamerListe.add(player);
 		return player;
 	}
 	
 	// gibt Anzahl an spielern zur�ck
-	public int getPlayerAnzahl(){
-		return gamerListe.size();
-	}
+//	public int getPlayerAnzahl(){
+//		return gamerListe.size();
+//	}
 		
 	//public void addElements(ArrayList<Land>) {
 		
