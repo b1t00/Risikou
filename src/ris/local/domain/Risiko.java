@@ -21,8 +21,8 @@ public class Risiko {
 		// return gameObjekt;
 	}
 	
-	public Player spielerAnlegen(String name, String farbe) {
-		Player player = new Player(name, farbe);
+	public Player spielerAnlegen(String name, String farbe, int nummer) {
+		Player player = new Player(name, farbe, nummer);
 		playerMg.addPlayer(player);
 		// gameObjekt.add(gamer);
 		return player;
