@@ -15,6 +15,11 @@ public class Playermanagement {
 		gamerListe.add(player);
 		return player;
 	}
+	
+	// gibt Anzahl an spielern zurück
+	public int getPlayerAnzahl(){
+		return gamerListe.size();
+	}
 		
 	//public void addElements(ArrayList<Land>) {
 		

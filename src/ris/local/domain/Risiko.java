@@ -30,12 +30,17 @@ public class Risiko {
 		return player;
 	}
 	
-	public Player gibAktivenSpieler() {
-		return logik.gibAktivenSpieler();
-	}
+//	public Player gibAktivenSpieler() {
+//		return logik.gibAktivenSpieler();
+//	}
+//	
+//	public void naechsterSpieler() {
+//		return logik.naechsterSpieler();
+//	}
 	
-	public void naechsterSpieler() {
-		return logik.naechsterSpieler();
+	public static void main(String[] args) {
+		 Risiko risiTest = new Risiko();
+		 System.out.println(risiTest.logik.shuffleLaender());
 	}
 
 }
