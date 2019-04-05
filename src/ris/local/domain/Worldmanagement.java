@@ -8,12 +8,12 @@ import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Gamer;
 import ris.local.valueobjects.Kontinent;
 
-public class Weltverwaltung {
+public class Worldmanagement {
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
 	private ArrayList<Kontinent> kontinente = new ArrayList<Kontinent>();
 	
-	public Weltverwaltung() {
+	public Worldmanagement() {
 		erstelleWelt();
 	}
 

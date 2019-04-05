@@ -4,15 +4,15 @@ import ris.local.valueobjects.Gamer;
 
 public class Risiko {
 
-	private Weltverwaltung weltVW;
-	private Gamerverwaltung gamerVW;
+	private Worldmanagement worldMg;
+	private Playermanagement playerMg;
 	private Spiellogik logik;
 	
 	// Konstruktor
 	
 	public Risiko() {
-		weltVW = new Weltverwaltung();
-		gamerVW = new Gamerverwaltung();
+		worldMg = new Worldmanagement();
+		playerMg = new Playermanagement();
 		logik = new Spiellogik();
 	}
 	
@@ -23,7 +23,7 @@ public class Risiko {
 	
 	public Gamer spielerAnlegen(String name, String farbe) {
 		Gamer gamer = new Gamer(name, farbe);
-		gamerVW.addGamer(gamer);
+		playerMg.addGamer(gamer);
 		// gameObjekt.add(gamer);
 		return gamer;
 	}

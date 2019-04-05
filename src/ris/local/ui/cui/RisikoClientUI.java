@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import ris.local.domain.Risiko;
-import ris.local.domain.Weltverwaltung;
+import ris.local.domain.Worldmanagement;
 import ris.local.valueobjects.Gamer;
 import ris.local.valueobjects.Land;
 
@@ -19,7 +19,7 @@ public class RisikoClientUI {
 	private Risiko risiko;
 	private Gamer aktiverSpieler;
 	
-	private Weltverwaltung welt = new Weltverwaltung();
+	private Worldmanagement welt = new Worldmanagement();
 	private BufferedReader in;
 	private String name, farbe;
 	private Gamer spieler;

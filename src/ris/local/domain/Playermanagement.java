@@ -6,7 +6,7 @@ import java.util.Vector;
 
 import ris.local.valueobjects.Gamer;
 
-public class Gamerverwaltung {
+public class Playermanagement {
 
 	private List<Gamer> gamerListe = new ArrayList<Gamer>();
 

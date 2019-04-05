@@ -7,7 +7,7 @@ import ris.local.valueobjects.Land;
 
 public class Spiellogik {
 
-	Gamerverwaltung gamerVW;
+	Playermanagement gamerVW;
 	
 	
 	public String angriff(int land, Gamer spieler){
