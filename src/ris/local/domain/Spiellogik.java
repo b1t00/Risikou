@@ -6,9 +6,13 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
 public class Spiellogik {
-
-	Playermanagement gamerVW;
+	private Worldmanagement worldMg;
+	private Playermanagement playerMg;
 	
+	public Spiellogik(Worldmanagement worldMg, Playermanagement playerMg) {
+		this.worldMg = worldMg;
+		this.playerMg = playerMg;
+	}
 	
 	public String angriff(int land, Player spieler){
 		ArrayList<Land> feinde = new ArrayList<Land>();

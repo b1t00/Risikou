@@ -13,7 +13,7 @@ public class Risiko {
 	public Risiko() {
 		worldMg = new Worldmanagement();
 		playerMg = new Playermanagement();
-		logik = new Spiellogik();
+		logik = new Spiellogik(worldMg, playerMg);
 	}
 	
 	public void spielAnlegen(int anzahl) {
