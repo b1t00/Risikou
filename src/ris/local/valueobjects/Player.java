@@ -47,7 +47,7 @@ public class Player {
 		this.inBesitz.add(neuesLand);
 	}
 	
-	//diese Methode beim Hinzufügen von einem ganzen Länder-Array
+	//diese Methode beim Hinzufügen von einem ganzen Länder-Array, am Anfang
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}

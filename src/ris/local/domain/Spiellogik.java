@@ -8,6 +8,9 @@ import ris.local.valueobjects.Land;
 
 public class Spiellogik {
 	
+//	********** SpielAnfang *************
+	
+	
 //	public ArrayList<Integer> verteileEinheiten(){}
 //	
 //	
