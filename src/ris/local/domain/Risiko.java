@@ -7,6 +7,7 @@ public class Risiko {
 	private Worldmanagement worldMg;
 	private Playermanagement playerMg;
 	private Spiellogik logik;
+	private Player player;
 	
 	// Konstruktor
 	
