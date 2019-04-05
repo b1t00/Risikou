@@ -9,14 +9,18 @@ import java.util.Collections;
 import java.util.HashSet;
 
 import ris.local.domain.Risiko;
+<<<<<<< HEAD
 import ris.local.domain.Worldmanagement;
+=======
+import ris.local.domain.Weltverwaltung;
+>>>>>>> tobiBranch(master)
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
 public class RisikoClientUI {
-//	private Weltverwaltung welt;
 
 	private Risiko risiko;
+<<<<<<< HEAD
 	private Player aktiverSpieler;
 	
 	private Worldmanagement welt = new Worldmanagement();
@@ -27,18 +31,28 @@ public class RisikoClientUI {
 
 	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
 	int anzahlAnSpielern;
+=======
+	private BufferedReader in;
+>>>>>>> tobiBranch(master)
 
+	// Konstruktor
 	private RisikoClientUI() {
+<<<<<<< HEAD
 		risiko = new Risiko();
 		
+=======
+
+		risiko = new Risiko();
+>>>>>>> tobiBranch(master)
 		in = new BufferedReader(new InputStreamReader(System.in));
 		farbenAuswahl.add("rot");
-		farbenAuswahl.add("gruen"); //
+		farbenAuswahl.add("gruen"); 
 		farbenAuswahl.add("blau");
 
 
 	}
 
+<<<<<<< HEAD
 	public static void main(String[] args) {
 
 		System.out.println("Lust Risiko zu spielen?");
@@ -99,41 +113,75 @@ public class RisikoClientUI {
 
 	}
 
+=======
+>>>>>>> tobiBranch(master)
 	// einlesen von Konsole
 	private String liesEingabe() throws IOException {
 		return in.readLine();
 	}
 
-	// laufvariablen für zufällige Länderverteilung
-	private int i = 0;
-	private int k = 0;
-	// hier werden Länderkarten gemischt.
-	private ArrayList<Integer> zufall = shuffleIntegerArrayList();
+	private void anfangsMenue() {
+		boolean richtigeEingabe = false;
+		String eingabe = "";
+		while (!richtigeEingabe) {
+			System.out.println("Lust Risiko zu spielen? (y/n) :	");
+			try {
+				eingabe = liesEingabe();
+			} catch (IOException e) {
+			}
+			switch (eingabe) {
+			case "yes":
+			case "j":
+			case "y":
+				try {
+					wieVieleSpielerMenu();
+				} catch (IOException e) {
+				}
+				System.out.println("jetzt beginnt das Spiel"); // Platzhalter für Spielanfang
+				richtigeEingabe = true;
+				break;
+			case "no":
+			case "nö":
+			case "n":
+				System.out.println("Risik wird beendet"); // Platzhalter für Spielbeenden
 
-	private ArrayList<Land> laenderZuweisung(int anzahlAnLaendern) {
+				richtigeEingabe = true;
+				break;
+			default:
+				System.out.println("ungültige eingabe");
+				richtigeEingabe = false;
 
-		ArrayList<Land> besitzt = new ArrayList<Land>();
-
-		for (; i < (k + anzahlAnLaendern); i++) {
-			besitzt.add(welt.laender[zufall.get(i)]);
+			}
 		}
-		k = k + anzahlAnLaendern;
-		return besitzt;
 	}
 
-	// return: gibt Arraylist<Integer> mit zufälligen Integers zurück
-	public ArrayList<Integer> shuffleIntegerArrayList() {
-		int laenderanzahl = 11;
-		ArrayList nummern = new ArrayList();
-		for (int i = 0; i < laenderanzahl; i++) {
-			nummern.add(i);
-		}
-		Collections.shuffle(nummern);
-		return nummern;
-	}
+	public void wieVieleSpielerMenu() throws IOException {
 
+		String eingabeSpieler, name, farbe;
+		int nr;
+		System.out.println("Wieviele Spieler soll es geben? :");
+		eingabeSpieler = liesEingabe();
+		nr = Integer.parseInt(eingabeSpieler);
+		for (int i = 1; i <= nr; i++) {
+			System.out.println("Wie soll spieler " + i + " heißen? : ");
+			name = liesEingabe();
+//			System.out.println("welche farbe :");
+			farbe = farbeAuswaehlen();
+			risiko.spielerAnlegen(name, farbe, nr);
+		}
+		
+
+<<<<<<< HEAD
 	// muss überarbeitet werden, falsche collection und die 
+=======
+	}
+	// Methode für farbeingabe; damit die richtigen Farben ausgewählt werden können
+	Collection<String> farbenAuswahl  = new HashSet();
+	// muss überarbeitet werden, falsche collection
+>>>>>>> tobiBranch(master)
 	public String farbeAuswaehlen() {
+		String farbe = "";
+		
 		System.out.println("Welche Farbe möchtest nehmen?");
 		if(farbenAuswahl.contains("rot")) {
 			System.out.println("r : rot");
@@ -142,7 +190,7 @@ public class RisikoClientUI {
 			System.out.println("g : grün");
 		}
 		if(farbenAuswahl.contains("blau")) {
-			System.out.println("b : blaus");
+			System.out.println("b : blau");
 		}
 		try {
 			farbe = liesEingabe();
@@ -165,18 +213,20 @@ public class RisikoClientUI {
 			farbeAuswaehlen();
 		}
 		return farbe;
-
 	}
+
+	
+	
+	
+	
+	
+	
+	public static void main(String[] args) {
+		RisikoClientUI cui = new RisikoClientUI();
+		cui.anfangsMenue();
+	}
+
 	
 	
 }
-
-//Collection zahlen = new HashSet();
-//zahlen.
-//public Collection farben(int wieviele) {
-//while(zahlen.size() < wieviele) {
-//zahlen.
-//System.out.println(zahlen);
-//return zahlen;
-//}h
 
