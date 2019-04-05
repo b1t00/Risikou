@@ -7,6 +7,7 @@ import java.util.Collections;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
+
 public class Spiellogik {
 
 	Playermanagement gamerVW;
@@ -30,11 +31,11 @@ public class Spiellogik {
 //	
 //	
 //	********************************** Angriffslogik **********************************
-
+	
 //	boolean angriffMoeglich() {}
-
+	
 //	public ArrayList<Integer> verteileEinheiten(){}
-
+	
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
 		int defNew = dice.get(0);
@@ -51,6 +52,7 @@ public class Spiellogik {
 			if (p.getBesitz().contains(attacker)) {
 				return p;
 			}
+		return null;
 	}
 //	public void moveUnits() {}
 //	public boolean movePossible() {}
