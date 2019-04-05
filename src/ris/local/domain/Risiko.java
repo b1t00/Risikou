@@ -1,6 +1,6 @@
 package ris.local.domain;
 
-import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Player;
 
 public class Risiko {
 
@@ -21,14 +21,14 @@ public class Risiko {
 		// return gameObjekt;
 	}
 	
-	public Gamer spielerAnlegen(String name, String farbe) {
-		Gamer gamer = new Gamer(name, farbe);
-		playerMg.addGamer(gamer);
+	public Player spielerAnlegen(String name, String farbe) {
+		Player player = new Player(name, farbe);
+		playerMg.addPlayer(player);
 		// gameObjekt.add(gamer);
-		return gamer;
+		return player;
 	}
 	
-	public Gamer gibAktivenSpieler() {
+	public Player gibAktivenSpieler() {
 		return logik.gibAktivenSpieler();
 	}
 	

@@ -3,18 +3,20 @@ package ris.local.valueobjects;
 import java.util.ArrayList;
 import java.util.List;
 
-import ris.local.domain.Weltverwaltung;
+import ris.local.domain.Worldmanagement;
 
-public class Gamer {
+public class Player {
 	private String name;
 	private String farbe;
+	private int nummer;
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
 
-	public Gamer(String name, String farbe) {
+	public Player(String name, String farbe, int nummer) {
 		this.name = name;
 		this.farbe = farbe;
+		this.nummer = nummer;
 	}
 	
 	public String getName() {
@@ -36,7 +38,7 @@ public class Gamer {
 	public String gibLaenderAus() {
 		String rueckgabe = "";
 		for (Land land: inBesitz) {
-			rueckgabe += land.getNummer() + " > " + land + "\n";
+			rueckgabe += name + " besitzt " + land.getNummer() + " > " + land + "\n";
 		}
 		return rueckgabe;
 	}

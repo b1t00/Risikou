@@ -5,7 +5,7 @@ import java.util.*;
 
 import ris.local.valueobjects.Land;
 import ris.local.ui.cui.RisikoClientUI;
-import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 
 public class Worldmanagement {

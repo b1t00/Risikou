@@ -10,19 +10,19 @@ import java.util.HashSet;
 
 import ris.local.domain.Risiko;
 import ris.local.domain.Worldmanagement;
-import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
 public class RisikoClientUI {
 //	private Weltverwaltung welt;
 
 	private Risiko risiko;
-	private Gamer aktiverSpieler;
+	private Player aktiverSpieler;
 	
 	private Worldmanagement welt = new Worldmanagement();
 	private BufferedReader in;
 	private String name, farbe;
-	private Gamer spieler;
+	private Player spieler;
 	private Collection<String> farbenAuswahl  = new HashSet();
 
 	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
@@ -59,7 +59,7 @@ public class RisikoClientUI {
 	public void spielerHinzufuegen() {
 		// Name einlesen
 		// Farbe einlesen
-		Gamer gamer = risiko.spielerAnlegen("Klaus", "rot");
+		Player gamer = risiko.spielerAnlegen("Klaus", "rot");
 		
 		System.out.println("Spieler " + gamer.getName() + " angelegt.");
 	}
@@ -75,7 +75,7 @@ public class RisikoClientUI {
 		} catch (IOException e) {}
 		farbe = farbeAuswaehlen();
 
-		spieler = new Gamer(name, farbe, laenderZuweisung(5)); //laender müssen noch einer Farbe hinzugewiesen werden
+		spieler = new Player(name, farbe, laenderZuweisung(5)); //laender müssen noch einer Farbe hinzugewiesen werden
 		// ausgabe für spieler
 		System.out.println("Spieler wurde angelegt");
 		System.out.println(spieler.getName() + " ist " + spieler.getFarbe() + " und besitzt die Laender : "

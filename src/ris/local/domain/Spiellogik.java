@@ -2,7 +2,7 @@ package ris.local.domain;
 
 import java.util.ArrayList;
 
-import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
 public class Spiellogik {
@@ -10,7 +10,7 @@ public class Spiellogik {
 	Playermanagement gamerVW;
 	
 	
-	public String angriff(int land, Gamer spieler){
+	public String angriff(int land, Player spieler){
 		ArrayList<Land> feinde = new ArrayList<Land>();
 		for (int i = 0; i < nachbarn[land].length; i++) {
 			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {

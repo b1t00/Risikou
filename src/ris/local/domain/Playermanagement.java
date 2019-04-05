@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
-import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Player;
 
 public class Playermanagement {
 
-	private List<Gamer> gamerListe = new ArrayList<Gamer>();
+	private List<Player> gamerListe = new ArrayList<Player>();
 
-	public void addGamer(Gamer gamer) {
-		gamerListe.add(gamer);
+	public void addPlayer(Player player) {
+		gamerListe.add(player);
 	}
 		
 	//public void addElements(ArrayList<Land>) {
