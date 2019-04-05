@@ -10,6 +10,12 @@ public class Risiko {
 	
 	// Konstruktor
 	
+	public Risiko() {
+		weltVW = new Weltverwaltung();
+		gamerVW = new Gamerverwaltung();
+		logik = new Spiellogik();
+	}
+	
 	public void spielAnlegen(int anzahl) {
 		// ...
 		// return gameObjekt;

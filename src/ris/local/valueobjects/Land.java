@@ -1,30 +1,26 @@
 package ris.local.valueobjects;
 
-
-
 public class Land {
-	private int einheiten = 1;
+	private int einheiten;
 	private int nummer;
 	private String name;
-
 	private String farbe;
 	
-	public Land(String name, int nummer, String farbe) {
+	public Land(String name, int nummer) {
 		this.nummer = nummer;
 		this.name = name;
-		this.farbe = farbe;
-	}
-	
-	public int getNummer() {
-		return nummer;
 	}
 	
 	// Methode um Einheiten zu setzten 
-	// evtl exception wenn einheiten unter 0 oder 1 gehen.
+	// abfrage, ob noch genug einheiten auf dem land stehen findet in der spiellogig||risiko||cui statt
 	public void setEinheiten(int einheit) {
-		this.einheiten = this.einheiten + einheit;
+			this.einheiten += einheit;
 	}
 	
+	@Override
+	public String toString() {
+		return (name + " mit " + einheiten + " Einheiten. \n");
+	}
 	
 	public int getEinheiten() {
 		return einheiten;
@@ -34,14 +30,17 @@ public class Land {
 		return name;
 	}
 	
-	public String toString() {
-		return name;
-	}
-	
 	public String getFarbe() {
 		return farbe;
 	}
-
+	
+	public int getNummer() {
+		return nummer;
+	}
+	
+	public void setFarbe(String farbe) {
+		this.farbe = farbe;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -51,7 +50,5 @@ public class Land {
 				}
 				return false;
 	}
-	
-	
 	
 }

@@ -7,6 +7,8 @@ import ris.local.valueobjects.Land;
 
 public class Spiellogik {
 
+	Gamerverwaltung gamerVW;
+	
 	
 	public String angriff(int land, Gamer spieler){
 		ArrayList<Land> feinde = new ArrayList<Land>();

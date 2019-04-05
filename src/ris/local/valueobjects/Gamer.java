@@ -8,36 +8,15 @@ import ris.local.domain.Weltverwaltung;
 public class Gamer {
 	private String name;
 	private String farbe;
-	// private int besatzerNr; //für spielablauf
+	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
-
-	public String toString() {
-		return name;
-	}
-
-	public String gibLaenderAus() {
-		String rueckgabe = "";
-		for (Land land: inBesitz) {
-			rueckgabe += land.getNummer() + " > " + land.getName() + "\n";
-		}
-		return rueckgabe;
-	}
-
-	
-//	Weltverwaltung welt = new Weltverwaltung();
+	//private int einheiten;
 
 	public Gamer(String name, String farbe) {
 		this.name = name;
 		this.farbe = farbe;
 	}
-
-	public Gamer(String name, String farbe, ArrayList inBesitz) {
-		this.name = name;
-		this.farbe = farbe;
-		this.inBesitz = inBesitz;
-//		kontinentCheck(inBesitz, welt.getEuropa());    
-	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -49,21 +28,27 @@ public class Gamer {
 	public ArrayList<Land> getBesitz() {
 		return inBesitz;
 	}
-
-	public boolean kontinentCheck(ArrayList<Land> spielerListe, ArrayList<Land> kontinent ) {
-		int k = 0;
-			for (Land land : kontinent) {
-				if (!spielerListe.contains(land)) {
-					System.out.println("heeey false");
-					return false;
-					
-				} else {
-					System.out.println(europa.get(k));
-					k++; 
-					
-					}
-			}
-			
-			return true;
+	
+	public String toString() {
+		return (name + " hat die Farbe " + farbe) ;
 	}
+
+	public String gibLaenderAus() {
+		String rueckgabe = "";
+		for (Land land: inBesitz) {
+			rueckgabe += land.getNummer() + " > " + land + "\n";
+		}
+		return rueckgabe;
+	}
+
+	//diese Methode beim Hinzufügen von einzelnen Ländern
+	public void addLand(Land neuesLand) {
+		this.inBesitz.add(neuesLand);
+	}
+	
+	//diese Methode beim Hinzufügen von einem ganzen Länder-Array
+	public void addLaender(ArrayList<Land> neueLaender) {
+		this.inBesitz = neueLaender;
+	}
+
 }

@@ -6,25 +6,64 @@ import java.util.*;
 import ris.local.valueobjects.Land;
 import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Gamer;
+import ris.local.valueobjects.Kontinent;
 
 public class Weltverwaltung {
-
-	Land portugal = new Land("Portugal", 0, "blau");
-	Land spanien = new Land("Spanien", 1, "blau");
-	Land frankreich = new Land("Frankreich", 2, "rot");
-	Land belgien = new Land("Belgien", 3, "blau");
-	Land niederlande = new Land("Niederlande", 4, "blau");
-	Land westernAustralia = new Land("Western Australia", 5, "blau");
-	Land northernTerritory = new Land("Northern Territory", 6, "blau");
-	Land queensland = new Land("Queensland", 7, "b");
-	Land southAustralia = new Land("South Australia", 8, "b");
-	Land newSouthWales = new Land("New South Wales", 9, "b");
-	Land victoria = new Land("Victoria", 10, "b");
-
 	
-	public Land[] laender = {portugal, spanien, frankreich, belgien, niederlande, westernAustralia, northernTerritory, queensland, southAustralia, newSouthWales, victoria};
+	private ArrayList<Land> laender = new ArrayList<Land>(); 
+	private ArrayList<Kontinent> kontinente = new ArrayList<Kontinent>();
 	
-	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false},
+	public Weltverwaltung() {
+		erstelleWelt();
+	}
+
+	public void erstelleWelt() {
+		//Erstellung von Ländern und speichern in der ArrayList<Land>
+		Land portugal = new Land("Portugal", 0);
+		laender.add(portugal);
+		Land spanien = new Land("Spanien", 1);
+		laender.add(spanien);
+		Land frankreich = new Land("Frankreich", 2);
+		laender.add(frankreich);
+		Land belgien = new Land("Belgien", 3);
+		laender.add(belgien);
+		Land niederlande = new Land("Niederlande", 4);
+		laender.add(niederlande);
+		Land westernAustralia = new Land("Western Australia", 5);
+		laender.add(westernAustralia);
+		Land northernTerritory = new Land("Northern Territory", 6);
+		laender.add(northernTerritory);
+		Land queensland = new Land("Queensland", 7);
+		laender.add(queensland);
+		Land southAustralia = new Land("South Australia", 8);
+		laender.add(southAustralia);
+		Land newSouthWales = new Land("New South Wales", 9);
+		laender.add(newSouthWales);
+		Land victoria = new Land("Victoria", 10);
+		laender.add(victoria);
+		
+		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert
+		ArrayList<Land> eu = new ArrayList<Land>();	
+		eu.add(portugal);
+		eu.add(spanien);
+		eu.add(frankreich);
+		eu.add(belgien);
+		eu.add(niederlande);
+		Kontinent europa = new Kontinent("Europa", eu);
+		kontinente.add(europa);
+		ArrayList<Land> au = new ArrayList<Land>();
+		au.add(westernAustralia);
+		au.add(northernTerritory);
+		au.add(queensland);
+		au.add(southAustralia);
+		au.add(newSouthWales);
+		au.add(victoria);
+		Kontinent australien = new Kontinent("Australien", au);
+		kontinente.add(australien);
+	}
+	
+	//hier noch kommentar zu der Matrix
+	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false}, //welches land?
 							{true, false, true, false, false, false, false, false, false, false, false},
 							{false, true, false, true, false, false, false, false, false, false, false},
 							{false, false, true, false, true, false, false, false, false, false, false},
@@ -35,48 +74,10 @@ public class Weltverwaltung {
 							{false, false, false, false, false, true, true, true, false, true, false},
 							{false, false, false, false, false, false, false, true, true, false, true},
 							{false, false, false, false, false, false, false, false, true, true, false}
-							};
-	
-	
-	ArrayList<Land> europa = new ArrayList<Land>();
-
-	public Weltverwaltung() {
-	europa.add(portugal);
-	europa.add(spanien);
-	europa.add(frankreich);
-	europa.add(belgien);
-	europa.add(niederlande);
-	}
-	
-	public ArrayList<Land> getEuropa(){
-		return europa;
-
-	}
+							};	
 	
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
-
-		
-
-	public void attack(Gamer spieler1) {
-		System.out.println(spieler1 + " greift an. Wähle ein Land, das angreift: \n" + spieler1.gibLaenderAus());
-//		try {
-//			int nummer = Integer.parseInt(liesEingabe());
-//		} catch (IOException e) {}
-//		
-		//int nummer = Integer.parseInt(liesEingabe());
-		System.out.println("Welches Land soll angegriffen werden: \n" + world.angriff(1, spieler1));
-		//int feind = Integer.parseInt(liesEingabe());
-		
-	}
-	
-	public static void main(String[] args) {
-		RisikoClientUI cui = new RisikoClientUI();
-		ArrayList<Land> laender1 = new ArrayList<Land>();
-		laender1.add(new Land("Portugal", 0, "blau"));
-		laender1.add(new Land("Spanien", 1, "blau"));
-		Gamer spieler1 = new Gamer("Otto", laender1, "blau");
-		this.attack(spieler1);
 
 }

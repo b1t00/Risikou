@@ -19,8 +19,17 @@ public class Kontinent {
 		return laender;
 	}
 	
+	//sollte vielleicht auch in die spiellogik?
 	public boolean isOwnedByGamer(Gamer gamer) {
-		return false; // TODO
+		ArrayList<Land> testArray = gamer.getBesitz();
+		//durchläuft den eigenen Array und überprüft bei jedem Land, ob es in dem Besitz-Array des Spielers ist
+		for (Land land: laender) {
+			if (!testArray.contains(land)) {
+				return false;
+			}
+		}
+		return true;
 	}
+	
 	
 }
