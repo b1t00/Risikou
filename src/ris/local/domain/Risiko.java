@@ -7,6 +7,7 @@ public class Risiko {
 	private Worldmanagement worldMg;
 	private Playermanagement playerMg;
 	private Spiellogik logik;
+	private Player player;
 	
 	// Konstruktor
 	
@@ -22,19 +23,24 @@ public class Risiko {
 	}
 	
 	public Player spielerAnlegen(String name, String farbe, int nummer) {
-		playerMg.addPlayer(name, farbe, nummer);
+		Player player = playerMg.addPlayer(name, farbe, nummer);
 	
 		// playerMg.addPlayer(player);
 		// gameObjekt.add(gamer);
 		return player;
 	}
 	
-	public Player gibAktivenSpieler() {
-		return logik.gibAktivenSpieler();
-	}
+//	public Player gibAktivenSpieler() {
+//		return logik.gibAktivenSpieler();
+//	}
+//	
+//	public void naechsterSpieler() {
+//		return logik.naechsterSpieler();
+//	}
 	
-	public void naechsterSpieler() {
-		return logik.naechsterSpieler();
+	public static void main(String[] args) {
+		 Risiko risiTest = new Risiko();
+		 System.out.println(risiTest.logik.shuffleLaender());
 	}
 
 }

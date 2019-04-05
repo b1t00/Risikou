@@ -62,6 +62,10 @@ public class Worldmanagement {
 		kontinente.add(australien);
 	}
 	
+	public ArrayList<Land> getLaender(){
+		return laender;
+	}
+	
 	//hier noch kommentar zu der Matrix
 	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false}, //welches land?
 							{true, false, true, false, false, false, false, false, false, false, false},

@@ -4,7 +4,7 @@ public class Land {
 	private int einheiten;
 	private int nummer;
 	private String name;
-	private String farbe;
+	private String farbe; // steht für den Spieler
 	
 	public Land(String name, int nummer) {
 		this.nummer = nummer;
