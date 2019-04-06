@@ -24,7 +24,7 @@ public class Spiellogik {
 		laenderAnzahl = worldMg.getLaender().size();
 	}
 
-//	*********************************** SpielAnfang **********************************
+//	*********************************** SpielAnfang ********************************************
 
 	// Methode um Alle "LaenderKarten" durchzumischen
 	public ArrayList<Land> shuffleLaender() {
@@ -34,7 +34,7 @@ public class Spiellogik {
 	}
 
 	// Methode um Laender am Anfang zufällig zu verteilen;
-	public void verteileLaender() {
+	public void verteileEinheiten() {
 		ArrayList<Land> shuffle = shuffleLaender();
 		int alleLaender = shuffle.size();
 		List<Player> playerList = playerMg.getPlayers();
@@ -66,6 +66,8 @@ public class Spiellogik {
 			System.out.println(playerList.get(0).getName() + " faengt an"); // hier geht die Verteilung aller laender auf und spieler eins fängt an
 		}
 	}
+	
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 //	// laufvariablen für zufällige Länderverteilung
 //	private int i = 0;
