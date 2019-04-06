@@ -49,6 +49,9 @@ public class Risiko {
 		rT.spielerAnlegen("berta", "gruen", 3);
 		rT.spielerAnlegen("Normi", "gruen", 3);
 		rT.spielerAnlegen("Normi3", "gruen", 3);
+
+		
+		
 		int p = rT.logik.laenderAnzahl;
 		System.out.println("es gibt insgesammt " + p);
 		

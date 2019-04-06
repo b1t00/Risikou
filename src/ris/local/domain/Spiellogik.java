@@ -36,12 +36,13 @@ public class Spiellogik {
 	// Methode um Laender am Anfang zufällig zu verteilen;
 	public void verteileLaender() {
 		ArrayList<Land> shuffle = shuffleLaender();
+		int alleLaender = shuffle.size();
 		List<Player> playerList = playerMg.getPlayers();
 
 		int i = 0;
-		while (i < 11) {
+		while (i < alleLaender) {
 			for (Player playerVert : playerList) {
-				if (i == 11) {
+				if (i == alleLaender) {
 					break;
 				} else {
 					playerVert.addLand(shuffle.get(i));
@@ -51,16 +52,18 @@ public class Spiellogik {
 		}
 	}
 
-	// Methode die sagt wer anfängt
+	// Methode die sagt wer anfängt  
 	public void whoBegins() {
 		List<Player> playerList = playerMg.getPlayers(); // mittlerweile doppelt. vlt global anlegen
+		if(shuffleLaender().size() % playerList.size() != 0) { //abfrage ob alle laender aufgehen oder nicht.
 		for (int i = 0; i < playerList.size(); i++) {
 			if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
-				
-				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuersr
-																					// anfängt
+				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuerst anfängt
 				break;
 			}
+		}
+		} else {
+			System.out.println(playerList.get(0).getName() + " faengt an"); // hier geht die Verteilung aller laender auf und spieler eins fängt an
 		}
 	}
 
@@ -125,7 +128,7 @@ public class Spiellogik {
 //	}
 //	
 
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
+	private ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;
 		int lossAtt = 0;
 		ArrayList<Integer> aList = new ArrayList<Integer>();
