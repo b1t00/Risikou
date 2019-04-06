@@ -32,7 +32,14 @@ public class Spiellogik {
 //	
 //	********************************** Angriffslogik **********************************
 	
-//	boolean angriffMoeglich() {}
+	boolean angriffMoeglich(Land def,Land att,int countUnits) {
+		if(worldMg.nachbarn[def.getNummer()][att.getNummer()]==true && att.getEinheiten()-countUnits >0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 //	public ArrayList<Integer> verteileEinheiten(){}
 	
@@ -49,8 +56,10 @@ public class Spiellogik {
 
 	public Player isOwner(Land attacker) {
 		for (Player p : playerMg.getPlayers())
-			if (p.getBesitz().contains(attacker)) {
-				return p;
+			for(Land l: p.getBesitz()) {
+				if(l.getNummer()==attacker.getNummer()) {
+					return p;
+				}
 			}
 		return null;
 	}
