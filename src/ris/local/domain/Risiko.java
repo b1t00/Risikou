@@ -1,5 +1,6 @@
 package ris.local.domain;
 
+import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class Risiko {
@@ -40,7 +41,9 @@ public class Risiko {
 	
 	public static void main(String[] args) {
 		 Risiko risiTest = new Risiko();
-		 System.out.println(risiTest.logik.shuffleLaender());
+		/* System.out.println(risiTest.logik.shuffleLaender());
+		risiTest.logik.shuffleLaender();*/
+		//risiTest.worldMg.erstelleWelt();
 	}
 
 }
