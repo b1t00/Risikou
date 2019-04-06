@@ -130,6 +130,10 @@ public class RisikoClientUI {
 	public static void main(String[] args) {
 		RisikoClientUI cui = new RisikoClientUI();
 		cui.anfangsMenue();
+		System.out.println("hey");
+		Risiko risiko = new Risiko();
+		cui.risiko.verteileEinheiten();
+		cui.risiko.whoBegins();
 	}
 
 }
