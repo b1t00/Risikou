@@ -12,8 +12,19 @@ public class Playermanagement {
 	
 	public List<Player> getPlayers(){
 		return gamerListe;
+
 	}
-//	public void addPlayer(String name, String farbe, int nummer) {} // 
+	
+	/*++++++++++Demonstrationszweck+++++++
+	 * public void addierePlayer(Player x) {
+		gamerListe.add(x);
+		
+	}*/
+	
+	/*public void addPlayer(String name, String farbe, int nummer) {
+		Player p= new Player(name,farbe,nummer);
+		gamerListe.add(p);
+	} */
 
 	public Player addPlayer(String name, String farbe, int nummer) { // hier die von Teschke Methode. Warum Player?
 		Player player = new Player(name, farbe, nummer);

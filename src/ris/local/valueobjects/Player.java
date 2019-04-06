@@ -17,7 +17,9 @@ public class Player {
 		this.farbe = farbe;
 		this.nummer = nummer;
 	}
-	
+	public int getNummer() {
+		return nummer;
+	}
 	public String getName() {
 		return name;
 	}

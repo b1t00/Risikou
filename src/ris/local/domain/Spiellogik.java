@@ -46,28 +46,33 @@ public class Spiellogik {
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
 		int defNew = dice.get(0);
-		if (def.getEinheiten() > dice.get(0)) {
+		if (def.getEinheiten() + dice.get(0)>0) {
 			def.setEinheiten(defNew);
 		} else {
-			def.setFarbe(attacker.getFarbe());
+			def.setFarbe(isOwner(def).getFarbe());
 		}
 		att.setEinheiten(dice.get(1));
 	}
 
 	public Player isOwner(Land attacker) {
-		for (Player p : playerMg.getPlayers())
+		for (Player p : playerMg.getPlayers()) {
 			for(Land l: p.getBesitz()) {
 				if(l.getNummer()==attacker.getNummer()) {
 					return p;
 				}
 			}
+		}
 		return null;
 	}
 //	public void moveUnits() {}
 //	public boolean movePossible() {}
 //	
-//	public String landStatus() {}
-//	public int unitsAvailable(int Land) {}
+	public String landStatus(Land l) {
+	return l.getFarbe();
+	}
+	public int unitsAvailable(Land l) {
+		return l.getEinheiten();
+	}
 
 //	public String angriff(int land, Player spieler){
 //		ArrayList<Land> feinde = new ArrayList<Land>();
