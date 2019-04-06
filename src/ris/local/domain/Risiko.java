@@ -31,6 +31,17 @@ public class Risiko {
 		return player;
 	}
 	
+	//@to: Methode um Laender am Anfang zuf‰llig zu verteilen;
+	public void verteileEinheiten() {
+		logik.verteileEinheiten();
+	}
+
+	//@to: Methode die sagt wer anf‰ngt ... generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
+	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch
+	public void whoBegins() {
+		logik.whoBegins();
+	}
+
 //	public Player gibAktivenSpieler() {
 //		return logik.gibAktivenSpieler();
 //	}
