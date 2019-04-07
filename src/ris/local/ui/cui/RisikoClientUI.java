@@ -136,7 +136,7 @@ public class RisikoClientUI {
 	}
 	
 	public void round() {
-		Player aktiverPlayer = risiko.gibAktivenSpieler();
+		String aktiverPlayer = risiko.gibAktivenSpieler();
 		String input = "";
 		while(true) {
 			//spieler bekommt einheiten
@@ -150,7 +150,7 @@ public class RisikoClientUI {
 		}
 	}
 	
-	public void gibMenuAus(Player aktiverPlayer) {
+	public void gibMenuAus(String aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
 		System.out.print("               \n Angreifen: a");
 		System.out.print("               \n Einheiten verschieben: e");
@@ -159,7 +159,7 @@ public class RisikoClientUI {
 		System.out.flush();
 	}
 	
-	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
+	public void verarbeiteEingabe(String input, String aktiverPlayer) {
 			switch(input) {
 			case "a":
 				attack(aktiverPlayer);
@@ -179,11 +179,14 @@ public class RisikoClientUI {
 			}
 	}
 	
-	public void attack(Player angreifer) {
+	public void attack(String angreifer) {
 		int start;
 		int ziel;
 		int angriff;
-		int verteidigung;
+		int defense;
+		boolean kampf = true;
+		
+		//abfrage, von welchem land welches andere land angegriffen werden soll
 		System.out.print(angreifer + " mit welchem Land möchtest du angreifen?");
 		System.out.println(risiko.gibLaenderAus(angreifer));
 		try {
@@ -193,13 +196,38 @@ public class RisikoClientUI {
 		try {
 			ziel = Integer.parseInt(liesEingabe());
 		} catch(IOException e) {}
-		System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Maximal:" + risiko.getEinheiten(start));
-		try {
-			angriff = Integer.parseInt(liesEingabe());
-		} catch(IOException e) {}
-		Player defender = risiko.getBesitzer(ziel);
-		System.out.println(defender + ": Mit wievielen Einheiten möchtest du verteidigen? Maximal: " + risiko.getEinheiten(ziel));
-		risiko.attack (start)
+		
+		//ab hier beginnt das setzen der einheiten von beiden seiten, mehrmals möglich, da eventuell mehrere angriffe möglich sind
+		while (kampf) {
+			System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Maximal:" + risiko.getEinheiten(start));
+			try {
+				angriff = Integer.parseInt(liesEingabe());
+			} catch(IOException e) {}
+			Player defender = risiko.getBesitzer(ziel);
+			System.out.println(defender + ": Mit wievielen Einheiten möchtest du verteidigen? Maximal: " + risiko.getEinheiten(ziel));
+			try {
+				defense = Integer.parseInt(liesEingabe());
+			} catch(IOException e) {}
+			String winner = risiko.attack (start, ziel, angriff, defense);
+			System.out.println(winner + " hat gewonnen.");
+			if (winner.equals(angreifer)) {
+				einheiten verschieben
+				kampf = false;
+			} else {
+				System.out.println(angreifer + ": Erneut angreifen? (yes/no)");
+				String answer;
+				try {
+					answer = liesEingabe();
+				} catch(IOException e) {}
+				switch (answer) {
+				case "yes":
+					break;
+				case "no":
+					kampf = false;
+					break;
+				}
+			}
+		}
 	}
 
 

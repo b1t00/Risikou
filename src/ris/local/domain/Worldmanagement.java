@@ -63,7 +63,7 @@ public class Worldmanagement {
 	}
 	
 	//hier noch kommentar zu der Matrix
-	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false}, //welches land?
+	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false}, //portugal
 							{true, false, true, false, false, false, false, false, false, false, false},
 							{false, true, false, true, false, false, false, false, false, false, false},
 							{false, false, true, false, true, false, false, false, false, false, false},

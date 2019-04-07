@@ -45,13 +45,16 @@ public class Risiko {
 /* @annie: irgendwo array mit farben, auf die zugegriffen werden kann mit methode gibAlleFarben()
  * bei erstellung des Players muss dann die übergebene Farbe aus dem array herausgenommen werden */
 // @annie: die Verteilung der Einheiten direkt nach dem Erstellen der Spieler wird mit risiko.verteileEinheiten() aufgerufen
-public String gibLaenderAus(Player player) {
+public String gibLaenderAus(String player) {
+	//player über namen herausfinden
 	return player.gibLaenderAus();
 } // in der methode vielleicht name und besitzt herausnehmen
 public void setztEinheit(int land, int einheit) {
 	//int land in Land land umwandeln und dann setEinheit()
 }
 // @annie: getAnzahlPlayer
-//@annie: methode getFeinde(Player angreifer, int land)
+//@annie: methode getFeinde(string angreifer, int land)
 //@annie: methode getEinheiten(int land)
 //@annie: methode getBesitzer(int land)
+//@annie: methode attack gibt einen string gewinner zurück
+//@annie: spieler werden immer nur mit namen genutzt
