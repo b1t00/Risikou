@@ -20,7 +20,7 @@ public class RisikoClientUI {
 	private BufferedReader in;
 	private String name, farbe;
 	private Player spieler;
-	private Collection<String> farbenAuswahl = new HashSet();
+//	private Collection<String> farbenAuswahl = new HashSet();
 
 	// variablen für Spielvergabe (WIRD NOCH NICHT BENUTZT)
 	int anzahlAnSpielern;
@@ -30,9 +30,10 @@ public class RisikoClientUI {
 
 		risiko = new Risiko();
 		in = new BufferedReader(new InputStreamReader(System.in));
-		farbenAuswahl.add("rot");
-		farbenAuswahl.add("gruen");
-		farbenAuswahl.add("blau");
+//		farbenAuswahl.add("rot");
+//		farbenAuswahl.add("gruen");
+//		farbenAuswahl.add("blau");
+		
 
 	}
 
@@ -76,6 +77,27 @@ public class RisikoClientUI {
 		}
 	}
 
+	public String farbeAuswaehlen(){
+		
+		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
+		
+	System.out.println("Welche Farbe möchtest nehmen?");
+	if (farbenAuswahl.contains("rot")) {
+		System.out.println("r : rot");
+	}
+	if (farbenAuswahl.contains("gruen")) {
+		System.out.println("g : grün");
+	}
+	if (farbenAuswahl.contains("blau")) {
+		System.out.println("b : blau");
+	}
+	try {
+		farbe = liesEingabe();
+	} catch (IOException e) {
+	}
+	return farbe;
+}
+
 	public void wieVieleSpielerMenu() throws IOException {
 
 		String eingabeSpieler, name, farbe;
@@ -87,49 +109,15 @@ public class RisikoClientUI {
 			System.out.println("Wie soll spieler " + i + " heißen? : ");
 			name = liesEingabe();
 			farbe = farbeAuswaehlen();
+			risiko.setFarbeAuswaehlen(farbe);
 			risiko.spielerAnlegen(name, farbe, nr);
 		}
-	}
-
-	public String farbeAuswaehlen() {
-		String farbe = "";
-
-		System.out.println("Welche Farbe möchtest nehmen?");
-		if (farbenAuswahl.contains("rot")) {
-			System.out.println("r : rot");
-		}
-		if (farbenAuswahl.contains("gruen")) {
-			System.out.println("g : grün");
-		}
-		if (farbenAuswahl.contains("blau")) {
-			System.out.println("b : blau");
-		}
-		try {
-			farbe = liesEingabe();
-		} catch (IOException e) {
-		}
-		switch (farbe) {
-		case "r":
-			farbe = "rot";
-			farbenAuswahl.remove("rot");
-			break;
-		case "g":
-			farbenAuswahl.remove("gruen");
-			farbe = "gruen";
-			break;
-		case "b":
-			farbenAuswahl.remove("blau");
-			farbe = "blau";
-			break;
-		default:
-			farbeAuswaehlen();
-		}
-		return farbe;
 	}
 
 	public static void main(String[] args) {
 		RisikoClientUI cui = new RisikoClientUI();
 		cui.anfangsMenue();
+		cui.risiko.whoBegins();
 	}
 
 }

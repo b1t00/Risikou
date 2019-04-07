@@ -1,5 +1,6 @@
 package ris.local.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ris.local.valueobjects.Player;
@@ -23,6 +24,7 @@ public class Risiko {
 		// ...
 		// return gameObjekt;
 	}
+	
 	
 	//@to: Methode um Laender am Anfang zufällig zu verteilen;
 	public void verteileEinheiten() {
@@ -51,6 +53,16 @@ public class Risiko {
 //	public void naechsterSpieler() {
 //		return logik.naechsterSpieler();
 //	}
+	
+//	'''''''''' PlayerManagement ''''''''''''''''
+	public ArrayList<String> getFarbauswahl() {
+		return playerMg.getFarbauswahl();
+	}
+	
+	public ArrayList<String> setFarbeAuswaehlen(String farbe) {
+		return playerMg.setFarbeAuswaehlen(farbe);
+	
+	}
 
 	public static void main(String[] args) {
 
