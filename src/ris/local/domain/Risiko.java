@@ -41,6 +41,7 @@ public class Risiko {
 	}
 
 }
+//in der methode vielleicht name und besitzt herausnehmen
 
 /* @annie: irgendwo array mit farben, auf die zugegriffen werden kann mit methode gibAlleFarben()
  * bei erstellung des Players muss dann die übergebene Farbe aus dem array herausgenommen werden */
@@ -48,7 +49,7 @@ public class Risiko {
 public String gibLaenderAus(String player) {
 	//player über namen herausfinden
 	return player.gibLaenderAus();
-} // in der methode vielleicht name und besitzt herausnehmen
+} 
 public void setztEinheit(int land, int einheit) {
 	//int land in Land land umwandeln und dann setEinheit()
 }
@@ -56,5 +57,6 @@ public void setztEinheit(int land, int einheit) {
 //@annie: methode getFeinde(string angreifer, int land)
 //@annie: methode getEinheiten(int land)
 //@annie: methode getBesitzer(int land)
-//@annie: methode attack gibt einen string gewinner zurück
+//@annie: methode attack in logik muss einen string gewinner zurückgeben
 //@annie: spieler werden immer nur mit namen genutzt
+//@annie: getNachbarn() -> eigene Nachbarn vom Spieler zurückgeben

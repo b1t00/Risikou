@@ -31,7 +31,7 @@ public class RisikoClientUI {
 	
 	public void run() {		
 		starteSpiel();
-		verteileStartEinheiten();
+		setzeStartEinheiten();
 		round();
 	}
 
@@ -57,7 +57,7 @@ public class RisikoClientUI {
 				richtigeEingabe = true;
 				break;
 			case "no": case "nö": case "n":
-				System.out.println("Risik wird beendet"); // Platzhalter für Spielbeenden
+				System.out.println("Risik wird beendet"); // Platzhalter für Spielbeenden TODO: Spiel beenden
 				richtigeEingabe = true;
 				break;
 			default:
@@ -116,7 +116,7 @@ public class RisikoClientUI {
 		return farbe;
 	}
 	
-	public void verteileStartEinheiten() {
+	public void setzeStartEinheiten() {
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 5;
 		int einheit = 1;
 		
@@ -136,9 +136,9 @@ public class RisikoClientUI {
 	}
 	
 	public void round() {
-		String aktiverPlayer = risiko.gibAktivenSpieler();
 		String input = "";
 		while(true) {
+			String aktiverPlayer = risiko.gibAktivenSpieler();
 			//spieler bekommt einheiten
 			gibMenuAus(aktiverPlayer);
 			try {
@@ -165,25 +165,31 @@ public class RisikoClientUI {
 				attack(aktiverPlayer);
 				break;
 			case "e":
-				//
+				verschiebeEinheiten(aktiverPlayer);
 				break;
 			case "z":
-				//
+				risiko.naechsterSpieler();
+				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
 				break;
 			case "q":
-				//
+				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
 				break;
 			default:
-				//
+				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so?
+				gibMenuAus(aktiverPlayer);
+				try {
+					input = liesEingabe();
+					verarbeiteEingabe(input, aktiverPlayer);
+				} catch(IOException e){}
 				break;
 			}
 	}
 	
 	public void attack(String angreifer) {
-		int start;
-		int ziel;
-		int angriff;
-		int defense;
+		int start;	//land, das angreift
+		int ziel;	//land, das angegriffen wird
+		int angriff;	//einheiten, die angreifen
+		int defense;	//einheiten, die verteidigen
 		boolean kampf = true;
 		
 		//abfrage, von welchem land welches andere land angegriffen werden soll
@@ -197,9 +203,9 @@ public class RisikoClientUI {
 			ziel = Integer.parseInt(liesEingabe());
 		} catch(IOException e) {}
 		
-		//ab hier beginnt das setzen der einheiten von beiden seiten, mehrmals möglich, da eventuell mehrere angriffe möglich sind
+		//ab hier beginnt das setzen der einheiten von beiden seiten, mehrmals möglich, da eventuell mehrere angriffe möglich sind, bei sieg oder abbruch des angriffs wird kampf auf false gesetzt
 		while (kampf) {
-			System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Maximal:" + risiko.getEinheiten(start));
+			System.out.println("Mit wie vielen Einheiten soll angegriffen werden? Maximal: " + risiko.getEinheiten(start));
 			try {
 				angriff = Integer.parseInt(liesEingabe());
 			} catch(IOException e) {}
@@ -208,11 +214,31 @@ public class RisikoClientUI {
 			try {
 				defense = Integer.parseInt(liesEingabe());
 			} catch(IOException e) {}
-			String winner = risiko.attack (start, ziel, angriff, defense);
-			System.out.println(winner + " hat gewonnen.");
+			//attack-methode gibt string mit gewinner und jeweiligem verlust an einheiten zurück und einheiten werden entsprechend dem Kampfausgang versetzt
+			String ergebnis = risiko.attack (start, ziel, angriff, defense);
+			String winner = risiko.getWinner();
+			System.out.println(ergebnis);
+			
+			//wenn angreifer gewonnen hat, können weitere einheiten verschoben werden (falls mehr als 1 einheit auf dem angriffsland stehen)
 			if (winner.equals(angreifer)) {
-				einheiten verschieben
+				if(risiko.getEinheiten(start) > 1) {
+					System.out.println("Sollen weitere Einheiten verschoben werden? (y/n) : ");
+					String answer = "";
+					try {
+						answer = liesEingabe();
+					} catch(IOException e) {}
+					if(answer.equals("y")) {
+						System.out.println("Wieviele Einheiten sollen verschoben werden? (Maximal: )" + (risiko.getEinheiten(start) - 1));
+						int anzahl;
+						try {
+							anzahl = Integer.parseInt(liesEingabe());
+							risiko.verschiebeEinheiten(start, ziel, anzahl);
+						} catch(IOException e) {}
+					}
+				}
+				//wenn angreifer gewonnen hat, aber nicht mehr einheiten verschoben werden können, ist der angriff beendet
 				kampf = false;
+				//wenn angreifer nicht gewonnen hat, kann er erneut angreifen TODO: eventuell erst abfrage, ob überhaupt noch angegriffen werden kann
 			} else {
 				System.out.println(angreifer + ": Erneut angreifen? (yes/no)");
 				String answer;
@@ -228,6 +254,25 @@ public class RisikoClientUI {
 				}
 			}
 		}
+	}
+	
+	public void verschiebeEinheiten(String aktiverPlayer) {
+		int start;
+		int ziel;
+		int anzahl;
+		System.out.println("Einheiten verschieben von: " + risiko.gibLaenderAus(aktiverPlayer));
+		try {
+			start = Integer.parseInt(liesEingabe());
+		} catch(IOException e) {}
+		System.out.println("Anzahl der Einheiten: (Maximal) " + risiko.getEinheiten(start)-1);
+		try {
+			anzahl = Integer.parseInt(liesEingabe());
+		} catch(IOException e) {}
+		System.out.println("Einheiten verschieben nach: " + risiko.getNachbarn());
+		try {
+			ziel = Integer.parseInt(liesEingabe());
+			risiko.verschiebeEinheiten(start, ziel, anzahl);
+		} catch(IOException e) {}
 	}
 
 
