@@ -45,6 +45,10 @@ public class Risiko {
 		// gameObjekt.add(gamer);
 		return player;
 	}
+	
+	public void gibLaenderAus() {
+		player.gibLaenderAus();
+	}
 
 //	public Player gibAktivenSpieler() {
 //		return logik.gibAktivenSpieler();
@@ -75,7 +79,6 @@ public class Risiko {
 		rT.spielerAnlegen("Normi3", "gruen", 3);
 
 		
-		
 		int p = rT.logik.laenderAnzahl;
 		System.out.println("es gibt insgesammt " + p);
 		
@@ -88,6 +91,7 @@ public class Risiko {
 			System.out.println("-----");
 		}
 		rT.whoBegins(); // kann man in verteileEinheiten tun
+		rT.gibLaenderAus();
 	}
 
 }

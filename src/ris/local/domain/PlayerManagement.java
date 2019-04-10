@@ -1,5 +1,5 @@
 package ris.local.domain;
-
+//cui frage 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,6 +18,9 @@ public class Playermanagement {
 		farbenAuswahl.add("rot");
 		farbenAuswahl.add("gruen");
 		farbenAuswahl.add("blau");
+		farbenAuswahl.add("gelb");
+		farbenAuswahl.add("pink");
+		farbenAuswahl.add("schwarz");
 	}
 
 	public ArrayList<String> setFarbeAuswaehlen(String farbe) {
@@ -52,9 +55,13 @@ public class Playermanagement {
 	public ArrayList<String> getFarbauswahl() {
 		return farbenAuswahl;
 	}
-
 	public List<Player> getPlayers() {
 		return gamerListe;
+	}
+	
+//	Methode die sagt wieviele Spieler es gibt, man kann auch getPlayers().size() aufrufen ^^
+	public int getAnzahlPlayer() {
+		return gamerListe.size();
 	}
 //	public void addPlayer(String name, String farbe, int nummer) {} // 
 

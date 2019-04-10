@@ -68,6 +68,11 @@ public class Spiellogik {
 	}
 	
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+//	public void faerbeLaender() {
+//		
+//	}
+	
 
 //	// laufvariablen für zufällige Länderverteilung
 //	private int i = 0;
@@ -110,7 +115,9 @@ public class Spiellogik {
 		return null;
 	}
 //	public void moveUnits() {}
-//	public boolean movePossible() {}
+//	public boolean movePossible() {
+		
+//	}
 //	
 //	public String landStatus() {}
 //	public int unitsAvailable(int Land) {}

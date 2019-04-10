@@ -118,6 +118,7 @@ public class RisikoClientUI {
 		RisikoClientUI cui = new RisikoClientUI();
 		cui.anfangsMenue();
 		cui.risiko.whoBegins();
+		cui.risiko.gibLaenderAus();
 	}
 
 }

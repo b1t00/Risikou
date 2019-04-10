@@ -34,14 +34,14 @@ public class Player {
 	public String toString() {
 		return (name + " hat die Farbe " + farbe) ;
 	}
-
-	public String gibLaenderAus() {
-		String rueckgabe = "";
-		for (Land land: inBesitz) {
-			rueckgabe += name + " besitzt " + land.getNummer() + " > " + land + "\n";
-		}
-		return rueckgabe;
-	}
+	
+//	public String gibLaenderAus() {
+//		String rueckgabe = "";
+//		for (Land land: inBesitz) {
+//			rueckgabe += name + " besitzt " + land.getNummer() + " > " + land + "\n";
+//		}
+//		return rueckgabe;
+//	}
 
 	//diese Methode beim Hinzufügen von einzelnen Ländern
 	public void addLand(Land neuesLand) {
@@ -52,5 +52,12 @@ public class Player {
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}
+	
+//	public void faerbeLaender(Player player) {
+//		ArrayList<Land> besitz = getBesitz();
+//		for(ArrayList<Land> b : besitz) {
+//			b.setFarbe()
+//		}
+//	}
 
 }
