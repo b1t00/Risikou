@@ -60,14 +60,12 @@ public class RisikoClientUI {
 				richtigeEingabe = false;
 			}
 		}
-		//zufällige Verteilung der Einheiten
-		risiko.verteileEinheiten();
 	}
 
 	public String farbeAuswaehlen(){
 		
-		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
-		
+	ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();	
+	String farbe = "";
 	System.out.println("Welche Farbe möchtest nehmen?");
 	if (farbenAuswahl.contains("rot")) {
 		System.out.println("r : rot");
@@ -98,40 +96,6 @@ public class RisikoClientUI {
 			risiko.setFarbeAuswaehlen(farbe);
 			risiko.spielerAnlegen(name, farbe, nr);
 		}
-	}
-
-
-	public String farbeAuswaehlen() {
-		String farbe = "";
-		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
-
-		System.out.println("Welche Farbe möchtest nehmen?");
-		if (farbenAuswahl.contains("rot")) {
-			System.out.println("r : rot");
-		}
-		if (farbenAuswahl.contains("gruen")) {
-			System.out.println("g : grün");
-		}
-		if (farbenAuswahl.contains("blau")) {
-			System.out.println("b : blau");
-		}
-		try {
-			farbe = liesEingabe();
-		} catch (IOException e) {}
-		switch (farbe) {
-		case "r":
-			farbe = "rot";
-			break;
-		case "g":
-			farbe = "gruen";
-			break;
-		case "b":
-			farbe = "blau";
-			break;
-		default:
-			farbeAuswaehlen();
-		}
-		return farbe;
 	}
 	
 	public void setzeStartEinheiten() {

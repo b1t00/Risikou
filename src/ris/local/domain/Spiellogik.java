@@ -55,7 +55,7 @@ public class Spiellogik {
 		if(shuffleLaender().size() % playerList.size() != 0) { //abfrage ob alle laender aufgehen oder nicht.
 		for (int i = 0; i < playerList.size(); i++) {
 			if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
-				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuerst anfängt
+				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuerst anfängt //syso in cui
 				break;
 			}
 		}
