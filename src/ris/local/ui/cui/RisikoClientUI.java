@@ -64,26 +64,6 @@ public class RisikoClientUI {
 		risiko.verteileEinheiten();
 	}
 
-	public String farbeAuswaehlen(){
-		
-		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
-		
-	System.out.println("Welche Farbe möchtest nehmen?");
-	if (farbenAuswahl.contains("rot")) {
-		System.out.println("r : rot");
-	}
-	if (farbenAuswahl.contains("gruen")) {
-		System.out.println("g : grün");
-	}
-	if (farbenAuswahl.contains("blau")) {
-		System.out.println("b : blau");
-	}
-	try {
-		farbe = liesEingabe();
-	} catch (IOException e) {
-	}
-	return farbe;
-}
 
 	public void wieVieleSpielerMenu() throws IOException {
 		String eingabeSpieler, name, farbe;

@@ -1,7 +1,7 @@
 
 package ris.local.domain;
 
-import ris.local.domain.Playermanagement;
+import ris.local.domain.PlayerManagement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,11 +12,11 @@ import ris.local.valueobjects.Land;
 
 public class Spiellogik {
 
-	Playermanagement gamerVW;
+	PlayerManagement gamerVW;
 	private Worldmanagement worldMg;
-	private Playermanagement playerMg;
+	private PlayerManagement playerMg;
 
-	public Spiellogik(Worldmanagement worldMg, Playermanagement playerMg) {
+	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
 	}
@@ -100,7 +100,7 @@ public class Spiellogik {
 		}
 		return null;
 	}
-//	public void moveUnits() {
+//	public void moveUnits() { // TODO
 //		
 //	}
 //	public boolean movePossible() {}
