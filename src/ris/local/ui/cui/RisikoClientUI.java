@@ -18,10 +18,12 @@ public class RisikoClientUI {
 	private Risiko risiko;
 	private BufferedReader in;
 
+
 	// Konstruktor
 	private RisikoClientUI() {
 		risiko = new Risiko();
 		in = new BufferedReader(new InputStreamReader(System.in));
+
 	}
 
 	// einlesen von Konsole
@@ -62,6 +64,27 @@ public class RisikoClientUI {
 		risiko.verteileEinheiten();
 	}
 
+	public String farbeAuswaehlen(){
+		
+		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
+		
+	System.out.println("Welche Farbe möchtest nehmen?");
+	if (farbenAuswahl.contains("rot")) {
+		System.out.println("r : rot");
+	}
+	if (farbenAuswahl.contains("gruen")) {
+		System.out.println("g : grün");
+	}
+	if (farbenAuswahl.contains("blau")) {
+		System.out.println("b : blau");
+	}
+	try {
+		farbe = liesEingabe();
+	} catch (IOException e) {
+	}
+	return farbe;
+}
+
 	public void wieVieleSpielerMenu() throws IOException {
 		String eingabeSpieler, name, farbe;
 		int nr;
@@ -72,9 +95,11 @@ public class RisikoClientUI {
 			System.out.println("Wie soll spieler " + i + " heißen? : ");
 			name = liesEingabe();
 			farbe = farbeAuswaehlen();
+			risiko.setFarbeAuswaehlen(farbe);
 			risiko.spielerAnlegen(name, farbe, nr);
 		}
 	}
+
 
 	public String farbeAuswaehlen() {
 		String farbe = "";
@@ -335,6 +360,16 @@ public void run() {
 //		System.out.println("hey");
 //		Risiko risiko = new Risiko();
 //	}
+
+	public static void main(String[] args) {
+		RisikoClientUI cui = new RisikoClientUI();
+		cui.anfangsMenue();
+		System.out.println("hey");
+		Risiko risiko = new Risiko();
+		cui.risiko.verteileEinheiten();
+		cui.risiko.whoBegins();
+
+	}
 
 }
 

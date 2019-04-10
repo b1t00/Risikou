@@ -41,6 +41,8 @@ public class Worldmanagement {
 		laender.add(newSouthWales);
 		Land victoria = new Land("Victoria", 10);
 		laender.add(victoria);
+		Land narnia = new Land("narnia", 11);
+		laender.add(narnia);
 		
 		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert
 		ArrayList<Land> eu = new ArrayList<Land>();	
