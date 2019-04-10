@@ -9,7 +9,6 @@ import java.util.List;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
-
 public class Spiellogik {
 
 	PlayerManagement gamerVW;
@@ -21,7 +20,7 @@ public class Spiellogik {
 		this.playerMg = playerMg;
 	}
 
-	//*********************************** SpielAnfang Anfang********************************************
+	// ***********************************Spiel_Anfang********************************************
 
 	// Methode um Alle "LaenderKarten" durchzumischen
 	public ArrayList<Land> shuffleLaender() {
@@ -49,40 +48,39 @@ public class Spiellogik {
 		}
 	}
 
-	// Methode die sagt wer anfängt  
-	public void whoBegins() {
+	// Methode die sagt wer anfängt
+	public Player whoBegins() {
 		List<Player> playerList = playerMg.getPlayers(); // mittlerweile doppelt. vlt global anlegen
-		if(shuffleLaender().size() % playerList.size() != 0) { //abfrage ob alle laender aufgehen oder nicht.
-		for (int i = 0; i < playerList.size(); i++) {
-			if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
-				System.out.println(playerList.get(i + 1).getName() + " faengt an"); // platzhalter methode wer zuerst anfängt //syso in cui
-				break;
+		if (shuffleLaender().size() % playerList.size() != 0) { // abfrage ob alle laender aufgehen oder nicht.
+			for (int i = 0; i < playerList.size(); i++) {
+				if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
+					return playerList.get(i + 1);
+				}
 			}
 		}
-		} else {
-			System.out.println(playerList.get(0).getName() + " faengt an"); // hier geht die Verteilung aller laender auf und spieler eins fängt an
-		}
+		// wenn alles aufgeht fängt spieler 1 an
+		return playerList.get(0);
 	}
 
-	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang Ende ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang Ende
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 //	********************************** Angriffslogik **********************************
-	
-	boolean angriffMoeglich(Land def,Land att,int countUnits) {
-		if(worldMg.nachbarn[def.getNummer()][att.getNummer()]==true && att.getEinheiten()-countUnits >0) {
+
+	boolean angriffMoeglich(Land def, Land att, int countUnits) {
+		if (worldMg.nachbarn[def.getNummer()][att.getNummer()] == true && att.getEinheiten() - countUnits > 0) {
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 	}
-	
+
 //	public ArrayList<Integer> verteileEinheiten(){}
-	
+
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
 		int defNew = dice.get(0);
-		if (def.getEinheiten() + dice.get(0)>0) {
+		if (def.getEinheiten() + dice.get(0) > 0) {
 			def.setEinheiten(defNew);
 		} else {
 			def.setFarbe(isOwner(def).getFarbe());
@@ -92,22 +90,24 @@ public class Spiellogik {
 
 	public Player isOwner(Land attacker) {
 		for (Player p : playerMg.getPlayers()) {
-			for(Land l: p.getBesitz()) {
-				if(l.getNummer()==attacker.getNummer()) {
+			for (Land l : p.getBesitz()) {
+				if (l.getNummer() == attacker.getNummer()) {
 					return p;
 				}
 			}
 		}
 		return null;
 	}
+
 //	public void moveUnits() { // TODO
 //		
 //	}
 //	public boolean movePossible() {}
 //	
 	public String landStatus(Land l) {
-	return l.getFarbe();
+		return l.getFarbe();
 	}
+
 	public int unitsAvailable(Land l) {
 		return l.getEinheiten();
 	}

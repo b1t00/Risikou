@@ -35,8 +35,8 @@ public class Risiko {
 	
 	//@to: Methode die sagt wer anf‰ngt ... generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch
-	public void whoBegins() {
-		logik.whoBegins();
+	public Player whoBegins() {
+		return logik.whoBegins();
 	}
 	
 	
@@ -48,6 +48,9 @@ public class Risiko {
 		return player;
 	}
 
+	public int getAnzahlPlayer() {
+		return playerMg.getAnzahlPlayer();
+	}
 	public void gibLaenderAus() {
 		player.gibLaenderAus();
 
@@ -70,6 +73,20 @@ public class Risiko {
 		return playerMg.setFarbeAuswaehlen(farbe);
 	
 	}
-
+	
+//	************************* TestMain **************************
+	
+	public static void main(String[] args) {
+		Risiko test = new Risiko();
+		test.spielerAnlegen("anna", "rot", 0);
+		test.spielerAnlegen("leo", "gruen", 1);
+		test.spielerAnlegen("normen1", "blau", 2);
+		test.spielerAnlegen("normen2", "farbe2", 3);
+		test.spielerAnlegen("normen3", "farbe3", 3);
+		test.verteileEinheiten();
+		
+//		System.out.println(test.worldMg.getLaender().size());
+		System.out.println(test.whoBegins());
+	}
 
 }
