@@ -38,14 +38,18 @@ public class RisikoClientUI {
 				eingabe = liesEingabe();
 			} catch (IOException e) {}
 			switch (eingabe) {
-			case "yes": case "j": case "y":
+			case "yes": 
+			case "j": 
+			case "y":
 				try {
 					wieVieleSpielerMenu();
 				} catch (IOException e) {}
 				System.out.println("jetzt beginnt das Spiel"); // Platzhalter für Spielanfang
 				richtigeEingabe = true;
 				break;
-			case "no": case "nö": case "n":
+			case "no": 
+			case "nö": 
+			case "n":
 				System.out.println("Risik wird beendet"); // Platzhalter für Spielbeenden TODO: Spiel beenden
 				richtigeEingabe = true;
 				break;
@@ -106,11 +110,12 @@ public class RisikoClientUI {
 	}
 	
 	public void setzeStartEinheiten() {
-		int anzahlEinheiten = risiko.getAnzahlPlayer() * 5;
+		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
+		Land aktuellesLand;
 		
 		while(anzahlEinheiten > 0) {
-			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList <Land> aktiveLaender = aktiverPlayer.gibLaenderAus();
 			//den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in den pruefarray werden die möglichen zahlen geschrieben
@@ -124,8 +129,9 @@ public class RisikoClientUI {
 			try{
 				//!!! hier muss noch geprüft werden, ob die zahl überhaupt zur auswahl stand > evtl. arraylist land geben lassen und dann mit equals
 				land = Integer.parseInt(liesEingabe());
+				aktuellesLand = risiko.getLandById(land);
 			} catch(IOException e) {}
-			risiko.setztEinheit(int land, int einheit);
+			risiko.setztEinheit(Land aktuellesLand, int einheit);
 			anzahlEinheiten--;
 			risiko.naechsterPlayer();	
 		}
@@ -135,6 +141,7 @@ public class RisikoClientUI {
 		String input = "";
 		while(true) {
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
+			//ausgabe spieler1, du bist dran!
 			//spieler bekommt einheiten
 			gibMenuAus(aktiverPlayer);
 			try {
@@ -150,8 +157,11 @@ public class RisikoClientUI {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
 		System.out.print("               \n Angreifen: a");
 		System.out.print("               \n Einheiten verschieben: e");
-		System.out.print("               \n Zug beenden: z");
-		System.out.print("               \n Spiel beenden: q");
+		System.out.print("               \n Länder und Einheiten anzeigen: l"); //gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
+		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); //gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
+		System.out.print("               \n Mission anzeigen: m"); //wird später implementiert
+		System.out.print("               \n Zug beenden: z");	//TODO
+		System.out.print("               \n Spiel beenden: q"); //TODO
 		System.out.flush();
 	}
 	
@@ -163,6 +173,11 @@ public class RisikoClientUI {
 			case "e":
 				verschiebeEinheiten(aktiverPlayer);
 				break;
+			case "l":
+				ArrayList<Land> landAusgabe = aktiverPlayer.gibLaenderAus();
+				for (Land land: landAusgabe) {
+					System.out.println(land.getName() + " mit " + land.getEinheiten() + " Einheiten. \n");
+				}
 			case "z":
 				risiko.naechsterSpieler();
 				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
@@ -264,6 +279,7 @@ public class RisikoClientUI {
 				}
 			}
 		}
+		
 	}
 	
 	public void laenderAusgeben(Player player) {
@@ -306,18 +322,19 @@ public static void main(String[] args) {
 
 public void run() {		
 	starteSpiel();
+	risiko.verteileEinheiten();
+//	ausgabe, wer welche länder besitzt
 	setzeStartEinheiten();
+	risiko.whoBegins();
 	round();
 }
 
-	public static void main(String[] args) {
-		RisikoClientUI cui = new RisikoClientUI();
-		cui.anfangsMenue();
-		System.out.println("hey");
-		Risiko risiko = new Risiko();
-		cui.risiko.verteileEinheiten();
-		cui.risiko.whoBegins();
-	}
+//	public static void main(String[] args) {
+//		RisikoClientUI cui = new RisikoClientUI();
+//		cui.anfangsMenue();
+//		System.out.println("hey");
+//		Risiko risiko = new Risiko();
+//	}
 
 }
 
