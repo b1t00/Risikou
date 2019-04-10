@@ -5,6 +5,9 @@ public class Land {
 	private int nummer;
 	private String name;
 	private String farbe; // steht für den Spieler
+	// ?? evtl Player player; variable
+	//setPlayer(Player player);
+	//1 kunden laden 
 	
 	public Land(String name, int nummer) {
 		this.nummer = nummer;
@@ -50,5 +53,6 @@ public class Land {
 				}
 				return false;
 	}
+	
 	
 }

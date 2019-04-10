@@ -100,7 +100,9 @@ public class Spiellogik {
 		}
 		return null;
 	}
-//	public void moveUnits() {}
+//	public void moveUnits() {
+//		
+//	}
 //	public boolean movePossible() {}
 //	
 	public String landStatus(Land l) {
