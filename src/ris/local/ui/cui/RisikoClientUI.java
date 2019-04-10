@@ -74,7 +74,7 @@ public class RisikoClientUI {
 
 	public String farbeAuswaehlen() {
 		String farbe = "";
-		ArrayList<String> farbenAuswahl = risiko.gibAlleFarben();
+		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();
 
 		System.out.println("Welche Farbe möchtest nehmen?");
 		if (farbenAuswahl.contains("rot")) {
@@ -112,7 +112,14 @@ public class RisikoClientUI {
 		while(anzahlEinheiten > 0) {
 			Player aktiverPlayer = risiko.gibAktivenSpieler();
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
-			System.out.println(risiko.gibLaenderAus(aktiverPlayer));
+			ArrayList <Land> aktiveLaender = aktiverPlayer.gibLaenderAus();
+			//den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in den pruefarray werden die möglichen zahlen geschrieben
+			ArrayList <Integer> pruefArray = new ArrayList <Integer>();
+			
+			for (Land land: aktiveLaender) {
+				System.out.println(land.getNummer() + " > " + land.getName());
+				pruefArray.add(land.getNummer()); 
+			}
 			int land;
 			try{
 				//!!! hier muss noch geprüft werden, ob die zahl überhaupt zur auswahl stand > evtl. arraylist land geben lassen und dann mit equals
@@ -120,14 +127,14 @@ public class RisikoClientUI {
 			} catch(IOException e) {}
 			risiko.setztEinheit(int land, int einheit);
 			anzahlEinheiten--;
-			risiko.naechsterSpieler();
+			risiko.naechsterPlayer();	
 		}
 	}
 	
 	public void round() {
 		String input = "";
 		while(true) {
-			String aktiverPlayer = risiko.gibAktivenSpieler();
+			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			//spieler bekommt einheiten
 			gibMenuAus(aktiverPlayer);
 			try {
@@ -135,11 +142,11 @@ public class RisikoClientUI {
 				verarbeiteEingabe(input, aktiverPlayer);
 			} catch(IOException e){}
 
-			risiko.naechsterSpieler();
+			risiko.naechsterPlayer();
 		}
 	}
 	
-	public void gibMenuAus(String aktiverPlayer) {
+	public void gibMenuAus(Player aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
 		System.out.print("               \n Angreifen: a");
 		System.out.print("               \n Einheiten verschieben: e");
@@ -148,7 +155,7 @@ public class RisikoClientUI {
 		System.out.flush();
 	}
 	
-	public void verarbeiteEingabe(String input, String aktiverPlayer) {
+	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
 			switch(input) {
 			case "a":
 				attack(aktiverPlayer);
@@ -174,21 +181,27 @@ public class RisikoClientUI {
 			}
 	}
 	
-	public void attack(String angreifer) {
-		int start;	//land, das angreift
-		Land angreifer;
-		int ziel;	//land, das angegriffen wird
+	public void attack(Player angreifer) {
+		Land attackLand; //Land, das angreift
+		//int start;	//Nummer vom Land, das angreift
+		int ziel;	//Nummer vom Land, das angegriffen wird
 		int angriff;	//einheiten, die angreifen
 		int defense;	//einheiten, die verteidigen
 		boolean kampf = true;
+		ArrayList <Land> aktiveLaender = angreifer.gibLaenderAus();
 		
 		//abfrage, von welchem land welches andere land angegriffen werden soll
 		System.out.print(angreifer + " mit welchem Land möchtest du angreifen?");
-		System.out.println(risiko.gibLaenderAus(angreifer));
+		for (Land land: aktiveLaender) {
+			System.out.println(land.getNummer() + " > " + land.getName());
+		}
+		
 		try {
-			start = Integer.parseInt(liesEingabe()); 
-			Land angreifer = risiko.getLandById(start);
+			int start = Integer.parseInt(liesEingabe()); 
+			attackLand = risiko.getLandById(start);
 		} catch(IOException e) {}
+		
+		//Abfrage, welches Land attackiert werden soll
 		System.out.println("Welches Land soll angegriffen werden? \n" + risiko.getFeinde(angreifer, start));
 		try {
 			ziel = Integer.parseInt(liesEingabe());
@@ -288,4 +301,4 @@ public void run() {
 	}
 
 }
-}
+
