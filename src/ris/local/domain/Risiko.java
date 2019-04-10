@@ -83,7 +83,7 @@ public class Risiko {
 
 		
 //		int p = rT.logik.laenderAnzahl;
-		System.out.println("es gibt insgesammt " + p);
+//		System.out.println("es gibt insgesammt " + p);
 		
 //		rT.logik.shuffleLaender();
 		rT.verteileEinheiten();
