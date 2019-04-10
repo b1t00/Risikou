@@ -9,12 +9,12 @@ import java.util.Vector;
 
 import ris.local.valueobjects.Player;
 
-public class Playermanagement {
+public class PlayerManagement {
 
 	private List<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList();
 
-	public Playermanagement() {
+	public PlayerManagement() {
 		farbenAuswahl.add("rot");
 		farbenAuswahl.add("gruen");
 		farbenAuswahl.add("blau");

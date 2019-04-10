@@ -83,6 +83,7 @@ public class RisikoClientUI {
 	return farbe;
 }
 
+
 	public void wieVieleSpielerMenu() throws IOException {
 		String eingabeSpieler, name, farbe;
 		int nr;
