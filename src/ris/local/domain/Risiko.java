@@ -79,7 +79,7 @@ public class Risiko {
 		rT.spielerAnlegen("Normi3", "gruen", 3);
 
 		
-		int p = rT.logik.laenderAnzahl;
+//		int p = rT.logik.laenderAnzahl;
 		System.out.println("es gibt insgesammt " + p);
 		
 //		rT.logik.shuffleLaender();

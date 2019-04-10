@@ -9,22 +9,19 @@ import java.util.List;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
 
+
 public class Spiellogik {
 
 	Playermanagement gamerVW;
 	private Worldmanagement worldMg;
 	private Playermanagement playerMg;
 
-	public int laenderAnzahl;
-
 	public Spiellogik(Worldmanagement worldMg, Playermanagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
-
-		laenderAnzahl = worldMg.getLaender().size();
 	}
 
-//	*********************************** SpielAnfang ********************************************
+	//*********************************** SpielAnfang Anfang********************************************
 
 	// Methode um Alle "LaenderKarten" durchzumischen
 	public ArrayList<Land> shuffleLaender() {
@@ -66,61 +63,54 @@ public class Spiellogik {
 			System.out.println(playerList.get(0).getName() + " faengt an"); // hier geht die Verteilung aller laender auf und spieler eins fängt an
 		}
 	}
-	
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-	
-//	public void faerbeLaender() {
-//		
-//	}
-	
 
-//	// laufvariablen für zufällige Länderverteilung
-//	private int i = 0;
-//	private int k = 0;
-//	// hier werden Länderkarten gemischt.
-//
-//	private ArrayList<Land> laenderZuweisung(int anzahlAnLaendern) {
-//
-//
-//		for (; i < (k + anzahlAnLaendern); i++) {
-//			besitzt.add(welt.laender[zufall.get(i)]);
-//		}
-//		k = k + anzahlAnLaendern;
-//		return besitzt;
-//	}
-//	
-//	
+	//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ SpielAnfang Ende ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 //	********************************** Angriffslogik **********************************
-
-//	boolean angriffMoeglich() {}
-
+	
+	boolean angriffMoeglich(Land def,Land att,int countUnits) {
+		if(worldMg.nachbarn[def.getNummer()][att.getNummer()]==true && att.getEinheiten()-countUnits >0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 //	public ArrayList<Integer> verteileEinheiten(){}
-
+	
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
 		int defNew = dice.get(0);
-		if (def.getEinheiten() > dice.get(0)) {
+		if (def.getEinheiten() + dice.get(0)>0) {
 			def.setEinheiten(defNew);
 		} else {
-			def.setFarbe(attacker.getFarbe());
+			def.setFarbe(isOwner(def).getFarbe());
 		}
 		att.setEinheiten(dice.get(1));
 	}
 
 	public Player isOwner(Land attacker) {
-		for (Player p : playerMg.getPlayers())
-			if (p.getBesitz().contains(attacker)) {
-				return p;
+		for (Player p : playerMg.getPlayers()) {
+			for(Land l: p.getBesitz()) {
+				if(l.getNummer()==attacker.getNummer()) {
+					return p;
+				}
 			}
+		}
 		return null;
 	}
-//	public void moveUnits() {}
-//	public boolean movePossible() {
-		
+//	public void moveUnits() {
+//		
 //	}
+//	public boolean movePossible() {}
 //	
-//	public String landStatus() {}
-//	public int unitsAvailable(int Land) {}
+	public String landStatus(Land l) {
+	return l.getFarbe();
+	}
+	public int unitsAvailable(Land l) {
+		return l.getEinheiten();
+	}
 
 //	public String angriff(int land, Player spieler){
 //		ArrayList<Land> feinde = new ArrayList<Land>();
@@ -137,7 +127,7 @@ public class Spiellogik {
 //	}
 //	
 
-	private ArrayList<Integer> rollDice(int attUnits, int defUnits) {
+	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;
 		int lossAtt = 0;
 		ArrayList<Integer> aList = new ArrayList<Integer>();
