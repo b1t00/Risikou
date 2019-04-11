@@ -31,7 +31,7 @@ public class Spiellogik {
 //	
 //	
 //	********************************** Angriffslogik **********************************
-	
+	// +boolean land att: aktiverSpieler=isOwner(att)
 	boolean angriffMoeglich(Land def,Land att,int countUnits) {
 		if(worldMg.nachbarn[def.getNummer()][att.getNummer()]==true && att.getEinheiten()-countUnits >0) {
 			return true;
@@ -53,7 +53,15 @@ public class Spiellogik {
 		}
 		att.setEinheiten(dice.get(1));
 	}
-
+	//+EInheitenanzahl für Verteidiger übergeben
+	public String attack(Land def,Land att, int attUnits) {
+		int defUnits=1;
+		if(angriffMoeglich(def,att,attUnits)) {
+			angriffAuswerten(rollDice(attUnits,defUnits),def,att);
+			
+		}
+		
+	}
 	public Player isOwner(Land attacker) {
 		for (Player p : playerMg.getPlayers()) {
 			for(Land l: p.getBesitz()) {
