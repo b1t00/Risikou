@@ -78,7 +78,7 @@ public class Risiko {
 	
 	}
 	
-//	************************* TestMain **************************
+//	*************************TestMain**************************
 	
 	public static void main(String[] args) {
 		Risiko test = new Risiko();
