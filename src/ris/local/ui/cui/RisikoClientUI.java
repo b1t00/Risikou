@@ -76,6 +76,12 @@ public class RisikoClientUI {
 	if (farbenAuswahl.contains("blau")) {
 		System.out.println("b : blau");
 	}
+	if (farbenAuswahl.contains("pink")) {
+		System.out.println("p : pink");
+	}
+	if (farbenAuswahl.contains("schwarz")) {
+		System.out.println("s : schwarz");
+	}
 	try {
 		farbe = liesEingabe();
 	} catch (IOException e) {
@@ -105,7 +111,9 @@ public class RisikoClientUI {
 		Land aktuellesLand;
 		
 		while(anzahlEinheiten > 0) {
-			Player aktiverPlayer = risiko.gibAktivenPlayer();
+			System.out.println(risiko.gibAktivenSpieler());
+			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList <Land> aktiveLaender = aktiverPlayer.gibLaenderAus();
 			//den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in den pruefarray werden die möglichen zahlen geschrieben

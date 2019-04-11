@@ -13,6 +13,8 @@ public class Risiko {
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player;
+	
+	
 
 	// Konstruktor
 
@@ -20,6 +22,7 @@ public class Risiko {
 		worldMg = new Worldmanagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
+		
 	}
 
 	public void spielAnlegen(int anzahl) {
@@ -56,13 +59,13 @@ public class Risiko {
 
 	}
 
-//	public Player gibAktivenSpieler() {
-//		return logik.gibAktivenSpieler();
-//	}
+	public Player gibAktivenSpieler() {
+		return logik.gibAktivenSpieler();
+	}
 //	
-//	public void naechsterSpieler() {
-//		return logik.naechsterSpieler();
-//	}
+	public void machNaechterSpieler() {
+		logik.setSpielrunden();
+	}
 	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {
@@ -83,10 +86,18 @@ public class Risiko {
 		test.spielerAnlegen("normen1", "blau", 2);
 		test.spielerAnlegen("normen2", "farbe2", 3);
 		test.spielerAnlegen("normen3", "farbe3", 3);
+		test.spielerAnlegen("normen4", "farbe3", 3);
+		test.spielerAnlegen("normen5", "farbe3", 3);
 		test.verteileEinheiten();
 		
+		
 //		System.out.println(test.worldMg.getLaender().size());
-		System.out.println(test.whoBegins());
+		System.out.println("achtung doppelt " + test.whoBegins());
+		for(int i = 0; i < 199 ; i++) {
+			System.out.println(test.gibAktivenSpieler());
+			System.out.println(test.spielrunden);
+			
+		}
 	}
 
 }

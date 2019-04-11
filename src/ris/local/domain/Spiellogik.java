@@ -14,6 +14,7 @@ public class Spiellogik {
 	PlayerManagement gamerVW;
 	private Worldmanagement worldMg;
 	private PlayerManagement playerMg;
+	private int spielrunden;
 
 	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -63,7 +64,20 @@ public class Spiellogik {
 	}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+	
+	// ***************************************->Runden<-**************************************
+	public Player gibAktivenSpieler() {
+		int spielbeginn = whoBegins().getNummer();
+		ArrayList<Player> spielerListe = playerMg.getPlayers();
+		return spielerListe.get((spielbeginn+spielrunden)%(playerMg.getPlayers().size()));
+	}
+	
+	public int getSpielrunden() {
+		return spielrunden;
+	}
+	public void setSpielrunden() {
+		spielrunden++;
+	}
 //	********************************** Angriffslogik **********************************
 
 	boolean angriffMoeglich(Land def, Land att, int countUnits) {
@@ -124,7 +138,6 @@ public class Spiellogik {
 //		}
 //		return result;
 //	}
-//	
 
 	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;

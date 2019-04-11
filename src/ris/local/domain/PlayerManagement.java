@@ -11,7 +11,7 @@ import ris.local.valueobjects.Player;
 
 public class PlayerManagement {
 
-	private List<Player> gamerListe = new ArrayList<Player>();
+	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList();
 
 	public PlayerManagement() {
@@ -55,7 +55,7 @@ public class PlayerManagement {
 	public ArrayList<String> getFarbauswahl() {
 		return farbenAuswahl;
 	}
-	public List<Player> getPlayers() {
+	public ArrayList<Player> getPlayers() {
 		return gamerListe;
 
 	}
