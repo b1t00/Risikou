@@ -19,6 +19,7 @@ public class Spiellogik {
 	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
+		spielrunden = 0;
 	}
 
 	// ***********************************Spiel_Anfang********************************************
@@ -66,8 +67,9 @@ public class Spiellogik {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	// ***************************************->Runden<-**************************************
+	
 	public Player gibAktivenSpieler() {
-		int spielbeginn = whoBegins().getNummer();
+		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID
 		ArrayList<Player> spielerListe = playerMg.getPlayers();
 		return spielerListe.get((spielbeginn+spielrunden)%(playerMg.getPlayers().size()));
 	}
@@ -75,8 +77,10 @@ public class Spiellogik {
 	public int getSpielrunden() {
 		return spielrunden;
 	}
+	
+	// evtl andere bennenung als set
 	public void setSpielrunden() {
-		spielrunden++;
+		this.spielrunden++;
 	}
 //	********************************** Angriffslogik **********************************
 

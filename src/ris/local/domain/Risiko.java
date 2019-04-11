@@ -36,8 +36,9 @@ public class Risiko {
 		logik.verteileEinheiten();
 	}
 	
-	//@to: Methode die sagt wer anf‰ngt ... generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
+	//@to: Methode die sagt wer anf‰ngt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch
+	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
 	public Player whoBegins() {
 		return logik.whoBegins();
 	}
@@ -63,7 +64,7 @@ public class Risiko {
 		return logik.gibAktivenSpieler();
 	}
 //	
-	public void machNaechterSpieler() {
+	public void machNaechsterSpieler() {
 		logik.setSpielrunden();
 	}
 	
@@ -81,21 +82,18 @@ public class Risiko {
 	
 	public static void main(String[] args) {
 		Risiko test = new Risiko();
-		test.spielerAnlegen("anna", "rot", 0);
-		test.spielerAnlegen("leo", "gruen", 1);
-		test.spielerAnlegen("normen1", "blau", 2);
-		test.spielerAnlegen("normen2", "farbe2", 3);
-		test.spielerAnlegen("normen3", "farbe3", 3);
-		test.spielerAnlegen("normen4", "farbe3", 3);
-		test.spielerAnlegen("normen5", "farbe3", 3);
+		test.spielerAnlegen("normen1", "blau", 0);
+		test.spielerAnlegen("normen2", "farbe", 1);
+		test.spielerAnlegen("normen3", "farbe", 2);
+//		test.spielerAnlegen("normen4", "farbe", 3);
+//		test.spielerAnlegen("normen5", "farb", 4);
+//		test.spielerAnlegen("normen6", "farbe", 6);
 		test.verteileEinheiten();
 		
 		
-//		System.out.println(test.worldMg.getLaender().size());
-		System.out.println("achtung doppelt " + test.whoBegins());
 		for(int i = 0; i < 199 ; i++) {
 			System.out.println(test.gibAktivenSpieler());
-			System.out.println(test.spielrunden);
+			test.machNaechsterSpieler();
 			
 		}
 	}

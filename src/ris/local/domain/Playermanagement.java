@@ -55,6 +55,7 @@ public class PlayerManagement {
 	public ArrayList<String> getFarbauswahl() {
 		return farbenAuswahl;
 	}
+	
 	public ArrayList<Player> getPlayers() {
 		return gamerListe;
 
