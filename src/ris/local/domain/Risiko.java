@@ -123,7 +123,7 @@ public class Risiko {
 		System.out.println("------------------ alle spieler reinfolge nach getAktivenSpieler------------------");
 		
 		for(int i = 0; i < 5 ; i++) {
-			System.out.println(test.gibAktivenSpieler());
+			System.out.println(test.gibAktivenSpieler() + " und besitzt die Länder:");
 		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
 			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
 		}
