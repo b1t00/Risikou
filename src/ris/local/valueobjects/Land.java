@@ -4,12 +4,8 @@ public class Land {
 	private int einheiten;
 	private int nummer;
 	private String name;
-	private String farbe; 
+	private String farbe; // steht für den Spieler
 	private Player besitzer;
-	// steht für den Spieler
-	// ?? evtl Player player; variable
-	//setPlayer(Player player);
-	//1 kunden laden 
 	
 	public Land(String name, int nummer) {
 		this.nummer = nummer;
@@ -58,6 +54,10 @@ public class Land {
 	
 	public void setFarbe(String farbe) {
 		this.farbe = farbe;
+	}
+	
+	public Player getBesitzer() {
+		return besitzer;
 	}
 
 	@Override

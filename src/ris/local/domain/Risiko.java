@@ -71,6 +71,24 @@ public class Risiko {
 		logik.setSpielrunden();
 	}
 	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	public ArrayList<Land> getAngriffsLaender(Player angreifer){
+		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
+		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(moeglicheLaender);
+		return attackLaender;
+	} 
+	
+	public ArrayList<Land> getFeindlicheLaender (Land attackLand) {
+		ArrayList<Land> feindlicheLaender = logik.getFeindlicheLaender(attackLand);
+		return feindliche Laender;
+	}
+	
+	public Land getLandById (int zahl) {
+		Land land = worldMg.getLandById(zahl);
+		return land;
+	}
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {
 		return playerMg.getFarbauswahl();

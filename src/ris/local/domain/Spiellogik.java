@@ -77,6 +77,46 @@ public class Spiellogik {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	// Methode prüft, ob Länder von einem Player mehr als eine Einheit hat
+	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit (Player player) {
+		ArrayList<Land> starkeLaender = new ArrayList<Land>();
+		ArrayList<Land> besitzPlayer = player.getBesitz();
+		for (Land land: besitzPlayer) {
+			if (land.getNummer() > 1) {
+				starkeLaender.add(land);
+			}
+		}
+		return starkeLaender;
+	}
+	
+	// Methode prüft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
+	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (ArrayList<Land> laender){
+		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
+		ArrayList<Land> besitzPlayer = laender;
+		for (Land land: besitzPlayer) {
+			for (int i=0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
+				if (!worldMg.getLaender().get(i).getBesitzer.equals(besitzPlayer.getBesitz())) {
+					moeglicheAngreifer.add(land);
+				}
+			}
+		}
+		return moeglicheAngreifer;
+	}
+	
+	public ArrayList<Land> getFeindlicheLaender(Land attackLand){
+		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
+		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
+			if (!worldMg.getLaender().get(i).getBesitzer().equals(attackLand.getBesitzer())) {
+				feindlicheLaender.add(worldMg.getLaender().get(i));
+			}
+		}
+		return feindlicheLaender;
+	}
+	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
 	// ***************************************->Runden<-**************************************
 	
 	public Player gibAktivenSpieler() {
