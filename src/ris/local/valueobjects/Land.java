@@ -55,10 +55,7 @@ public class Land {
 	public void setFarbe(String farbe) {
 		this.farbe = farbe;
 	}
-	
-	public Player getBesitzer() {
-		return besitzer;
-	}
+
 
 	@Override
 	public boolean equals(Object obj) {

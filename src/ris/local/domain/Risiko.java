@@ -80,7 +80,7 @@ public class Risiko {
 	
 	public ArrayList<Land> getFeindlicheLaender (Land attackLand) {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheLaender(attackLand);
-		return feindliche Laender;
+		return feindlicheLaender;
 	}
 	
 	public Land getLandById (int zahl) {
@@ -106,8 +106,8 @@ public class Risiko {
 		test.spielerAnlegen("normen1", "blau", 0);
 		test.spielerAnlegen("normen2", "farbe", 1);
 		test.spielerAnlegen("normen3", "farbe", 2);
-//		test.spielerAnlegen("normen4", "farbe", 3);
-//		test.spielerAnlegen("normen5", "farb", 4);
+		test.spielerAnlegen("normen4", "farbe", 3);
+		test.spielerAnlegen("normen5", "farb", 4);
 //		test.spielerAnlegen("normen6", "farbe", 6);
 		test.verteileEinheiten();
 //		Player playertest = test.gibAktivenSpieler();
@@ -115,15 +115,17 @@ public class Risiko {
 //			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
 ////			System.out.println();
 //		}
-		for(int i = 0 ; i < test.gibAktivenSpieler().getBesitz().size(); i++) {
-			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(i) + " gehört " + test.gibAktivenSpieler().getName());
+//		for(int i = 0 ; i < test.gibAktivenSpieler().getBesitz().size(); i++) {
+//			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(i) + " gehört " + test.gibAktivenSpieler().getName());
+//		}
+		ArrayList<Land> alleLaender = test.worldMg.getLaender();
+		for(Land land : alleLaender) {
+			System.out.println(land.getNummer() +" : " + land.getName() + " - gehört : " + land.getBesitzer().getName());
 		}
-//		System.out.println(playertest.gibLaenderAus());
 //				
 		for(int i = 0; i < 5 ; i++) {
 			System.out.println(test.gibAktivenSpieler());
-			test.machNaechsterSpieler();
-			
+			test.machNaechsterSpieler();	
 		}
 	}
 
