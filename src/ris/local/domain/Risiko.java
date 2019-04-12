@@ -4,7 +4,7 @@ package ris.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class Risiko {
@@ -67,6 +67,24 @@ public class Risiko {
 	public void machNaechsterSpieler() {
 		logik.setSpielrunden();
 	}
+	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	public ArrayList<Land> getAngriffsLaender(Player angreifer){
+		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
+		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(moeglicheLaender);
+		return attackLaender;
+	} 
+	
+	public ArrayList<Land> getFeindlicheLaender (Land attackLand) {
+		ArrayList<Land> feindlicheLaender = logik.getFeindlicheLaender(attackLand);
+		return feindliche Laender;
+	}
+	
+	public Land getLandById (int zahl) {
+		Land land = worldMg.getLandById(zahl);
+		return land;
+	}
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {

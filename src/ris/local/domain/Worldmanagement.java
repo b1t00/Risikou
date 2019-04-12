@@ -85,5 +85,10 @@ public class Worldmanagement {
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
+	
+	public Land getLandById(int zahl) {
+		return laender.get(zahl);
+	}
+	
 
 }

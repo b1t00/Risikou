@@ -194,7 +194,26 @@ public class RisikoClientUI {
 			}
 	}
 	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public void attack(Player angreifer) {
+		Land attackLand;
+		
+		//Abfrage, welches Land angreift mit Berücksichtigung der Möglichkeit
+		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
+		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
+		laenderAusgeben(attackLaender);
+		try {
+			int start = Integer.parseInt(liesEingabe()); 
+			attackLand = risiko.getLandById(start);
+		} catch(IOException e) {}
+		
+		System.out.println("Welches Land soll angegriffen werden?");
+		ArrayList<Land> feindlicheNachbarn = risiko.getFeindlicheNachbarn(attackLand);
+		risiko.attack(angreifer, attackLand);
+	}
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	public void attack2(Player angreifer) {
 		Land attackLand; //Land, das angreift
 		Land enemyLand;
 		Player defender; //Player-Objekt des angegriffenen Landes
@@ -280,9 +299,8 @@ public class RisikoClientUI {
 		
 	}
 	
-	public void laenderAusgeben(Player player) {
-		ArrayList <Land> angriffsLaender = player.gibLaenderAus();
-		for (Land land: angriffsLaender) {
+	public void laenderAusgeben(ArrayList<Land> ausgabeLaender) {
+		for (Land land: ausgabeLaender) {
 			System.out.println(land.getNummer() + " > " + land.getName());
 		}
 		//evtl. pruefarray zurückgeben
