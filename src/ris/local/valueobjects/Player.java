@@ -33,6 +33,16 @@ public class Player {
 		return inBesitz;
 	}
 	
+	//prüft, ob player land besitzt, wenn ja, löscht er es, wenn nein, fügt er es hinzu
+	public void setBesitz(Land land) {
+		//TODO: evtl. muss die equals methode überschrieben werden, damit contains funktioniert
+		if (inBesitz.contains(land)) {
+			inBesitz.remove(land);
+		} else {
+			inBesitz.add(land);
+		}
+	}
+	
 	public String toString() {
 		return (name + " hat die Farbe " + farbe) ;
 	}
@@ -50,20 +60,32 @@ public class Player {
 
 
 	//diese Methode beim Hinzufügen von einzelnen Ländern
+	//vielleicht hinfällig, kann einfach über setBesitz() aufgerufen werden
 	public void addLand(Land neuesLand) {
 		this.inBesitz.add(neuesLand);
 	}
 	
-	//diese Methode beim Hinzufügen von einem ganzen Länder-Array, am Anfang
+	//diese Methode beim Hinzufügen von einem ganzen Länder-Array, zu Beginn des Spiels
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}
 	
-//	public void faerbeLaender(Player player) {
-//		ArrayList<Land> besitz = getBesitz();
-//		for(ArrayList<Land> b : besitz) {
-//			b.setFarbe()
-//		}
-//	}
+	public static void main(String[] args) {
+		Player anna = new Player ("Anna", "Rot", 1);
+		Land portugal = new Land ("Portugal", 1);
+		Land schweden = new Land ("Schweden", 2);
+		Land england = new Land ("England", 3);
+		Land spanien = new Land ("Spanien", 4);
+		anna.addLand(portugal);
+		anna.addLand(schweden);
+		anna.addLand(england);
+		anna.setBesitz(spanien);
+		anna.setBesitz(england);
+		ArrayList<Land> annasLaender = anna.getBesitz();
+		for (Land land: annasLaender) {
+			System.out.println(land.getName());
+		}
+	}
+
 
 }

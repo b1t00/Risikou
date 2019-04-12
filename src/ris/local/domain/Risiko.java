@@ -71,13 +71,18 @@ public class Risiko {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public ArrayList<Land> getAngriffsLaender(Player angreifer){
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
-		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(moeglicheLaender);
+		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(angreifer, moeglicheLaender);
 		return attackLaender;
 	} 
 	
-	public ArrayList<Land> getFeindlicheLaender (Land attackLand) {
-		ArrayList<Land> feindlicheLaender = logik.getFeindlicheLaender(attackLand);
-		return feindliche Laender;
+	public ArrayList<Land> getFeindlicheNachbarn (Land attackLand) {
+		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
+		return feindlicheLaender;
+	}
+	
+	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten);
+		return ergebnis;
 	}
 	
 	public Land getLandById (int zahl) {
@@ -85,6 +90,35 @@ public class Risiko {
 		return land;
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	public void setLand(Player player1, Player player2) {
+		player1.setBesitz(worldMg.getLaender().get(5));
+		player1.setBesitz(worldMg.getLaender().get(6));
+		player1.setBesitz(worldMg.getLaender().get(8));
+		player1.setBesitz(worldMg.getLaender().get(2));
+		player1.setBesitz(worldMg.getLaender().get(3));
+		player2.setBesitz(worldMg.getLaender().get(7));
+		player2.setBesitz(worldMg.getLaender().get(9));
+		player2.setBesitz(worldMg.getLaender().get(10));
+		player2.setBesitz(worldMg.getLaender().get(0));
+		player2.setBesitz(worldMg.getLaender().get(1));
+		player2.setBesitz(worldMg.getLaender().get(4));
+		worldMg.getLaender().get(0).setBesitzer(player2);
+		worldMg.getLaender().get(1).setBesitzer(player2);
+		worldMg.getLaender().get(2).setBesitzer(player1);
+		worldMg.getLaender().get(3).setBesitzer(player1);
+		worldMg.getLaender().get(4).setBesitzer(player2);
+		worldMg.getLaender().get(5).setBesitzer(player1);
+		worldMg.getLaender().get(6).setBesitzer(player1);
+		worldMg.getLaender().get(7).setBesitzer(player2);
+		worldMg.getLaender().get(8).setBesitzer(player1);
+		worldMg.getLaender().get(9).setBesitzer(player2);
+		worldMg.getLaender().get(10).setBesitzer(player2);
+		worldMg.getLaender().get(6).setEinheiten(6);
+		worldMg.getLaender().get(7).setEinheiten(3);
+	}
+	
+	
 	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {

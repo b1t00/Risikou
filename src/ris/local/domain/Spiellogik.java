@@ -73,7 +73,7 @@ public class Spiellogik {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
 		for (Land land: besitzPlayer) {
-			if (land.getNummer() > 1) {
+			if (land.getEinheiten() > 1) {
 				starkeLaender.add(land);
 			}
 		}
@@ -81,27 +81,51 @@ public class Spiellogik {
 	}
 	
 	// Methode prüft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
-	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (ArrayList<Land> laender){
+	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (Player angreifer, ArrayList<Land> laender){
 		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
-		ArrayList<Land> besitzPlayer = laender;
-		for (Land land: besitzPlayer) {
+		ArrayList<Land> besitzVonPlayer = laender;
+		System.out.println(besitzVonPlayer.get(0));
+		for (Land land: besitzVonPlayer) {
 			for (int i=0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
-				if (!worldMg.getLaender().get(i).getBesitzer.equals(besitzPlayer.getBesitz())) {
-					moeglicheAngreifer.add(land);
+				if (worldMg.nachbarn[land.getNummer()][i]) {
+					if (!worldMg.getLaender().get(i).getBesitzer().equals(angreifer)) {
+						moeglicheAngreifer.add(land);
+						System.out.println(land + " kann angreifen");
+					}
 				}
 			}
 		}
 		return moeglicheAngreifer;
 	}
 	
-	public ArrayList<Land> getFeindlicheLaender(Land attackLand){
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand){
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
-			if (!worldMg.getLaender().get(i).getBesitzer().equals(attackLand.getBesitzer())) {
-				feindlicheLaender.add(worldMg.getLaender().get(i));
+			if (worldMg.nachbarn[attackLand.getNummer()][i]) {
+				if (!worldMg.getLaender().get(i).getBesitzer().equals(attackLand.getBesitzer())) {
+					feindlicheLaender.add(worldMg.getLaender().get(i));
+				}
 			}
 		}
 		return feindlicheLaender;
+	}
+	
+	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
+		ArrayList<Integer> ergebnis = rollDice(attEinheiten, defEinheiten);
+		att.setEinheiten(att.getEinheiten() - ergebnis.get(0));
+		def.setEinheiten(def.getEinheiten() - ergebnis.get(1));
+		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
+		if (def.getEinheiten()==0) {
+			def.setEinheiten(attEinheiten - ergebnis.get(0));
+			att.setEinheiten(attEinheiten - ergebnis.get(0));
+			Player loser = def.getBesitzer();
+			loser.setBesitz(def);
+			Player winner = att.getBesitzer();
+			winner.setBesitz(def);
+			def.setBesitzer(winner);
+		}
+		return ergebnis;
 	}
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -169,19 +193,6 @@ public class Spiellogik {
 		return l.getEinheiten();
 	}
 
-//	public String angriff(int land, Player spieler){
-//		ArrayList<Land> feinde = new ArrayList<Land>();
-//		for (int i = 0; i < nachbarn[land].length; i++) {
-//			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {
-//				feinde.add(laender[i]);
-//			}
-//		}
-//		String result = "";
-//		for (Land feind: feinde) {
-//			result += feind.getNummer() + " > " + feind.getName() + "\n";
-//		}
-//		return result;
-//	}
 
 	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;

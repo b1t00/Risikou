@@ -48,6 +48,10 @@ public class Land {
 	public Player getBesitzer() {
 		return besitzer;
 	}
+	
+	public void setBesitzer(Player besitzer) {
+		this.besitzer = besitzer;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
