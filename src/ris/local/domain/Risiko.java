@@ -4,7 +4,7 @@ package ris.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class Risiko {
@@ -13,7 +13,6 @@ public class Risiko {
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player;
-	
 	
 
 	// Konstruktor
@@ -51,12 +50,16 @@ public class Risiko {
 		// gameObjekt.add(gamer);
 		return player;
 	}
+	
+	public ArrayList<String> gibLaenderUndNummer(){
+		return player.gibLaenderUndNummer();
+	}
 
 	public int getAnzahlPlayer() {
 		return playerMg.getAnzahlPlayer();
 	}
 	public void gibLaenderAus() {
-		player.gibLaenderAus();
+	//	player.gibLaenderAus();
 
 	}
 
@@ -89,9 +92,17 @@ public class Risiko {
 //		test.spielerAnlegen("normen5", "farb", 4);
 //		test.spielerAnlegen("normen6", "farbe", 6);
 		test.verteileEinheiten();
-		
-		
-		for(int i = 0; i < 199 ; i++) {
+//		Player playertest = test.gibAktivenSpieler();
+//		for(Land land : test.worldMg.getLaender()) {
+//			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
+////			System.out.println();
+//		}
+		for(int i = 0 ; i < test.gibAktivenSpieler().getBesitz().size(); i++) {
+			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(i) + " gehört " + test.gibAktivenSpieler().getName());
+		}
+//		System.out.println(playertest.gibLaenderAus());
+//				
+		for(int i = 0; i < 5 ; i++) {
 			System.out.println(test.gibAktivenSpieler());
 			test.machNaechsterSpieler();
 			

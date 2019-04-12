@@ -115,7 +115,7 @@ public class RisikoClientUI {
 			Player aktiverPlayer = risiko.gibAktivenSpieler();
 			
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
-			ArrayList <Land> aktiveLaender = aktiverPlayer.gibLaenderAus();
+			ArrayList <Land> aktiveLaender = aktiverPlayer.getBesitz();
 			//den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in den pruefarray werden die möglichen zahlen geschrieben
 			ArrayList <Integer> pruefArray = new ArrayList <Integer>();
 			
@@ -333,6 +333,13 @@ public void run() {
 //		System.out.println("hey");
 //		Risiko risiko = new Risiko();
 //	}
+
+
+public void gibLaenderUndNummerVonSpielerAus(Player play){
+	for(int i = 0 ; i < play.getBesitz().size(); i++) {
+		System.out.println(play.gibLaenderUndNummer().get(i) + " gehört " + play.getName());
+	}
+}
 
 	public static void main(String[] args) {
 		RisikoClientUI cui = new RisikoClientUI();

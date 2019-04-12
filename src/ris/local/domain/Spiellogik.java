@@ -48,6 +48,17 @@ public class Spiellogik {
 				}
 			}
 		}
+		teileLaenderBesitzerZu();
+	}
+	// methode die allen laender den entsprechenden Player zuteilt
+	// wird denke ich nur ganz am anfang gebraucht.. 
+//	wahrscheinlich benutzt man bei Laenderwechseln die setBesitzer methode vom Land
+	public void teileLaenderBesitzerZu() {
+		for(Player player : playerMg.getPlayers()) {
+			for(Land land : player.getBesitz()) {
+				land.setBesitzer(player);
+			}
+		}
 	}
 
 	// Methode die sagt wer anfängt
@@ -227,7 +238,6 @@ public class Spiellogik {
 		unitLoss.add(lossAtt);
 		System.out.println("Def:" + lossDef + " " + "Att" + lossAtt);
 		return unitLoss;
-
 	}
 
 }
