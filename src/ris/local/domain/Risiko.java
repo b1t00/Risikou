@@ -115,17 +115,19 @@ public class Risiko {
 //			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
 ////			System.out.println();
 //		}
-//		for(int i = 0 ; i < test.gibAktivenSpieler().getBesitz().size(); i++) {
-//			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(i) + " gehört " + test.gibAktivenSpieler().getName());
-//		}
+		System.out.println("Alle Laender und Besitzer (ungeordnet.. ich weiß nicht wieso)");//koente evlt so in die cui tun für die Weltausgabe
 		ArrayList<Land> alleLaender = test.worldMg.getLaender();
 		for(Land land : alleLaender) {
 			System.out.println(land.getNummer() +" : " + land.getName() + " - gehört : " + land.getBesitzer().getName());
 		}
-//				
+		System.out.println("------------------ alle spieler reinfolge nach getAktivenSpieler------------------");
+		
 		for(int i = 0; i < 5 ; i++) {
 			System.out.println(test.gibAktivenSpieler());
-			test.machNaechsterSpieler();	
+		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
+			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
+		}
+		test.machNaechsterSpieler();	
 		}
 	}
 
