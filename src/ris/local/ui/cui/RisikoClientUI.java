@@ -204,7 +204,7 @@ public class RisikoClientUI {
 		int defEinheiten = 0;
 		Player defender = null;
 		
-		//das pruefarray wird wiederholt genutzt, um fehlerhafte eingaben zu erkennen. er wird bei mehreren eingaben überschrieben
+		//das pruefarray wird wiederholt genutzt, um fehlerhafte eingaben zu erkennen. es wird bei mehreren eingaben überschrieben
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		
 		//Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
@@ -331,11 +331,13 @@ public class RisikoClientUI {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	public void laenderAusgeben(ArrayList<Land> ausgabeLaender) {
+	public ArrayList<Integer> laenderAusgabe(ArrayList<Land> ausgabeLaender) {
+		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		for (Land land: ausgabeLaender) {
 			System.out.println(land.getNummer() + " > " + land.getName());
+			pruefArray.add(land.getNummer());
 		}
-		//evtl. pruefarray zurückgeben
+		return pruefArray;
 	}
 	
 	public void verschiebeEinheiten(Player aktiverPlayer) {
