@@ -5,6 +5,7 @@ public class Land {
 	private int nummer;
 	private String name;
 	private String farbe; // steht für den Spieler
+	private Player besitzer;
 	
 	public Land(String name, int nummer) {
 		this.nummer = nummer;
@@ -20,6 +21,19 @@ public class Land {
 	@Override
 	public String toString() {
 		return (name + " mit " + einheiten + " Einheiten. \n");
+	}
+	
+	//@to Methode um player/besitzer zu setzten 
+	public void setBesitzer(Player besitzer) {
+		this.besitzer = besitzer;
+	}
+	public Player getBesitzer() {
+		return this.besitzer;
+	}
+	
+//	@to
+	public String auflistung() {
+		return this.nummer + " : " + this.einheiten;
 	}
 	
 	public int getEinheiten() {
@@ -42,6 +56,7 @@ public class Land {
 		this.farbe = farbe;
 	}
 
+
 	@Override
 	public boolean equals(Object obj) {
 				if(obj instanceof Land) {
@@ -50,5 +65,6 @@ public class Land {
 				}
 				return false;
 	}
+	
 	
 }

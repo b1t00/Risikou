@@ -41,6 +41,8 @@ public class Worldmanagement {
 		laender.add(newSouthWales);
 		Land victoria = new Land("Victoria", 10);
 		laender.add(victoria);
+		Land narnia = new Land("narnia", 11);
+		laender.add(narnia);
 		
 		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert
 		ArrayList<Land> eu = new ArrayList<Land>();	
@@ -83,5 +85,10 @@ public class Worldmanagement {
 	public boolean isBenachbart(Land land1, Land land2){
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
+	
+	public Land getLandById(int zahl) {
+		return laender.get(zahl);
+	}
+	
 
 }

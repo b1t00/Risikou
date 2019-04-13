@@ -33,15 +33,16 @@ public class Player {
 	}
 	
 	public String toString() {
-		return (name + " hat die Farbe " + farbe) ;
+		return name;
 	}
 
-	public String gibLaenderAus() {
-		String rueckgabe = "";
-		for (Land land: inBesitz) {
-			rueckgabe += name + " besitzt " + land.getNummer() + " > " + land + "\n";
+	//vlt auch unnöttige methode siehe cui gibLaenderUndNummerVonSpielerAus()
+	public ArrayList<String> gibLaenderUndNummer(){
+		ArrayList<String> ausgabe = new ArrayList<String>();
+		for(Land land : getBesitz()) {
+			ausgabe.add(land.getNummer() + " : " + land.getName());
 		}
-		return rueckgabe;
+		return ausgabe;
 	}
 
 	//diese Methode beim Hinzufügen von einzelnen Ländern
@@ -53,5 +54,6 @@ public class Player {
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}
+	
 
 }
