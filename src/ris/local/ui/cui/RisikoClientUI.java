@@ -131,7 +131,7 @@ public class RisikoClientUI {
 			} catch(IOException e) {}
 			risiko.setztEinheit(Land aktuellesLand, int einheit);
 			anzahlEinheiten--;
-			risiko.naechsterPlayer();	
+			risiko.machNaechsterSpieler();	
 		}
 	}
 	
@@ -156,7 +156,6 @@ public class RisikoClientUI {
 		}
 	}
 
-	
 	public void gibMenuAus(Player aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
 		System.out.print("               \n Angreifen: a");
