@@ -63,6 +63,10 @@ public class Risiko {
 		Land land = worldMg.getLandById(zahl);
 		return land;
 	}
+	
+	public int errechneVerfuegbareEinheiten(Player player) {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(Player player);
+	}
 
 	public Player gibAktivenSpieler() {
 		return logik.gibAktivenSpieler();
