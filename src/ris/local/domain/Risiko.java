@@ -116,8 +116,8 @@ public class Risiko {
 		worldMg.getLaender().get(10).setBesitzer(player2);
 		worldMg.getLaender().get(6).setEinheiten(6);
 		worldMg.getLaender().get(7).setEinheiten(3);
+		worldMg.getLaender().get(3).setEinheiten(4);
 	}
-	
 	
 	
 //	'''''''''' PlayerManagement ''''''''''''''''

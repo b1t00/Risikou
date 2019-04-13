@@ -112,13 +112,14 @@ public class Spiellogik {
 	
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
-		ArrayList<Integer> ergebnis = rollDice(attEinheiten, defEinheiten);
-		att.setEinheiten(att.getEinheiten() - ergebnis.get(0));
-		def.setEinheiten(def.getEinheiten() - ergebnis.get(1));
+		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
+		att.setEinheiten(ergebnis.get(1));
+		def.setEinheiten(ergebnis.get(0));
+		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
 		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
-			def.setEinheiten(attEinheiten - ergebnis.get(0));
-			att.setEinheiten(attEinheiten - ergebnis.get(0));
+			def.setEinheiten(attEinheiten + ergebnis.get(0));
+			att.setEinheiten(-(attEinheiten + ergebnis.get(0)));
 			Player loser = def.getBesitzer();
 			loser.setBesitz(def);
 			Player winner = att.getBesitzer();

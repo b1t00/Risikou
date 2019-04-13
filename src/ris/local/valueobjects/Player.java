@@ -44,7 +44,7 @@ public class Player {
 	}
 	
 	public String toString() {
-		return (name + " hat die Farbe " + farbe) ;
+		return name;
 	}
 
 

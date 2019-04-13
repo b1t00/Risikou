@@ -135,21 +135,27 @@ public class RisikoClientUI {
 //		}
 //	}
 	
-//	public void round() {
-//		String input = "";
-//		while(true) {
-//			Player aktiverPlayer = risiko.gibAktivenPlayer();
-//			//ausgabe spieler1, du bist dran!
-//			//spieler bekommt einheiten
-//			gibMenuAus(aktiverPlayer);
-//			try {
-//				input = liesEingabe();
-//				verarbeiteEingabe(input, aktiverPlayer);
-//			} catch(IOException e){}
-//
-//			risiko.naechsterPlayer();
-//		}
-//	}
+	public void round() {
+		String input = "";
+		boolean spielzug = true;
+		while(true) {
+			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			System.out.println(aktiverPlayer + " ist am Zug.");
+			//spieler bekommt einheiten
+			while(spielzug) {
+				gibMenuAus(aktiverPlayer);
+				try {
+					input = liesEingabe();
+				} catch(IOException e){}
+				if (input.equals("z")) {
+					spielzug = false;
+				}
+				verarbeiteEingabe(input, aktiverPlayer);
+			}
+			risiko.machNaechsterSpieler();
+			spielzug = true;
+		}
+	}
 	
 	public void gibMenuAus(Player aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
@@ -163,79 +169,117 @@ public class RisikoClientUI {
 		System.out.flush();
 	}
 	
-//	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
-//			switch(input) {
-//			case "a":
-//				attack(aktiverPlayer);
-//				break;
-//			case "e":
-//				verschiebeEinheiten(aktiverPlayer);
-//				break;
-//			case "l":
-//				ArrayList<Land> landAusgabe = aktiverPlayer.gibLaenderAus();
-//				for (Land land: landAusgabe) {
-//					System.out.println(land.getName() + " mit " + land.getEinheiten() + " Einheiten. \n");
-//				}
-//			case "z":
-//				risiko.naechsterSpieler();
-//				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
-//				break;
-//			case "q":
-//				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
-//				break;
-//			default:
-//				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so?
-//				gibMenuAus(aktiverPlayer);
-//				try {
-//					input = liesEingabe();
-//					verarbeiteEingabe(input, aktiverPlayer);
-//				} catch(IOException e){}
-//				break;
-//			}
-//	}
-	
+	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
+			switch(input) {
+			case "a":
+				attack(aktiverPlayer);
+				break;
+			case "e":
+				//verschiebeEinheiten(aktiverPlayer);
+				break;
+			case "l":
+				ArrayList<Land> landAusgabe = aktiverPlayer.gibLaenderAus();
+				for (Land land: landAusgabe) {
+					System.out.println(land.getName() + " mit " + land.getEinheiten() + " Einheiten. \n");
+				}
+			case "z":
+			//	risiko.naechsterSpieler();
+				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
+				break;
+			case "q":
+				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
+				break;
+			default:
+				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so?
+				gibMenuAus(aktiverPlayer);
+				try {
+					input = liesEingabe();
+					verarbeiteEingabe(input, aktiverPlayer);
+				} catch(IOException e){}
+				break;
+			}
+	}
+
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public void attack(Player angreifer) {
+		boolean ungültig = true;
+		
 		Land att = null;
 		Land def = null;
 		int attEinheiten = 0;
 		int defEinheiten = 0;
 		Player defender = null;
 		
+		//das pruefarray wird wiederholt genutzt, um fehlerhafte eingaben zu erkennen. er wird bei mehreren eingaben überschrieben
+		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
+		
 		//Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
 		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
 		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
-		laenderAusgabe(attackLaender);
-		try {
-			int start = Integer.parseInt(liesEingabe()); 
-			att = risiko.getLandById(start);
-		} catch(IOException e) {}
+		pruefArray = laenderAusgabe(attackLaender);
+		ungültig = true;
+		while (ungültig) {	
+			int start = 0;
+			try {
+				start = Integer.parseInt(liesEingabe()); 
+				att = risiko.getLandById(start);
+			} catch(IOException e) {}
+			if (pruefArray.contains(start)) {
+				ungültig = false;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
+		}
 		
 		//Abfrage, welches Land angegriffen werden soll
 		System.out.println("Welches Land soll angegriffen werden?");
 		ArrayList<Land> feindlicheNachbarn = risiko.getFeindlicheNachbarn(att);
-		laenderAusgabe(feindlicheNachbarn);
-		try {
-			int ziel = Integer.parseInt(liesEingabe());
-			def = risiko.getLandById(ziel);
-			defender = def.getBesitzer();
-		} catch(IOException e) {}
+		pruefArray = laenderAusgabe(feindlicheNachbarn);
+		ungültig = true;
+		while (ungültig) {
+			int ziel = 0;
+			try {
+				ziel = Integer.parseInt(liesEingabe());
+				def = risiko.getLandById(ziel);
+				defender = def.getBesitzer();
+			} catch(IOException e) {}
+			if (pruefArray.contains(ziel)) {
+				ungültig = false;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
+		}
 		
 		//angriff befindet sich in while-schleife, falls wiederholt angegriffen werden soll
 		boolean kampf = true;
 
 		while (kampf) {
 			//Abfrage, wie viele Einheiten angreifen
-			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Maximal möglich: " + (att.getEinheiten() - 1));
-			try {
-				attEinheiten = Integer.parseInt(liesEingabe());
-			} catch (IOException e) {}
-			
+			ungültig = true;
+			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Verfügbar: " + (att.getEinheiten() - 1) + ", maximal möglich: 3");
+			while(ungültig) {
+				try {
+					attEinheiten = Integer.parseInt(liesEingabe());
+				} catch (IOException e) {}
+				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3) {
+					System.out.println("Ungültige Eingabe, bitte wiederholen");
+				} else {
+					ungültig = false;
+				}
+			}
 			//Abfrage, wie viele Einheiten verteidigen
+			ungültig = true;
 			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Maximal möglich: " + def.getEinheiten());
-			try {
-				defEinheiten = Integer.parseInt(liesEingabe());
-			} catch (IOException e) {}
+			while(ungültig) {
+				try {
+					defEinheiten = Integer.parseInt(liesEingabe());
+				} catch (IOException e) {}
+				if (defEinheiten > 3 || defEinheiten > def.getEinheiten()) { //statt 3 -> 2
+					System.out.println("Ungültige Eingabe, bitte wiederholen");
+				} else {
+					ungültig = false;
+				}
+			}
 			
 			System.out.println(angreifer + " greift mit " + att + " und " + attEinheiten + " Einheiten an.");
 			System.out.println(defender + " verteidigt mit " + defEinheiten + " Einheiten.");
@@ -293,11 +337,13 @@ public class RisikoClientUI {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	public void laenderAusgabe(ArrayList<Land> ausgabeLaender) {
+	public ArrayList<Integer> laenderAusgabe(ArrayList<Land> ausgabeLaender) {
+		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		for (Land land: ausgabeLaender) {
 			System.out.println(land.getNummer() + " > " + land.getName());
+			pruefArray.add(land.getNummer());
 		}
-		//evtl. pruefarray zurückgeben
+		return pruefArray;
 	}
 	
 //	public void verschiebeEinheiten(Player aktiverPlayer) {

@@ -16,7 +16,7 @@ public class Land {
 	
 	// Methode um Einheiten zu setzten 
 	// abfrage, ob noch genug einheiten auf dem land stehen findet in der spiellogik||risiko||cui statt
-	public void setEinheiten(int einheit) {
+	public void setEinheiten(int einheit) {	
 			this.einheiten += einheit;
 	}
 	
