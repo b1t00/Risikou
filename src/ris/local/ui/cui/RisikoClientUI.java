@@ -296,9 +296,17 @@ public class RisikoClientUI {
 				if (att.getEinheiten() > 1) {
 					int answer = 0;
 					System.out.println("Wieviele Einheiten sollen auf das eroberte Land verschoben werden (auch 0 möglich)? Maximal: " + (att.getEinheiten() - 1));
-					try {
-						answer = Integer.parseInt(liesEingabe());
-					} catch(IOException e) {}
+					ungültig = true;
+					while (ungültig) {
+						try {
+							answer = Integer.parseInt(liesEingabe());
+						} catch(IOException e) {}
+						if (answer > (att.getEinheiten()-1)) {
+							System.out.println("Ungültige Eingabe, bitte wiederholen!");
+						} else {
+							ungültig = false;
+						}
+					}
 	//				risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Angriff ist beendet.");
@@ -372,9 +380,9 @@ public class RisikoClientUI {
 				anzahl = Integer.parseInt(liesEingabe());
 			} catch(IOException e) {}
 			if (anzahl > (start.getEinheiten()-1)) {
-				ungültig = false;
-			} else {
 				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			} else {
+				ungültig = false;
 			}
 		}
 		System.out.println("Einheiten verschieben nach: \n");
