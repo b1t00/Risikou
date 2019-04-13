@@ -105,6 +105,7 @@ public class RisikoClientUI {
 		}
 	}
 	
+	//@annie: brauchen wir diese methode überhaupt?
 	public void setzeStartEinheiten() {
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
@@ -344,28 +345,53 @@ public class RisikoClientUI {
 	}
 	
 	public void verschiebeEinheiten(Player aktiverPlayer) {
+		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		Land start;
 		int ziel;
 		int anzahl;
 		System.out.println("Einheiten verschieben von: \n");
-		laenderAusgeben(aktiverPlayer);
-		try {
-			int von = Integer.parseInt(liesEingabe());
-			start = risiko.getLandById(von);
-		} catch(IOException e) {}
+		ArrayList<Land> ausgabeLaender = aktiverPlayer.getBesitz();
+		pruefArray = laenderAusgabe(ausgabeLaender);
+		boolean ungültig = true;
+		while (ungültig) {
+			int von;
+			try {
+				von = Integer.parseInt(liesEingabe());
+				start = risiko.getLandById(von);
+			} catch(IOException e) {}
+			if (pruefArray.contains(von)) {
+				ungültig = false;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
+		}
 		System.out.println("Anzahl der Einheiten: (Maximal) " + (start.getEinheiten() - 1));
-		try {
-			anzahl = Integer.parseInt(liesEingabe());
-		} catch(IOException e) {}
+		ungültig = true;
+		while (ungültig) {
+			try {
+				anzahl = Integer.parseInt(liesEingabe());
+			} catch(IOException e) {}
+			if (anzahl > (start.getEinheiten()-1)) {
+				ungültig = false;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
+		}
 		System.out.println("Einheiten verschieben nach: \n");
 		ArrayList <Land> nachbarLaender = risiko.gibNachbarn(start);
-		for (Land land: nachbarLaender) {
-			System.out.println(land.getNummer() + " > " + land.getName());
+		pruefArray = laenderAusgabe(nachbarLaender));
+		ungültig = true;
+		while(ungültig) {
+			try {
+				ziel = Integer.parseInt(liesEingabe());
+				risiko.verschiebeEinheiten(start, ziel, anzahl);
+			} catch(IOException e) {}
+			if (pruefArray.contains(ziel)) {
+				ungültig = false;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
 		}
-		try {
-			ziel = Integer.parseInt(liesEingabe());
-			risiko.verschiebeEinheiten(start, ziel, anzahl);
-		} catch(IOException e) {}
 	}
 
 public static void main(String[] args) {
