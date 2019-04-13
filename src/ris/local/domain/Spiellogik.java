@@ -167,7 +167,29 @@ public class Spiellogik {
 	}
 
 //	public void moveUnits() { // TODO
-//		
+	public boolean movePossible(Land start,Land ziel,int menge) {
+		boolean einheiten =true;
+		if(start.getEinheiten()-menge<1) {
+			einheiten=false;
+		}
+		Player x = isOwner(start);
+		ArrayList<Land> z= x.getBesitz();
+		ArrayList<Land> connected;
+		boolean nachbar=false;
+		if(worldMg.isBenachbart(start, ziel)) {
+			nachbar=true;
+		}
+	return (nachbar&&einheiten);
+	}
+	
+	
+	
+	public void moveUnits(Land start,Land ziel, int menge) {
+		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()&&ziel.getBesitzer()==gibAktivenSpieler()) {
+			start.setEinheiten(-menge);
+			ziel.setEinheiten(menge);
+		}
+	}
 //	}
 //	public boolean movePossible() {}
 //	
