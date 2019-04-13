@@ -151,6 +151,34 @@ public class Spiellogik {
 	}
 
 //	public ArrayList<Integer> verteileEinheiten(){}
+	public boolean movePossible(Land start,Land ziel,int menge) {
+		boolean einheiten =true;
+		if(start.getEinheiten()-menge<1) {
+			einheiten=false;
+		}
+		Player x = isOwner(start);
+		ArrayList<Land> z= x.getBesitz();
+		ArrayList<Land> connected;
+		boolean nachbar=false;
+		if(worldMg.isBenachbart(start, ziel)) {
+			nachbar=true;
+		}
+		if(nachbar&&einheiten) {
+			return true;}
+		}
+	
+	
+	public void moveUnits(Land start,Land ziel, int menge) {
+		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()&&ziel.getBesitzer()==gibAktivenSpieler()) {
+			start.setEinheiten(-menge);
+			ziel.setEinheiten(menge);
+		}
+	}
+		
+		
+		
+	
+	
 
 	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
 		Player attacker = isOwner(att);
