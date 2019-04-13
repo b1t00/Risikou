@@ -62,33 +62,31 @@ public class RisikoClientUI {
 		}
 	}
 
-	public String farbeAuswaehlen(){
-		
-	ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();	
-	String farbe = "";
-	System.out.println("Welche Farbe möchtest nehmen?");
-	if (farbenAuswahl.contains("rot")) {
-		System.out.println("r : rot");
+	public String farbeAuswaehlen(){	
+		ArrayList<String> farbenAuswahl = risiko.getFarbauswahl();	
+		String farbe = "";
+		System.out.println("Welche Farbe möchtest nehmen?");
+		if (farbenAuswahl.contains("rot")) {
+			System.out.println("r : rot");
+		}
+		if (farbenAuswahl.contains("gruen")) {
+			System.out.println("g : grün");
+		}
+		if (farbenAuswahl.contains("blau")) {
+			System.out.println("b : blau");
+		}
+		if (farbenAuswahl.contains("pink")) {
+			System.out.println("p : pink");
+		}
+		if (farbenAuswahl.contains("schwarz")) {
+			System.out.println("s : schwarz");
+		}
+		try {
+			farbe = liesEingabe();
+		} catch (IOException e) {
+		}
+		return farbe;
 	}
-	if (farbenAuswahl.contains("gruen")) {
-		System.out.println("g : grün");
-	}
-	if (farbenAuswahl.contains("blau")) {
-		System.out.println("b : blau");
-	}
-	if (farbenAuswahl.contains("pink")) {
-		System.out.println("p : pink");
-	}
-	if (farbenAuswahl.contains("schwarz")) {
-		System.out.println("s : schwarz");
-	}
-	try {
-		farbe = liesEingabe();
-	} catch (IOException e) {
-	}
-	return farbe;
-}
-
 
 	public void wieVieleSpielerMenu() throws IOException {
 		String eingabeSpieler, name, farbe;
@@ -138,7 +136,7 @@ public class RisikoClientUI {
 	public void round() {
 		String input = "";
 		while(true) {
-			Player aktiverPlayer = risiko.gibAktivenPlayer();
+			Player aktiverPlayer = risiko.gibAktivenSpieler();
 			//ausgabe spieler1, du bist dran!
 			//spieler bekommt einheiten
 			gibMenuAus(aktiverPlayer);
@@ -147,7 +145,7 @@ public class RisikoClientUI {
 				verarbeiteEingabe(input, aktiverPlayer);
 			} catch(IOException e){}
 
-			risiko.naechsterPlayer();
+			risiko.machNaechsterSpieler();
 		}
 	}
 	
