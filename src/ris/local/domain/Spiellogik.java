@@ -155,7 +155,6 @@ public class Spiellogik {
 		}
 		att.setEinheiten(dice.get(1));
 	}
-
 	public Player isOwner(Land attacker) {
 		for (Player p : playerMg.getPlayers()) {
 			for (Land l : p.getBesitz()) {
@@ -207,23 +206,12 @@ public class Spiellogik {
 			defList.add((int) (Math.random() * 6) + 1);
 
 		}
-		System.out.println("d1" + " " + defList.get(0));
-		System.out.println("d2" + " " + defList.get(1));
-		System.out.println("d3" + " " + defList.get(2));
-		System.out.println("a1" + " " + aList.get(0));
-		System.out.println("a2" + " " + aList.get(1));
-		System.out.println("a3" + " " + aList.get(2));
-		System.out.println(" ");
+
 		Collections.sort(aList);
 		Collections.sort(defList);
 		Collections.reverse(aList);
 		Collections.reverse(defList);
-		System.out.println("d1" + " " + defList.get(0));
-		System.out.println("d2" + " " + defList.get(1));
-		System.out.println("d3" + " " + defList.get(2));
-		System.out.println("a1" + " " + aList.get(0));
-		System.out.println("a2" + " " + aList.get(1));
-		System.out.println("a3" + " " + aList.get(2));
+
 		if (aList.size() - defList.size() == 2) {
 			aList.remove(2);
 			aList.remove(1);
@@ -274,9 +262,8 @@ public class Spiellogik {
 				lossAtt = lossAtt - 1;
 		}
 		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
-		unitLoss.add(lossDef);
 		unitLoss.add(lossAtt);
-		System.out.println("Def:" + lossDef + " " + "Att" + lossAtt);
+		unitLoss.add(lossDef);
 		return unitLoss;
 	}
 
