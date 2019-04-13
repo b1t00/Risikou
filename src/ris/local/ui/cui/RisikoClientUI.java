@@ -137,19 +137,25 @@ public class RisikoClientUI {
 	
 	public void round() {
 		String input = "";
+		boolean spielzug;
 		while(true) {
-			Player aktiverPlayer = risiko.gibAktivenPlayer();
-			//ausgabe spieler1, du bist dran!
+			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			System.out.println(aktiverPlayer + " ist am Zug.");
+			spielzug = true;
 			//spieler bekommt einheiten
-			gibMenuAus(aktiverPlayer);
-			try {
-				input = liesEingabe();
+			while (spielzug) {
+				gibMenuAus(aktiverPlayer);
+				try {
+					input = liesEingabe();
+				} catch(IOException e){}
 				verarbeiteEingabe(input, aktiverPlayer);
-			} catch(IOException e){}
-
-			risiko.naechsterPlayer();
+				if(input.equals("z")) {
+					spielzug = false;
+				}
+			}
 		}
 	}
+
 	
 	public void gibMenuAus(Player aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
@@ -177,19 +183,19 @@ public class RisikoClientUI {
 					System.out.println(land.getName() + " mit " + land.getEinheiten() + " Einheiten. \n");
 				}
 			case "z":
-				risiko.naechsterSpieler();
+				risiko.machNaechsterSpieler();
 				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
 				break;
 			case "q":
 				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
 				break;
 			default:
-				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so?
-				gibMenuAus(aktiverPlayer);
-				try {
-					input = liesEingabe();
-					verarbeiteEingabe(input, aktiverPlayer);
-				} catch(IOException e){}
+				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so? @ annie hab mal eine whileschleife in der round gebaut
+//				gibMenuAus(aktiverPlayer);
+//				try {
+//					input = liesEingabe();
+//					verarbeiteEingabe(input, aktiverPlayer);
+//				} catch(IOException e){}
 				break;
 			}
 	}
