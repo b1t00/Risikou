@@ -178,10 +178,8 @@ public class RisikoClientUI {
 				verschiebeEinheiten(aktiverPlayer);
 				break;
 			case "l":
-				ArrayList<Land> landAusgabe = aktiverPlayer.gibLaenderAus();
-				for (Land land: landAusgabe) {
-					System.out.println(land.getName() + " mit " + land.getEinheiten() + " Einheiten. \n");
-				}
+				ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
+				laenderAusgabe(landAusgabe);
 			case "z":
 				risiko.machNaechsterSpieler();
 				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
