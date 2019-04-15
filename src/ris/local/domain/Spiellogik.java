@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 
 public class Spiellogik {
@@ -76,6 +77,26 @@ public class Spiellogik {
 	}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	//----------------------------------------einheiten-------------------------------------------------
+	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = 0;
+		int landBesitz = aktiverPlayer.getBesitz().size();
+		verfuegbareEinheiten = (landBesitz/3);
+		if(verfuegbareEinheiten < 3) {
+			verfuegbareEinheiten = 3;
+		}
+		ArrayList<Kontinent> kontinente = worldMg.getKontinente();
+		for (Kontinent kontinent: kontinente) {
+			if(kontinent.isOwnedByPlayer(aktiverPlayer)) {
+				//kontinent braucht attribut: bonusEinheiten, entsprechend den bonuseinheiten
+				//worldmg braucht methode getKontinente
+				verfuegbareEinheiten += kontinent.getBonusEinheiten();
+			}
+		}
+		return verfuegbareEinheiten;
+	}
+	//----------------------------------------einheiten-------------------------------------------------
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	

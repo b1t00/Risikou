@@ -77,6 +77,13 @@ public class Risiko {
 		logik.setSpielrunden();
 	}
 	
+	//----------------------------------------einheiten-------------------------------------------------
+	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(aktiverPlayer);
+		return verfuegbareEinheiten;
+	}
+	//----------------------------------------einheiten-------------------------------------------------
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public ArrayList<Land> getAngriffsLaender(Player angreifer){
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
@@ -108,33 +115,34 @@ public class Risiko {
 //	*************************TestMain**************************
 	
 	public static void main(String[] args) {
-		Risiko test = new Risiko();
-		test.spielerAnlegen("normen1", "blau", 0);
-		test.spielerAnlegen("normen2", "farbe", 1);
-		test.spielerAnlegen("normen3", "farbe", 2);
-		test.spielerAnlegen("normen4", "farbe", 3);
-		test.spielerAnlegen("normen5", "farb", 4);
-//		test.spielerAnlegen("normen6", "farbe", 6);
-		test.verteileEinheiten();
-//		Player playertest = test.gibAktivenSpieler();
-//		for(Land land : test.worldMg.getLaender()) {
-//			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
-////			System.out.println();
+		risiko.spielerAnlegen("Annie", "rot");
+//		Risiko test = new Risiko();
+//		test.spielerAnlegen("normen1", "blau", 0);
+//		test.spielerAnlegen("normen2", "farbe", 1);
+//		test.spielerAnlegen("normen3", "farbe", 2);
+//		test.spielerAnlegen("normen4", "farbe", 3);
+//		test.spielerAnlegen("normen5", "farb", 4);
+////		test.spielerAnlegen("normen6", "farbe", 6);
+//		test.verteileEinheiten();
+////		Player playertest = test.gibAktivenSpieler();
+////		for(Land land : test.worldMg.getLaender()) {
+////			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
+//////			System.out.println();
+////		}
+//		System.out.println("Alle Laender und Besitzer (ungeordnet.. ich weiß nicht wieso)");//koente evlt so in die cui tun für die Weltausgabe
+//		ArrayList<Land> alleLaender = test.worldMg.getLaender();
+//		for(Land land : alleLaender) {
+//			System.out.println(land.getNummer() +" : " + land.getName() + " - gehört : " + land.getBesitzer().getName());
 //		}
-		System.out.println("Alle Laender und Besitzer (ungeordnet.. ich weiß nicht wieso)");//koente evlt so in die cui tun für die Weltausgabe
-		ArrayList<Land> alleLaender = test.worldMg.getLaender();
-		for(Land land : alleLaender) {
-			System.out.println(land.getNummer() +" : " + land.getName() + " - gehört : " + land.getBesitzer().getName());
-		}
-		System.out.println("------------------ alle spieler reinfolge nach getAktivenSpieler------------------");
-		
-		for(int i = 0; i < 5 ; i++) {
-			System.out.println(test.gibAktivenSpieler() + " und besitzt die Länder:");
-		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
-			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
-		}
-		test.machNaechsterSpieler();	
-		}
+//		System.out.println("------------------ alle spieler reinfolge nach getAktivenSpieler------------------");
+//		
+//		for(int i = 0; i < 5 ; i++) {
+//			System.out.println(test.gibAktivenSpieler() + " und besitzt die Länder:");
+//		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
+//			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
+//		}
+//		test.machNaechsterSpieler();	
+//		}
 	}
 
 }

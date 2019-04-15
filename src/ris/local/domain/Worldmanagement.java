@@ -51,7 +51,7 @@ public class Worldmanagement {
 		eu.add(frankreich);
 		eu.add(belgien);
 		eu.add(niederlande);
-		Kontinent europa = new Kontinent("Europa", eu);
+		Kontinent europa = new Kontinent("Europa", eu, 3);
 		kontinente.add(europa);
 		ArrayList<Land> au = new ArrayList<Land>();
 		au.add(westernAustralia);
@@ -60,12 +60,16 @@ public class Worldmanagement {
 		au.add(southAustralia);
 		au.add(newSouthWales);
 		au.add(victoria);
-		Kontinent australien = new Kontinent("Australien", au);
+		Kontinent australien = new Kontinent("Australien", au, 4);
 		kontinente.add(australien);
 	}
 	
 	public ArrayList<Land> getLaender(){
 		return laender;
+	}
+	
+	public ArrayList<Kontinent> getKontinente(){
+		return kontinente;
 	}
 	
 	//hier noch kommentar zu der Matrix

@@ -5,10 +5,16 @@ import java.util.ArrayList;
 public class Kontinent {
 	public String name;
 	public ArrayList<Land> laender;
+	private int bonusEinheiten;
 	
-	public Kontinent(String name, ArrayList<Land> laender) {
+	public Kontinent(String name, ArrayList<Land> laender, int bonusEinheiten) {
 		this.name = name;
 		this.laender = laender;
+		this.bonusEinheiten = bonusEinheiten;
+	}
+	
+	public int getBonusEinheiten() {
+		return bonusEinheiten;
 	}
 	
 	public String getName() {
