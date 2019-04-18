@@ -53,7 +53,7 @@ public class RisikoClientUI {
 					wieVieleSpielerMenu();
 				} catch (IOException e) {
 				}
-				System.out.println("jetzt beginnt das Spiel --------- mit anderen absprechen"); // hier gucken..
+				System.out.println("jetzt beginnt das Spiel \n"); // hier gucken..
 				risiko.verteileEinheiten(); // was passiert wann ??
 				risiko.verteileMissionen(); //
 				richtigeEingabe = true;
