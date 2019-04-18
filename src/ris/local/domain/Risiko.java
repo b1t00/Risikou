@@ -64,10 +64,6 @@ public class Risiko {
 		return land;
 	}
 	
-	public int errechneVerfuegbareEinheiten(Player player) {
-		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(Player player);
-	}
-
 	public Player gibAktivenSpieler() {
 		return logik.gibAktivenSpieler();
 	}

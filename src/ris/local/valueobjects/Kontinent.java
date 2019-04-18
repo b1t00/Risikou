@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class Kontinent {
 	public String name;
 	public ArrayList<Land> laender;
+	private int value;
 	
-	public Kontinent(String name, ArrayList<Land> laender) {
+	public Kontinent(String name, ArrayList<Land> laender, int value) {
 		this.name = name;
 		this.laender = laender;
+		this.value = value;
 	}
 	
 	public String getName() {

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 
 public class Spiellogik {
