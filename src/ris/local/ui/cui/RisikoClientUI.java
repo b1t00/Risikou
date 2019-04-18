@@ -11,6 +11,7 @@ import ris.local.domain.Risiko;
 import ris.local.domain.Worldmanagement;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 
 public class RisikoClientUI {
@@ -162,6 +163,7 @@ public class RisikoClientUI {
 		while (verfuegbareEinheiten > 0) {
 			System.out.println("Wo soll die Einheit gesetzt werden?");
 			pruefArray=laenderAusgabe(laender);
+			ungültig = true;
 			while (ungültig) {	
 				try {
 					landWahl = Integer.parseInt(liesEingabe());
@@ -198,12 +200,41 @@ public class RisikoClientUI {
 		System.out.print("               \n Angreifen: a");
 		System.out.print("               \n Einheiten verschieben: e");
 		System.out.print("               \n Länder und Einheiten anzeigen: l"); //gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
+//#######################################################################
+		System.out.print("               \n Welt-Übersicht anzeigen: w");
+//#######################################################################
 		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); //gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
 		System.out.print("               \n Mission anzeigen: m"); //wird später implementiert
 		System.out.print("               \n Zug beenden: z");	//TODO
 		System.out.print("               \n Spiel beenden: q"); //TODO
 		System.out.flush();
 	}
+	
+//####################################################################################	
+	public void gibWeltAus() {
+		ArrayList<Land> alleLaender = risiko.gibWeltAus();
+		//gibt erst aus, wer welche Länder besitzt
+		for (Land land: alleLaender) {
+			System.out.println(land.getName() + " wird besitzt von " + land.getBesitzer().getName() + " mit " + land.getEinheiten() + " Einheiten.");
+		}
+		ArrayList<Kontinent> alleKontinente = risiko.gibAlleKontinente();
+		ArrayList<Player> allePlayer = risiko.gibAlleSpieler();
+		for (Kontinent kontinent: alleKontinente) {
+			//gibt dann Kontinente mit dazugehörigen Ländern aus TODO: könnte ausgelagert werden, sodass gezielt darauf zugegriffen werden kann
+			ArrayList<Land> eigeneLaender = kontinent.getLaender();
+			System.out.println(kontinent.getName() + " besteht aus: ");
+			for (Land land: eigeneLaender) {
+				System.out.println(land.getName());
+			}
+			//wenn der Kontinent im Besitz eines Player ist, wird dies ausgegeben
+			for (Player player: allePlayer) {
+				if (kontinent.isOwnedByPlayer(player)) {
+					System.out.println(player.getName() + " besitzt " + kontinent.getName());
+				}
+			}
+		}
+	}
+//####################################################################################
 	
 //	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
 //			switch(input) {
@@ -413,7 +444,9 @@ public static void main(String[] args) {
 }
 
 public void run() {
-	
+	Player annie = risiko.spielerAnlegen("Annie", "rot", 1);
+	risiko.setLand(annie);
+	setzeNeueEinheiten(annie);
 }
 
 //public void run() {		

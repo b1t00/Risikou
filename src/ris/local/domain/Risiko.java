@@ -4,6 +4,7 @@ package ris.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
@@ -113,9 +114,38 @@ public class Risiko {
 	}
 	
 //	*************************TestMain**************************
+	public void setLand(Player player1) {
+		player1.setBesitz(worldMg.getLaender().get(0));
+		player1.setBesitz(worldMg.getLaender().get(1));
+		player1.setBesitz(worldMg.getLaender().get(2));
+		player1.setBesitz(worldMg.getLaender().get(3));
+		player1.setBesitz(worldMg.getLaender().get(4));
+		worldMg.getLaender().get(0).setBesitzer(player1);
+		worldMg.getLaender().get(1).setBesitzer(player1);
+		worldMg.getLaender().get(2).setBesitzer(player1);
+		worldMg.getLaender().get(3).setBesitzer(player1);
+		worldMg.getLaender().get(4).setBesitzer(player1);
+//		worldMg.getLaender().get(6).setEinheiten(6);
+//		worldMg.getLaender().get(7).setEinheiten(3);
+//		worldMg.getLaender().get(3).setEinheiten(4);
+	}
+
+//###############################################################
+	public ArrayList<Land> gibWeltAus(){
+		return worldMg.getLaender();
+	}
+	
+	public ArrayList<Kontinent> gibAlleKontinente(){
+		return worldMg.getKontinente();
+	}
+	
+	public ArrayList<Player> gibAlleSpieler(){
+		return playerMg.getPlayers();
+	}
+//###############################################################
+	
 	
 	public static void main(String[] args) {
-		risiko.spielerAnlegen("Annie", "rot");
 //		Risiko test = new Risiko();
 //		test.spielerAnlegen("normen1", "blau", 0);
 //		test.spielerAnlegen("normen2", "farbe", 1);
