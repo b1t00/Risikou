@@ -157,47 +157,6 @@ public class RisikoClientUI {
 			}
 		}
 	}
-
-	public void gibMenuAus(Player aktiverPlayer) {
-		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
-		System.out.print("               \n Angreifen: a");
-		System.out.print("               \n Einheiten verschieben: e");
-		System.out.print("               \n Länder und Einheiten anzeigen: l"); //gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
-		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); //gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
-		System.out.print("               \n Mission anzeigen: m"); //wird später implementiert
-		System.out.print("               \n Zug beenden: z");	//TODO
-		System.out.print("               \n Spiel beenden: q"); //TODO
-		System.out.flush();
-	}
-	
-	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
-			switch(input) {
-			case "a":
-				attack(aktiverPlayer);
-				break;
-			case "e":
-				verschiebeEinheiten(aktiverPlayer);
-				break;
-			case "l":
-				ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
-				laenderAusgabe(landAusgabe);
-			case "z":
-				risiko.machNaechsterSpieler();
-				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
-				break;
-			case "q":
-				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
-				break;
-			default:
-				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so? @ annie hab mal eine whileschleife in der round gebaut
-//				gibMenuAus(aktiverPlayer);
-//				try {
-//					input = liesEingabe();
-//					verarbeiteEingabe(input, aktiverPlayer);
-//				} catch(IOException e){}
-				break;
-			}
-	}
 	
 	//----------------------------------einheiten-------------------------------------------------
 	public void setzeNeueEinheiten(Player aktiverPlayer) {
@@ -242,6 +201,49 @@ public class RisikoClientUI {
 		System.out.println("Alle Einheiten wurden gesetzt.");
 	}
 	//----------------------------------einheiten-------------------------------------------------
+
+	public void gibMenuAus(Player aktiverPlayer) {
+		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
+		System.out.print("               \n Angreifen: a");
+		System.out.print("               \n Einheiten verschieben: e");
+		System.out.print("               \n Länder und Einheiten anzeigen: l"); //gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
+		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); //gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
+		System.out.print("               \n Mission anzeigen: m"); //wird später implementiert
+		System.out.print("               \n Zug beenden: z");	//TODO
+		System.out.print("               \n Spiel beenden: q"); //TODO
+		System.out.flush();
+	}
+	
+	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
+			switch(input) {
+			case "a":
+				attack(aktiverPlayer);
+				break;
+			case "e":
+				verschiebeEinheiten(aktiverPlayer);
+				break;
+			case "l":
+				ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
+				laenderAusgabe(landAusgabe);
+			case "z":
+				risiko.machNaechsterSpieler();
+				System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
+				break;
+			case "q":
+				System.out.println("Risik wird beendet."); //TODO: Spiel beenden
+				break;
+			default:
+				System.out.println("Ungültige Eingabe, bitte wiederholen."); //funktioniert das so? @ annie hab mal eine whileschleife in der round gebaut
+//				gibMenuAus(aktiverPlayer);
+//				try {
+//					input = liesEingabe();
+//					verarbeiteEingabe(input, aktiverPlayer);
+//				} catch(IOException e){}
+				break;
+			}
+	}
+	
+
 	
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
