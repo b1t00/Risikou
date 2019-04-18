@@ -4,6 +4,7 @@ package ris.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
@@ -70,10 +71,6 @@ public class Risiko {
 		return land;
 	}
 	
-	public int errechneVerfuegbareEinheiten(Player player) {
-		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(Player player);
-	}
-
 	public Player gibAktivenSpieler() {
 		return logik.gibAktivenSpieler();
 	}
@@ -81,6 +78,31 @@ public class Risiko {
 	public void machNaechsterSpieler() {
 		logik.setSpielrunden();
 	}
+	
+	public ArrayList<Land> getEigeneNachbarn(Land land){
+		return worldMg.getEigeneNachbarn(land);
+	}
+	
+	//WELT AUSGABE->
+	public ArrayList<Land> gibWeltAus(){
+		return worldMg.getLaender();
+	}
+	
+	public ArrayList<Kontinent> gibAlleKontinente(){
+		return worldMg.getKontinente();
+	}
+	
+	public ArrayList<Player> gibAlleSpieler(){
+		return playerMg.getPlayers();
+	}
+	//WELT AUSGABE <-
+	
+	//----------------------------------------einheiten-------------------------------------------------
+	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(aktiverPlayer);
+		return verfuegbareEinheiten;
+	}
+	//----------------------------------------einheiten-------------------------------------------------
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public ArrayList<Land> getAngriffsLaender(Player angreifer){
@@ -99,6 +121,12 @@ public class Risiko {
 		return ergebnis;
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	public void verschiebeEinheiten(Land start,Land ziel,int menge) {
+		logik.moveUnits(start, ziel, menge);	
+	}
 	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {

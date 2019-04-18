@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Missionen;
 
@@ -92,6 +93,26 @@ public class Spiellogik {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
+	//----------------------------------------einheiten-------------------------------------------------
+	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = 0;
+		int landBesitz = aktiverPlayer.getBesitz().size();
+		verfuegbareEinheiten = (landBesitz/3);
+		if(verfuegbareEinheiten < 3) {
+			verfuegbareEinheiten = 3;
+		}
+		ArrayList<Kontinent> kontinente = worldMg.getKontinente();
+		for (Kontinent kontinent: kontinente) {
+			if(kontinent.isOwnedByPlayer(aktiverPlayer)) {
+				//kontinent braucht attribut: bonusEinheiten, entsprechend den bonuseinheiten
+				//worldmg braucht methode getKontinente
+				verfuegbareEinheiten += kontinent.getValue();
+			}
+		}
+		return verfuegbareEinheiten;
+	}
+	//----------------------------------------einheiten-------------------------------------------------
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	// Methode prüft, ob Länder von einem Player mehr als eine Einheit hat
@@ -141,7 +162,7 @@ public class Spiellogik {
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		att.setEinheiten(ergebnis.get(1));
 		def.setEinheiten(ergebnis.get(0));
-		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
+//		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
 		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
 			def.setEinheiten(attEinheiten + ergebnis.get(0));
@@ -153,6 +174,80 @@ public class Spiellogik {
 			def.setBesitzer(winner);
 		}
 		return ergebnis;
+	}
+	
+	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
+		int lossDef = 0;
+		int lossAtt = 0;
+		ArrayList<Integer> aList = new ArrayList<Integer>();
+		ArrayList<Integer> defList = new ArrayList<Integer>();
+		for (int i = 0; i < attUnits; i++) {
+			aList.add((int) (Math.random() * 6) + 1);
+
+		}
+		for (int j = 0; j < defUnits; j++) {
+			defList.add((int) (Math.random() * 6) + 1);
+
+		}
+
+		Collections.sort(aList);
+		Collections.sort(defList);
+		Collections.reverse(aList);
+		Collections.reverse(defList);
+
+		if (aList.size() - defList.size() == 2) {
+			aList.remove(2);
+			aList.remove(1);
+
+		}
+		if (aList.size() - defList.size() == 1) {
+			aList.remove(defList.size());
+		}
+
+		if (defList.size() - aList.size() == 2) {
+			defList.remove(2);
+			defList.remove(1);
+
+		}
+		if (defList.size() - aList.size() == 1) {
+			defList.remove(aList.size());
+
+		}
+
+		if (defList.size() == 1) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		if (defList.size() == 2) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(1) > defList.get(1))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		if (defList.size() == 3) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(1) > defList.get(1))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(2) > defList.get(2))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
+		unitLoss.add(lossAtt);
+		unitLoss.add(lossDef);
+		return unitLoss;
 	}
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -230,103 +325,13 @@ public class Spiellogik {
 			ziel.setEinheiten(menge);
 		}
 	}
-//	}
-//	public boolean movePossible() {}
-//	
+ 
 	public String landStatus(Land l) {
 		return l.getFarbe();
 	}
 
 	public int unitsAvailable(Land l) {
 		return l.getEinheiten();
-	}
-
-//	public String angriff(int land, Player spieler){
-//		ArrayList<Land> feinde = new ArrayList<Land>();
-//		for (int i = 0; i < nachbarn[land].length; i++) {
-//			if (nachbarn[land][i] && !(laender[land].getFarbe().equals(spieler.getFarbe()))) {
-//				feinde.add(laender[i]);
-//			}
-//		}
-//		String result = "";
-//		for (Land feind: feinde) {
-//			result += feind.getNummer() + " > " + feind.getName() + "\n";
-//		}
-//		return result;
-//	}
-
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
-		int lossDef = 0;
-		int lossAtt = 0;
-		ArrayList<Integer> aList = new ArrayList<Integer>();
-		ArrayList<Integer> defList = new ArrayList<Integer>();
-		for (int i = 0; i < attUnits; i++) {
-			aList.add((int) (Math.random() * 6) + 1);
-
-		}
-		for (int j = 0; j < defUnits; j++) {
-			defList.add((int) (Math.random() * 6) + 1);
-
-		}
-
-		Collections.sort(aList);
-		Collections.sort(defList);
-		Collections.reverse(aList);
-		Collections.reverse(defList);
-
-		if (aList.size() - defList.size() == 2) {
-			aList.remove(2);
-			aList.remove(1);
-
-		}
-		if (aList.size() - defList.size() == 1) {
-			aList.remove(defList.size());
-		}
-
-		if (defList.size() - aList.size() == 2) {
-			defList.remove(2);
-			defList.remove(1);
-
-		}
-		if (defList.size() - aList.size() == 1) {
-			defList.remove(aList.size());
-
-		}
-
-		if (defList.size() == 1) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 2) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 3) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(2) > defList.get(2))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
-		unitLoss.add(lossAtt);
-		unitLoss.add(lossDef);
-		return unitLoss;
 	}
 
 }

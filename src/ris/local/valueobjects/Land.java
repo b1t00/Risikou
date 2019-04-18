@@ -4,7 +4,6 @@ public class Land {
 	private int einheiten;
 	private int nummer;
 	private String name;
-	private String farbe; // steht für den Spieler
 	private Player besitzer;
 	
 	public Land(String name, int nummer) {
@@ -44,16 +43,8 @@ public class Land {
 		return name;
 	}
 	
-	public String getFarbe() {
-		return farbe;
-	}
-	
 	public int getNummer() {
 		return nummer;
-	}
-	
-	public void setFarbe(String farbe) {
-		this.farbe = farbe;
 	}
 
 
