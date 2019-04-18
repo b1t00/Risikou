@@ -19,29 +19,29 @@ public class Worldmanagement {
 
 	public void erstelleWelt() {
 		//Erstellung von Ländern und speichern in der ArrayList<Land>
-		Land portugal = new Land("Portugal", 0);
+		Land portugal = new Land("Portugal", 0, 1);
 		laender.add(portugal);
-		Land spanien = new Land("Spanien", 1);
+		Land spanien = new Land("Spanien", 1, 1);
 		laender.add(spanien);
-		Land frankreich = new Land("Frankreich", 2);
+		Land frankreich = new Land("Frankreich", 2, 1);
 		laender.add(frankreich);
-		Land belgien = new Land("Belgien", 3);
+		Land belgien = new Land("Belgien", 3, 1);
 		laender.add(belgien);
-		Land niederlande = new Land("Niederlande", 4);
+		Land niederlande = new Land("Niederlande", 4, 1);
 		laender.add(niederlande);
-		Land westernAustralia = new Land("Western Australia", 5);
+		Land westernAustralia = new Land("Western Australia", 5, 1);
 		laender.add(westernAustralia);
-		Land northernTerritory = new Land("Northern Territory", 6);
+		Land northernTerritory = new Land("Northern Territory", 6, 1);
 		laender.add(northernTerritory);
-		Land queensland = new Land("Queensland", 7);
+		Land queensland = new Land("Queensland", 7, 1);
 		laender.add(queensland);
-		Land southAustralia = new Land("South Australia", 8);
+		Land southAustralia = new Land("South Australia", 8, 1);
 		laender.add(southAustralia);
-		Land newSouthWales = new Land("New South Wales", 9);
+		Land newSouthWales = new Land("New South Wales", 9, 1);
 		laender.add(newSouthWales);
-		Land victoria = new Land("Victoria", 10);
+		Land victoria = new Land("Victoria", 10, 1);
 		laender.add(victoria);
-		Land narnia = new Land("narnia", 11);
+		Land narnia = new Land("narnia", 11, 1);
 		laender.add(narnia);
 		
 		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert

@@ -280,26 +280,26 @@ public class Spiellogik {
 
 //	public ArrayList<Integer> verteileEinheiten(){}
 
-	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
-		Player attacker = isOwner(att);
-		int defNew = dice.get(0);
-		if (def.getEinheiten() + dice.get(0) > 0) {
-			def.setEinheiten(defNew);
-		} else {
-			def.setFarbe(isOwner(def).getFarbe());
-		}
-		att.setEinheiten(dice.get(1));
-	}
-	public Player isOwner(Land attacker) {
-		for (Player p : playerMg.getPlayers()) {
-			for (Land l : p.getBesitz()) {
-				if (l.getNummer() == attacker.getNummer()) {
-					return p;
-				}
-			}
-		}
-		return null;
-	}
+//	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
+//		Player attacker = isOwner(att);
+//		int defNew = dice.get(0);
+//		if (def.getEinheiten() + dice.get(0) > 0) {
+//			def.setEinheiten(defNew);
+//		} else {
+//			def.setFarbe(isOwner(def).getFarbe());
+//		}
+//		att.setEinheiten(dice.get(1));
+//	}
+//	public Player isOwner(Land attacker) {
+//		for (Player p : playerMg.getPlayers()) {
+//			for (Land l : p.getBesitz()) {
+//				if (l.getNummer() == attacker.getNummer()) {
+//					return p;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
 //	public void moveUnits() { // TODO
 	public boolean movePossible(Land start,Land ziel,int menge) {
@@ -326,9 +326,6 @@ public class Spiellogik {
 		}
 	}
  
-	public String landStatus(Land l) {
-		return l.getFarbe();
-	}
 
 	public int unitsAvailable(Land l) {
 		return l.getEinheiten();

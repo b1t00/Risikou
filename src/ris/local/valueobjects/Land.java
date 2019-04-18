@@ -6,9 +6,10 @@ public class Land {
 	private String name;
 	private Player besitzer;
 	
-	public Land(String name, int nummer) {
+	public Land(String name, int nummer, int einheiten) {
 		this.nummer = nummer;
 		this.name = name;
+		this.einheiten = einheiten;
 	}
 	
 	// Methode um Einheiten zu setzten 
