@@ -42,6 +42,8 @@ public class Spiellogik {
 		ArrayList<Land> shuffle = shuffleLaender();
 		int alleLaender = shuffle.size();
 
+//		List<Player> playerList = playerMg.getPlayers(); ist global
+
 		int i = 0;
 		while (i < alleLaender) {
 			for (Player playerVert : playerList) {
@@ -130,7 +132,6 @@ public class Spiellogik {
 	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (Player angreifer, ArrayList<Land> laender){
 		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
 		ArrayList<Land> besitzVonPlayer = laender;
-		System.out.println(besitzVonPlayer.get(0));
 		for (Land land: besitzVonPlayer) {
 			for (int i=0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
 				if (worldMg.nachbarn[land.getNummer()][i]) {
@@ -161,7 +162,6 @@ public class Spiellogik {
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		att.setEinheiten(ergebnis.get(1));
 		def.setEinheiten(ergebnis.get(0));
-//		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
 		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
 			def.setEinheiten(attEinheiten + ergebnis.get(0));
@@ -306,8 +306,8 @@ public class Spiellogik {
 		if(start.getEinheiten()-menge<1) {
 			einheiten=false;
 		}
-		Player x = isOwner(start);
-		ArrayList<Land> z= x.getBesitz();
+	//	Player x = isOwner(start);
+	//	ArrayList<Land> z= x.getBesitz();
 		ArrayList<Land> connected;
 		boolean nachbar=false;
 		if(worldMg.isBenachbart(start, ziel)) {

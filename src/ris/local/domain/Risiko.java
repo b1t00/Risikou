@@ -141,5 +141,4 @@ public class Risiko {
 	public boolean getRichtigeEingabe() {
 		return playerMg.getRichtigeEingabe();
 	}
-
 }
