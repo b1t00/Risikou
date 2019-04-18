@@ -141,40 +141,4 @@ public class Risiko {
 	public boolean getRichtigeEingabe() {
 		return playerMg.getRichtigeEingabe();
 	}
-	
-	
-//	*************************TestMain**************************
-	
-	public static void main(String[] args) {
-		Risiko test = new Risiko();
-		test.spielerAnlegen("normen1", "blau", 0);
-		test.spielerAnlegen("normen2", "rot", 1);
-		test.spielerAnlegen("normen3", "gruen", 2);
-		test.spielerAnlegen("normen4", "schwarz", 3);
-		test.spielerAnlegen("normen5", "pink", 4);
-//		test.spielerAnlegen("normen6", "farbe", 6);
-		test.verteileEinheiten();
-		test.logik.verteileMissionen();
-//		Player playertest = test.gibAktivenSpieler();
-//		for(Land land : test.worldMg.getLaender()) {
-//			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
-////			System.out.println();
-//		}
-		System.out.println("Alle Laender und Besitzer (ungeordnet.. ich weiß nicht wieso)");//koente evlt so in die cui tun für die Weltausgabe
-		ArrayList<Land> alleLaender = test.worldMg.getLaender();
-		for(Land land : alleLaender) {
-			System.out.println(land.getNummer() +" : " + land.getName() + " - gehört : " + land.getBesitzer().getName());
-		}
-		System.out.println("------------------ alle spieler reinfolge nach getAktivenSpieler------------------");
-		
-		for(int i = 0; i < 5 ; i++) {
-			System.out.println(test.gibAktivenSpieler() + " und besitzt die Länder:");
-		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
-			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
-		}
-		System.out.println("seine mission ist : " + test.gibAktivenSpieler().getMission());
-		test.machNaechsterSpieler();	
-		}
-	}
-
 }

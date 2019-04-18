@@ -288,6 +288,10 @@ public class RisikoClientUI {
 		// Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
 		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
 		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
+		if (attackLaender.size() == 0) {
+			System.out.println("Du kannst leider niemanden angreifen...");
+			return;
+		}
 		pruefArray = laenderAusgabe(attackLaender);
 		ungültig = true;
 		while (ungültig) {
@@ -539,8 +543,6 @@ public class RisikoClientUI {
 
 	public void run() {
 		starteSpiel();
-		risiko.verteileEinheiten();
-		risiko.verteileMissionen();
 		gibSpielerMissionUndLaenderAus();
 //		****************_hier_gehts_los********
 		round();
