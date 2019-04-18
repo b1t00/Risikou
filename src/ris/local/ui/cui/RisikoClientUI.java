@@ -539,8 +539,6 @@ public class RisikoClientUI {
 
 	public void run() {
 		starteSpiel();
-		risiko.verteileEinheiten();
-		risiko.verteileMissionen();
 		gibSpielerMissionUndLaenderAus();
 //		****************_hier_gehts_los********
 		round();
