@@ -147,7 +147,7 @@ public class Spiellogik {
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		att.setEinheiten(ergebnis.get(1));
 		def.setEinheiten(ergebnis.get(0));
-		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
+//		System.out.println("Einheiten vom Angreifer: " + att.getEinheiten() + ", Einheiten vom Verteidiger: " + def.getEinheiten());
 		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
 			def.setEinheiten(attEinheiten + ergebnis.get(0));
@@ -310,9 +310,7 @@ public class Spiellogik {
 			ziel.setEinheiten(menge);
 		}
 	}
-//	}
-//	public boolean movePossible() {}
-//	
+ 
 	public String landStatus(Land l) {
 		return l.getFarbe();
 	}

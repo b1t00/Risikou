@@ -355,7 +355,7 @@ public class RisikoClientUI {
 							ungültig = false;
 						}
 					}
-	//				risiko.verschiebeEinheiten(att, def, answer);
+					risiko.moveUnits(att, def, answer);
 				}
 				System.out.println("Angriff ist beendet.");
 				//änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
@@ -435,12 +435,12 @@ public class RisikoClientUI {
 		}
 		System.out.println("Einheiten verschieben nach: \n");
 		ArrayList <Land> nachbarLaender = risiko.gibNachbarn(start);
-		pruefArray = laenderAusgabe(nachbarLaender));
+		pruefArray = laenderAusgabe(nachbarLaender);
 		ungültig = true;
 		while(ungültig) {
 			try {
 				ziel = Integer.parseInt(liesEingabe());
-				risiko.verschiebeEinheiten(start, ziel, anzahl);
+				risiko.moveUnits(start, ziel, anzahl);
 			} catch(IOException e) {}
 			if (pruefArray.contains(ziel)) {
 				ungültig = false;

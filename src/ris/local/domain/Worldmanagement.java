@@ -90,7 +90,7 @@ public class Worldmanagement {
 		return laender.get(zahl);
 	}
 	
-	public ArrayList<Kontinent> getKontinent(){
+	public ArrayList<Kontinent> getKontinente(){
 		return kontinente;
 	}
 	

@@ -21,6 +21,10 @@ public class Kontinent {
 		return laender;
 	}
 	
+	public int getValue() {
+		return value;
+	}
+	
 	//sollte vielleicht auch in die spiellogik?
 	public boolean isOwnedByPlayer(Player player) {
 		ArrayList<Land> testArray = player.getBesitz();
