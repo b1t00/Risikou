@@ -12,44 +12,51 @@ import ris.local.valueobjects.Player;
 public class PlayerManagement {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
-	private ArrayList<String> farbenAuswahl = new ArrayList();
+	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
+	private boolean falscheEingabe;
 
 	public PlayerManagement() {
-		farbenAuswahl.add("rot");
-		farbenAuswahl.add("gruen");
-		farbenAuswahl.add("blau");
-		farbenAuswahl.add("gelb");
-		farbenAuswahl.add("pink");
-		farbenAuswahl.add("schwarz");
+		farbenAuswahl.add("rot"); //0
+		farbenAuswahl.add("gruen"); //1
+		farbenAuswahl.add("blau"); //2
+		farbenAuswahl.add("weiss"); //3
+		farbenAuswahl.add("pink"); //4
+		farbenAuswahl.add("schwarz"); //5
 	}
 
-	public ArrayList<String> setFarbeAuswaehlen(String farbe) {
-//		String farbe = farbe ;
-
+	public String menuFarbeAuswaehlen(String farbe) {
 		switch (farbe) {
 		case "r":
-			if(farbenAuswahl.get(0)!= null) {
-			farbenAuswahl.add(0, null);
-			farbe = "rot";
-			farbenAuswahl.remove("rot");
-			} else {
-				System.out.println("DIE FARBE WURDE SCHON AUSGEWÄHLT!!!");
-//				setFarbeAuswaehlen(farbe);
-				farbe = "pink";
-			}
-			break;
+			return FarbeAuswaehlen(0);
 		case "g":
-			farbenAuswahl.remove("gruen");
-			farbe = "gruen";
-			break;
+			return FarbeAuswaehlen(1);
 		case "b":
-			farbenAuswahl.remove("blau");
-			farbe = "blau";
-			break;
-		default:
-//			farbeAuswaehlen();
+			return FarbeAuswaehlen(2);
+		case "w":
+			return FarbeAuswaehlen(3);
+		case "p":
+			return FarbeAuswaehlen(4);
+		case "s":
+			return FarbeAuswaehlen(5);
 		}
-		return farbenAuswahl;
+		return farbe;
+	}
+	
+	public String FarbeAuswaehlen(int welcheFarbe) {
+		String farbe = "";
+		if(farbenAuswahl.get(welcheFarbe)!= null) {
+			farbe = farbenAuswahl.get(welcheFarbe);
+			farbenAuswahl.remove(welcheFarbe);
+			farbenAuswahl.add(welcheFarbe, null);
+			falscheEingabe = false;
+			} else {
+				falscheEingabe = true;
+			}
+		return farbe;
+	}
+	
+	public boolean getRichtigeEingabe() {
+		return falscheEingabe;
 	}
 
 	public ArrayList<String> getFarbauswahl() {

@@ -35,6 +35,9 @@ public class Risiko {
 		logik.verteileEinheiten();
 	}
 	
+	public void verteileMissionen() {
+		logik.verteileMissionen();
+	}
 	//@to: Methode die sagt wer anfängt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiß ncht ob das richtig ist, in der bibliothek wirds ähnlich gemacht. #losch @annie: ich glaub das ist richtig so
 	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
@@ -55,6 +58,9 @@ public class Risiko {
 		return player.gibLaenderUndNummer();
 	}
 
+	public ArrayList<Player> getSpielerArray(){
+		return playerMg.getPlayers();
+	}
 	public int getAnzahlPlayer() {
 		return playerMg.getAnzahlPlayer();
 	}
@@ -99,22 +105,28 @@ public class Risiko {
 		return playerMg.getFarbauswahl();
 	}
 	
-	public ArrayList<String> setFarbeAuswaehlen(String farbe) {
-		return playerMg.setFarbeAuswaehlen(farbe);
+	public String setFarbeAuswaehlen(String farbe) { //hier string
+		return playerMg.menuFarbeAuswaehlen(farbe);
 	
 	}
+	
+	public boolean getRichtigeEingabe() {
+		return playerMg.getRichtigeEingabe();
+	}
+	
 	
 //	*************************TestMain**************************
 	
 	public static void main(String[] args) {
 		Risiko test = new Risiko();
 		test.spielerAnlegen("normen1", "blau", 0);
-		test.spielerAnlegen("normen2", "farbe", 1);
-		test.spielerAnlegen("normen3", "farbe", 2);
-		test.spielerAnlegen("normen4", "farbe", 3);
-		test.spielerAnlegen("normen5", "farb", 4);
+		test.spielerAnlegen("normen2", "rot", 1);
+		test.spielerAnlegen("normen3", "gruen", 2);
+		test.spielerAnlegen("normen4", "schwarz", 3);
+		test.spielerAnlegen("normen5", "pink", 4);
 //		test.spielerAnlegen("normen6", "farbe", 6);
 		test.verteileEinheiten();
+		test.logik.verteileMissionen();
 //		Player playertest = test.gibAktivenSpieler();
 //		for(Land land : test.worldMg.getLaender()) {
 //			System.out.println(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName());
@@ -132,6 +144,7 @@ public class Risiko {
 		for(int k = 0 ; k < test.gibAktivenSpieler().getBesitz().size(); k++) {
 			System.out.println(test.gibAktivenSpieler().gibLaenderUndNummer().get(k) + " gehört " + test.gibAktivenSpieler().getName());
 		}
+		System.out.println("seine mission ist : " + test.gibAktivenSpieler().getMission());
 		test.machNaechsterSpieler();	
 		}
 	}

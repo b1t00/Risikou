@@ -8,6 +8,7 @@ public class Player {
 	private String name;
 	private String farbe;
 	private int nummer;
+	private String mission; //
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
@@ -17,6 +18,7 @@ public class Player {
 		this.farbe = farbe;
 		this.nummer = nummer;
 	}
+	
 	public int getNummer() {
 		return nummer;
 	}
@@ -26,6 +28,14 @@ public class Player {
 
 	public String getFarbe() {
 		return farbe;
+	}
+	
+	public String getMission() {
+		return mission;
+	}
+	
+	public void setMission(String mission) {
+		this.mission = mission;
 	}
 
 	public ArrayList<Land> getBesitz() {

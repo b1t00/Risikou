@@ -3,11 +3,13 @@ package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Missionen;
 
 public class Spiellogik {
 
@@ -15,11 +17,14 @@ public class Spiellogik {
 	private Worldmanagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
+	private Missionen missionen;
+	private List<Player> playerList;
 
 	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
 		spielrunden = 0;
+		playerList = playerMg.getPlayers(); 
 	}
 
 	// ***********************************Spiel_Anfang********************************************
@@ -35,7 +40,7 @@ public class Spiellogik {
 	public void verteileEinheiten() {
 		ArrayList<Land> shuffle = shuffleLaender();
 		int alleLaender = shuffle.size();
-		List<Player> playerList = playerMg.getPlayers();
+//		List<Player> playerList = playerMg.getPlayers();
 
 		int i = 0;
 		while (i < alleLaender) {
@@ -63,7 +68,6 @@ public class Spiellogik {
 
 	// Methode die sagt wer anfängt
 	public Player whoBegins() {
-		List<Player> playerList = playerMg.getPlayers(); // mittlerweile doppelt. vlt global anlegen
 		if (shuffleLaender().size() % playerList.size() != 0) { // abfrage ob alle laender aufgehen oder nicht.
 			for (int i = 0; i < playerList.size(); i++) {
 				if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
@@ -73,6 +77,17 @@ public class Spiellogik {
 		}
 		// wenn alles aufgeht fängt spieler 1 an
 		return playerList.get(0);
+	}
+	
+	public void verteileMissionen() {
+		missionen = new Missionen(playerMg);
+		ArrayList<String> missionenListe = missionen.getMissionen();
+		Collections.shuffle(missionenListe);
+		for(int i = 0 ; i < playerList.size(); i ++) {
+			playerList.get(i).setMission(missionenListe.get(i));
+		}
+		
+		
 	}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
