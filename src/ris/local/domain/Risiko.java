@@ -76,6 +76,13 @@ public class Risiko {
 		logik.setSpielrunden();
 	}
 	
+	//----------------------------------------einheiten-------------------------------------------------
+	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(aktiverPlayer);
+		return verfuegbareEinheiten;
+	}
+	//----------------------------------------einheiten-------------------------------------------------
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public ArrayList<Land> getAngriffsLaender(Player angreifer){
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
