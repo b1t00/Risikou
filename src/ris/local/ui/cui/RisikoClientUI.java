@@ -144,6 +144,7 @@ public class RisikoClientUI {
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			spielzug = true;
 			//spieler bekommt einheiten
+			setzeNeueEinheiten(aktiverPlayer);
 			while (spielzug) {
 				gibMenuAus(aktiverPlayer);
 				try {
@@ -197,6 +198,51 @@ public class RisikoClientUI {
 				break;
 			}
 	}
+	
+	//----------------------------------einheiten-------------------------------------------------
+	public void setzeNeueEinheiten(Player aktiverPlayer) {
+		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer);
+		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
+		int landWahl = 0;
+		boolean ungültig = true;
+		//information auf der konsole, wie sich die verteilung errechnet?
+		System.out.println(aktiverPlayer + " setzt " + verfuegbareEinheiten + " Einheiten.");
+		ArrayList<Land> laender = aktiverPlayer.getBesitz();
+		while (verfuegbareEinheiten > 0) {
+			System.out.println("Wo soll die Einheit gesetzt werden?");
+			pruefArray=laenderAusgabe(laender);
+			ungültig = true;
+			while (ungültig) {	
+				try {
+					landWahl = Integer.parseInt(liesEingabe());
+				} catch(IOException e) {}
+				if (pruefArray.contains(landWahl)) {
+					ungültig = false;
+				} else {
+					System.out.println("Ungültige Eingabe, bitte wiederholen!");
+				}
+			}
+			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
+			System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
+			int anzahl = 1;
+			ungültig = true;
+			while (ungültig) {
+				try {
+					anzahl = Integer.parseInt(liesEingabe());
+				} catch(IOException e) {}
+				if(anzahl > verfuegbareEinheiten) {
+					System.out.println("Verfügbare Anzahl wurde überschritten. Maximal verfügbar: " + verfuegbareEinheiten);
+				} else {
+					ungültig = false;
+				}
+			}
+			landMitNeuerEinheit.setEinheiten(anzahl);
+			verfuegbareEinheiten -= anzahl;
+		}
+		System.out.println("Alle Einheiten wurden gesetzt.");
+	}
+	//----------------------------------einheiten-------------------------------------------------
+	
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public void attack(Player angreifer) {
