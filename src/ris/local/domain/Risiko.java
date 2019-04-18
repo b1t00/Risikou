@@ -4,6 +4,7 @@ package ris.local.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
@@ -71,6 +72,20 @@ public class Risiko {
 	public void machNaechsterSpieler() {
 		logik.setSpielrunden();
 	}
+	
+	//WELT AUSGABE->
+	public ArrayList<Land> gibWeltAus(){
+		return worldMg.getLaender();
+	}
+	
+	public ArrayList<Kontinent> gibAlleKontinente(){
+		return worldMg.getKontinente();
+	}
+	
+	public ArrayList<Player> gibAlleSpieler(){
+		return playerMg.getPlayers();
+	}
+	//WELT AUSGABE <-
 	
 	//----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {

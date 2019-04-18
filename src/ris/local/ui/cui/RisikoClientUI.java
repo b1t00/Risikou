@@ -207,6 +207,7 @@ public class RisikoClientUI {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
 		System.out.print("               \n Angreifen: a");
 		System.out.print("               \n Einheiten verschieben: e");
+		System.out.print("               \n Weltübersicht anzeigen: w");		
 		System.out.print("               \n Länder und Einheiten anzeigen: l"); //gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
 		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); //gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
 		System.out.print("               \n Mission anzeigen: m"); //wird später implementiert
@@ -222,6 +223,9 @@ public class RisikoClientUI {
 				break;
 			case "e":
 				verschiebeEinheiten(aktiverPlayer);
+				break;
+			case "w":
+				gibWeltAus;
 				break;
 			case "l":
 				ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
@@ -243,9 +247,6 @@ public class RisikoClientUI {
 				break;
 			}
 	}
-	
-
-	
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public void attack(Player angreifer) {
@@ -356,7 +357,7 @@ public class RisikoClientUI {
 							ungültig = false;
 						}
 					}
-					risiko.moveUnits(att, def, answer);
+					risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Angriff ist beendet.");
 				//änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
@@ -401,6 +402,7 @@ public class RisikoClientUI {
 		return pruefArray;
 	}
 	
+	//WELT AUSGABE ->
 	public void gibWeltAus() {
 		ArrayList<Land> alleLaender = risiko.gibWeltAus();
 		//gibt erst aus, wer welche Länder besitzt
@@ -424,6 +426,7 @@ public class RisikoClientUI {
 			}
 		}
 	}
+	//WELT AUSGABE <-
 	
 	public void verschiebeEinheiten(Player aktiverPlayer) {
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
