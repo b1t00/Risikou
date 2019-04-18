@@ -11,6 +11,7 @@ import ris.local.domain.Risiko;
 import ris.local.domain.Worldmanagement;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 
 public class RisikoClientUI {
@@ -398,6 +399,30 @@ public class RisikoClientUI {
 			pruefArray.add(land.getNummer());
 		}
 		return pruefArray;
+	}
+	
+	public void gibWeltAus() {
+		ArrayList<Land> alleLaender = risiko.gibWeltAus();
+		//gibt erst aus, wer welche Länder besitzt
+		for (Land land: alleLaender) {
+			System.out.println(land.getName() + " wird besitzt von " + land.getBesitzer().getName() + " mit " + land.getEinheiten() + " Einheiten.");
+		}
+		ArrayList<Kontinent> alleKontinente = risiko.gibAlleKontinente();
+		ArrayList<Player> allePlayer = risiko.gibAlleSpieler();
+		for (Kontinent kontinent: alleKontinente) {
+			//gibt dann Kontinente mit dazugehörigen Ländern aus TODO: könnte ausgelagert werden, sodass gezielt darauf zugegriffen werden kann
+			ArrayList<Land> eigeneLaender = kontinent.getLaender();
+			System.out.println(kontinent.getName() + " besteht aus: ");
+			for (Land land: eigeneLaender) {
+				System.out.println(land.getName());
+			}
+			//wenn der Kontinent im Besitz eines Player ist, wird dies ausgegeben
+			for (Player player: allePlayer) {
+				if (kontinent.isOwnedByPlayer(player)) {
+					System.out.println(player.getName() + " besitzt " + kontinent.getName());
+				}
+			}
+		}
 	}
 	
 	public void verschiebeEinheiten(Player aktiverPlayer) {
