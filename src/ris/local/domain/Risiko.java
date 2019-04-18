@@ -36,7 +36,7 @@ public class Risiko {
 	}
 	
 	//@to: Methode die sagt wer anf‰ngt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
-	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch
+	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch @annie: ich glaub das ist richtig so
 	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
 	public Player whoBegins() {
 		return logik.whoBegins();
@@ -58,9 +58,14 @@ public class Risiko {
 	public int getAnzahlPlayer() {
 		return playerMg.getAnzahlPlayer();
 	}
-	public void gibLaenderAus() {
-	//	player.gibLaenderAus();
-
+	
+	public Land getLandById (int zahl) {
+		Land land = worldMg.getLandById(zahl);
+		return land;
+	}
+	
+	public int errechneVerfuegbareEinheiten(Player player) {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(Player player);
 	}
 
 	public Player gibAktivenSpieler() {
@@ -71,23 +76,30 @@ public class Risiko {
 		logik.setSpielrunden();
 	}
 	
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public ArrayList<Land> getAngriffsLaender(Player angreifer){
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
-		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(moeglicheLaender);
+		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(angreifer, moeglicheLaender);
 		return attackLaender;
 	} 
 	
-	public ArrayList<Land> getFeindlicheLaender (Land attackLand) {
-		ArrayList<Land> feindlicheLaender = logik.getFeindlicheLaender(attackLand);
+	public ArrayList<Land> getFeindlicheNachbarn (Land attackLand) {
+		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
 	
-	public Land getLandById (int zahl) {
-		Land land = worldMg.getLandById(zahl);
-		return land;
+	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten);
+		return ergebnis;
 	}
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	public void verschiebeEinheiten(Land start,Land ziel,int menge) {
+		logik.moveUnits(start, ziel, menge);
+		
+	}
 	
 //	'''''''''' PlayerManagement ''''''''''''''''
 	public ArrayList<String> getFarbauswahl() {

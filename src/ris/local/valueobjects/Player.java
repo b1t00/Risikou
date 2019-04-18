@@ -44,8 +44,18 @@ public class Player {
 		}
 		return ausgabe;
 	}
+	
+	//prüft, ob player land besitzt, wenn ja, löscht er es, wenn nein, fügt er es hinzu
+	public void setBesitz(Land land) {
+		//TODO: evtl. muss die equals methode überschrieben werden, damit contains funktioniert
+		if (inBesitz.contains(land)) {
+			inBesitz.remove(land);
+		} else {
+			inBesitz.add(land);
+		}
+	}
 
-	//diese Methode beim Hinzufügen von einzelnen Ländern
+	//diese Methode beim Hinzufügen von einzelnen Ländern, wahrscheinlich überflüssig, erledigt sich mit setBesitz
 	public void addLand(Land neuesLand) {
 		this.inBesitz.add(neuesLand);
 	}
