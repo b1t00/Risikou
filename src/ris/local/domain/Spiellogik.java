@@ -326,9 +326,6 @@ public class Spiellogik {
 		}
 	}
  
-	public String landStatus(Land l) {
-		return l.getFarbe();
-	}
 
 	public int unitsAvailable(Land l) {
 		return l.getEinheiten();
