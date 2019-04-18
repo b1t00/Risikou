@@ -543,7 +543,7 @@ public class RisikoClientUI {
 		risiko.verteileMissionen();
 		gibSpielerMissionUndLaenderAus();
 //		****************_hier_gehts_los********
-		//hier whoBegins() fängt an
+		round();
 
 	}
 
