@@ -110,7 +110,7 @@ public class RisikoClientUI {
 	public void setzeStartEinheiten() {
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
-		Land aktuellesLand;
+		Land aktuellesLand = null;
 		
 		while(anzahlEinheiten > 0) {
 			System.out.println(risiko.gibAktivenSpieler());
@@ -131,7 +131,7 @@ public class RisikoClientUI {
 				land = Integer.parseInt(liesEingabe());
 				aktuellesLand = risiko.getLandById(land);
 			} catch(IOException e) {}
-			risiko.setztEinheit(Land aktuellesLand, int einheit);
+			aktuellesLand.setEinheiten(einheit);
 			anzahlEinheiten--;
 			risiko.machNaechsterSpieler();	
 		}
@@ -225,7 +225,7 @@ public class RisikoClientUI {
 				verschiebeEinheiten(aktiverPlayer);
 				break;
 			case "w":
-				gibWeltAus;
+				gibWeltAus();
 				break;
 			case "l":
 				ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
@@ -430,9 +430,9 @@ public class RisikoClientUI {
 	
 	public void verschiebeEinheiten(Player aktiverPlayer) {
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
-		Land start;
-		int ziel;
-		int anzahl;
+		Land start = null;
+		Land ziel = null;
+		int anzahl = 0;
 		System.out.println("Einheiten verschieben von: \n");
 		ArrayList<Land> ausgabeLaender = aktiverPlayer.getBesitz();
 		pruefArray = laenderAusgabe(ausgabeLaender);
@@ -443,7 +443,7 @@ public class RisikoClientUI {
 				von = Integer.parseInt(liesEingabe());
 				start = risiko.getLandById(von);
 			} catch(IOException e) {}
-			if (pruefArray.contains(von)) {
+			if (pruefArray.contains(start)) {
 				ungültig = false;
 			} else {
 				System.out.println("Ungültige Eingabe, bitte wiederholen!");
@@ -462,13 +462,13 @@ public class RisikoClientUI {
 			}
 		}
 		System.out.println("Einheiten verschieben nach: \n");
-		ArrayList <Land> nachbarLaender = risiko.gibNachbarn(start);
+		ArrayList <Land> nachbarLaender = risiko.getEigeneNachbarn(start);
 		pruefArray = laenderAusgabe(nachbarLaender);
 		ungültig = true;
 		while(ungültig) {
 			try {
-				ziel = Integer.parseInt(liesEingabe());
-				risiko.moveUnits(start, ziel, anzahl);
+				int nach = Integer.parseInt(liesEingabe());
+				risiko.getLandById(nach);
 			} catch(IOException e) {}
 			if (pruefArray.contains(ziel)) {
 				ungültig = false;
@@ -476,6 +476,7 @@ public class RisikoClientUI {
 				System.out.println("Ungültige Eingabe, bitte wiederholen!");
 			}
 		}
+		risiko.verschiebeEinheiten(start, ziel, anzahl);
 	}
 
 public static void main(String[] args) {
@@ -506,15 +507,14 @@ public void gibLaenderUndNummerVonSpielerAus(Player play){
 	}
 }
 
-	public static void main(String[] args) {
-		RisikoClientUI cui = new RisikoClientUI();
-		cui.anfangsMenue();
-		System.out.println("hey");
-		Risiko risiko = new Risiko();
-		cui.risiko.verteileEinheiten();
-		cui.risiko.whoBegins();
-
-	}
+//	public static void main(String[] args) {
+//		RisikoClientUI cui = new RisikoClientUI();
+//		cui.anfangsMenue();
+//		System.out.println("hey");
+//		Risiko risiko = new Risiko();
+//		cui.risiko.verteileEinheiten();
+//		cui.risiko.whoBegins();
+//	}
 
 }
 

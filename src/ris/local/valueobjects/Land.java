@@ -43,16 +43,8 @@ public class Land {
 		return name;
 	}
 	
-	public String getFarbe() {
-		return farbe;
-	}
-	
 	public int getNummer() {
 		return nummer;
-	}
-	
-	public void setFarbe(String farbe) {
-		this.farbe = farbe;
 	}
 
 

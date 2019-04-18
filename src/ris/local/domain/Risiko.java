@@ -73,6 +73,10 @@ public class Risiko {
 		logik.setSpielrunden();
 	}
 	
+	public ArrayList<Land> getEigeneNachbarn(Land land){
+		return worldMg.getEigeneNachbarn(land);
+	}
+	
 	//WELT AUSGABE->
 	public ArrayList<Land> gibWeltAus(){
 		return worldMg.getLaender();
@@ -115,8 +119,7 @@ public class Risiko {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	public void verschiebeEinheiten(Land start,Land ziel,int menge) {
-		logik.moveUnits(start, ziel, menge);
-		
+		logik.moveUnits(start, ziel, menge);	
 	}
 	
 //	'''''''''' PlayerManagement ''''''''''''''''

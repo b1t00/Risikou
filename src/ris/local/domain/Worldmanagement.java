@@ -94,5 +94,16 @@ public class Worldmanagement {
 		return kontinente;
 	}
 	
+	public ArrayList<Land> getEigeneNachbarn(Land land){
+		ArrayList<Land> eigeneNachbarn = new ArrayList<Land>();
+		for (int i = 0; i < nachbarn[land.getNummer()].length; i++) {
+			if (nachbarn[land.getNummer()][i]) {
+				if(land.getBesitzer().equals(laender.get(i).getBesitzer())) {
+					eigeneNachbarn.add(laender.get(i));
+				}
+			}
+		}
+		return eigeneNachbarn;
+	}
 
 }

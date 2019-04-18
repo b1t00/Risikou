@@ -319,5 +319,4 @@ public class Spiellogik {
 		return l.getEinheiten();
 	}
 
-
 }
