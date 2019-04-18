@@ -41,6 +41,7 @@ public class Spiellogik {
 	public void verteileEinheiten() {
 		ArrayList<Land> shuffle = shuffleLaender();
 		int alleLaender = shuffle.size();
+
 //		List<Player> playerList = playerMg.getPlayers(); ist global
 
 		int i = 0;
