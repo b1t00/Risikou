@@ -163,7 +163,6 @@ public class RisikoClientUI {
 		boolean spielzug;
 		while (true) {
 			Player aktiverPlayer = risiko.gibAktivenSpieler();
-			System.out.println("");
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			System.out.println("");
 			spielzug = true;
@@ -287,14 +286,13 @@ public class RisikoClientUI {
 		// das pruefarray wird wiederholt genutzt, um fehlerhafte eingaben zu erkennen.
 		// es wird bei mehreren eingaben überschrieben
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
-
-		// Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
-		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
-		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
-		if (attackLaender.size() == 0) {
+		if (risiko.getAngriffsLaender(angreifer).size() == 0) {
 			System.out.println("Du kannst leider niemanden angreifen...");
 			return;
 		}
+		// Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
+		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
+		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
 		pruefArray = laenderAusgabe(attackLaender);
 		ungültig = true;
 		while (ungültig) {
@@ -375,9 +373,9 @@ public class RisikoClientUI {
 			}
 			System.out.print(defender + " verteidigt mit " + defEinheiten);
 			if (defEinheiten == 1) {
-				System.out.println(" Einheit an.");
+				System.out.println(" Einheit.");
 			} else {
-				System.out.println(" Einheiten an.");
+				System.out.println(" Einheiten.");
 			}
 
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
@@ -390,14 +388,14 @@ public class RisikoClientUI {
 			if (ergebnis.get(0) < ergebnis.get(1)) {
 				System.out.println(angreifer + " hat gewonnen!");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(1));
-				if (ergebnis.get(1)==1) {
+				if (ergebnis.get(1)== -1) {
 					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
 				} else {
 					System.out.println(" Einheiten.");
 				}
 																							
 				System.out.print(defender + " verliert: " + ergebnis.get(0));
-				if (ergebnis.get(0)==1) {
+				if (ergebnis.get(0)== -1) {
 					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
 				} else {
 					System.out.println(" Einheiten.");
@@ -424,6 +422,7 @@ public class RisikoClientUI {
 					risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Angriff ist beendet.");
+				System.out.println("");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
