@@ -306,8 +306,8 @@ public class Spiellogik {
 		if(start.getEinheiten()-menge<1) {
 			einheiten=false;
 		}
-	//	Player x = isOwner(start);
-	//	ArrayList<Land> z= x.getBesitz();
+		Player x = isOwner(start);
+		ArrayList<Land> z= x.getBesitz();
 		ArrayList<Land> connected;
 		boolean nachbar=false;
 		if(worldMg.isBenachbart(start, ziel)) {
