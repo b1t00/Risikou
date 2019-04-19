@@ -157,6 +157,8 @@ public class Spiellogik {
 			Player winner = att.getBesitzer();
 			winner.setBesitz(def);
 			def.setBesitzer(winner);
+			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
+			
 			
 		}
 		return ergebnis;
@@ -293,7 +295,7 @@ public class Spiellogik {
 	
 	public boolean movePossible(Land start,Land ziel,int menge) {
 		boolean einheiten =true;
-		if(start.getEinheiten()-menge<1) {
+		if(start.getEinheiten()-menge-start.getBesitzer().getBlock()[start.getNummer()]<1) {
 			einheiten=false;
 		}
 		Player x = isOwner(start);

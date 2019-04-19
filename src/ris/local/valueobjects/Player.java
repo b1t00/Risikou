@@ -11,6 +11,8 @@ public class Player {
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
+	private int[] uBlock=new int[12];
+
 
 	public Player(String name, String farbe, int nummer) {
 		this.name = name;
@@ -27,7 +29,6 @@ public class Player {
 	public String getFarbe() {
 		return farbe;
 	}
-	int[] uBlock=new int[12];
 
 	public ArrayList<Land> getBesitz() {
 		return inBesitz;
@@ -35,6 +36,13 @@ public class Player {
 	
 	public String toString() {
 		return name;
+	}
+	public int[] getBlock() {
+		return uBlock;
+	}
+	public int[] setBlock(int[]gB, int indexLand,int units) {
+		gB[indexLand]=units;
+		return gB;
 	}
 
 	//vlt auch unnöttige methode siehe cui gibLaenderUndNummerVonSpielerAus()
