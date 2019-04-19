@@ -38,6 +38,8 @@ public class PlayerManagement {
 			return FarbeAuswaehlen(4);
 		case "s":
 			return FarbeAuswaehlen(5);
+		default : 
+			falscheEingabe = true;
 		}
 		return farbe;
 	}
