@@ -27,6 +27,7 @@ public class Player {
 	public String getFarbe() {
 		return farbe;
 	}
+	int[] uBlock=new int[12];
 
 	public ArrayList<Land> getBesitz() {
 		return inBesitz;

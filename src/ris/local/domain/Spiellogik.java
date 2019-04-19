@@ -157,6 +157,7 @@ public class Spiellogik {
 			Player winner = att.getBesitzer();
 			winner.setBesitz(def);
 			def.setBesitzer(winner);
+			
 		}
 		return ergebnis;
 	}
@@ -286,7 +287,10 @@ public class Spiellogik {
 		return null;
 	}
 
-//	public void moveUnits() { // TODO
+//	********************************** Einheiten verschieben **********************************
+	//int [] uBlock= new int[worldMg.getLaender().size()];
+	
+	
 	public boolean movePossible(Land start,Land ziel,int menge) {
 		boolean einheiten =true;
 		if(start.getEinheiten()-menge<1) {
@@ -310,7 +314,13 @@ public class Spiellogik {
 			ziel.setEinheiten(menge);
 		}
 	}
- 
+//	********************************** Einheiten blockieren **********************************
+	public int[] initBlockedUnits(int[] uBlock) {
+		for (int i=0; i<uBlock.length; i++) {
+			uBlock[i]=0;
+		}
+		return uBlock;
+	}
 	public String landStatus(Land l) {
 		return l.getFarbe();
 	}
