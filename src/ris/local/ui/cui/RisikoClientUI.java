@@ -170,6 +170,7 @@ public class RisikoClientUI {
 			setzeNeueEinheiten(aktiverPlayer);
 
 			while (spielzug) {
+				System.out.println("");
 				gibMenuAus(aktiverPlayer);
 				try {
 					input = liesEingabe();
@@ -193,7 +194,7 @@ public class RisikoClientUI {
 		System.out.println(aktiverPlayer + " setzt " + verfuegbareEinheiten + " Einheiten.");
 		ArrayList<Land> laender = aktiverPlayer.getBesitz();
 		while (verfuegbareEinheiten > 0) {
-			System.out.println("Wo soll die Einheit gesetzt werden?");
+			System.out.println("Wo sollen die Einheiten gesetzt werden?");
 			pruefArray=laenderAusgabe(laender);
 			ungültig = true;
 			while (ungültig) {	
@@ -224,7 +225,6 @@ public class RisikoClientUI {
 			verfuegbareEinheiten -= anzahl;
 		}
 		System.out.println("Alle Einheiten wurden gesetzt.");
-		System.out.println("");
 	}
 	//----------------------------------einheiten-------------------------------------------------
 
@@ -371,13 +371,13 @@ public class RisikoClientUI {
 			} else {
 				System.out.println(" Einheiten an.");
 			}
-			System.out.print(defender + " verteidigt mit " + defEinheiten);
+			System.out.print(defender + " verteidigt " + def.getName() + " mit " + defEinheiten);
 			if (defEinheiten == 1) {
 				System.out.println(" Einheit.");
 			} else {
 				System.out.println(" Einheiten.");
 			}
-
+			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
 			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten);
@@ -386,7 +386,7 @@ public class RisikoClientUI {
 
 			// 1. angreifer hat gewonnen -> sollen weitere Einheiten verschoben werden?
 			if (ergebnis.get(0) < ergebnis.get(1)) {
-				System.out.println(angreifer + " hat gewonnen!");
+				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(1));
 				if (ergebnis.get(1)== -1) {
 					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
@@ -422,7 +422,6 @@ public class RisikoClientUI {
 					risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Angriff ist beendet.");
-				System.out.println("");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
