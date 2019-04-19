@@ -53,7 +53,7 @@ public class RisikoClientUI {
 					wieVieleSpielerMenu();
 				} catch (IOException e) {
 				}
-				System.out.println("jetzt beginnt das Spiel --------- mit anderen absprechen"); // hier gucken..
+				System.out.println("jetzt beginnt das Spiel \n"); // hier gucken..
 				risiko.verteileEinheiten(); // was passiert wann ??
 				risiko.verteileMissionen(); //
 				richtigeEingabe = true;
@@ -594,6 +594,7 @@ public class RisikoClientUI {
 			for (int i = 0; i < player.getBesitz().size(); i++) {
 				System.out.println(player.getBesitz().get(i).getNummer() + " : " + player.getBesitz().get(i).getName());
 			}
+			System.out.println();
 		}
 	}
 
