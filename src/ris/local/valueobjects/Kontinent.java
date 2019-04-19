@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Kontinent {
 	public String name;
-	public ArrayList<Land> laender;
+	private ArrayList<Land> laender; 
 	private int value;
 	
 	public Kontinent(String name, ArrayList<Land> laender, int value) {

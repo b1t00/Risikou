@@ -20,7 +20,7 @@ public class Land {
 	
 	@Override
 	public String toString() {
-		return (name + " mit " + einheiten + " Einheiten. \n");
+		return name;
 	}
 	
 	//@to Methode um player/besitzer zu setzten 

@@ -11,6 +11,7 @@ import ris.local.valueobjects.Kontinent;
 public class Worldmanagement {
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
+	private ArrayList<Land> shuffle = new ArrayList<Land>();
 	private ArrayList<Kontinent> kontinente = new ArrayList<Kontinent>();
 	
 	public Worldmanagement() {
@@ -21,28 +22,40 @@ public class Worldmanagement {
 		//Erstellung von Ländern und speichern in der ArrayList<Land>
 		Land portugal = new Land("Portugal", 0, 1);
 		laender.add(portugal);
+		shuffle.add(portugal);
 		Land spanien = new Land("Spanien", 1, 1);
 		laender.add(spanien);
+		shuffle.add(spanien);
 		Land frankreich = new Land("Frankreich", 2, 1);
 		laender.add(frankreich);
+		shuffle.add(frankreich);
 		Land belgien = new Land("Belgien", 3, 1);
 		laender.add(belgien);
+		shuffle.add(belgien);
 		Land niederlande = new Land("Niederlande", 4, 1);
 		laender.add(niederlande);
+		shuffle.add(niederlande);
 		Land westernAustralia = new Land("Western Australia", 5, 1);
 		laender.add(westernAustralia);
+		shuffle.add(westernAustralia);
 		Land northernTerritory = new Land("Northern Territory", 6, 1);
 		laender.add(northernTerritory);
+		shuffle.add(northernTerritory);
 		Land queensland = new Land("Queensland", 7, 1);
 		laender.add(queensland);
+		shuffle.add(queensland);
 		Land southAustralia = new Land("South Australia", 8, 1);
 		laender.add(southAustralia);
+		shuffle.add(southAustralia);
 		Land newSouthWales = new Land("New South Wales", 9, 1);
 		laender.add(newSouthWales);
+		shuffle.add(newSouthWales);
 		Land victoria = new Land("Victoria", 10, 1);
 		laender.add(victoria);
+		shuffle.add(victoria);
 		Land narnia = new Land("narnia", 11, 1);
 		laender.add(narnia);
+		shuffle.add(narnia);
 		
 		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert
 		ArrayList<Land> eu = new ArrayList<Land>();	
@@ -66,6 +79,10 @@ public class Worldmanagement {
 	
 	public ArrayList<Land> getLaender(){
 		return laender;
+	}
+	
+	public ArrayList<Land> getShuffle(){
+		return shuffle;
 	}
 	
 	//hier noch kommentar zu der Matrix

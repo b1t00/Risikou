@@ -32,7 +32,7 @@ public class Spiellogik {
 
 	// Methode um Alle "LaenderKarten" durchzumischen
 	public ArrayList<Land> shuffleLaender() {
-		ArrayList<Land> shuffle = worldMg.getLaender();
+		ArrayList<Land> shuffle = worldMg.getShuffle();
 		Collections.shuffle(shuffle);
 		return shuffle;
 	}
@@ -137,7 +137,7 @@ public class Spiellogik {
 				if (worldMg.nachbarn[land.getNummer()][i]) {
 					if (!worldMg.getLaender().get(i).getBesitzer().equals(angreifer)) {
 						moeglicheAngreifer.add(land);
-						System.out.println(land + " kann angreifen");
+						break;
 					}
 				}
 			}
@@ -164,8 +164,8 @@ public class Spiellogik {
 		def.setEinheiten(ergebnis.get(0));
 		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
-			def.setEinheiten(attEinheiten + ergebnis.get(0));
-			att.setEinheiten(-(attEinheiten + ergebnis.get(0)));
+			def.setEinheiten(attEinheiten + ergebnis.get(1));
+			att.setEinheiten(-(attEinheiten + ergebnis.get(1)));
 			Player loser = def.getBesitzer();
 			loser.setBesitz(def);
 			Player winner = att.getBesitzer();
