@@ -72,6 +72,7 @@ public class Risiko {
 	}
 	
 	public Player gibAktivenSpieler() {
+//		System.out.println("---------------------------------> hier gucken" + playerList.get(0));
 		return logik.gibAktivenSpieler();
 	}
 //	

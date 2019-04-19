@@ -254,9 +254,9 @@ public class Spiellogik {
 	// ***************************************->Runden<-**************************************
 	
 	public Player gibAktivenSpieler() {
-		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID
+		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID 
 		ArrayList<Player> spielerListe = playerMg.getPlayers();
-		return spielerListe.get((spielbeginn+spielrunden)%(playerMg.getPlayers().size()));
+		return spielerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
 	}
 	
 	public int getSpielrunden() {
