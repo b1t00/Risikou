@@ -439,7 +439,7 @@ public class RisikoClientUI {
 
 					risiko.verschiebeEinheiten(att, def, answer);
 				}
-				System.out.println("Angriff ist beendet.");
+				System.out.println("Der Angriff ist beendet.");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
