@@ -549,6 +549,7 @@ public class RisikoClientUI {
 			System.out.println("Du kannst leider keine Einheiten verschieben.");
 		} else {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			System.out.println("Einheiten verschieben von: \n");
 			//dem Spieler werden nur die Länder angezeigt, von denen aus verschoben werden kann
 			ArrayList<Land> ursprungsLaender = risiko.getEinheitenVerschiebenVonLaender(aktiverPlayer);
@@ -567,6 +568,8 @@ public class RisikoClientUI {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				}
 =======
+=======
+>>>>>>> parent of 21bba02... Update RisikoClientUI.java
 		System.out.println("Einheiten verschieben von: \n");
 		ArrayList<Land> ursprungsLaender = risiko.getLaenderMitMehrAlsEinerEinheit(aktiverPlayer);
 		pruefArray = laenderAusgabe(ursprungsLaender);
@@ -581,6 +584,9 @@ public class RisikoClientUI {
 				ungültig = false;
 			} else {
 				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+<<<<<<< HEAD
+>>>>>>> parent of 21bba02... Update RisikoClientUI.java
+=======
 >>>>>>> parent of 21bba02... Update RisikoClientUI.java
 			}
 		}
@@ -591,6 +597,7 @@ public class RisikoClientUI {
 				anzahl = Integer.parseInt(liesEingabe());
 			} catch (IOException e) {
 			}
+<<<<<<< HEAD
 <<<<<<< HEAD
 			System.out.println("Einheiten verschieben nach: \n");
 			ArrayList<Land> nachbarLaender = risiko.getEigeneNachbarn(start);
@@ -609,10 +616,15 @@ public class RisikoClientUI {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				}
 =======
+=======
+>>>>>>> parent of 21bba02... Update RisikoClientUI.java
 			if (anzahl > (start.getEinheiten() - 1)) {
 				System.out.println("Ungültige Eingabe, bitte wiederholen!");
 			} else {
 				ungültig = false;
+<<<<<<< HEAD
+>>>>>>> parent of 21bba02... Update RisikoClientUI.java
+=======
 >>>>>>> parent of 21bba02... Update RisikoClientUI.java
 			}
 		}
