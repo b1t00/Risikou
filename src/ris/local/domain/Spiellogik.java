@@ -178,11 +178,12 @@ public class Spiellogik {
 	}
 	
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
-		//rollDice gibt eine Int-ArrayList zur�ck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
+		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker= att.getBesitzer();
+		
+		//setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
 		int buBlock= attacker.getBlock()[att.getNummer()];
 		if(attacker.getBlock()[att.getNummer()]>0) {
-			int nB =attacker.getBlock()[att.getNummer()]-attEinheiten;
 			if(attacker.getBlock()[att.getNummer()]-attEinheiten>=0) {
 				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attEinheiten);
 			}
@@ -190,10 +191,12 @@ public class Spiellogik {
 				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attacker.getBlock()[att.getNummer()]);
 			}
 		}
+		
+		//ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		att.setEinheiten(ergebnis.get(0));
 		def.setEinheiten(ergebnis.get(1));
-		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
+		
 		if(def.getEinheiten()>0) {
 			if(buBlock+ergebnis.get(0)>=0) {
 				int block= buBlock+ergebnis.get(0);
@@ -203,15 +206,19 @@ public class Spiellogik {
 				attacker.setBlock(attacker.getBlock(), att.getNummer(), 0);
 			}
 		}
+		
+		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
 		if (def.getEinheiten()==0) {
 			def.setEinheiten(attEinheiten + ergebnis.get(0));
 			att.setEinheiten(-(attEinheiten + ergebnis.get(0)));
 			Player loser = def.getBesitzer();
 			loser.setBesitz(def);
 			Player winner = att.getBesitzer();
-			winner.setBlock(winner.getBlock(),def.getNummer(),def.getEinheiten());
 			winner.setBesitz(def);
 			def.setBesitzer(winner);
+			
+			//setzt bei erobertem Land die beteiligten Einheiten auf Block
+			winner.setBlock(winner.getBlock(),def.getNummer(),def.getEinheiten());
 		}
 		return ergebnis;
 	}

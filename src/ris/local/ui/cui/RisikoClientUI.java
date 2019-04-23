@@ -408,17 +408,17 @@ public class RisikoClientUI {
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
 			// 1. angreifer hat gewonnen -> sollen weitere Einheiten verschoben werden?
-			if (ergebnis.get(0) < ergebnis.get(1)) {
+			if (ergebnis.get(1) < ergebnis.get(0)) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
-				System.out.print(angreifer + " verliert: " + ergebnis.get(1));
-				if (ergebnis.get(1) == -1) {
+				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
+				if (ergebnis.get(0) == -1) {
 					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
 				} else {
 					System.out.println(" Einheiten.");
 				}
 
-				System.out.print(defender + " verliert: " + ergebnis.get(0));
-				if (ergebnis.get(0) == -1) {
+				System.out.print(defender + " verliert: " + ergebnis.get(1));
+				if (ergebnis.get(1) == -1) {
 					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
 				} else {
 					System.out.println(" Einheiten.");
@@ -451,19 +451,19 @@ public class RisikoClientUI {
 				// 2. + 3. angreifer hat verloren/unentschieden -> soll wieder angegriffen
 				// werden? (wenn genug einheiten verbleiben)
 			} else {
-				if (ergebnis.get(0) > ergebnis.get(1)) {
+				if (ergebnis.get(1) > ergebnis.get(0)) {
 					System.out.println(angreifer + " hat verloren!");
 				} else {
 					System.out.println("Unentschieden!");
 				}
-				System.out.print(angreifer + " verliert: " + ergebnis.get(1));
-				if (ergebnis.get(1) == -1) {
+				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
+				if (ergebnis.get(0) == -1) {
 					System.out.println(" Einheit.");
 				} else {
 					System.out.println(" Einheiten.");
 				}
-				System.out.print(defender + " verliert: " + ergebnis.get(0));
-				if (ergebnis.get(0) == -1) {
+				System.out.print(defender + " verliert: " + ergebnis.get(1));
+				if (ergebnis.get(1) == -1) {
 					System.out.println(" Einheit.");
 				} else {
 					System.out.println(" Einheiten.");
