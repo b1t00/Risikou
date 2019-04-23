@@ -47,7 +47,7 @@ public class Risiko {
 	}
 	
 	
-	public Player spielerAnlegen(String name, String farbe, int nummer) {
+	public Player PlayerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 
 		// playerMg.addPlayer(player);
@@ -59,7 +59,7 @@ public class Risiko {
 		return player.gibLaenderUndNummer();
 	}
 
-	public ArrayList<Player> getSpielerArray(){
+	public ArrayList<Player> getPlayerArray(){
 		return playerMg.getPlayers();
 	}
 	public int getAnzahlPlayer() {
@@ -71,12 +71,12 @@ public class Risiko {
 		return land;
 	}
 	
-	public Player gibAktivenSpieler() {
+	public Player gibAktivenPlayer() {
 //		System.out.println("---------------------------------> hier gucken" + playerList.get(0));
-		return logik.gibAktivenSpieler();
+		return logik.gibAktivenPlayer();
 	}
 //	
-	public void machNaechsterSpieler() {
+	public void machNaechsterPlayer() {
 		logik.setSpielrunden();
 	}
 	
@@ -97,7 +97,7 @@ public class Risiko {
 		return worldMg.getKontinente();
 	}
 	
-	public ArrayList<Player> gibAlleSpieler(){
+	public ArrayList<Player> gibAllePlayer(){
 		return playerMg.getPlayers();
 	}
 	//WELT AUSGABE <-

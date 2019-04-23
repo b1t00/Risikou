@@ -70,7 +70,7 @@ public class PlayerManagement {
 
 	}
 	
-//	Methode die sagt wieviele Spieler es gibt, man kann auch getPlayers().size() aufrufen ^^
+//	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen ^^
 	public int getAnzahlPlayer() {
 		return gamerListe.size();
 	}
@@ -83,7 +83,7 @@ public class PlayerManagement {
 		return player;
 	}
 
-	// gibt Anzahl an spielern zurueck
+	// gibt Anzahl an Playern zurueck
 	public int getPlayerAnzahl() { // es könnte sein das diese Methode ueberfluessig ist..
 		return gamerListe.size();
 	}

@@ -20,7 +20,7 @@ public class Spiellogik {
 	private int spielrunden;
 	private Missionen missionen;
 	private List<Player> playerList;
-	private Player aktiverSpieler;
+	private Player aktiverPlayer;
 
 	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -78,7 +78,7 @@ public class Spiellogik {
 				}
 			}
 		}
-		// wenn alles aufgeht fängt spieler 1 an
+		// wenn alles aufgeht fängt Player 1 an
 		return playerList.get(0);
 	}
 	
@@ -161,10 +161,13 @@ public class Spiellogik {
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
+		//die verlorenen Einheiten werden direkt von den beiden Ländern abgezogen
 		att.setEinheiten(ergebnis.get(1));
 		def.setEinheiten(ergebnis.get(0));
-		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
+		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben, finaler Sieg
 		if (def.getEinheiten()==0) {
+			//bei sieg des Angreifers werden die angreifenden Einheiten automatisch ins neue Land verschoben
+			//dabei werden die verlorenen Einheiten erst abgezogen
 			def.setEinheiten(attEinheiten + ergebnis.get(1));
 			att.setEinheiten(-(attEinheiten + ergebnis.get(1)));
 			Player loser = def.getBesitzer();
@@ -254,10 +257,10 @@ public class Spiellogik {
 	
 	// ***************************************->Runden<-**************************************
 	
-	public Player gibAktivenSpieler() {
-		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID 
-		ArrayList<Player> spielerListe = playerMg.getPlayers();
-		return spielerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
+	public Player gibAktivenPlayer() {
+		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über Player ID 
+		ArrayList<Player> PlayerListe = playerMg.getPlayers();
+		return PlayerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
 	}
 	
 	public int getSpielrunden() {
@@ -320,8 +323,8 @@ public class Spiellogik {
 	public void moveUnits(Land start,Land ziel, int menge) {
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);
-//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()
-//				&&ziel.getBesitzer() == gibAktivenSpieler()) {
+//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
+//				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);
 //			ziel.setEinheiten(menge);
 //		}
