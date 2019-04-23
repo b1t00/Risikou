@@ -316,8 +316,6 @@ public class Spiellogik {
 	return (nachbar&&einheiten);
 	}
 	
-	
-	
 	public void moveUnits(Land start,Land ziel, int menge) {
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);

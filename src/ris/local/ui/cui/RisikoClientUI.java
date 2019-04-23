@@ -587,7 +587,7 @@ public class RisikoClientUI {
 				int nach = 0;
 				try {
 					nach = Integer.parseInt(liesEingabe());
-					risiko.getLandById(nach);
+					ziel = risiko.getLandById(nach);
 				} catch (IOException e) {
 				}
 				if (pruefArray.contains(nach)) {
