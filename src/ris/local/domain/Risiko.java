@@ -87,8 +87,9 @@ public class Risiko {
 		return worldMg.getEigeneNachbarn(land);
 	}
 	
-	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit(Player player){
-		return logik.getLaenderMitMehrAlsEinerEinheit(player);
+	public ArrayList<Land> getEinheitenVerschiebenVonLaender(Player player){
+		ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
+		return logik.getLaenderMitNachbarn(verschiebbareEinheitenLaender);
 	}
 	
 	//WELT AUSGABE->

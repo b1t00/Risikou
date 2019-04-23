@@ -309,7 +309,7 @@ public class RisikoClientUI {
 			System.out.println("Du kannst leider niemanden angreifen...");
 			return;
 		}
-		// Abfrage, welches Land angreifen soll mit Berücksichtigung der Möglichkeit
+		// Abfrage, welches Land angreifen soll, es werden dabei nur Länder ausgegeben, die angreifen können
 		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
 		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
 		pruefArray = laenderAusgabe(attackLaender);
@@ -489,6 +489,8 @@ public class RisikoClientUI {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public ArrayList<Integer> laenderAusgabe(ArrayList<Land> ausgabeLaender) {
+		//im Prüfarray wird immer die Nummer der möglichen Länder, 
+		//mit dem Prüfarray kann bei der liesEingabe() Methode überprüft werden, ob eine gültige Zahl eingegeben wurde
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		for (Land land : ausgabeLaender) {
 			System.out.print(land.getNummer() + " > " + land.getName() + " mit " + land.getEinheiten());
@@ -519,6 +521,7 @@ public class RisikoClientUI {
 		ArrayList<Kontinent> alleKontinente = risiko.gibAlleKontinente();
 		ArrayList<Player> allePlayer = risiko.gibAllePlayer();
 		for (Kontinent kontinent : alleKontinente) {
+			
 			// gibt dann Kontinente mit dazugehörigen Ländern aus TODO: könnte ausgelagert
 			// werden, sodass gezielt darauf zugegriffen werden kann
 			ArrayList<Land> eigeneLaender = kontinent.getLaender();
@@ -541,17 +544,19 @@ public class RisikoClientUI {
 			}
 		}
 	}
+	//Ende Welt-Ausgabe
 
 	public void verschiebeEinheiten(Player aktiverPlayer) {
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		Land start = null;
 		Land ziel = null;
 		int anzahl = 0;
-		if (risiko.getLaenderMitMehrAlsEinerEinheit(aktiverPlayer).size() == 0) {
+		if (risiko.getEinheitenVerschiebenVonLaender(aktiverPlayer).size() == 0) {
 			System.out.println("Du kannst leider keine Einheiten verschieben.");
 		} else {
 			System.out.println("Einheiten verschieben von: \n");
-			ArrayList<Land> ursprungsLaender = risiko.getLaenderMitMehrAlsEinerEinheit(aktiverPlayer);
+			//dem Spieler werden nur die Länder angezeigt, von denen aus verschoben werden kann
+			ArrayList<Land> ursprungsLaender = risiko.getEinheitenVerschiebenVonLaender(aktiverPlayer);
 			pruefArray = laenderAusgabe(ursprungsLaender);
 			boolean ungültig = true;
 			while (ungültig) {
