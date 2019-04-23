@@ -50,8 +50,6 @@ public class Risiko {
 	public Player PlayerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 
-		// playerMg.addPlayer(player);
-		// gameObjekt.add(gamer);
 		return player;
 	}
 	
@@ -75,10 +73,9 @@ public class Risiko {
 	}
 	
 	public Player gibAktivenPlayer() {
-//		System.out.println("---------------------------------> hier gucken" + playerList.get(0));
 		return logik.gibAktivenPlayer();
 	}
-//	
+
 	public void machNaechsterPlayer() {
 		logik.naechsteSpielrunde();
 	}

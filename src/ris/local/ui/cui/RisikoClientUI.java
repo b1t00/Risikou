@@ -48,10 +48,10 @@ public class RisikoClientUI {
 					wieVielePlayerMenu();
 				} catch (IOException e) {
 				}
-				risiko.setzeAktivenPlayer();
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
 				risiko.verteileMissionen();
+				risiko.setzeAktivenPlayer();
 				System.out.println("jetzt beginnt das Spiel \n");
 				richtigeEingabe = true;
 				break;
@@ -85,7 +85,7 @@ public class RisikoClientUI {
 		}
 		System.out.println();
 		for (int i = 0; i < nr; i++) {
-			System.out.println("Wie soll Player " + i + " heißen? : ");
+			System.out.println("Wie soll Player " + (i + 1) + " heißen? : ");
 			name = liesEingabe();
 
 			do {
@@ -309,7 +309,8 @@ public class RisikoClientUI {
 			System.out.println("Du kannst leider niemanden angreifen...");
 			return;
 		}
-		// Abfrage, welches Land angreifen soll, es werden dabei nur Länder ausgegeben, die angreifen können
+		// Abfrage, welches Land angreifen soll, es werden dabei nur Länder ausgegeben,
+		// die angreifen können
 		System.out.println(angreifer + ": mit welchem Land möchtest du angreifen?");
 		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
 		pruefArray = laenderAusgabe(attackLaender);
@@ -370,8 +371,9 @@ public class RisikoClientUI {
 			}
 			// Abfrage, wie viele Einheiten verteidigen
 			ungültig = true;
-			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, maximal möglich: "
-					+ def.getEinheiten());
+			System.out.println(
+					defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, maximal möglich: "
+							+ def.getEinheiten());
 			while (ungültig) {
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
@@ -489,8 +491,9 @@ public class RisikoClientUI {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public ArrayList<Integer> laenderAusgabe(ArrayList<Land> ausgabeLaender) {
-		//im Prüfarray wird immer die Nummer der möglichen Länder, 
-		//mit dem Prüfarray kann bei der liesEingabe() Methode überprüft werden, ob eine gültige Zahl eingegeben wurde
+		// im Prüfarray wird immer die Nummer der möglichen Länder,
+		// mit dem Prüfarray kann bei der liesEingabe() Methode überprüft werden, ob
+		// eine gültige Zahl eingegeben wurde
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		for (Land land : ausgabeLaender) {
 			System.out.print(land.getNummer() + " > " + land.getName() + " mit " + land.getEinheiten());
@@ -521,7 +524,7 @@ public class RisikoClientUI {
 		ArrayList<Kontinent> alleKontinente = risiko.gibAlleKontinente();
 		ArrayList<Player> allePlayer = risiko.gibAllePlayer();
 		for (Kontinent kontinent : alleKontinente) {
-			
+
 			// gibt dann Kontinente mit dazugehörigen Ländern aus TODO: könnte ausgelagert
 			// werden, sodass gezielt darauf zugegriffen werden kann
 			ArrayList<Land> eigeneLaender = kontinent.getLaender();
@@ -544,7 +547,7 @@ public class RisikoClientUI {
 			}
 		}
 	}
-	//Ende Welt-Ausgabe
+	// Ende Welt-Ausgabe
 
 	public void verschiebeEinheiten(Player aktiverPlayer) {
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
@@ -555,7 +558,8 @@ public class RisikoClientUI {
 			System.out.println("Du kannst leider keine Einheiten verschieben.");
 		} else {
 			System.out.println("Einheiten verschieben von: \n");
-			//dem Spieler werden nur die Länder angezeigt, von denen aus verschoben werden kann
+			// dem Spieler werden nur die Länder angezeigt, von denen aus verschoben werden
+			// kann
 			ArrayList<Land> ursprungsLaender = risiko.getEinheitenVerschiebenVonLaender(aktiverPlayer);
 			pruefArray = laenderAusgabe(ursprungsLaender);
 			boolean ungültig = true;
@@ -615,7 +619,7 @@ public class RisikoClientUI {
 	// @tobi // nur für testzwecke, da die missionen ja nicht sichtbar sein sollen
 	public void gibPlayerMissionUndLaenderAus() {
 		for (Player player : risiko.getPlayerArray()) {
-			System.out.println("Player nr." + player.getNummer() + " : " + player.getName() + " hat die farbe - "
+			System.out.println("Player nr." + (player.getNummer() + 1) + " : " + player.getName() + " hat die farbe - "
 					+ player.getFarbe());
 			System.out.println("und hat die Mission : \n" + player.getMission());
 			for (int i = 0; i < player.getBesitz().size(); i++) {

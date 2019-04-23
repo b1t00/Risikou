@@ -279,6 +279,7 @@ public class Spiellogik {
 		return aktiverPlayer;
 	}
 	
+	//@tobi wird glaube nirgendwo benutzt.. kann man aber evtl Extrasachen mit machen
 	public int getSpielrunden() {
 		return spielrunden;
 	}
