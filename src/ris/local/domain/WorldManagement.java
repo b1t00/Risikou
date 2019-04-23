@@ -86,17 +86,18 @@ public class WorldManagement {
 	}
 	
 	//hier noch kommentar zu der Matrix
-	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false}, //welches land?
-							{true, false, true, false, false, false, false, false, false, false, false},
-							{false, true, false, true, false, false, false, false, false, false, false},
-							{false, false, true, false, true, false, false, false, false, false, false},
-							{false, false, false, true, false, false, false, false, false, false, false},
-							{false, false, false, false, false, false, true, false, true, false, false},
-							{false, false, false, false, false, true, false, true, true, false, false},
-							{false, false, false, false, false, false, true, false, true, true, false},
-							{false, false, false, false, false, true, true, true, false, true, false},
-							{false, false, false, false, false, false, false, true, true, false, true},
-							{false, false, false, false, false, false, false, false, true, true, false}
+	boolean[][] nachbarn = {{false, true, false, false, false, false, false, false, false, false, false, false},		//Portugal
+							{true, false, true, false, false, false, false, false, false, false, false, false},			//Spanien
+							{false, true, false, true, false, false, false, false, false, false, false, false},			//Frankreich
+							{false, false, true, false, true, false, false, false, false, false, false, false},			//Belgien
+							{false, false, false, true, false, false, false, false, false, false, false, false},		//Niederland
+							{false, false, false, false, false, false, true, false, true, false, false, false},			//Western Australia
+							{false, false, false, false, false, true, false, true, true, false, false, false},			//Northern Territory
+							{false, false, false, false, false, false, true, false, true, true, false, false},			//Queensland
+							{false, false, false, false, false, true, true, true, false, true, false, false},			//South Australia
+							{false, false, false, false, false, false, false, true, true, false, true, false},			//New South Wales
+							{false, false, false, false, false, false, false, false, true, true, false, false},			//Victoria
+							{false, false, false, false, false, false, false, false, false, false, false, false} 		//Narnia
 							};	
 	
 	public boolean isBenachbart(Land land1, Land land2){
