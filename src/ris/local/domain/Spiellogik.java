@@ -164,7 +164,8 @@ public class Spiellogik {
 			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
 				if (worldMg.nachbarn[land.getNummer()][i]) {
 					if (worldMg.getLaender().get(i).getBesitzer().equals(land.getBesitzer())) {
-						hatNachbarn.add(worldMg.getLaender().get(i));
+						hatNachbarn.add(land);
+						break;
 					}
 				}
 			}
