@@ -49,7 +49,6 @@ public class Risiko {
 	
 	public Player PlayerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
-
 		return player;
 	}
 	
