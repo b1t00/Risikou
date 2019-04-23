@@ -158,6 +158,20 @@ public class Spiellogik {
 		return feindlicheLaender;
 	}
 	
+	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender){
+		ArrayList<Land> hatNachbarn = new ArrayList<Land>();
+		for (Land land: eigeneLaender) {
+			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
+				if (worldMg.nachbarn[land.getNummer()][i]) {
+					if (worldMg.getLaender().get(i).getBesitzer().equals(land.getBesitzer())) {
+						hatNachbarn.add(worldMg.getLaender().get(i));
+					}
+				}
+			}
+		}
+		return hatNachbarn;
+	}
+	
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
