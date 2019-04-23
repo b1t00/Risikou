@@ -15,14 +15,14 @@ import ris.local.valueobjects.Missionen;
 public class Spiellogik {
 
 	PlayerManagement gamerVW;
-	private Worldmanagement worldMg;
+	private WorldManegement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
 	private Missionen missionen;
 	private List<Player> playerList;
 	private Player aktiverSpieler;
 
-	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
+	public Spiellogik(WorldManegement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
 		spielrunden = 0;
