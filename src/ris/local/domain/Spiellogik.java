@@ -319,10 +319,13 @@ public class Spiellogik {
 	
 	
 	public void moveUnits(Land start,Land ziel, int menge) {
-		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()&&ziel.getBesitzer()==gibAktivenSpieler()) {
-			start.setEinheiten(-menge);
-			ziel.setEinheiten(menge);
-		}
+		start.setEinheiten(-menge);
+		ziel.setEinheiten(menge);
+//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()
+//				&&ziel.getBesitzer() == gibAktivenSpieler()) {
+//			start.setEinheiten(-menge);
+//			ziel.setEinheiten(menge);
+//		}
 	}
  
 
