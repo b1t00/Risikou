@@ -48,6 +48,7 @@ public class RisikoClientUI {
 					wieVielePlayerMenu();
 				} catch (IOException e) {
 				}
+				risiko.setzeAktivenPlayer();
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
 				risiko.verteileMissionen();
@@ -83,7 +84,7 @@ public class RisikoClientUI {
 			}
 		}
 		System.out.println();
-		for (int i = 1; i <= nr; i++) {
+		for (int i = 0; i < nr; i++) {
 			System.out.println("Wie soll Player " + i + " heißen? : ");
 			name = liesEingabe();
 

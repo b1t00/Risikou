@@ -18,7 +18,7 @@ public class Spiellogik {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Missionen missionen;
+	private Missionen missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
 	private List<Player> playerList;
 	private Player aktiverPlayer;
 
@@ -80,6 +80,10 @@ public class Spiellogik {
 		}
 		// wenn alles aufgeht fängt Player 1 an
 		return playerList.get(0);
+	}
+	
+	public void setzeStartSpieler() {
+		aktiverPlayer = whoBegins();
 	}
 	
 	public void verteileMissionen() {
@@ -258,9 +262,7 @@ public class Spiellogik {
 	// ***************************************->Runden<-**************************************
 	
 	public Player gibAktivenPlayer() {
-		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über Player ID 
-		ArrayList<Player> PlayerListe = playerMg.getPlayers();
-		return PlayerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
+		return aktiverPlayer;
 	}
 	
 	public int getSpielrunden() {
@@ -268,8 +270,9 @@ public class Spiellogik {
 	}
 	
 	// evtl andere bennenung als set
-	public void setSpielrunden() {
+	public void naechsteSpielrunde() {
 		this.spielrunden++;
+		aktiverPlayer = playerList.get((aktiverPlayer.getNummer() + 1) % playerList.size());
 	}
 //	********************************** Angriffslogik **********************************
 

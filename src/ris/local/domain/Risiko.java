@@ -55,6 +55,9 @@ public class Risiko {
 		return player;
 	}
 	
+	public void setzeAktivenPlayer() {
+		logik.setzeStartSpieler();
+	}
 	public ArrayList<String> gibLaenderUndNummer(){
 		return player.gibLaenderUndNummer();
 	}
@@ -77,7 +80,7 @@ public class Risiko {
 	}
 //	
 	public void machNaechsterPlayer() {
-		logik.setSpielrunden();
+		logik.naechsteSpielrunde();
 	}
 	
 	public ArrayList<Land> getEigeneNachbarn(Land land){
