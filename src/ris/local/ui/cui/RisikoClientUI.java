@@ -361,7 +361,7 @@ public class RisikoClientUI {
 					attEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException e) {
 				}
-				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3) {
+				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten == 0) {
 					System.out.println("Ungültige Eingabe, bitte wiederholen");
 				} else {
 					ungültig = false;
@@ -369,14 +369,14 @@ public class RisikoClientUI {
 			}
 			// Abfrage, wie viele Einheiten verteidigen
 			ungültig = true;
-			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Maximal möglich: "
+			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, maximal möglich: "
 					+ def.getEinheiten());
 			while (ungültig) {
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException e) {
 				}
-				if (defEinheiten > 3 || defEinheiten > def.getEinheiten()) { // statt 3 -> 2
+				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten == 0) {
 					System.out.println("Ungültige Eingabe, bitte wiederholen");
 				} else {
 					ungültig = false;
