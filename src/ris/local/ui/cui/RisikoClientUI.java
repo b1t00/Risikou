@@ -39,7 +39,7 @@ public class RisikoClientUI {
 			try {
 				eingabe = liesEingabe();
 			} catch (IOException e) {
-				
+
 			}
 			switch (eingabe) {
 			case "yes":
@@ -75,9 +75,14 @@ public class RisikoClientUI {
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
-			System.out.println("Wieviele Player soll es geben? (min 2 | max 6) :");
-			eingabePlayer = liesEingabe();
-			nr = Integer.parseInt(eingabePlayer);
+			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
+			try {
+				eingabePlayer = liesEingabe();
+				nr = Integer.parseInt(eingabePlayer);
+			} catch (IOException | NumberFormatException e) {
+				richtigeEingabe = false;
+				System.err.println("ungültige Eingabe. Bitte wiederholen \n");
+			}
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
 			} else {
@@ -257,13 +262,15 @@ public class RisikoClientUI {
 		System.out.println("\n   Spiel beenden: q \n"); // TODO
 		System.out.print("**Informationen anzeigen:**");
 		System.out.print("\n   Weltübersicht anzeigen: w");
-		System.out.print("\n   Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
-		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
+		System.out.print("\n   Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob ein kontinent
+																	// eingenommen ist
+		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die
+																						// eigenen angrenzen, beide mit
+																						// einheiten
 		System.out.print("\n   Mission anzeigen: m \n"); // wird später implementiert
 		System.out.flush();
 	}
 
-	
 	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
 		switch (input) {
 		case "a":
@@ -364,7 +371,7 @@ public class RisikoClientUI {
 			ungültig = true;
 			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Verfügbar: "
 					+ (att.getEinheiten() - 1));
-			if (att.getEinheiten()-1 > 3) {
+			if (att.getEinheiten() - 1 > 3) {
 				System.out.println(" Maximal möglich: 3");
 			}
 			while (ungültig) {
@@ -380,10 +387,9 @@ public class RisikoClientUI {
 			}
 			// Abfrage, wie viele Einheiten verteidigen
 			ungültig = true;
-			System.out.println(
-					defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
-							+ def.getEinheiten());
-			if(def.getEinheiten() > 2){
+			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
+					+ def.getEinheiten());
+			if (def.getEinheiten() > 2) {
 				System.out.println("Maximal 2");
 			}
 			while (ungültig) {
@@ -448,12 +454,10 @@ public class RisikoClientUI {
 					// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 					kampf = false;
 					break;
-				} 
-			} 
-			
-			
-			
-			if(def.getEinheiten()==0) {
+				}
+			}
+
+			if (def.getEinheiten() == 0) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
