@@ -45,7 +45,7 @@ public class RisikoClientUI {
 			case "j":
 			case "y":
 				try {
-					wieVieleSpielerMenu();
+					wieVielePlayerMenu();
 				} catch (IOException e) {
 				}
 				risiko.verteileEinheiten();
@@ -67,15 +67,15 @@ public class RisikoClientUI {
 		}
 	}
 
-	public void wieVieleSpielerMenu() throws IOException {
-		String eingabeSpieler, name;
+	public void wieVielePlayerMenu() throws IOException {
+		String eingabePlayer, name;
 		String farbe = "";
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
-			System.out.println("Wieviele Spieler soll es geben? :");
-			eingabeSpieler = liesEingabe();
-			nr = Integer.parseInt(eingabeSpieler);
+			System.out.println("Wieviele Player soll es geben? :");
+			eingabePlayer = liesEingabe();
+			nr = Integer.parseInt(eingabePlayer);
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
 			} else {
@@ -84,7 +84,7 @@ public class RisikoClientUI {
 		}
 		System.out.println();
 		for (int i = 1; i <= nr; i++) {
-			System.out.println("Wie soll spieler " + i + " heißen? : ");
+			System.out.println("Wie soll Player " + i + " heißen? : ");
 			name = liesEingabe();
 
 			do {
@@ -95,7 +95,7 @@ public class RisikoClientUI {
 							"Diese Farbe wurde schon vergeben oder es gibt die Farbe nicht : bitte wähle nochmal eine Farbe!");
 			} while (risiko.getRichtigeEingabe());
 
-			risiko.spielerAnlegen(name, farbe, i);
+			risiko.PlayerAnlegen(name, farbe, i);
 		}
 	}
 
@@ -140,8 +140,8 @@ public class RisikoClientUI {
 		Land aktuellesLand = null;
 
 		while (anzahlEinheiten > 0) {
-			System.out.println(risiko.gibAktivenSpieler());
-			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			System.out.println(risiko.gibAktivenPlayer());
+			Player aktiverPlayer = risiko.gibAktivenPlayer();
 
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList<Land> aktiveLaender = aktiverPlayer.getBesitz();
@@ -163,7 +163,7 @@ public class RisikoClientUI {
 			}
 			aktuellesLand.setEinheiten(einheit);
 			anzahlEinheiten--;
-			risiko.machNaechsterSpieler();
+			risiko.machNaechsterPlayer();
 		}
 	}
 
@@ -171,11 +171,11 @@ public class RisikoClientUI {
 		String input = "";
 		boolean spielzug;
 		while (true) {
-			Player aktiverPlayer = risiko.gibAktivenSpieler();
+			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			System.out.println("");
 			spielzug = true;
-			// spieler bekommt einheiten
+			// Player bekommt einheiten
 			setzeNeueEinheiten(aktiverPlayer);
 
 			while (spielzug) {
@@ -273,7 +273,7 @@ public class RisikoClientUI {
 			ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
 			laenderAusgabe(landAusgabe);
 		case "z":
-			risiko.machNaechsterSpieler();
+			risiko.machNaechsterPlayer();
 			System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
 			break;
 		case "q":
@@ -516,7 +516,7 @@ public class RisikoClientUI {
 		}
 		System.out.println("");
 		ArrayList<Kontinent> alleKontinente = risiko.gibAlleKontinente();
-		ArrayList<Player> allePlayer = risiko.gibAlleSpieler();
+		ArrayList<Player> allePlayer = risiko.gibAllePlayer();
 		for (Kontinent kontinent : alleKontinente) {
 			// gibt dann Kontinente mit dazugehörigen Ländern aus TODO: könnte ausgelagert
 			// werden, sodass gezielt darauf zugegriffen werden kann
@@ -535,7 +535,7 @@ public class RisikoClientUI {
 				}
 			}
 			if (hasOwner) {
-				System.out.println(kontinent.getName() + " gehört keinem Spieler.");
+				System.out.println(kontinent.getName() + " gehört keinem Player.");
 				System.out.println("");
 			}
 		}
@@ -600,16 +600,16 @@ public class RisikoClientUI {
 		}
 	}
 
-	public void gibLaenderUndNummerVonSpielerAus(Player play) {
+	public void gibLaenderUndNummerVonPlayerAus(Player play) {
 		for (int i = 0; i < play.getBesitz().size(); i++) {
 			System.out.println(play.gibLaenderUndNummer().get(i) + " gehört " + play.getName());
 		}
 	}
 
 	// @tobi // nur für testzwecke, da die missionen ja nicht sichtbar sein sollen
-	public void gibSpielerMissionUndLaenderAus() {
-		for (Player player : risiko.getSpielerArray()) {
-			System.out.println("Spieler nr." + player.getNummer() + " : " + player.getName() + " hat die farbe - "
+	public void gibPlayerMissionUndLaenderAus() {
+		for (Player player : risiko.getPlayerArray()) {
+			System.out.println("Player nr." + player.getNummer() + " : " + player.getName() + " hat die farbe - "
 					+ player.getFarbe());
 			System.out.println("und hat die Mission : \n" + player.getMission());
 			for (int i = 0; i < player.getBesitz().size(); i++) {
@@ -621,7 +621,7 @@ public class RisikoClientUI {
 
 	public void run() {
 		starteSpiel();
-		gibSpielerMissionUndLaenderAus();
+		gibPlayerMissionUndLaenderAus();
 //		****************_hier_gehts_los********
 		round();
 

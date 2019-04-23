@@ -20,7 +20,7 @@ public class Spiellogik {
 	private int spielrunden;
 	private Missionen missionen;
 	private List<Player> playerList;
-	private Player aktiverSpieler;
+	private Player aktiverPlayer;
 
 	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -78,7 +78,7 @@ public class Spiellogik {
 				}
 			}
 		}
-		// wenn alles aufgeht fängt spieler 1 an
+		// wenn alles aufgeht fängt Player 1 an
 		return playerList.get(0);
 	}
 	
@@ -257,10 +257,10 @@ public class Spiellogik {
 	
 	// ***************************************->Runden<-**************************************
 	
-	public Player gibAktivenSpieler() {
-		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID 
-		ArrayList<Player> spielerListe = playerMg.getPlayers();
-		return spielerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
+	public Player gibAktivenPlayer() {
+		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über Player ID 
+		ArrayList<Player> PlayerListe = playerMg.getPlayers();
+		return PlayerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
 	}
 	
 	public int getSpielrunden() {
@@ -323,8 +323,8 @@ public class Spiellogik {
 	public void moveUnits(Land start,Land ziel, int menge) {
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);
-//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()
-//				&&ziel.getBesitzer() == gibAktivenSpieler()) {
+//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
+//				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);
 //			ziel.setEinheiten(menge);
 //		}
