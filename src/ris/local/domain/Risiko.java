@@ -84,7 +84,7 @@ public class Risiko {
 	}
 	
 	public ArrayList<Land> getEinheitenVerschiebenVonLaender(Player player){
-		 ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
+		ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
 		return logik.getLaenderMitEigenenNachbarn(verschiebbareEinheitenLaender);
 	}
 	

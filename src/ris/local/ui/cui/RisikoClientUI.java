@@ -172,6 +172,7 @@ public class RisikoClientUI {
 	public void round() {
 		String input = "";
 		boolean spielzug;
+		boolean nichtVerschoben = true;
 		while (true) {
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + " ist am Zug.");
@@ -182,7 +183,7 @@ public class RisikoClientUI {
 
 			while (spielzug) {
 				System.out.println("");
-				gibMenuAus(aktiverPlayer);
+				gibMenuAus(aktiverPlayer, nichtVerschoben);
 				try {
 					input = liesEingabe();
 				} catch (IOException e) {
@@ -190,6 +191,10 @@ public class RisikoClientUI {
 				verarbeiteEingabe(input, aktiverPlayer);
 				if (input.equals("z")) {
 					spielzug = false;
+					nichtVerschoben = true;
+				}
+				if (input.equals("e")) {
+					nichtVerschoben = false;
 				}
 			}
 		}
@@ -242,9 +247,11 @@ public class RisikoClientUI {
 	}
 	// ----------------------------------einheiten-------------------------------------------------
 
-	public void gibMenuAus(Player aktiverPlayer) {
+	public void gibMenuAus(Player aktiverPlayer, boolean nichtVerschoben) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
-		System.out.print("\n   Angreifen: a");
+		if (nichtVerschoben) {
+			System.out.print("\n   Angreifen: a");
+		}
 		System.out.print("\n   Einheiten verschieben: e");
 		System.out.print("\n   Zug beenden: z");
 		System.out.println("\n   Spiel beenden: q \n"); // TODO
@@ -374,8 +381,11 @@ public class RisikoClientUI {
 			// Abfrage, wie viele Einheiten verteidigen
 			ungültig = true;
 			System.out.println(
-					defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, maximal möglich: "
+					defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
 							+ def.getEinheiten());
+			if(def.getEinheiten() > 2){
+				System.out.println("Maximal 2");
+			}
 			while (ungültig) {
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
@@ -408,7 +418,42 @@ public class RisikoClientUI {
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
 			// 1. angreifer hat gewonnen -> sollen weitere Einheiten verschoben werden?
-			if (ergebnis.get(1) < ergebnis.get(0)) {
+			if (ergebnis.get(1) < ergebnis.get(0) && def.getEinheiten() > 0) {
+				System.out.println(angreifer + " hat gewonnen.");
+				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
+				if (ergebnis.get(0) == -1) {
+					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
+				} else {
+					System.out.println(" Einheiten.");
+				}
+
+				System.out.print(defender + " verliert: " + ergebnis.get(1));
+				if (ergebnis.get(1) == -1) {
+					System.out.println(" Einheit.");// TODO: beide Zeilen wiederholen sich, auslagern?
+				} else {
+					System.out.println(" Einheiten.");
+				}
+				System.out.println("");
+				System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
+				String answer = "";
+				try {
+					answer = liesEingabe();
+				} catch (IOException e) {
+				}
+				switch (answer) {
+				case "na klar":
+					// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
+					break;
+				case "auf gar keinen fall":
+					// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
+					kampf = false;
+					break;
+				} 
+			} 
+			
+			
+			
+			if(def.getEinheiten()==0) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
