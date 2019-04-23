@@ -29,7 +29,7 @@ public class RisikoClientUI {
 	private String liesEingabe() throws IOException {
 		return in.readLine();
 	}
-//	*******************Spielstart****************************
+//	*****************************Spielstart****************************
 
 	private void starteSpiel() {
 		boolean richtigeEingabe = false;
@@ -51,6 +51,8 @@ public class RisikoClientUI {
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
 				risiko.verteileMissionen();
+				// aktiven spieler festlegen
+				risiko.setzeStartSpieler();
 				System.out.println("jetzt beginnt das Spiel \n");
 				richtigeEingabe = true;
 				break;
@@ -73,9 +75,16 @@ public class RisikoClientUI {
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
-			System.out.println("Wieviele Spieler soll es geben? :");
-			eingabeSpieler = liesEingabe();
-			nr = Integer.parseInt(eingabeSpieler);
+			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
+			try {
+				eingabeSpieler = liesEingabe();
+				nr = Integer.parseInt(eingabeSpieler);
+			} catch (IOException | NumberFormatException e) {
+				richtigeEingabe = false;
+				System.err.println("ungültige Eingabe. Wiederholen du dödel! \n");
+//				nr = -1;
+			}
+
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
 			} else {
@@ -83,8 +92,8 @@ public class RisikoClientUI {
 			}
 		}
 		System.out.println();
-		for (int i = 1; i <= nr; i++) {
-			System.out.println("Wie soll spieler " + i + " heißen? : ");
+		for (int i = 0; i < nr; i++) {
+			System.out.println("Wie soll spieler " + (i + 1) + " heißen? : ");
 			name = liesEingabe();
 
 			do {
@@ -272,6 +281,7 @@ public class RisikoClientUI {
 		case "l":
 			ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
 			laenderAusgabe(landAusgabe);
+			break;
 		case "z":
 			risiko.machNaechsterSpieler();
 			System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
@@ -587,15 +597,17 @@ public class RisikoClientUI {
 				int nach = 0;
 				try {
 					nach = Integer.parseInt(liesEingabe());
-					risiko.getLandById(nach);
-				} catch (IOException e) {
+
+				} catch (IOException | NumberFormatException e) {
 				}
 				if (pruefArray.contains(nach)) {
 					ungültig = false;
+					ziel = risiko.getLandById(nach);
 				} else {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				}
 			}
+
 			risiko.verschiebeEinheiten(start, ziel, anzahl);
 		}
 	}
@@ -609,7 +621,7 @@ public class RisikoClientUI {
 	// @tobi // nur für testzwecke, da die missionen ja nicht sichtbar sein sollen
 	public void gibSpielerMissionUndLaenderAus() {
 		for (Player player : risiko.getSpielerArray()) {
-			System.out.println("Spieler nr." + player.getNummer() + " : " + player.getName() + " hat die farbe - "
+			System.out.println("Spieler nr." + (player.getNummer() + 1) + " : " + player.getName() + " hat die farbe - "
 					+ player.getFarbe());
 			System.out.println("und hat die Mission : \n" + player.getMission());
 			for (int i = 0; i < player.getBesitz().size(); i++) {
