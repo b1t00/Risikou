@@ -47,7 +47,7 @@ public class Player {
 		return uBlock;
 	}
 	public int[] setBlock(int[]gB, int indexLand,int units) {
-		gB[indexLand]=units;
+		gB[indexLand]+=units;
 		return gB;
 	}
 	
