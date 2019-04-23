@@ -39,6 +39,7 @@ public class RisikoClientUI {
 			try {
 				eingabe = liesEingabe();
 			} catch (IOException e) {
+				
 			}
 			switch (eingabe) {
 			case "yes":
