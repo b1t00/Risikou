@@ -2,8 +2,6 @@ package ris.local.domain;
 
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Kontinent;
@@ -44,8 +42,8 @@ public class Risiko {
 	//@to: Methode die sagt wer anf‰ngt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch @annie: ich glaub das ist richtig so
 	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
-	public void setzeStartSpieler() {
-		logik.setzeStartSpieler();
+	public Player whoBegins() {
+		return logik.whoBegins();
 	}
 	
 	
@@ -79,7 +77,7 @@ public class Risiko {
 	}
 //	
 	public void machNaechsterSpieler() {
-		logik.naechsteSpielrunde();
+		logik.setSpielrunden();
 	}
 	
 	public ArrayList<Land> getEigeneNachbarn(Land land){
@@ -148,25 +146,4 @@ public class Risiko {
 	public boolean getRichtigeEingabe() {
 		return playerMg.getRichtigeEingabe();
 	}
-	
-//	*****************TestMain****************
-//	public static void main(String[] args) {
-//		Risiko test = new Risiko();
-//		test.playerMg.addPlayer("normen1", "rot", 1);
-//		test.playerMg.addPlayer("normen2", "blau", 2);
-//		
-//		test.verteileEinheiten();
-//		ArrayList<Player> players = test.playerMg.getPlayers();
-//		
-//		for(Player play : players) {
-//			System.out.println(play.getName() + "----------- ");
-//			ArrayList<Land> neuordnen = play.getBesitz();
-//			Collections.sort(neuordnen);
-//			for(Land land :neuordnen) {
-//				System.out.println(land.getNummer() + " : " + land.getName());
-//			}
-//			System.out.println();
-//		}
-//		
-//	}
 }

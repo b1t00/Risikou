@@ -51,7 +51,10 @@ public class RisikoClientUI {
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
 				risiko.verteileMissionen();
+<<<<<<< HEAD
 				risiko.setzeAktivenPlayer();
+=======
+>>>>>>> parent of 39ae4ca... marw
 				System.out.println("jetzt beginnt das Spiel \n");
 				richtigeEingabe = true;
 				break;
@@ -74,9 +77,15 @@ public class RisikoClientUI {
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
+<<<<<<< HEAD
 			System.out.println("Wieviele Player soll es geben? :");
 			eingabePlayer = liesEingabe();
 			nr = Integer.parseInt(eingabePlayer);
+=======
+			System.out.println("Wieviele Spieler soll es geben? :");
+			eingabeSpieler = liesEingabe();
+			nr = Integer.parseInt(eingabeSpieler);
+>>>>>>> parent of 39ae4ca... marw
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
 			} else {
@@ -84,8 +93,8 @@ public class RisikoClientUI {
 			}
 		}
 		System.out.println();
-		for (int i = 0; i < nr; i++) {
-			System.out.println("Wie soll Player " + i + " heißen? : ");
+		for (int i = 1; i <= nr; i++) {
+			System.out.println("Wie soll spieler " + i + " heißen? : ");
 			name = liesEingabe();
 
 			do {
@@ -607,7 +616,11 @@ public class RisikoClientUI {
 				int nach = 0;
 				try {
 					nach = Integer.parseInt(liesEingabe());
+<<<<<<< HEAD
 					ziel = risiko.getLandById(nach);
+=======
+					risiko.getLandById(nach);
+>>>>>>> parent of 39ae4ca... marw
 				} catch (IOException e) {
 				}
 				if (pruefArray.contains(nach)) {
@@ -627,6 +640,7 @@ public class RisikoClientUI {
 =======
 >>>>>>> parent of 21bba02... Update RisikoClientUI.java
 			}
+<<<<<<< HEAD
 		}
 		System.out.println("Einheiten verschieben nach: \n");
 		ArrayList<Land> nachbarLaender = risiko.getEigeneNachbarn(start);
@@ -645,6 +659,9 @@ public class RisikoClientUI {
 			}
 		}
 		risiko.verschiebeEinheiten(start, ziel, anzahl);
+=======
+			risiko.verschiebeEinheiten(start, ziel, anzahl);
+>>>>>>> parent of 39ae4ca... marw
 		}
 	}
 
@@ -655,9 +672,15 @@ public class RisikoClientUI {
 	}
 
 	// @tobi // nur für testzwecke, da die missionen ja nicht sichtbar sein sollen
+<<<<<<< HEAD
 	public void gibPlayerMissionUndLaenderAus() {
 		for (Player player : risiko.getPlayerArray()) {
 			System.out.println("Player nr." + (player.getNummer() + 1) +  " : " + player.getName() + " hat die farbe - "
+=======
+	public void gibSpielerMissionUndLaenderAus() {
+		for (Player player : risiko.getSpielerArray()) {
+			System.out.println("Spieler nr." + player.getNummer() + " : " + player.getName() + " hat die farbe - "
+>>>>>>> parent of 39ae4ca... marw
 					+ player.getFarbe());
 			System.out.println("und hat die Mission : \n" + player.getMission());
 			for (int i = 0; i < player.getBesitz().size(); i++) {

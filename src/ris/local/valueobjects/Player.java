@@ -1,7 +1,6 @@
 package ris.local.valueobjects;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -10,6 +9,7 @@ public class Player {
 	private String farbe;
 	private int nummer;
 	private String mission; //
+	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
 
@@ -39,7 +39,6 @@ public class Player {
 	}
 
 	public ArrayList<Land> getBesitz() {
-		Collections.sort(inBesitz);
 		return inBesitz;
 	}
 	

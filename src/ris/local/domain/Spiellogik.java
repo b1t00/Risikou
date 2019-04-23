@@ -18,7 +18,6 @@ public class Spiellogik {
 	private Worldmanagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Player aktiverSpieler;
 	private Missionen missionen;
 	private List<Player> playerList;
 
@@ -26,8 +25,7 @@ public class Spiellogik {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
 		spielrunden = 0;
-		playerList = playerMg.getPlayers();
-
+		playerList = playerMg.getPlayers(); 
 	}
 
 	// ***********************************Spiel_Anfang********************************************
@@ -59,12 +57,12 @@ public class Spiellogik {
 		}
 		teileLaenderBesitzerZu();
 	}
-
 	// methode die allen laender den entsprechenden Player zuteilt
-	// wird denke ich nur ganz am anfang gebraucht..
+	// wird denke ich nur ganz am anfang gebraucht.. 
+//	wahrscheinlich benutzt man bei Laenderwechseln die setBesitzer methode vom Land
 	public void teileLaenderBesitzerZu() {
-		for (Player player : playerMg.getPlayers()) {
-			for (Land land : player.getBesitz()) {
+		for(Player player : playerMg.getPlayers()) {
+			for(Land land : player.getBesitz()) {
 				land.setBesitzer(player);
 			}
 		}
@@ -72,7 +70,7 @@ public class Spiellogik {
 
 	// Methode die sagt wer anfängt
 	public Player whoBegins() {
-		if ((shuffleLaender().size() % playerList.size()) != 0) { // abfrage ob alle laender aufgehen oder nicht.
+		if (shuffleLaender().size() % playerList.size() != 0) { // abfrage ob alle laender aufgehen oder nicht.
 			for (int i = 0; i < playerList.size(); i++) {
 				if (playerList.get(i).getBesitz().size() > playerList.get(i + 1).getBesitz().size()) {
 					return playerList.get(i + 1);
@@ -82,62 +80,60 @@ public class Spiellogik {
 		// wenn alles aufgeht fängt spieler 1 an
 		return playerList.get(0);
 	}
-
-	public void setzeStartSpieler() {
-		aktiverSpieler = whoBegins();
-	}
-
+	
 	public void verteileMissionen() {
 		missionen = new Missionen(playerMg);
 		ArrayList<String> missionenListe = missionen.getMissionen();
 		Collections.shuffle(missionenListe);
-		for (int i = 0; i < playerList.size(); i++) {
+		for(int i = 0 ; i < playerList.size(); i ++) {
 			playerList.get(i).setMission(missionenListe.get(i));
 		}
+		
+		
 	}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-	// ----------------------------------------einheiten-------------------------------------------------
+	
+	//----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
 		int verfuegbareEinheiten = 0;
 		int landBesitz = aktiverPlayer.getBesitz().size();
-		verfuegbareEinheiten = (landBesitz / 3);
-		if (verfuegbareEinheiten < 3) {
+		verfuegbareEinheiten = (landBesitz/3);
+		if(verfuegbareEinheiten < 3) {
 			verfuegbareEinheiten = 3;
 		}
 		ArrayList<Kontinent> kontinente = worldMg.getKontinente();
-		for (Kontinent kontinent : kontinente) {
-			if (kontinent.isOwnedByPlayer(aktiverPlayer)) {
-				// kontinent braucht attribut: bonusEinheiten, entsprechend den bonuseinheiten
-				// worldmg braucht methode getKontinente
+		for (Kontinent kontinent: kontinente) {
+			if(kontinent.isOwnedByPlayer(aktiverPlayer)) {
+				//kontinent braucht attribut: bonusEinheiten, entsprechend den bonuseinheiten
+				//worldmg braucht methode getKontinente
 				verfuegbareEinheiten += kontinent.getValue();
 			}
 		}
 		return verfuegbareEinheiten;
 	}
-	// ----------------------------------------einheiten-------------------------------------------------
-
+	//----------------------------------------einheiten-------------------------------------------------
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+	
 	// Methode prüft, ob Länder von einem Player mehr als eine Einheit hat
-	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit(Player player) {
+	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit (Player player) {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
-		for (Land land : besitzPlayer) {
+		for (Land land: besitzPlayer) {
 			if (land.getEinheiten() > 1) {
 				starkeLaender.add(land);
 			}
 		}
 		return starkeLaender;
 	}
-
+	
 	// Methode prüft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
-	public ArrayList<Land> getLaenderMitFeindlichenNachbarn(Player angreifer, ArrayList<Land> laender) {
+	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (Player angreifer, ArrayList<Land> laender){
 		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
 		ArrayList<Land> besitzVonPlayer = laender;
-		for (Land land : besitzVonPlayer) {
-			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
+		for (Land land: besitzVonPlayer) {
+			for (int i=0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
 				if (worldMg.nachbarn[land.getNummer()][i]) {
 					if (!worldMg.getLaender().get(i).getBesitzer().equals(angreifer)) {
 						moeglicheAngreifer.add(land);
@@ -148,8 +144,8 @@ public class Spiellogik {
 		}
 		return moeglicheAngreifer;
 	}
-
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
+	
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand){
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
 			if (worldMg.nachbarn[attackLand.getNummer()][i]) {
@@ -160,16 +156,14 @@ public class Spiellogik {
 		}
 		return feindlicheLaender;
 	}
-
-	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten) {
-		// rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen
-		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+	
+	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		att.setEinheiten(ergebnis.get(1));
 		def.setEinheiten(ergebnis.get(0));
-		// wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten
-		// verschoben
-		if (def.getEinheiten() == 0) {
+		//wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten verschoben
+		if (def.getEinheiten()==0) {
 			def.setEinheiten(attEinheiten + ergebnis.get(1));
 			att.setEinheiten(-(attEinheiten + ergebnis.get(1)));
 			Player loser = def.getBesitzer();
@@ -180,7 +174,7 @@ public class Spiellogik {
 		}
 		return ergebnis;
 	}
-
+	
 	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;
 		int lossAtt = 0;
@@ -254,23 +248,24 @@ public class Spiellogik {
 		unitLoss.add(lossDef);
 		return unitLoss;
 	}
-
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+	
 	// ***************************************->Runden<-**************************************
-
+	
 	public Player gibAktivenSpieler() {
-		return aktiverSpieler;
+		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID 
+		ArrayList<Player> spielerListe = playerMg.getPlayers();
+		return spielerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
 	}
-
+	
 	public int getSpielrunden() {
 		return spielrunden;
 	}
-
+	
 	// evtl andere bennenung als set
-	public void naechsteSpielrunde() {
+	public void setSpielrunden() {
 		this.spielrunden++;
-		aktiverSpieler = playerList.get((aktiverSpieler.getNummer() + 1) % playerList.size());
 	}
 //	********************************** Angriffslogik **********************************
 
@@ -294,39 +289,42 @@ public class Spiellogik {
 //		}
 //		att.setEinheiten(dice.get(1));
 //	}
-	public Player getOwner(Land attacker) {
-		for (Player p : playerMg.getPlayers()) {
-			for (Land l : p.getBesitz()) {
-				if (l.getNummer() == attacker.getNummer()) {
-					return p;
-				}
-			}
-		}
-		return null;
-	}
+//	public Player isOwner(Land attacker) {
+//		for (Player p : playerMg.getPlayers()) {
+//			for (Land l : p.getBesitz()) {
+//				if (l.getNummer() == attacker.getNummer()) {
+//					return p;
+//				}
+//			}
+//		}
+//		return null;
+//	}
 
-	public boolean movePossible(Land start, Land ziel, int menge) {
-		// nachschauen ob genuegend einheiten da sind, sonst mueessen wa ganich weida
-		// machen
-		if ((start.getEinheiten() - menge) < 1) {
-			return false;
+//	public void moveUnits() { // TODO
+	public boolean movePossible(Land start,Land ziel,int menge) {
+		boolean einheiten =true;
+		if(start.getEinheiten()-menge<1) {
+			einheiten=false;
 		}
-		// naschauen ob beide dem gleichen gehören
-		if (getOwner(start) != getOwner(ziel))
-			return false;
-		// nachschaeun ob nachbarn
-		if (!worldMg.isBenachbart(start, ziel))
-			return false;
-		return true;
+		Player x = isOwner(start);
+		ArrayList<Land> z= x.getBesitz();
+		ArrayList<Land> connected;
+		boolean nachbar=false;
+		if(worldMg.isBenachbart(start, ziel)) {
+			nachbar=true;
+		}
+	return (nachbar&&einheiten);
 	}
-
-	public void moveUnits(Land start, Land ziel, int menge) {
-		if (movePossible(start, ziel, menge) && start.getBesitzer() == gibAktivenSpieler()
-				&& ziel.getBesitzer() == gibAktivenSpieler()) {
+	
+	
+	
+	public void moveUnits(Land start,Land ziel, int menge) {
+		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()&&ziel.getBesitzer()==gibAktivenSpieler()) {
 			start.setEinheiten(-menge);
 			ziel.setEinheiten(menge);
 		}
 	}
+ 
 
 	public int unitsAvailable(Land l) {
 		return l.getEinheiten();
