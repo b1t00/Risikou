@@ -356,7 +356,10 @@ public class RisikoClientUI {
 			// Abfrage, wie viele Einheiten angreifen
 			ungültig = true;
 			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Verfügbar: "
-					+ (att.getEinheiten() - 1) + ", maximal möglich: 3");
+					+ (att.getEinheiten() - 1));
+			if (att.getEinheiten()-1 > 3) {
+				System.out.println(" Maximal möglich: 3");
+			}
 			while (ungültig) {
 				try {
 					attEinheiten = Integer.parseInt(liesEingabe());
