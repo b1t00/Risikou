@@ -15,13 +15,14 @@ import ris.local.valueobjects.Missionen;
 public class Spiellogik {
 
 	PlayerManagement gamerVW;
-	private Worldmanagement worldMg;
+	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Missionen missionen;
+	private Missionen missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
 	private List<Player> playerList;
+	private Player aktiverPlayer;
 
-	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
+	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
 		spielrunden = 0;
@@ -37,7 +38,7 @@ public class Spiellogik {
 		return shuffle;
 	}
 
-	// Methode um Laender am Anfang zufällig zu verteilen;
+	// Methode um Laender am Anfang zufï¿½llig zu verteilen;
 	public void verteileEinheiten() {
 		ArrayList<Land> shuffle = shuffleLaender();
 		int alleLaender = shuffle.size();
@@ -68,7 +69,7 @@ public class Spiellogik {
 		}
 	}
 
-	// Methode die sagt wer anfängt
+	// Methode die sagt wer anfï¿½ngt
 	public Player whoBegins() {
 		if (shuffleLaender().size() % playerList.size() != 0) { // abfrage ob alle laender aufgehen oder nicht.
 			for (int i = 0; i < playerList.size(); i++) {
@@ -77,8 +78,12 @@ public class Spiellogik {
 				}
 			}
 		}
-		// wenn alles aufgeht fängt spieler 1 an
+		// wenn alles aufgeht fï¿½ngt Player 1 an
 		return playerList.get(0);
+	}
+	
+	public void setzeStartSpieler() {
+		aktiverPlayer = whoBegins();
 	}
 	
 	public void verteileMissionen() {
@@ -116,7 +121,7 @@ public class Spiellogik {
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	// Methode prüft, ob Länder von einem Player mehr als eine Einheit hat
+	// Methode prï¿½ft, ob Lï¿½nder von einem Player mehr als eine Einheit hat
 	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit (Player player) {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
@@ -128,7 +133,7 @@ public class Spiellogik {
 		return starkeLaender;
 	}
 	
-	// Methode prüft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
+	// Methode prï¿½ft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
 	public ArrayList<Land> getLaenderMitFeindlichenNachbarn (Player angreifer, ArrayList<Land> laender){
 		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
 		ArrayList<Land> besitzVonPlayer = laender;
@@ -157,8 +162,23 @@ public class Spiellogik {
 		return feindlicheLaender;
 	}
 	
+	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender){
+		ArrayList<Land> hatNachbarn = new ArrayList<Land>();
+		for (Land land: eigeneLaender) {
+			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
+				if (worldMg.nachbarn[land.getNummer()][i]) {
+					if (worldMg.getLaender().get(i).getBesitzer().equals(land.getBesitzer())) {
+						hatNachbarn.add(land);
+						break;
+					}
+				}
+			}
+		}
+		return hatNachbarn;
+	}
+	
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
-		//rollDice gibt eine Int-ArrayList zurück, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
+		//rollDice gibt eine Int-ArrayList zurï¿½ck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker= att.getBesitzer();
 		int buBlock= attacker.getBlock()[att.getNummer()];
 		if(attacker.getBlock()[att.getNummer()]>0) {
@@ -274,19 +294,19 @@ public class Spiellogik {
 	
 	// ***************************************->Runden<-**************************************
 	
-	public Player gibAktivenSpieler() {
-		int spielbeginn = whoBegins().getNummer(); //abfrage funktioniert über spieler ID 
-		ArrayList<Player> spielerListe = playerMg.getPlayers();
-		return spielerListe.get((spielbeginn -1 + spielrunden)%(playerMg.getPlayers().size())); //deshalb hier -1
+	public Player gibAktivenPlayer() {
+		return aktiverPlayer;
 	}
 	
+	//@tobi wird glaube nirgendwo benutzt.. kann man aber evtl Extrasachen mit machen
 	public int getSpielrunden() {
 		return spielrunden;
 	}
 	
 	// evtl andere bennenung als set
-	public void setSpielrunden() {
+	public void naechsteSpielrunde() {
 		this.spielrunden++;
+		aktiverPlayer = playerList.get((aktiverPlayer.getNummer() + 1) % playerList.size());
 	}
 //	********************************** Angriffslogik **********************************
 
@@ -337,13 +357,11 @@ public class Spiellogik {
 	return (nachbar&&einheiten);
 	}
 	
-	
-	
 	public void moveUnits(Land start,Land ziel, int menge) {
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);
-//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenSpieler()
-//				&&ziel.getBesitzer() == gibAktivenSpieler()) {
+//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
+//				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);
 //			ziel.setEinheiten(menge);
 //		}

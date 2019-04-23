@@ -1,6 +1,7 @@
 package ris.local.valueobjects;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -40,6 +41,7 @@ public class Player {
 	}
 
 	public ArrayList<Land> getBesitz() {
+		Collections.sort(inBesitz);
 		return inBesitz;
 	}
 	

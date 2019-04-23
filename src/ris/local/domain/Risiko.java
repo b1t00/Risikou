@@ -10,7 +10,7 @@ import ris.local.valueobjects.Player;
 
 public class Risiko {
 
-	private Worldmanagement worldMg;
+	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player;
@@ -19,7 +19,7 @@ public class Risiko {
 	// Konstruktor
 
 	public Risiko() {
-		worldMg = new Worldmanagement();
+		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
 		
@@ -47,19 +47,19 @@ public class Risiko {
 	}
 	
 	
-	public Player spielerAnlegen(String name, String farbe, int nummer) {
+	public Player PlayerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
-
-		// playerMg.addPlayer(player);
-		// gameObjekt.add(gamer);
 		return player;
 	}
 	
+	public void setzeAktivenPlayer() {
+		logik.setzeStartSpieler();
+	}
 	public ArrayList<String> gibLaenderUndNummer(){
 		return player.gibLaenderUndNummer();
 	}
 
-	public ArrayList<Player> getSpielerArray(){
+	public ArrayList<Player> getPlayerArray(){
 		return playerMg.getPlayers();
 	}
 	public int getAnzahlPlayer() {
@@ -71,21 +71,21 @@ public class Risiko {
 		return land;
 	}
 	
-	public Player gibAktivenSpieler() {
-//		System.out.println("---------------------------------> hier gucken" + playerList.get(0));
-		return logik.gibAktivenSpieler();
+	public Player gibAktivenPlayer() {
+		return logik.gibAktivenPlayer();
 	}
-//	
-	public void machNaechsterSpieler() {
-		logik.setSpielrunden();
+
+	public void machNaechsterPlayer() {
+		logik.naechsteSpielrunde();
 	}
 	
 	public ArrayList<Land> getEigeneNachbarn(Land land){
 		return worldMg.getEigeneNachbarn(land);
 	}
 	
-	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit(Player player){
-		return logik.getLaenderMitMehrAlsEinerEinheit(player);
+	public ArrayList<Land> getEinheitenVerschiebenVonLaender(Player player){
+		 ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
+		return logik.getLaenderMitEigenenNachbarn(verschiebbareEinheitenLaender);
 	}
 	
 	//WELT AUSGABE->
@@ -97,7 +97,7 @@ public class Risiko {
 		return worldMg.getKontinente();
 	}
 	
-	public ArrayList<Player> gibAlleSpieler(){
+	public ArrayList<Player> gibAllePlayer(){
 		return playerMg.getPlayers();
 	}
 	//WELT AUSGABE <-

@@ -8,13 +8,13 @@ import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 
-public class Worldmanagement {
+public class WorldManagement {
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
 	private ArrayList<Land> shuffle = new ArrayList<Land>();
 	private ArrayList<Kontinent> kontinente = new ArrayList<Kontinent>();
 	
-	public Worldmanagement() {
+	public WorldManagement() {
 		erstelleWelt();
 	}
 
