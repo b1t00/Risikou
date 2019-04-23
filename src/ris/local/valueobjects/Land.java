@@ -1,6 +1,6 @@
 package ris.local.valueobjects;
 
-public class Land {
+public class Land implements Comparable{
 	private int einheiten;
 	private int nummer;
 	private String name;
@@ -56,6 +56,12 @@ public class Land {
 					return ((this.name.equals(neuesLand.name)));
 				}
 				return false;
+	}
+	
+	@Override
+	public int compareTo(Object o) {
+		Land other = (Land) o;
+		return this.nummer - other.getNummer();
 	}
 	
 	

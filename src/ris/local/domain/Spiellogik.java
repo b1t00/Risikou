@@ -20,6 +20,7 @@ public class Spiellogik {
 	private int spielrunden;
 	private Missionen missionen;
 	private List<Player> playerList;
+	private Player aktiverSpieler;
 
 	public Spiellogik(Worldmanagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
