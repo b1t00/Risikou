@@ -75,7 +75,7 @@ public class RisikoClientUI {
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
-			System.out.println("Wieviele Player soll es geben? :");
+			System.out.println("Wieviele Player soll es geben? (min 2 | max 6) :");
 			eingabePlayer = liesEingabe();
 			nr = Integer.parseInt(eingabePlayer);
 			if (nr < 2 || nr > 6) {
@@ -271,6 +271,7 @@ public class RisikoClientUI {
 		case "l":
 			ArrayList<Land> landAusgabe = aktiverPlayer.getBesitz();
 			laenderAusgabe(landAusgabe);
+			break;
 		case "z":
 			risiko.machNaechsterPlayer();
 			System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
