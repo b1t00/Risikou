@@ -126,7 +126,7 @@ public class Spiellogik {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
 		for (Land land: besitzPlayer) {
-			if (land.getEinheiten() > 1) {
+			if (land.getEinheiten()-player.getBlock()[land.getNummer()] > 1) {
 				starkeLaender.add(land);
 			}
 		}
