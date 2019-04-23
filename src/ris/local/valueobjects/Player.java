@@ -12,6 +12,7 @@ public class Player {
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
+	int[] uBlock= new int[12];
 
 	public Player(String name, String farbe, int nummer) {
 		this.name = name;
@@ -40,6 +41,14 @@ public class Player {
 
 	public ArrayList<Land> getBesitz() {
 		return inBesitz;
+	}
+	
+	public int[] getBlock() {
+		return uBlock;
+	}
+	public int[] setBlock(int[]gB, int indexLand,int units) {
+		gB[indexLand]=units;
+		return gB;
 	}
 	
 	public String toString() {
