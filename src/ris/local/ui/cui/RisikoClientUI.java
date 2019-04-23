@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import ris.local.domain.Risiko;
-import ris.local.domain.Worldmanagement;
+import ris.local.domain.WorldManegement;
 
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
