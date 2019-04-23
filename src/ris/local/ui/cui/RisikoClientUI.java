@@ -244,22 +244,19 @@ public class RisikoClientUI {
 
 	public void gibMenuAus(Player aktiverPlayer) {
 		System.out.print(aktiverPlayer + ": Was möchtest du tun?");
-		System.out.print("               \n Angreifen: a");
-		System.out.print("               \n Einheiten verschieben: e");
-		System.out.print("               \n Weltübersicht anzeigen: w");
-		System.out.print("               \n Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob
-																				// ein kontinent eingenommen ist
-		System.out.print("               \n Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus,
-																									// die an die
-																									// eigenen
-																									// angrenzen, beide
-																									// mit einheiten
-		System.out.print("               \n Mission anzeigen: m"); // wird später implementiert
-		System.out.print("               \n Zug beenden: z"); // TODO
-		System.out.print("               \n Spiel beenden: q \n"); // TODO
+		System.out.print("\n   Angreifen: a");
+		System.out.print("\n   Einheiten verschieben: e");
+		System.out.print("\n   Zug beenden: z");
+		System.out.println("\n   Spiel beenden: q \n"); // TODO
+		System.out.print("**Informationen anzeigen:**");
+		System.out.print("\n   Weltübersicht anzeigen: w");
+		System.out.print("\n   Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
+		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
+		System.out.print("\n   Mission anzeigen: m \n"); // wird später implementiert
 		System.out.flush();
 	}
 
+	
 	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
 		switch (input) {
 		case "a":
