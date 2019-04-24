@@ -44,6 +44,7 @@ public class PlayerManagement {
 		return farbe;
 	}
 	
+	//@tobi man könnte das auch mit zahlen eingabe machen, dann könnte man sich warhrscheinlich den switchcase sparen
 	public String FarbeAuswaehlen(int welcheFarbe) {
 		String farbe = "";
 		if(farbenAuswahl.get(welcheFarbe)!= null) {
