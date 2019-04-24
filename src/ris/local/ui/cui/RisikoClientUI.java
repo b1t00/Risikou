@@ -93,23 +93,21 @@ public class RisikoClientUI {
 		for (int i = 0; i < nr; i++) {
 			boolean schlechterName = true;
 			System.out.println("Wie soll Player " + (i + 1) + " heißen? : ");
-			while(schlechterName) {
+			while (schlechterName) {
 				name = liesEingabe();
 				schlechterName = false;
-				for(Player player : risiko.getPlayerArray()) {
-					if(name.equals(player.getName())) {
+				for (Player player : risiko.getPlayerArray()) {
+					if (name.equals(player.getName())) {
 						System.out.println("Diesen Name wurde schon vergeben: Bitte Eingabe wiederholen");
 						schlechterName = true;
 					}
 				}
-				if(name.equals("")) {
+				if (name.equals("")) {
 					System.out.println("Ungültiger Name: Bitte Eingabe wiederholen");
 					schlechterName = true;
 				}
-				
-				
+
 			}
-			
 
 			do {
 				farbe = farbeAuswaehlen();
@@ -248,21 +246,28 @@ public class RisikoClientUI {
 				}
 			}
 			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
-			System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
-			int anzahl = 0; // @tobi kann man hier auch 0 hinschreiben?? 
+			int anzahl = 0; // @tobi darf man hier auch 0 hinschreiben??
 			ungültig = true;
 			while (ungültig) {
+				System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
-					ungültig = true; 
+					if (anzahl == 0) {
+						anzahl = -1000;
+					} else {
+						ungültig = true;
+					}
+
 				}
-				if(anzahl == 0) {
+				if (anzahl == 0) {
 					System.out.println("Bitte wiederholen");
-					ungültig = true; 
+					ungültig = false;
 				} else if (anzahl > verfuegbareEinheiten) {
 					System.out.println(
 							"Verfügbare Anzahl wurde überschritten. Maximal verfügbar: " + verfuegbareEinheiten);
+				} else if (anzahl < 1) {
+					System.err.println("Geht nicht");
 				} else {
 					ungültig = false;
 				}
