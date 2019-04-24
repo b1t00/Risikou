@@ -4,11 +4,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 
 import ris.local.domain.Risiko;
-import ris.local.domain.WorldManagement;
 
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
@@ -39,7 +36,7 @@ public class RisikoClientUI {
 			try {
 				eingabe = liesEingabe();
 			} catch (IOException e) {
-				
+
 			}
 			switch (eingabe) {
 			case "yes":
@@ -70,14 +67,22 @@ public class RisikoClientUI {
 	}
 
 	public void wieVielePlayerMenu() throws IOException {
-		String eingabePlayer, name;
+		String eingabePlayer;
+		String name = "";
 		String farbe = "";
 		int nr = 0;
 		boolean richtigeEingabe = false;
 		while (!richtigeEingabe) {
-			System.out.println("Wieviele Player soll es geben? (min 2 | max 6) :");
-			eingabePlayer = liesEingabe();
-			nr = Integer.parseInt(eingabePlayer);
+			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
+			try {
+				eingabePlayer = liesEingabe();
+				nr = Integer.parseInt(eingabePlayer);
+			} catch (IOException | NumberFormatException e) {
+				// @tobi die Frage ob wir in solchen Fällen mit Exceptions arbeiten sollen oder
+				// nicht..
+				richtigeEingabe = false;
+				System.err.println("ungültige Eingabe. Bitte wiederholen \n");
+			}
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
 			} else {
@@ -86,8 +91,23 @@ public class RisikoClientUI {
 		}
 		System.out.println();
 		for (int i = 0; i < nr; i++) {
+			boolean schlechterName = true;
 			System.out.println("Wie soll Player " + (i + 1) + " heißen? : ");
-			name = liesEingabe();
+			while (schlechterName) {
+				name = liesEingabe();
+				schlechterName = false;
+				for (Player player : risiko.getPlayerArray()) {
+					if (name.equals(player.getName())) {
+						System.out.println("Diesen Name wurde schon vergeben: Bitte Eingabe wiederholen");
+						schlechterName = true;
+					}
+				}
+				if (name.equals("")) {
+					System.out.println("Ungültiger Name: Bitte Eingabe wiederholen");
+					schlechterName = true;
+				}
+
+			}
 
 			do {
 				farbe = farbeAuswaehlen();
@@ -219,7 +239,8 @@ public class RisikoClientUI {
 			while (ungültig) {
 				try {
 					landWahl = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException e) {
+					landWahl = -99;
 				}
 				if (pruefArray.contains(landWahl)) {
 					ungültig = false;
@@ -228,17 +249,28 @@ public class RisikoClientUI {
 				}
 			}
 			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
-			System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
-			int anzahl = 1;
+			int anzahl = 0; // @tobi darf man hier auch 0 hinschreiben??
 			ungültig = true;
 			while (ungültig) {
+				System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException e) {
+					if (anzahl == 0) {
+						anzahl = -1000;
+					} else {
+						ungültig = true;
+					}
+
 				}
-				if (anzahl > verfuegbareEinheiten) {
+				if (anzahl == 0) {
+					System.out.println("Bitte wiederholen");
+					ungültig = false;
+				} else if (anzahl > verfuegbareEinheiten) {
 					System.out.println(
 							"Verfügbare Anzahl wurde überschritten. Maximal verfügbar: " + verfuegbareEinheiten);
+				} else if (anzahl < 1) {
+					System.err.println("Geht nicht");
 				} else {
 					ungültig = false;
 				}
@@ -260,13 +292,15 @@ public class RisikoClientUI {
 		System.out.println("\n   Spiel beenden: q \n"); // TODO
 		System.out.print("**Informationen anzeigen:**");
 		System.out.print("\n   Weltübersicht anzeigen: w");
-		System.out.print("\n   Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob ein kontinent eingenommen ist
-		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die eigenen angrenzen, beide mit einheiten
+		System.out.print("\n   Länder und Einheiten anzeigen: l"); // gibt länder mit einheiten aus und ob ein kontinent
+																	// eingenommen ist
+		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die
+																						// eigenen angrenzen, beide mit
+																						// einheiten
 		System.out.print("\n   Mission anzeigen: m \n"); // wird später implementiert
 		System.out.flush();
 	}
 
-	
 	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
 		switch (input) {
 		case "a":
@@ -288,6 +322,9 @@ public class RisikoClientUI {
 			break;
 		case "q":
 			System.out.println("Risik wird beendet."); // TODO: Spiel beenden
+			break;
+		case "m":
+			System.out.println(aktiverPlayer.getMission());
 			break;
 		default:
 			System.out.println("Ungültige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
@@ -351,7 +388,7 @@ public class RisikoClientUI {
 				def = risiko.getLandById(ziel);
 				defender = def.getBesitzer();
 			} catch (IOException | NumberFormatException e) {
-				ziel = -1;
+				ziel = -99; // dadurch wird eingabe ungueltig
 			}
 			if (pruefArray.contains(ziel)) {
 				ungültig = false;
@@ -369,13 +406,14 @@ public class RisikoClientUI {
 			ungültig = true;
 			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Verfügbar: "
 					+ (att.getEinheiten() - 1));
-			if (att.getEinheiten()-1 > 3) {
+			if (att.getEinheiten() - 1 > 3) {
 				System.out.println(" Maximal möglich: 3");
 			}
 			while (ungültig) {
 				try {
 					attEinheiten = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException e) {
+					ungültig = true;
 				}
 				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten == 0) {
 					System.out.println("Ungültige Eingabe, bitte wiederholen");
@@ -385,16 +423,17 @@ public class RisikoClientUI {
 			}
 			// Abfrage, wie viele Einheiten verteidigen
 			ungültig = true;
-			System.out.println(
-					defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
-							+ def.getEinheiten());
-			if(def.getEinheiten() > 2){
+			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
+					+ def.getEinheiten());
+			if (def.getEinheiten() > 2) {
 				System.out.println("Maximal 2");
 			}
 			while (ungültig) {
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException e) {
+					System.out.println("keine gueltige eingabe");
+					ungültig = true;
 				}
 				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten == 0) {
 					System.out.println("Ungültige Eingabe, bitte wiederholen");
@@ -483,7 +522,8 @@ public class RisikoClientUI {
 					while (ungültig) {
 						try {
 							answer = Integer.parseInt(liesEingabe());
-						} catch (IOException e) {
+						} catch (IOException | NumberFormatException e) {
+							answer = -99;
 						}
 						if (answer > (att.getEinheiten() - 1)) {
 							System.out.println("Ungültige Eingabe, bitte wiederholen!");
@@ -619,6 +659,7 @@ public class RisikoClientUI {
 					von = Integer.parseInt(liesEingabe());
 					start = risiko.getLandById(von);
 				} catch (IOException e) {
+					von = -99;
 				}
 				if (pruefArray.contains(von)) {
 					ungültig = false;

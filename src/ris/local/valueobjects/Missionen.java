@@ -19,7 +19,6 @@ public class Missionen {
 		missionen.add("mission 5");
 		missionen.add("mission 6");
 		farbenUeberspielen();
-		
 	}
 	
 	public ArrayList<String> getMissionen(){
@@ -29,22 +28,22 @@ public class Missionen {
 		ArrayList<String> farben = playerMg.getFarbauswahl();
 		
 		if(!farben.contains("rot")) {
-			missionen.add("befreie rot");
+			missionen.add("lösche rot aus");
 		}
 		if(!farben.contains("gruen")) {
-			missionen.add("befreie gruen");
+			missionen.add("lass gruen einen schmerzhaften langsamen Tod sterben \n wenn du selbst Grün bist, mach etwas anderes");
 		}
 		if(!farben.contains("blau")) {
-			missionen.add("befreie blau");
+			missionen.add("erledige blau");
 		}
 		if(!farben.contains("pink")) {
-			missionen.add("befreie pink");
+			missionen.add("jage pink");
 		}
 		if(!farben.contains("schwarz")) {
-			missionen.add("befreie schwarz");
+			missionen.add("kill schwarz");
 		}
 		if(!farben.contains("weiss")) {
-			missionen.add("befreie weiß");
+			missionen.add("hau weiß weg");
 		}
 	}
 }
