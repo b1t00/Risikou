@@ -176,10 +176,9 @@ public class RisikoClientUI {
 				int land = -1;
 				try {
 					land = Integer.parseInt(liesEingabe());
-					aktuellesLand = risiko.getLandById(land);
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 				if(pruefArray.contains(land)) {
+					aktuellesLand = risiko.getLandById(land);
 					ungültig = false;
 				} else {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
