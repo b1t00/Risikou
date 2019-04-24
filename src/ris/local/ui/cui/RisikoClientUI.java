@@ -6,10 +6,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import ris.local.domain.Risiko;
-
-import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
 
@@ -26,6 +25,7 @@ public class RisikoClientUI {
 	private String liesEingabe() throws IOException {
 		return in.readLine();
 	}
+	
 //	*******************Spielstart****************************
 
 	private void starteSpiel() {
