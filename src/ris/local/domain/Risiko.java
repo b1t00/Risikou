@@ -123,6 +123,12 @@ public class Risiko {
 		return feindlicheLaender;
 	}
 	
+//	public AttackResult attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+//		// AttackResult
+//		//	- WÜrfel Angreifer
+//		//  - ...
+//		//  - Ergebnis ...
+//	}
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten);
 		return ergebnis;
