@@ -135,34 +135,37 @@ public class RisikoClientUI {
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Spielstart^^^^^^^^^^^^^^^^^^^^^^
 
-	// @annie: brauchen wir diese methode überhaupt?
+	// verteilt zu beginn des spiels starteinheiten, pro Spieler 3 Einheiten
 	public void setzeStartEinheiten() {
+		//die gesamte Anzahl der verteilten Einheiten wird gespeichert und mit jedem Setzen heruntergezählt
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
 		Land aktuellesLand = null;
+		boolean ungültig = true;
 
 		while (anzahlEinheiten > 0) {
-			System.out.println(risiko.gibAktivenPlayer());
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
-
+			System.out.println("");
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList<Land> aktiveLaender = aktiverPlayer.getBesitz();
-			// den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in
-			// den pruefarray werden die möglichen zahlen geschrieben
-			ArrayList<Integer> pruefArray = new ArrayList<Integer>();
-
-			for (Land land : aktiveLaender) {
-				System.out.println(land.getNummer() + " > " + land.getName());
-				pruefArray.add(land.getNummer());
+			System.out.println("");			
+			ArrayList<Integer> pruefArray =  laenderAusgabe(aktiveLaender);
+			
+			ungültig = true;
+			while(ungültig) {
+				int land = -1;
+				try {
+					land = Integer.parseInt(liesEingabe());
+					aktuellesLand = risiko.getLandById(land);
+				} catch (IOException e) {
+				}
+				if(pruefArray.contains(land)) {
+					ungültig = false;
+				} else {
+					System.out.println("Ungültige Eingabe, bitte wiederholen!");
+				}
 			}
-			int land;
-			try {
-				// !!! hier muss noch geprüft werden, ob die zahl überhaupt zur auswahl stand >
-				// evtl. arraylist land geben lassen und dann mit equals
-				land = Integer.parseInt(liesEingabe());
-				aktuellesLand = risiko.getLandById(land);
-			} catch (IOException e) {
-			}
+			
 			aktuellesLand.setEinheiten(einheit);
 			anzahlEinheiten--;
 			risiko.machNaechsterPlayer();
@@ -326,7 +329,8 @@ public class RisikoClientUI {
 			try {
 				start = Integer.parseInt(liesEingabe());
 				att = risiko.getLandById(start);
-			} catch (IOException e) {
+			} catch (IOException | NumberFormatException e) {
+				start = -1;
 			}
 			if (pruefArray.contains(start)) {
 				ungültig = false;
@@ -346,7 +350,8 @@ public class RisikoClientUI {
 				ziel = Integer.parseInt(liesEingabe());
 				def = risiko.getLandById(ziel);
 				defender = def.getBesitzer();
-			} catch (IOException e) {
+			} catch (IOException | NumberFormatException e) {
+				ziel = -1;
 			}
 			if (pruefArray.contains(ziel)) {
 				ungültig = false;
@@ -417,8 +422,9 @@ public class RisikoClientUI {
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
-			// 1. angreifer hat gewonnen -> sollen weitere Einheiten verschoben werden?
-			if (ergebnis.get(1) < ergebnis.get(0) && def.getEinheiten() > 0) {
+			
+			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder
+			if (ergebnis.get(0) > ergebnis.get(1) && def.getBesitzer().equals(defender)) {
 				System.out.println(angreifer + " hat gewonnen.");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -433,13 +439,13 @@ public class RisikoClientUI {
 				} else {
 					System.out.println(" Einheiten.");
 				}
+				
 				System.out.println("");
 				System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
 				String answer = "";
 				try {
 					answer = liesEingabe();
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 				switch (answer) {
 				case "na klar":
 					// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
@@ -448,12 +454,11 @@ public class RisikoClientUI {
 					// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 					kampf = false;
 					break;
-				} 
-			} 
+				}
+			}
 			
-			
-			
-			if(def.getEinheiten()==0) {
+			//2. Angreifer gewinnt und erobert das Land
+			else if(def.getBesitzer().equals(angreifer)) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -486,15 +491,13 @@ public class RisikoClientUI {
 							ungültig = false;
 						}
 					}
-
 					risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Der Angriff ist beendet.");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
-				// 2. + 3. angreifer hat verloren/unentschieden -> soll wieder angegriffen
-				// werden? (wenn genug einheiten verbleiben)
+				// 3. + 4. angreifer hat verloren/unentschieden -> soll wieder angegriffen werden? (wenn genug einheiten verbleiben)
 			} else {
 				if (ergebnis.get(1) > ergebnis.get(0)) {
 					System.out.println(angreifer + " hat verloren!");
@@ -679,6 +682,7 @@ public class RisikoClientUI {
 	public void run() {
 		starteSpiel();
 		gibPlayerMissionUndLaenderAus();
+		setzeStartEinheiten();
 //		****************_hier_gehts_los********
 		round();
 
