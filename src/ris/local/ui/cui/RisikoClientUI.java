@@ -211,7 +211,7 @@ public class RisikoClientUI {
 					input = liesEingabe();
 				} catch (IOException e) {
 				}
-				verarbeiteEingabe(input, aktiverPlayer);
+				verarbeiteEingabe(input, aktiverPlayer, nichtVerschoben);
 				if (input.equals("z")) {
 					spielzug = false;
 					nichtVerschoben = true;
@@ -301,10 +301,14 @@ public class RisikoClientUI {
 		System.out.flush();
 	}
 
-	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
+	public void verarbeiteEingabe(String input, Player aktiverPlayer, boolean nichtVerschoben) {
 		switch (input) {
 		case "a":
+			if(nichtVerschoben) {
 			attack(aktiverPlayer);
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen.");
+			}
 			break;
 		case "e":
 			verschiebeEinheiten(aktiverPlayer);
@@ -725,6 +729,8 @@ public class RisikoClientUI {
 		gibPlayerMissionUndLaenderAus();
 		setzeStartEinheiten();
 //		****************_hier_gehts_los********
+		System.out.println("");
+		System.out.println("Jetzt beginnt das Spiel!");
 		round();
 
 	}
