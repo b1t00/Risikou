@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Missionen;
+import ris.local.valueobjects.Mission;
 
 public class Spiellogik {
 
@@ -18,7 +19,7 @@ public class Spiellogik {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Missionen missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
+	private Mission missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
 	private List<Player> playerList;
 	private Player aktiverPlayer;
 
@@ -87,7 +88,7 @@ public class Spiellogik {
 	}
 	
 	public void verteileMissionen() {
-		missionen = new Missionen(playerMg);
+		missionen = new Mission(playerMg);
 		ArrayList<String> missionenListe = missionen.getMissionen();
 		Collections.shuffle(missionenListe);
 		for(int i = 0 ; i < playerList.size(); i ++) {
@@ -230,7 +231,8 @@ public class Spiellogik {
 		ArrayList<Integer> defList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnits; i++) {
 			aList.add((int) (Math.random() * 6) + 1);
-
+//Random r = new Random(System.currentTimeMillis());
+//int zahl = r.nextInt(6) + 1;
 		}
 		for (int j = 0; j < defUnits; j++) {
 			defList.add((int) (Math.random() * 6) + 1);

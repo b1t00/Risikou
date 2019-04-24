@@ -129,6 +129,9 @@ public class Risiko {
 //		//  - ...
 //		//  - Ergebnis ...
 //	}
+	
+//	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
+
 	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten);
 		return ergebnis;

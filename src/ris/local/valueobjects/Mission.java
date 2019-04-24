@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 import ris.local.domain.PlayerManagement;
 
-public class Missionen {
+public class Mission {
 
 	private ArrayList<String> missionen;
 	private PlayerManagement playerMg;
 	
-	public Missionen(PlayerManagement playerMg) {
+	public Mission(PlayerManagement playerMg) {
 		this.playerMg = playerMg;
 		missionen = new ArrayList<String>();
 		missionen.add("mission 1");
@@ -21,7 +21,7 @@ public class Missionen {
 		farbenUeberspielen();
 	}
 	
-	public ArrayList<String> getMissionen(){
+	public ArrayList<String> getMission(){
 		return missionen;
 	}
 	public void farbenUeberspielen() {
