@@ -599,9 +599,9 @@ public class RisikoClientUI {
 		// gibt erst aus, wer welche Länder besitzt
 		for (Land land : alleLaender) {
 			System.out
-					.print(land.getName() + " gehört " + land.getBesitzer().getName() + " mit " + land.getEinheiten());
+					.print(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName() + " besetzt mit: " + land.getEinheiten());
 			if (land.getEinheiten() == 1) {
-				System.out.println(" Einheit.");
+				System.out.println("ner Einheit.");
 			} else {
 				System.out.println(" Einheiten.");
 			}
