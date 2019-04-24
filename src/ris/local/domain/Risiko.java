@@ -2,6 +2,7 @@ package ris.local.domain;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ris.local.valueobjects.Kontinent;
@@ -90,6 +91,7 @@ public class Risiko {
 	
 	//WELT AUSGABE->
 	public ArrayList<Land> gibWeltAus(){
+		Collections.sort(worldMg.getLaender());
 		return worldMg.getLaender();
 	}
 	

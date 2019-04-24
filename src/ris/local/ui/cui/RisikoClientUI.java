@@ -93,23 +93,21 @@ public class RisikoClientUI {
 		for (int i = 0; i < nr; i++) {
 			boolean schlechterName = true;
 			System.out.println("Wie soll Player " + (i + 1) + " heißen? : ");
-			while(schlechterName) {
+			while (schlechterName) {
 				name = liesEingabe();
 				schlechterName = false;
-				for(Player player : risiko.getPlayerArray()) {
-					if(name.equals(player.getName())) {
+				for (Player player : risiko.getPlayerArray()) {
+					if (name.equals(player.getName())) {
 						System.out.println("Diesen Name wurde schon vergeben: Bitte Eingabe wiederholen");
 						schlechterName = true;
 					}
 				}
-				if(name.equals("")) {
+				if (name.equals("")) {
 					System.out.println("Ungültiger Name: Bitte Eingabe wiederholen");
 					schlechterName = true;
 				}
-				
-				
+
 			}
-			
 
 			do {
 				farbe = farbeAuswaehlen();
@@ -157,34 +155,37 @@ public class RisikoClientUI {
 
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Spielstart^^^^^^^^^^^^^^^^^^^^^^
 
-	// @annie: brauchen wir diese methode überhaupt?
+	// verteilt zu beginn des spiels starteinheiten, pro Spieler 3 Einheiten
 	public void setzeStartEinheiten() {
+		//die gesamte Anzahl der verteilten Einheiten wird gespeichert und mit jedem Setzen heruntergezählt
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
 		Land aktuellesLand = null;
+		boolean ungültig = true;
 
 		while (anzahlEinheiten > 0) {
-			System.out.println(risiko.gibAktivenPlayer());
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
-
+			System.out.println("");
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList<Land> aktiveLaender = aktiverPlayer.getBesitz();
-			// den prüfarray brauchen wir, um zu überprüfen, ob die eingabe gültig ist, in
-			// den pruefarray werden die möglichen zahlen geschrieben
-			ArrayList<Integer> pruefArray = new ArrayList<Integer>();
-
-			for (Land land : aktiveLaender) {
-				System.out.println(land.getNummer() + " > " + land.getName());
-				pruefArray.add(land.getNummer());
+			System.out.println("");			
+			ArrayList<Integer> pruefArray =  laenderAusgabe(aktiveLaender);
+			
+			ungültig = true;
+			while(ungültig) {
+				int land = -1;
+				try {
+					land = Integer.parseInt(liesEingabe());
+					aktuellesLand = risiko.getLandById(land);
+				} catch (IOException e) {
+				}
+				if(pruefArray.contains(land)) {
+					ungültig = false;
+				} else {
+					System.out.println("Ungültige Eingabe, bitte wiederholen!");
+				}
 			}
-			int land;
-			try {
-				// !!! hier muss noch geprüft werden, ob die zahl überhaupt zur auswahl stand >
-				// evtl. arraylist land geben lassen und dann mit equals
-				land = Integer.parseInt(liesEingabe());
-				aktuellesLand = risiko.getLandById(land);
-			} catch (IOException e) {
-			}
+			
 			aktuellesLand.setEinheiten(einheit);
 			anzahlEinheiten--;
 			risiko.machNaechsterPlayer();
@@ -210,7 +211,7 @@ public class RisikoClientUI {
 					input = liesEingabe();
 				} catch (IOException e) {
 				}
-				verarbeiteEingabe(input, aktiverPlayer);
+				verarbeiteEingabe(input, aktiverPlayer, nichtVerschoben);
 				if (input.equals("z")) {
 					spielzug = false;
 					nichtVerschoben = true;
@@ -248,21 +249,28 @@ public class RisikoClientUI {
 				}
 			}
 			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
-			System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
-			int anzahl = 0; // @tobi kann man hier auch 0 hinschreiben?? 
+			int anzahl = 0; // @tobi darf man hier auch 0 hinschreiben??
 			ungültig = true;
 			while (ungültig) {
+				System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
-					ungültig = true; 
+					if (anzahl == 0) {
+						anzahl = -1000;
+					} else {
+						ungültig = true;
+					}
+
 				}
-				if(anzahl == 0) {
+				if (anzahl == 0) {
 					System.out.println("Bitte wiederholen");
-					ungültig = true; 
+					ungültig = false;
 				} else if (anzahl > verfuegbareEinheiten) {
 					System.out.println(
 							"Verfügbare Anzahl wurde überschritten. Maximal verfügbar: " + verfuegbareEinheiten);
+				} else if (anzahl < 1) {
+					System.err.println("Geht nicht");
 				} else {
 					ungültig = false;
 				}
@@ -293,10 +301,14 @@ public class RisikoClientUI {
 		System.out.flush();
 	}
 
-	public void verarbeiteEingabe(String input, Player aktiverPlayer) {
+	public void verarbeiteEingabe(String input, Player aktiverPlayer, boolean nichtVerschoben) {
 		switch (input) {
 		case "a":
+			if(nichtVerschoben) {
 			attack(aktiverPlayer);
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen.");
+			}
 			break;
 		case "e":
 			verschiebeEinheiten(aktiverPlayer);
@@ -358,7 +370,8 @@ public class RisikoClientUI {
 			try {
 				start = Integer.parseInt(liesEingabe());
 				att = risiko.getLandById(start);
-			} catch (IOException e) {
+			} catch (IOException | NumberFormatException e) {
+				start = -1;
 			}
 			if (pruefArray.contains(start)) {
 				ungültig = false;
@@ -452,8 +465,9 @@ public class RisikoClientUI {
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
-			// 1. angreifer hat gewonnen -> sollen weitere Einheiten verschoben werden?
-			if (ergebnis.get(1) < ergebnis.get(0) && def.getEinheiten() > 0) {
+			
+			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder
+			if (ergebnis.get(0) > ergebnis.get(1) && def.getBesitzer().equals(defender)) {
 				System.out.println(angreifer + " hat gewonnen.");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -468,13 +482,13 @@ public class RisikoClientUI {
 				} else {
 					System.out.println(" Einheiten.");
 				}
+				
 				System.out.println("");
 				System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
 				String answer = "";
 				try {
 					answer = liesEingabe();
-				} catch (IOException e) {
-				}
+				} catch (IOException e) {}
 				switch (answer) {
 				case "na klar":
 					// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
@@ -485,8 +499,9 @@ public class RisikoClientUI {
 					break;
 				}
 			}
-
-			if (def.getEinheiten() == 0) {
+			
+			//2. Angreifer gewinnt und erobert das Land
+			else if(def.getBesitzer().equals(angreifer)) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -520,15 +535,13 @@ public class RisikoClientUI {
 							ungültig = false;
 						}
 					}
-
 					risiko.verschiebeEinheiten(att, def, answer);
 				}
 				System.out.println("Der Angriff ist beendet.");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
-				// 2. + 3. angreifer hat verloren/unentschieden -> soll wieder angegriffen
-				// werden? (wenn genug einheiten verbleiben)
+				// 3. + 4. angreifer hat verloren/unentschieden -> soll wieder angegriffen werden? (wenn genug einheiten verbleiben)
 			} else {
 				if (ergebnis.get(1) > ergebnis.get(0)) {
 					System.out.println(angreifer + " hat verloren!");
@@ -594,9 +607,9 @@ public class RisikoClientUI {
 		// gibt erst aus, wer welche Länder besitzt
 		for (Land land : alleLaender) {
 			System.out
-					.print(land.getName() + " gehört " + land.getBesitzer().getName() + " mit " + land.getEinheiten());
+					.print(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName() + " besetzt mit: " + land.getEinheiten());
 			if (land.getEinheiten() == 1) {
-				System.out.println(" Einheit.");
+				System.out.println("ner Einheit.");
 			} else {
 				System.out.println(" Einheiten.");
 			}
@@ -714,7 +727,10 @@ public class RisikoClientUI {
 	public void run() {
 		starteSpiel();
 		gibPlayerMissionUndLaenderAus();
+		setzeStartEinheiten();
 //		****************_hier_gehts_los********
+		System.out.println("");
+		System.out.println("Jetzt beginnt das Spiel!");
 		round();
 
 	}
