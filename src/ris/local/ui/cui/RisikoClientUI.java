@@ -65,7 +65,11 @@ public class RisikoClientUI {
 			}
 		}
 	}
-
+//public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
+//	try {
+//		
+//	}
+//}
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
 		String name = "";
@@ -76,6 +80,7 @@ public class RisikoClientUI {
 			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
 			try {
 				eingabePlayer = liesEingabe();
+				
 				nr = Integer.parseInt(eingabePlayer);
 			} catch (IOException | NumberFormatException e) {
 				// @tobi die Frage ob wir in solchen Fällen mit Exceptions arbeiten sollen oder
