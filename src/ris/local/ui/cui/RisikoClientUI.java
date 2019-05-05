@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
@@ -735,6 +736,7 @@ public class RisikoClientUI {
 //		****************_hier_gehts_los********
 		System.out.println("");
 		System.out.println("Jetzt beginnt das Spiel!");
+
 		round();
 
 	}

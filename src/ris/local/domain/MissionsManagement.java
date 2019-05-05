@@ -2,7 +2,7 @@ package ris.local.domain;
 
 import java.util.ArrayList;
 
-public class MissionsManagement {
+public class MissionsManagement{
 	private ArrayList<String> missionen;
 	private PlayerManagement playerMg;
 	

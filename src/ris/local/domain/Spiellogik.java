@@ -95,7 +95,6 @@ public class Spiellogik {
 			playerList.get(i).setMission(missionenListe.get(i));
 		}
 		
-		
 	}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
