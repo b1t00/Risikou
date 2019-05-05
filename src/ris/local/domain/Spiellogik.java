@@ -19,7 +19,7 @@ public class Spiellogik {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Mission missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
+	private MissionsManagement missionMng; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
 	private List<Player> playerList;
 	private Player aktiverPlayer;
 
@@ -88,8 +88,8 @@ public class Spiellogik {
 	}
 	
 	public void verteileMissionen() {
-		missionen = new Mission(playerMg);
-		ArrayList<String> missionenListe = missionen.getMissionen();
+		missionMng = new MissionsManagement(playerMg);
+		ArrayList<String> missionenListe = missionMng.getMissionen();
 		Collections.shuffle(missionenListe);
 		for(int i = 0 ; i < playerList.size(); i ++) {
 			playerList.get(i).setMission(missionenListe.get(i));
