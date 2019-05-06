@@ -469,11 +469,11 @@ public class RisikoClientUI {
 			ArrayList<Integer>aList=risiko.diceAttack(attEinheiten);
 			ArrayList<Integer>dList=risiko.diceDefense(defEinheiten);
 			for(int i=0;i<aList.size();i++) {
-				System.out.println("Würfel("+i+") "+aList.get(i));
+				System.out.println("Angreifender Würfel Nr."+i+" = "+aList.get(i));
 			}
 			
 			for(int i=0;i<dList.size();i++) {
-				System.out.println("Würfel("+i+") "+dList.get(i));
+				System.out.println("Verteidigender Würfel Nr."+i+" = "+dList.get(i));
 			}
 			
 			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten,aList,dList);
