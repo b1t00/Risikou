@@ -1,5 +1,7 @@
 package ris.local.domain;
 
-public class Missionsverwaltung {
+import java.io.Serializable;
+
+public class Missionsverwaltung implements Serializable{
 
 }

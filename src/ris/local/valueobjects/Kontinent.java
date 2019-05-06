@@ -1,8 +1,9 @@
 package ris.local.valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Kontinent {
+public class Kontinent implements Serializable{
 	public String name;
 	private ArrayList<Land> laender; 
 	private int value;

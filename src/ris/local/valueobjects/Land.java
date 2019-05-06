@@ -1,6 +1,8 @@
 package ris.local.valueobjects;
 
-public class Land implements Comparable{
+import java.io.Serializable;
+
+public class Land implements Comparable, Serializable{
 	private int einheiten;
 	private int nummer;
 	private String name;

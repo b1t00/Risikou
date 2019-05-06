@@ -1,21 +1,24 @@
 package ris.local.domain;
 
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
-public class Risiko {
+public class Risiko implements Serializable{
 
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player;
-	
 
 	// Konstruktor
 
@@ -23,7 +26,6 @@ public class Risiko {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
-		
 	}
 
 	public void spielAnlegen(int anzahl) {
@@ -36,10 +38,10 @@ public class Risiko {
 	public void verteileEinheiten() {
 		logik.verteileEinheiten();
 	}
-	
-	public void verteileMissionen() {
-		logik.verteileMissionen();
-	}
+//	
+//	public void verteileMissionen() {
+//		logik.verteileMissionen();
+//	}
 	//@to: Methode die sagt wer anf‰ngt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch @annie: ich glaub das ist richtig so
 	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
@@ -141,7 +143,27 @@ public class Risiko {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	public void verschiebeEinheiten(Land start,Land ziel,int menge) {
-		logik.moveUnits(start, ziel, menge);	
+		try {
+			logik.moveUnits(start, ziel, menge);
+		} catch (ZuWenigEinheitenException e) {
+			System.err.println("So viele Einheiten kannst du nicht verschieben.");
+		}
+	}
+	
+	public void spielSpeichern() {
+		FilePersistenceManager fileMg = new FilePersistenceManager();
+		fileMg.speichern(this);
+	}
+	
+	public void spielLaden() {
+		FilePersistenceManager fileMg = new FilePersistenceManager();
+		Risiko risikoSpeicher = fileMg.laden();
+		if(risikoSpeicher != null) {
+			this.worldMg = risikoSpeicher.worldMg;
+			this.playerMg = risikoSpeicher.playerMg;
+			this.logik = risikoSpeicher.logik;
+			//namen der datei, damit speicherort immer der gleiche bleibt
+		}
 	}
 	
 //	'''''''''' PlayerManagement ''''''''''''''''

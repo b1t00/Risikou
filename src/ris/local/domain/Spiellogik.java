@@ -2,6 +2,9 @@
 package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
+import ris.local.exception.ZuWenigEinheitenException;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,7 +16,7 @@ import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
 
-public class Spiellogik {
+public class Spiellogik implements Serializable{
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;
@@ -87,16 +90,16 @@ public class Spiellogik {
 		aktiverPlayer = whoBegins();
 	}
 	
-	public void verteileMissionen() {
-		missionen = new Mission(playerMg);
-		ArrayList<String> missionenListe = missionen.getMissionen();
-		Collections.shuffle(missionenListe);
-		for(int i = 0 ; i < playerList.size(); i ++) {
-			playerList.get(i).setMission(missionenListe.get(i));
-		}
+//	public void verteileMissionen() {
+//		missionen = new Mission(playerMg);
+//		ArrayList<String> missionenListe = missionen.getMissionen();
+//		Collections.shuffle(missionenListe);
+//		for(int i = 0 ; i < playerList.size(); i ++) {
+//			playerList.get(i).setMission(missionenListe.get(i));
+//		}
+//		
 		
-		
-	}
+	//}
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
@@ -366,7 +369,10 @@ public class Spiellogik {
 	return (nachbar&&einheiten);
 	}
 	
-	public void moveUnits(Land start,Land ziel, int menge) {
+	public void moveUnits(Land start,Land ziel, int menge) throws ZuWenigEinheitenException {
+		if ((start.getEinheiten() - menge) < 1) {
+			throw new ZuWenigEinheitenException();
+		}
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);
 //		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()

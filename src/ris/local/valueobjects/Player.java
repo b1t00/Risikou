@@ -1,11 +1,12 @@
 package ris.local.valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-public class Player {
+public class Player implements Serializable {
 	private String name;
 	private String farbe;
 	private int nummer;
