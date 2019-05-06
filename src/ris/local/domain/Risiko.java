@@ -134,9 +134,15 @@ public class Risiko implements Serializable{
 	
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
-	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
-		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten);
+	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) {
+		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten,aList,dList);
 		return ergebnis;
+	}
+	public ArrayList<Integer> diceDefense(int defUnit){
+		return logik.diceDefense(defUnit);
+	}
+	public ArrayList<Integer> diceAttack(int attUnit){
+		return logik.diceAttack(attUnit);
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	

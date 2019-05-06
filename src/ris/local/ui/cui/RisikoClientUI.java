@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
@@ -56,6 +57,7 @@ public class RisikoClientUI {
 			}
 		}
 	}
+
 	
 	public void starteSpiel() {
 		String eingabe = "";
@@ -90,6 +92,13 @@ public class RisikoClientUI {
 		}
 	}
 
+
+//public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
+//	try {
+//		
+//	}
+//}
+
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
 		String name = "";
@@ -100,6 +109,7 @@ public class RisikoClientUI {
 			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
 			try {
 				eingabePlayer = liesEingabe();
+				
 				nr = Integer.parseInt(eingabePlayer);
 			} catch (IOException | NumberFormatException e) {
 				// @tobi die Frage ob wir in solchen Fällen mit Exceptions arbeiten sollen oder
@@ -489,7 +499,17 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten);
+			ArrayList<Integer>aList=risiko.diceAttack(attEinheiten);
+			ArrayList<Integer>dList=risiko.diceDefense(defEinheiten);
+			for(int i=0;i<aList.size();i++) {
+				System.out.println("Angreifender Würfel Nr."+(i+1)+" = "+aList.get(i));
+			}
+			
+			for(int i=0;i<dList.size();i++) {
+				System.out.println("Verteidigender Würfel Nr."+(i+1)+" = "+dList.get(i));
+			}
+			
+			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten,aList,dList);
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
@@ -759,6 +779,7 @@ public class RisikoClientUI {
 //		****************_hier_gehts_los********
 		System.out.println("");
 		System.out.println("Jetzt beginnt das Spiel!");
+
 		round();
 
 	}

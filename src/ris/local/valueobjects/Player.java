@@ -10,7 +10,7 @@ public class Player implements Serializable {
 	private String name;
 	private String farbe;
 	private int nummer;
-	private String mission; //
+	private Mission mission; //
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	//private int einheiten;
@@ -34,13 +34,13 @@ public class Player implements Serializable {
 	}
 	
 	public String getMission() {
-		return mission;
+		return mission.getMission();
 	}
 	
 	public void setMission(String mission) {
-		this.mission = mission;
+		this.mission = new Mission(mission);
 	}
-
+	
 	public ArrayList<Land> getBesitz() {
 		Collections.sort(inBesitz);
 		return inBesitz;

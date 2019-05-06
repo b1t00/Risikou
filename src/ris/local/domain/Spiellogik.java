@@ -1,4 +1,4 @@
-
+﻿
 package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
@@ -22,7 +22,7 @@ public class Spiellogik implements Serializable{
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private int spielrunden;
-	private Mission missionen; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
+	private MissionsManagement missionMng; // @tobi wird wahscheinlich nicht global gebraucht.. was ist besser?
 	private List<Player> playerList;
 	private Player aktiverPlayer;
 
@@ -90,16 +90,17 @@ public class Spiellogik implements Serializable{
 		aktiverPlayer = whoBegins();
 	}
 	
-//	public void verteileMissionen() {
-//		missionen = new Mission(playerMg);
-//		ArrayList<String> missionenListe = missionen.getMissionen();
-//		Collections.shuffle(missionenListe);
-//		for(int i = 0 ; i < playerList.size(); i ++) {
-//			playerList.get(i).setMission(missionenListe.get(i));
-//		}
-//		
+
+	public void verteileMissionen() {
+		missionMng = new MissionsManagement(playerMg);
+		ArrayList<String> missionenListe = missionMng.getMissionen();
+		Collections.shuffle(missionenListe);
+		for(int i = 0 ; i < playerList.size(); i ++) {
+			playerList.get(i).setMission(missionenListe.get(i));
+		}
 		
-	//}
+	}
+
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
@@ -180,8 +181,88 @@ public class Spiellogik implements Serializable{
 		}
 		return hatNachbarn;
 	}
+	public ArrayList<Integer> diceAttack(int attUnit){
+		ArrayList<Integer> aList = new ArrayList<Integer>();
+		for (int i = 0; i < attUnit; i++) {
+			aList.add((int) (Math.random() * 6) + 1);
+		}
+		return aList;
+	}
+
+
+	public ArrayList<Integer> diceDefense(int defUnit){
+		ArrayList<Integer> dList = new ArrayList<Integer>();
+		for (int i = 0; i < defUnit; i++) {
+			dList.add((int) (Math.random() * 6) + 1);
+		}
+		return dList;
+	}
+
+	public ArrayList<Integer> diceResults(ArrayList<Integer> aList,ArrayList<Integer> defList){
+		int lossDef=0;
+		int lossAtt=0;
+		Collections.sort(aList);
+		Collections.sort(defList);
+		Collections.reverse(aList);
+		Collections.reverse(defList);
+
+		if (aList.size() - defList.size() == 2) {
+			aList.remove(2);
+			aList.remove(1);
+
+		}
+		if (aList.size() - defList.size() == 1) {
+			aList.remove(defList.size());
+		}
+
+		if (defList.size() - aList.size() == 2) {
+			defList.remove(2);
+			defList.remove(1);
+
+		}
+		if (defList.size() - aList.size() == 1) {
+			defList.remove(aList.size());
+
+		}
 	
-	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) {
+		if (defList.size() == 1) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		if (defList.size() == 2) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(1) > defList.get(1))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		if (defList.size() == 3) {
+			if (aList.get(0) > defList.get(0))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(1) > defList.get(1))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+			if (aList.get(2) > defList.get(2))
+				lossDef = lossDef - 1;
+			else
+				lossAtt = lossAtt - 1;
+		}
+		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
+		unitLoss.add(lossAtt);
+		unitLoss.add(lossDef);
+		return unitLoss;
+	}
+	
+
+public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) {
 		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker= att.getBesitzer();
 		
@@ -197,7 +278,7 @@ public class Spiellogik implements Serializable{
 		}
 		
 		//ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten
-		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
+		ArrayList<Integer> ergebnis = diceResults(aList, dList);
 		att.setEinheiten(ergebnis.get(0));
 		def.setEinheiten(ergebnis.get(1));
 		
@@ -227,7 +308,8 @@ public class Spiellogik implements Serializable{
 		return ergebnis;
 	}
 	
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
+	
+	/*public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
 		int lossDef = 0;
 		int lossAtt = 0;
 		ArrayList<Integer> aList = new ArrayList<Integer>();
@@ -300,7 +382,7 @@ public class Spiellogik implements Serializable{
 		unitLoss.add(lossAtt);
 		unitLoss.add(lossDef);
 		return unitLoss;
-	}
+	}*/
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
