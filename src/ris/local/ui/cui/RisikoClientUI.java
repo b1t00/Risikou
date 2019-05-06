@@ -466,7 +466,17 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten);
+			ArrayList<Integer>aList=risiko.diceAttack(attEinheiten);
+			ArrayList<Integer>dList=risiko.diceDefense(defEinheiten);
+			for(int i=0;i<aList.size();i++) {
+				System.out.println("Würfel("+i+") "+aList.get(i));
+			}
+			
+			for(int i=0;i<dList.size();i++) {
+				System.out.println("Würfel("+i+") "+dList.get(i));
+			}
+			
+			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten,aList,dList);
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
