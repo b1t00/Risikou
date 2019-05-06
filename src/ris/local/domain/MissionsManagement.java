@@ -1,46 +1,45 @@
 package ris.local.domain;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MissionsManagement{
-	private ArrayList<String> missionen;
+import ris.local.valueobjects.MissionGegner;
+import ris.local.valueobjects.Kontinent;
+import ris.local.valueobjects.MissionKontinent;
+import ris.local.valueobjects.MissionLaenderanzahl;
+import ris.local.valueobjects.MissionsVorlage;
+import ris.local.valueobjects.Player;
+
+public class MissionsManagement {
+	private ArrayList<MissionsVorlage> missionen;
 	private PlayerManagement playerMg;
-	
-	public MissionsManagement(PlayerManagement playerMg) {
+	private WorldManagement worldMg;
+
+	private boolean isPlayer = false;
+
+	public MissionsManagement(PlayerManagement playerMg, WorldManagement worldMg) {
 		this.playerMg = playerMg;
-		missionen = new ArrayList<String>();
-		missionen.add("mission 1");
-		missionen.add("mission 2");
-		missionen.add("mission 3");
-		missionen.add("mission 4");
-		missionen.add("mission 5");
-		missionen.add("mission 6");
-		farbenUeberspielen();
+		this.worldMg = worldMg;
+		missionen = new ArrayList<MissionsVorlage>();
+
+		// @tobi Methode wird wahrscheinlich nicht gebraucht
+//		for(Kontinent kontinent : worldMg.getKontinente()) { 
+//			missionen.add(new KontinentMission("mission 1: erobere " + kontinent.getName(), kontinent.getLaender()));
+//				
+//			}
+
+		missionen.add(new MissionKontinent("mission 1: Erobere Europa und Australien", worldMg.getKontinente().get(0),
+				worldMg.getKontinente().get(1)));
+		missionen.add(new MissionLaenderanzahl("mission2 (test): Erobere 6 Länder deiner Wahl"));
+		for (Player player : playerMg.getPlayers()) {
+			missionen.add(
+					new MissionGegner("loesche " + player.getName() + "(" + player.getFarbe() + ")" + " aus!", player));
+		}
+
 	}
-	
-	public ArrayList<String> getMissionen(){
+
+	public ArrayList<MissionsVorlage> getMission() {
 		return missionen;
 	}
-	public void farbenUeberspielen() {
-		ArrayList<String> farben = playerMg.getFarbauswahl();
-		
-		if(!farben.contains("rot")) {
-			missionen.add("lösche rot aus");
-		}
-		if(!farben.contains("gruen")) {
-			missionen.add("lass gruen einen schmerzhaften langsamen Tod sterben \n wenn du selbst Grün bist, mach etwas anderes");
-		}
-		if(!farben.contains("blau")) {
-			missionen.add("erledige blau");
-		}
-		if(!farben.contains("pink")) {
-			missionen.add("jage pink");
-		}
-		if(!farben.contains("schwarz")) {
-			missionen.add("kill schwarz");
-		}
-		if(!farben.contains("weiss")) {
-			missionen.add("hau weiß weg");
-		}
-	}
+
 }

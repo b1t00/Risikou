@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Mission;
+import ris.local.valueobjects.MissionsVorlage;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
@@ -334,6 +334,7 @@ public class RisikoClientUI {
 			break;
 		case "m":
 			System.out.println(aktiverPlayer.getMission());
+			System.out.println(aktiverPlayer.isMissionComplete(aktiverPlayer));
 			break;
 		default:
 			System.out.println("Ungültige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
@@ -739,6 +740,11 @@ public class RisikoClientUI {
 
 		round();
 
+	}
+
+	// einlesen von Konsole
+	private String liesEingabe() throws IOException {
+		return in.readLine();
 	}
 
 	public static void main(String[] args) {
