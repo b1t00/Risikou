@@ -75,7 +75,7 @@ public class RisikoClientUI {
 				} catch (IOException e) {}
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
-				//	risiko.verteileMissionen();
+				risiko.verteileMissionen();
 				risiko.setzeAktivenPlayer();
 				System.out.println("jetzt beginnt das Spiel \n");
 				ungültig = false;
@@ -777,7 +777,7 @@ public class RisikoClientUI {
 
 	public void run() {
 		eingangsMenue();
-//		gibPlayerMissionUndLaenderAus();
+		gibPlayerMissionUndLaenderAus();
 		setzeStartEinheiten();
 //		****************_hier_gehts_los********
 		System.out.println("");
@@ -785,11 +785,6 @@ public class RisikoClientUI {
 
 		round();
 
-	}
-
-	// einlesen von Konsole
-	private String liesEingabe() throws IOException {
-		return in.readLine();
 	}
 
 	public static void main(String[] args) {
