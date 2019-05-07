@@ -1,6 +1,6 @@
 package ris.local.valueobjects;
 
-public class MissionGegner extends MissionsVorlage
+public class MissionGegner extends Mission
 {
 	private Player gegenspieler;
 
@@ -14,7 +14,6 @@ public class MissionGegner extends MissionsVorlage
 		super(missionstext);
 		this.gegenspieler = gegenspieler;		
 	}
-	
 	
 	public boolean missionComplete(Player aktiverSpieler){
 		if(gegenspieler.isDead())

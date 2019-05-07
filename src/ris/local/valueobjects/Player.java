@@ -7,7 +7,7 @@ public class Player {
 	private String name;
 	private String farbe;
 	private int nummer;
-	private MissionsVorlage mission; //
+	private Mission mission; //
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
@@ -39,7 +39,7 @@ public class Player {
 		return mission.missionComplete(aktiverPlayer);
 	}
 
-	public void setMission(MissionsVorlage mission) {
+	public void setMission(Mission mission) {
 		this.mission = mission;
 	}
 

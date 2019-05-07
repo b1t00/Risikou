@@ -1,15 +1,10 @@
 package ris.local.valueobjects;
 
-import java.util.ArrayList;
-
-import ris.local.domain.PlayerManagement;
-
-
-public abstract class MissionsVorlage {
+public abstract class Mission {
 
 	protected String missionstext;
 
-	public MissionsVorlage(String missionstext){
+	public Mission(String missionstext){
 		this.missionstext = missionstext;		
 	}
 	

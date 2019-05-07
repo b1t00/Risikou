@@ -12,7 +12,7 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.MissionGegner;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.MissionsVorlage;
+import ris.local.valueobjects.Mission;
 
 public class Spiellogik {
 
@@ -88,10 +88,10 @@ public class Spiellogik {
 	public void verteileMissionen() {
 		missionsMg = new MissionsManagement(playerMg, worldMg);
 
-		ArrayList<MissionsVorlage> missionsCopy = missionsMg.getMission();
+		ArrayList<Mission> missionsCopy = missionsMg.getMission();
 		Collections.shuffle(missionsCopy);
 		for (Player play : playerMg.getPlayers()) {
-			MissionsVorlage mission = missionsCopy.remove(0);
+			Mission mission = missionsCopy.remove(0);
 			if (mission instanceof MissionGegner && ((MissionGegner) mission).getGegner() == play) {
 				// ops suicide, zurück tun und neue suchen
 				missionsCopy.add(mission);
