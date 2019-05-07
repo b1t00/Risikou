@@ -354,6 +354,9 @@ public class RisikoClientUI {
 				attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
 										// einheiten kommen
 				whoIsDead(); // testet und gibt aus ob jemand tot ist
+				for(Player play : risiko.getPlayerArray()) { //TODO: nur zum testen hier
+					System.out.println(play.getNummer() + " " + play.getName());
+				}
 				somePlayerWin();
 			} else {
 				System.out.println("Ungültige Eingabe, bitte wiederholen.");
