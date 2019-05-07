@@ -13,7 +13,6 @@ import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {

@@ -102,7 +102,6 @@ public class Risiko implements Serializable {
 	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde
 	// gewonnen hat, hat gewonnen??
 	public boolean rundeMissionComplete(Player play) {
-
 		if (play.isMissionComplete(play)) {
 			gewinner = play;
 			return true;
