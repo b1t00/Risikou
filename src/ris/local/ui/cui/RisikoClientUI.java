@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import ris.local.domain.Risiko;
+import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.UngueltigeAnzahlEinheitenException;
+import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
@@ -518,10 +521,23 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-			ArrayList<Integer> aList = risiko.diceAttack(attEinheiten);
-			ArrayList<Integer> dList = risiko.diceDefense(defEinheiten);
-			for (int i = 0; i < aList.size(); i++) {
-				System.out.println("Angreifender Würfel Nr." + (i + 1) + " = " + aList.get(i));
+
+			ArrayList<Integer> aList= null;
+			try {
+				aList=risiko.diceAttack(attEinheiten);
+			}
+			catch (UngueltigeAnzahlEinheitenException e) {
+				e.printStackTrace();
+			}
+			ArrayList<Integer> dList = null;
+			try {
+				dList=risiko.diceDefense(defEinheiten);
+			}
+			catch (UngueltigeAnzahlEinheitenException e) {
+				e.printStackTrace();
+			}
+			for(int i=0;i<aList.size();i++) {
+				System.out.println("Angreifender Würfel Nr."+(i+1)+" = "+aList.get(i));
 			}
 
 			for (int i = 0; i < dList.size(); i++) {
@@ -602,7 +618,11 @@ public class RisikoClientUI {
 							ungültig = false;
 						}
 					}
+					try {
 					risiko.verschiebeEinheiten(att, def, answer);
+					} catch(LandExistiertNichtException | ZuWenigEinheitenException e) {
+						e.printStackTrace();
+					}
 				}
 				System.out.println("Der Angriff ist beendet.");
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
@@ -769,7 +789,12 @@ public class RisikoClientUI {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				}
 			}
+			try {
 			risiko.verschiebeEinheiten(start, ziel, anzahl);
+			}
+			catch(ZuWenigEinheitenException|LandExistiertNichtException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
