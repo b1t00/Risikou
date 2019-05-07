@@ -1,6 +1,8 @@
 package ris.local.valueobjects;
 
-public abstract class Mission {
+import java.io.Serializable;
+
+public abstract class Mission implements Serializable {
 
 	protected String missionstext;
 
