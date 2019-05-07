@@ -39,10 +39,10 @@ public class Risiko implements Serializable{
 	public void verteileEinheiten() {
 		logik.verteileEinheiten();
 	}
-//	
-//	public void verteileMissionen() {
-//		logik.verteileMissionen();
-//	}
+	
+	public void verteileMissionen() {
+		logik.verteileMissionen();
+	}
 	//@to: Methode die sagt wer anf‰ngt ... #to generelle frage: die methoden werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf zugreifen kann. 
 	// weiﬂ ncht ob das richtig ist, in der bibliothek wirds ‰hnlich gemacht. #losch @annie: ich glaub das ist richtig so
 	//beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden.. ansonsten machts ja auch kein sinn
@@ -91,7 +91,6 @@ public class Risiko implements Serializable{
 				gewinner = player;
 				return true;
 			} 
-			
 		}
 		return false;
 	}

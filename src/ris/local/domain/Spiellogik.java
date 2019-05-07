@@ -186,17 +186,19 @@ public class Spiellogik implements Serializable{
 		return hatNachbarn;
 	}
 
-	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten) {
-		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
-		// Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker = att.getBesitzer();
+//	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten) {
+//		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
+//		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+//		Player attacker = att.getBesitzer();
+//
+//		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
+//		int buBlock = attacker.getBlock()[att.getNummer()];
+//		if (attacker.getBlock()[att.getNummer()] > 0) {
+//			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
+//				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
+//			}
+//		}
 
-		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock = attacker.getBlock()[att.getNummer()];
-		if (attacker.getBlock()[att.getNummer()] > 0) {
-			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
-			
 
 //	public ArrayList<Integer> diceAttack(int attUnit){
 
@@ -296,10 +298,10 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 			}
 		}
 
-
-		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
-		// die verlorenen defense-Einheiten
-		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
+//
+//		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
+//		// die verlorenen defense-Einheiten
+//		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
 		
 		//ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
