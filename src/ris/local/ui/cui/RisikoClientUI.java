@@ -75,7 +75,7 @@ public class RisikoClientUI {
 				} catch (IOException e) {}
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
-				//	risiko.verteileMissionen();
+					risiko.verteileMissionen();
 				risiko.setzeAktivenPlayer();
 				System.out.println("jetzt beginnt das Spiel \n");
 				ungültig = false;

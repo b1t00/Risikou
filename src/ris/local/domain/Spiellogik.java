@@ -196,8 +196,9 @@ public class Spiellogik implements Serializable{
 		if (attacker.getBlock()[att.getNummer()] > 0) {
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
 				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
+			
 
-	public ArrayList<Integer> diceAttack(int attUnit){
+//	public ArrayList<Integer> diceAttack(int attUnit){
 
 		ArrayList<Integer> aList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnit; i++) {
