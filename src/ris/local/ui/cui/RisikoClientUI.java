@@ -774,7 +774,7 @@ public class RisikoClientUI {
 
 	public void run() {
 		eingangsMenue();
-		gibPlayerMissionUndLaenderAus();
+//		gibPlayerMissionUndLaenderAus();
 		setzeStartEinheiten();
 //		****************_hier_gehts_los********
 		System.out.println("");
