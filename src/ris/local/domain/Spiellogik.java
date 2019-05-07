@@ -199,7 +199,8 @@ public class Spiellogik implements Serializable{
 //			}
 //		}
 
-	public ArrayList<Integer> diceAttack(int attUnit){
+
+//	public ArrayList<Integer> diceAttack(int attUnit){
 
 		ArrayList<Integer> aList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnit; i++) {

@@ -204,12 +204,12 @@ public class Risiko implements Serializable{
 		return playerMg.getRichtigeEingabe();
 	}
 	
-	public static void main(String[] args) {
-		Risiko test = new Risiko();
-		test.PlayerAnlegen("a", "rot", 0);
-		test.PlayerAnlegen("b", "gruen", 1);
-//		test.verteileMissionen();
-//		test.getPlayerArray().get(0).getMission();
-		
-	}
+//	public static void main(String[] args) {
+//		Risiko test = new Risiko();
+//		test.PlayerAnlegen("a", "rot", 0);
+//		test.PlayerAnlegen("b", "gruen", 1);
+////		test.verteileMissionen();
+////		test.getPlayerArray().get(0).getMission();
+//		
+//	}
 }
