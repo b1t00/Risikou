@@ -342,7 +342,7 @@ public class RisikoClientUI {
 																						// eigenen angrenzen, beide mit
 																						// einheiten
 		System.out.print("\n   Mission anzeigen: m \n");
-		System.out.print("\n   Einheitenkarten anzeigen: k");
+		System.out.print("\n   Einheitenkarten anzeigen: k \n");
 		System.out.flush();
 	}
 
@@ -350,7 +350,8 @@ public class RisikoClientUI {
 		switch (input) {
 		case "a":
 			if (nichtVerschoben) {
-				attack(aktiverPlayer); //TODO beim verschieben nach dem attackn kann es zu exception zu wenige einheiten kommen
+				attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
+										// einheiten kommen
 				whoIsDead(); // testet und gibt aus ob jemand tot ist
 				somePlayerWin();
 			} else {
@@ -522,22 +523,20 @@ public class RisikoClientUI {
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
 
-			ArrayList<Integer> aList= null;
+			ArrayList<Integer> aList = null;
 			try {
-				aList=risiko.diceAttack(attEinheiten);
-			}
-			catch (UngueltigeAnzahlEinheitenException e) {
+				aList = risiko.diceAttack(attEinheiten);
+			} catch (UngueltigeAnzahlEinheitenException e) {
 				e.printStackTrace();
 			}
 			ArrayList<Integer> dList = null;
 			try {
-				dList=risiko.diceDefense(defEinheiten);
-			}
-			catch (UngueltigeAnzahlEinheitenException e) {
+				dList = risiko.diceDefense(defEinheiten);
+			} catch (UngueltigeAnzahlEinheitenException e) {
 				e.printStackTrace();
 			}
-			for(int i=0;i<aList.size();i++) {
-				System.out.println("Angreifender Würfel Nr."+(i+1)+" = "+aList.get(i));
+			for (int i = 0; i < aList.size(); i++) {
+				System.out.println("Angreifender Würfel Nr." + (i + 1) + " = " + aList.get(i));
 			}
 
 			for (int i = 0; i < dList.size(); i++) {
@@ -619,8 +618,8 @@ public class RisikoClientUI {
 						}
 					}
 					try {
-					risiko.verschiebeEinheiten(att, def, answer);
-					} catch(LandExistiertNichtException | ZuWenigEinheitenException e) {
+						risiko.verschiebeEinheiten(att, def, answer);
+					} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
 						e.printStackTrace();
 					}
 				}
@@ -790,9 +789,8 @@ public class RisikoClientUI {
 				}
 			}
 			try {
-			risiko.verschiebeEinheiten(start, ziel, anzahl);
-			}
-			catch(ZuWenigEinheitenException|LandExistiertNichtException e) {
+				risiko.verschiebeEinheiten(start, ziel, anzahl);
+			} catch (ZuWenigEinheitenException | LandExistiertNichtException e) {
 				e.printStackTrace();
 			}
 		}
@@ -841,7 +839,7 @@ public class RisikoClientUI {
 			if (risiko.getPlayerArray().get(i).isDead()) {
 				System.out.println(
 						"Der Spieler " + risiko.getPlayerArray().get(i).getName() + " ist Tot und wird entfernt!");
-				risiko.getPlayerArray().remove(i); //TODO: @tobi Ask ??wird der spieler dann wirklich daraus entfernt
+				risiko.getPlayerArray().remove(i); // TODO: @tobi Ask ??wird der spieler dann wirklich daraus entfernt
 				return true;
 			}
 		}

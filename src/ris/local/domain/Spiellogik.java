@@ -19,7 +19,7 @@ import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
 
-public class Spiellogik implements Serializable{
+public class Spiellogik implements Serializable {
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;
@@ -106,7 +106,6 @@ public class Spiellogik implements Serializable{
 		}
 
 	}
-
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -201,10 +200,8 @@ public class Spiellogik implements Serializable{
 //			}
 //		}
 
-
-
-	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException{
-		if(attUnit>3 | attUnit<=0) {
+	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException {
+		if (attUnit > 3 | attUnit <= 0) {
 			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit, maximal 3");
 		}
 		ArrayList<Integer> aList = new ArrayList<Integer>();
@@ -214,9 +211,8 @@ public class Spiellogik implements Serializable{
 		return aList;
 	}
 
-
-	public ArrayList<Integer> diceDefense(int defUnit)throws UngueltigeAnzahlEinheitenException{
-		if(defUnit>2|defUnit<=0) {
+	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
+		if (defUnit > 2 | defUnit <= 0) {
 			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit,maximal 2");
 		}
 		ArrayList<Integer> dList = new ArrayList<Integer>();
@@ -226,9 +222,9 @@ public class Spiellogik implements Serializable{
 		return dList;
 	}
 
-	public ArrayList<Integer> diceResults(ArrayList<Integer> aList,ArrayList<Integer> defList){
-		int lossDef=0;
-		int lossAtt=0;
+	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) {
+		int lossDef = 0;
+		int lossAtt = 0;
 		Collections.sort(aList);
 		Collections.sort(defList);
 		Collections.reverse(aList);
@@ -252,7 +248,7 @@ public class Spiellogik implements Serializable{
 			defList.remove(aList.size());
 
 		}
-	
+
 		if (defList.size() == 1) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
@@ -288,17 +284,18 @@ public class Spiellogik implements Serializable{
 		unitLoss.add(lossDef);
 		return unitLoss;
 	}
-	
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) {
-		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker= att.getBesitzer();
-		
-		//setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock= attacker.getBlock()[att.getNummer()];
-		if(attacker.getBlock()[att.getNummer()]>0) {
-			if(attacker.getBlock()[att.getNummer()]-attEinheiten>=0) {
-				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attEinheiten);
+	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
+			ArrayList<Integer> dList) {
+		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
+		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+		Player attacker = att.getBesitzer();
+
+		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
+		int buBlock = attacker.getBlock()[att.getNummer()];
+		if (attacker.getBlock()[att.getNummer()] > 0) {
+			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
+				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
 
 			}
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
@@ -310,8 +307,9 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 //		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
 //		// die verlorenen defense-Einheiten
 //		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
-		
-		//ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten
+
+		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
+		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
 		ArrayList<Integer> ergebnis = diceResults(aList, dList);
 		att.setEinheiten(ergebnis.get(0));
@@ -342,7 +340,6 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		}
 		return ergebnis;
 	}
-
 
 	public ArrayList<Integer> rollDice(int attUnits, int defUnits) throws UngueltigeAnzahlEinheitenException {
 		int lossDef = 0;
@@ -485,12 +482,13 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		}
 		return (nachbar && einheiten);
 	}
-	
-	public void moveUnits(Land start,Land ziel, int menge) throws ZuWenigEinheitenException, LandExistiertNichtException {
+
+	public void moveUnits(Land start, Land ziel, int menge)
+			throws ZuWenigEinheitenException, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
 			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
 		}
-		if(!worldMg.getLaender().contains(start)) {
+		if (!worldMg.getLaender().contains(start)) {
 			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class MissionKontinent extends Mission {
 	private Kontinent kontinent1, kontinent2;
 
-	//evtl. noch eine Alternative mit Kontinent einer Wahl
+	// evtl. noch eine Alternative mit Kontinent einer Wahl
 	public MissionKontinent(String missionstext, Kontinent kontinent1, Kontinent kontinent2) {
 		super(missionstext);
 		this.missionstext = missionstext;
