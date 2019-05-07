@@ -200,7 +200,7 @@ public class Spiellogik implements Serializable{
 //		}
 
 
-//	public ArrayList<Integer> diceAttack(int attUnit){
+	public ArrayList<Integer> diceAttack(int attUnit){
 
 		ArrayList<Integer> aList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnit; i++) {
@@ -480,7 +480,7 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 	
 	public void moveUnits(Land start,Land ziel, int menge) throws ZuWenigEinheitenException {
 		if ((start.getEinheiten() - menge) < 1) {
-			throw new ZuWenigEinheitenException();
+			throw new ZuWenigEinheitenException("hey du hast nicht genügend Eingeiten");
 		}
 
 		start.setEinheiten(-menge);

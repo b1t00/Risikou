@@ -9,6 +9,7 @@ import java.util.List;
 
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.persistence.FilePersistenceManager;
+import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -19,6 +20,7 @@ public class Risiko implements Serializable{
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player, gewinner;
+	private ArrayList<Einheitenkarte> einheitskartenStapel;
 	
 
 	// Konstruktor
@@ -85,14 +87,31 @@ public class Risiko implements Serializable{
 	
 	
 	// Missionsabfragen gilt für alle spieler 
-	public boolean missionenComplete() {
+	public boolean allMissionsComplete() {
 		for(Player play:playerMg.getPlayers()) {
-			if(play.isMissionComplete(player)) {
-				gewinner = player;
+			if(play.isMissionComplete(play)) {
+				gewinner = play;
 				return true;
 			} 
 		}
 		return false;
+	}
+	
+	
+	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde gewonnen hat, hat gewonnen??
+	public boolean rundeMissionComplete(Player play) {
+		
+		if(play.isMissionComplete(play)) {
+			gewinner = play;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public boolean zieheEinheitenkarte() {
+		gibAktivenPlayer().setEinheitenkarte(einheitskartenStapel.remove(0));
+		
 	}
 	
 	//get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw missionenCompletet True ist..
@@ -204,6 +223,7 @@ public class Risiko implements Serializable{
 		return playerMg.getRichtigeEingabe();
 	}
 	
+		//test main
 //	public static void main(String[] args) {
 //		Risiko test = new Risiko();
 //		test.PlayerAnlegen("a", "rot", 0);
@@ -212,4 +232,8 @@ public class Risiko implements Serializable{
 ////		test.getPlayerArray().get(0).getMission();
 //		
 //	}
+	//TODO: @tobi nach jeder rund einbinden?? Spieler aus Array löschen
+	public boolean isPlayerDead(Player play) {
+		return play.isDead();
+	}
 }

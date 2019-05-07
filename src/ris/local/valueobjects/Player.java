@@ -9,6 +9,7 @@ public class Player implements Serializable {
 	private String farbe;
 	private int nummer;
 	private Mission mission; //
+	private ArrayList<Einheitenkarte> gezogeneEinheitenkarten;
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
@@ -56,6 +57,14 @@ public class Player implements Serializable {
 	public int[] setBlock(int[] gB, int indexLand, int units) {
 		gB[indexLand] += units;
 		return gB;
+	}
+	
+	public void setEinheitenkarte(Einheitenkarte karte) {
+		this.gezogeneEinheitenkarten.add(karte);
+	}
+	
+	public ArrayList<Einheitenkarte> getEinheitenkarten(){
+		return gezogeneEinheitenkarten;
 	}
 
 	public String toString() {

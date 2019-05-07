@@ -27,7 +27,7 @@ public class RisikoClientUI {
 	private String liesEingabe() throws IOException {
 		return in.readLine();
 	}
-	
+
 //	*******************Spielstart****************************
 
 	private void eingangsMenue() {
@@ -37,7 +37,8 @@ public class RisikoClientUI {
 			System.out.println("Lust Risiko zu spielen? (y/n) :	");
 			try {
 				eingabe = liesEingabe();
-			} catch (IOException e) {}
+			} catch (IOException e) {
+			}
 			switch (eingabe) {
 			case "yes":
 			case "j":
@@ -58,21 +59,23 @@ public class RisikoClientUI {
 		}
 	}
 
-	
 	public void starteSpiel() {
 		String eingabe = "";
 		boolean ungültig = true;
 		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
-		try{
+		try {
 			eingabe = liesEingabe();
-		} catch (IOException e) {}
-		
+		} catch (IOException e) {
+			// TODO hier catchen
+		}
+
 		while (ungültig) {
 			switch (eingabe) {
 			case "n":
 				try {
 					wieVielePlayerMenu();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+				}
 				risiko.verteileEinheiten();
 				// hier abfrage ob mit missionen gespielt werden soll oder nicht
 
@@ -93,7 +96,6 @@ public class RisikoClientUI {
 		}
 	}
 
-
 //public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
 //	try {
 //		
@@ -110,7 +112,7 @@ public class RisikoClientUI {
 			System.out.println("Wieviele Spieler soll es geben? (min 2 | Max 6) :");
 			try {
 				eingabePlayer = liesEingabe();
-				
+
 				nr = Integer.parseInt(eingabePlayer);
 			} catch (IOException | NumberFormatException e) {
 				// @tobi die Frage ob wir in solchen Fällen mit Exceptions arbeiten sollen oder
@@ -192,7 +194,8 @@ public class RisikoClientUI {
 
 	// verteilt zu beginn des spiels starteinheiten, pro Spieler 3 Einheiten
 	public void setzeStartEinheiten() {
-		//die gesamte Anzahl der verteilten Einheiten wird gespeichert und mit jedem Setzen heruntergezählt
+		// die gesamte Anzahl der verteilten Einheiten wird gespeichert und mit jedem
+		// Setzen heruntergezählt
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
 		Land aktuellesLand = null;
@@ -203,25 +206,25 @@ public class RisikoClientUI {
 			System.out.println("");
 			System.out.println(aktiverPlayer + ": setze eine Einheit.");
 			ArrayList<Land> aktiveLaender = aktiverPlayer.getBesitz();
-			System.out.println("");			
-			ArrayList<Integer> pruefArray =  laenderAusgabe(aktiveLaender);
-			
+			System.out.println("");
+			ArrayList<Integer> pruefArray = laenderAusgabe(aktiveLaender);
+
 			ungültig = true;
-			while(ungültig) {
+			while (ungültig) {
 				int land = -1;
 				try {
 					land = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
 					land = -1;
 				}
-				if(pruefArray.contains(land)) {
+				if (pruefArray.contains(land)) {
 					aktuellesLand = risiko.getLandById(land);
 					ungültig = false;
 				} else {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				}
 			}
-			
+
 			aktuellesLand.setEinheiten(einheit);
 			anzahlEinheiten--;
 			risiko.machNaechsterPlayer();
@@ -232,7 +235,7 @@ public class RisikoClientUI {
 		String input = "";
 		boolean spielzug;
 		boolean nichtVerschoben = true;
-		while (true) {
+		while (!somePlayerWin()) { // #TODO ist so das Spiel beendet? scheinbar schon?
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			System.out.println("");
@@ -240,7 +243,7 @@ public class RisikoClientUI {
 			// Player bekommt einheiten
 			setzeNeueEinheiten(aktiverPlayer);
 
-			while (spielzug) {
+			while (spielzug && !somePlayerWin()) {
 				System.out.println("");
 				gibMenuAus(aktiverPlayer, nichtVerschoben);
 				try {
@@ -257,6 +260,7 @@ public class RisikoClientUI {
 				}
 			}
 		}
+		System.out.println(risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 	}
 
 	// ----------------------------------einheiten-------------------------------------------------
@@ -334,21 +338,25 @@ public class RisikoClientUI {
 		System.out.print("\n   Länder und Einheiten von möglichen Gegnern zeigen: f"); // gibt länder aus, die an die
 																						// eigenen angrenzen, beide mit
 																						// einheiten
-		System.out.print("\n   Mission anzeigen: m \n"); // wird später implementiert
+		System.out.print("\n   Mission anzeigen: m \n");
+		System.out.print("\n   Einheitenkarten anzeigen: k");
 		System.out.flush();
 	}
 
 	public void verarbeiteEingabe(String input, Player aktiverPlayer, boolean nichtVerschoben) {
 		switch (input) {
 		case "a":
-			if(nichtVerschoben) {
-			attack(aktiverPlayer);
+			if (nichtVerschoben) {
+				attack(aktiverPlayer); //TODO beim verschieben nach dem attackn kann es zu exception zu wenige einheiten kommen
+				whoIsDead(); // testet und gibt aus ob jemand tot ist
+				somePlayerWin();
 			} else {
 				System.out.println("Ungültige Eingabe, bitte wiederholen.");
 			}
 			break;
 		case "e":
 			verschiebeEinheiten(aktiverPlayer);
+			somePlayerWin();
 			break;
 		case "w":
 			gibWeltAus();
@@ -359,6 +367,7 @@ public class RisikoClientUI {
 			break;
 		case "z":
 			risiko.machNaechsterPlayer();
+
 			System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
 			break;
 		case "q":
@@ -368,6 +377,17 @@ public class RisikoClientUI {
 			System.out.println(aktiverPlayer.getMission());
 			System.out.println(aktiverPlayer.isMissionComplete(aktiverPlayer));
 			break;
+		case "k":
+			if (aktiverPlayer.getEinheitenkarten() == null) {
+				System.out.println("... ups, du hast noch kein Karte gezogen!");
+			} else {
+				for (int i = 0; i < aktiverPlayer.getEinheitenkarten().size(); i++) {
+					System.out.println(aktiverPlayer.getEinheitenkarten().get(i));
+				}
+				System.out.println("jetzt kannst du irgendwas mit den Karten machen Menue!!"); // TODO
+			}
+			break;
+
 		case "s":
 			System.out.println(System.getProperty("user.dir"));
 			risiko.spielSpeichern();
@@ -375,11 +395,6 @@ public class RisikoClientUI {
 		default:
 			System.out.println("Ungültige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
 																			// whileschleife in der round gebaut
-//				gibMenuAus(aktiverPlayer);
-//				try {
-//					input = liesEingabe();
-//					verarbeiteEingabe(input, aktiverPlayer);
-//				} catch(IOException e){}
 			break;
 		}
 	}
@@ -503,21 +518,20 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-			ArrayList<Integer>aList=risiko.diceAttack(attEinheiten);
-			ArrayList<Integer>dList=risiko.diceDefense(defEinheiten);
-			for(int i=0;i<aList.size();i++) {
-				System.out.println("Angreifender Würfel Nr."+(i+1)+" = "+aList.get(i));
+			ArrayList<Integer> aList = risiko.diceAttack(attEinheiten);
+			ArrayList<Integer> dList = risiko.diceDefense(defEinheiten);
+			for (int i = 0; i < aList.size(); i++) {
+				System.out.println("Angreifender Würfel Nr." + (i + 1) + " = " + aList.get(i));
 			}
-			
-			for(int i=0;i<dList.size();i++) {
-				System.out.println("Verteidigender Würfel Nr."+(i+1)+" = "+dList.get(i));
+
+			for (int i = 0; i < dList.size(); i++) {
+				System.out.println("Verteidigender Würfel Nr." + (i + 1) + " = " + dList.get(i));
 			}
-			
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten,aList,dList);
+
+			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
-			
 			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder
 			if (ergebnis.get(0) > ergebnis.get(1) && def.getBesitzer().equals(defender)) {
 				System.out.println(angreifer + " hat gewonnen.");
@@ -534,13 +548,14 @@ public class RisikoClientUI {
 				} else {
 					System.out.println(" Einheiten.");
 				}
-				
+
 				System.out.println("");
 				System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
 				String answer = "";
 				try {
 					answer = liesEingabe();
-				} catch (IOException e) {}
+				} catch (IOException e) {
+				}
 				switch (answer) {
 				case "na klar":
 					// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
@@ -551,9 +566,9 @@ public class RisikoClientUI {
 					break;
 				}
 			}
-			
-			//2. Angreifer gewinnt und erobert das Land
-			else if(def.getBesitzer().equals(angreifer)) {
+
+			// 2. Angreifer gewinnt und erobert das Land
+			else if (def.getBesitzer().equals(angreifer)) {
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -593,7 +608,8 @@ public class RisikoClientUI {
 				// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 				kampf = false;
 
-				// 3. + 4. angreifer hat verloren/unentschieden -> soll wieder angegriffen werden? (wenn genug einheiten verbleiben)
+				// 3. + 4. angreifer hat verloren/unentschieden -> soll wieder angegriffen
+				// werden? (wenn genug einheiten verbleiben)
 			} else {
 				if (ergebnis.get(1) > ergebnis.get(0)) {
 					System.out.println(angreifer + " hat verloren!");
@@ -658,8 +674,8 @@ public class RisikoClientUI {
 		ArrayList<Land> alleLaender = risiko.gibWeltAus();
 		// gibt erst aus, wer welche Länder besitzt
 		for (Land land : alleLaender) {
-			System.out
-					.print(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName() + " besetzt mit: " + land.getEinheiten());
+			System.out.print(land.getNummer() + " : " + land.getName() + " gehört " + land.getBesitzer().getName()
+					+ " besetzt mit: " + land.getEinheiten());
 			if (land.getEinheiten() == 1) {
 				System.out.println("ner Einheit.");
 			} else {
@@ -774,6 +790,37 @@ public class RisikoClientUI {
 			}
 			System.out.println();
 		}
+	}
+
+	public boolean somePlayerWin() {
+		// TODO: soll hier nochmal die einzelmethode angefragt werden?? @tobi
+		if (risiko.allMissionsComplete()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	// TODO noch nicht benutzt, wann genau soll die eingesettzt werden
+	public boolean aktuellerPlayerWin() {
+		if (risiko.rundeMissionComplete(risiko.gibAktivenPlayer())) {
+			System.out.println(risiko.getGewinner().getName() + " hat gewonnen!! juhu");
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean whoIsDead() { // TODO: Ist recht schlaue Methode vlt aussorcen
+		for (int i = 0; i < risiko.getPlayerArray().size(); i++) {
+			if (risiko.getPlayerArray().get(i).isDead()) {
+				System.out.println(
+						"Der Spieler " + risiko.getPlayerArray().get(i).getName() + " ist Tot und wird entfernt!");
+				risiko.getPlayerArray().remove(i); //TODO: @tobi Ask ??wird der spieler dann wirklich daraus entfernt
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void run() {
