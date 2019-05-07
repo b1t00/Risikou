@@ -210,7 +210,9 @@ public class RisikoClientUI {
 				int land = -1;
 				try {
 					land = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {}
+				} catch (IOException | NumberFormatException e) {
+					land = -1;
+				}
 				if(pruefArray.contains(land)) {
 					aktuellesLand = risiko.getLandById(land);
 					ungültig = false;
@@ -363,6 +365,7 @@ public class RisikoClientUI {
 			break;
 		case "m":
 			System.out.println(aktiverPlayer.getMission());
+			System.out.println(aktiverPlayer.isMissionComplete(aktiverPlayer));
 			break;
 		case "s":
 			System.out.println(System.getProperty("user.dir"));
@@ -782,6 +785,11 @@ public class RisikoClientUI {
 
 		round();
 
+	}
+
+	// einlesen von Konsole
+	private String liesEingabe() throws IOException {
+		return in.readLine();
 	}
 
 	public static void main(String[] args) {
