@@ -2,6 +2,8 @@
 package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
+import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 
 import java.io.Serializable;
@@ -200,8 +202,10 @@ public class Spiellogik implements Serializable{
 //		}
 
 
-//	public ArrayList<Integer> diceAttack(int attUnit){
-
+	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException{
+		if(attUnit>3 | attUnit<=0) {
+			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit, maximal 3");
+		}
 		ArrayList<Integer> aList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnit; i++) {
 			aList.add((int) (Math.random() * 6) + 1);
@@ -210,7 +214,10 @@ public class Spiellogik implements Serializable{
 	}
 
 
-	public ArrayList<Integer> diceDefense(int defUnit){
+	public ArrayList<Integer> diceDefense(int defUnit)throws UngueltigeAnzahlEinheitenException{
+		if(defUnit>2|defUnit<=0) {
+			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit,maximal 2");
+		}
 		ArrayList<Integer> dList = new ArrayList<Integer>();
 		for (int i = 0; i < defUnit; i++) {
 			dList.add((int) (Math.random() * 6) + 1);
@@ -336,7 +343,7 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 	}
 
 
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) {
+	public ArrayList<Integer> rollDice(int attUnits, int defUnits) throws UngueltigeAnzahlEinheitenException {
 		int lossDef = 0;
 		int lossAtt = 0;
 		ArrayList<Integer> aList = new ArrayList<Integer>();
@@ -478,9 +485,12 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		return (nachbar && einheiten);
 	}
 	
-	public void moveUnits(Land start,Land ziel, int menge) throws ZuWenigEinheitenException {
+	public void moveUnits(Land start,Land ziel, int menge) throws ZuWenigEinheitenException, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
-			throw new ZuWenigEinheitenException();
+			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
+		}
+		if(!worldMg.getLaender().contains(start)) {
+			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
 
 		start.setEinheiten(-menge);

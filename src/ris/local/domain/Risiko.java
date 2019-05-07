@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Kontinent;
@@ -156,22 +159,18 @@ public class Risiko implements Serializable{
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten,aList,dList);
 		return ergebnis;
 	}
-	public ArrayList<Integer> diceDefense(int defUnit){
+	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException{
 		return logik.diceDefense(defUnit);
 	}
-	public ArrayList<Integer> diceAttack(int attUnit){
+	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException{
 		return logik.diceAttack(attUnit);
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
-	public void verschiebeEinheiten(Land start,Land ziel,int menge) {
-		try {
+	public void verschiebeEinheiten(Land start,Land ziel,int menge) throws LandExistiertNichtException, ZuWenigEinheitenException{
 			logik.moveUnits(start, ziel, menge);
-		} catch (ZuWenigEinheitenException e) {
-			System.err.println("So viele Einheiten kannst du nicht verschieben.");
-		}
 	}
 	
 	public void spielSpeichern() {
