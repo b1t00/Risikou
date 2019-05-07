@@ -1,6 +1,8 @@
 package ris.local.valueobjects;
 
-public class Einheitenkarte {
+import java.io.Serializable;
+
+public class Einheitenkarte implements Serializable {
 	private String symbol;
 	private Land land;
 	
@@ -9,4 +11,7 @@ public class Einheitenkarte {
 		this.land = land;
 		}
 	
+	public String getSymbol() {
+		return symbol;
+	}
 }

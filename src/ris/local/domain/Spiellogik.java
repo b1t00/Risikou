@@ -337,6 +337,9 @@ public class Spiellogik implements Serializable {
 
 			// setzt bei erobertem Land die beteiligten Einheiten auf Block
 			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
+			
+			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am ende des Zuges ziehen kann
+			winner.setGutschriftEinheitenkarte(true);
 		}
 		return ergebnis;
 	}
