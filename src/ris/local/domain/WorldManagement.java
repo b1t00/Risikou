@@ -57,8 +57,7 @@ public class WorldManagement implements Serializable{
 		kontinente.add(europa);
 		
 		ArrayList<Land> au = new ArrayList<Land>();
-		au.add(westernAustralia);
-		au.add(northernTerritory);
+
 		au.add(queensland);
 		au.add(southAustralia);
 		au.add(newSouthWales);
