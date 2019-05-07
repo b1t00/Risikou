@@ -1,10 +1,11 @@
 package ris.local.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ris.local.valueobjects.Einheitenkarte;
 
-public class EinheitenkartenManagement {
+public class EinheitenkartenManagement implements Serializable {
 
 	public ArrayList<Einheitenkarte> einheitenkarten;
 	public WorldManagement worldMg;

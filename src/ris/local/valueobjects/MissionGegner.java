@@ -1,7 +1,8 @@
 package ris.local.valueobjects;
 
-public class MissionGegner extends Mission
-{
+import java.io.Serializable;
+
+public class MissionGegner extends Mission implements Serializable {
 	private Player gegenspieler;
 	
 	public MissionGegner(String missionstext, Player gegenspieler){
