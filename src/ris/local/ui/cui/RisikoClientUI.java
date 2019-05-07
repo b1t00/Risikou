@@ -1,6 +1,7 @@
 package ris.local.ui.cui;
 
 import java.io.BufferedReader;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -29,29 +30,19 @@ public class RisikoClientUI {
 	
 //	*******************Spielstart****************************
 
-	private void starteSpiel() {
+	private void eingangsMenue() {
 		boolean richtigeEingabe = false;
 		String eingabe = "";
 		while (!richtigeEingabe) {
 			System.out.println("Lust Risiko zu spielen? (y/n) :	");
 			try {
 				eingabe = liesEingabe();
-			} catch (IOException e) {
-
-			}
+			} catch (IOException e) {}
 			switch (eingabe) {
 			case "yes":
 			case "j":
 			case "y":
-				try {
-					wieVielePlayerMenu();
-				} catch (IOException e) {
-				}
-				risiko.verteileEinheiten();
-				// hier abfrage ob mit missionen gespielt werden soll oder nicht
-				risiko.verteileMissionen();
-				risiko.setzeAktivenPlayer();
-				System.out.println("jetzt beginnt das Spiel \n");
+				starteSpiel();
 				richtigeEingabe = true;
 				break;
 			case "no":
@@ -66,11 +57,48 @@ public class RisikoClientUI {
 			}
 		}
 	}
+
+	
+	public void starteSpiel() {
+		String eingabe = "";
+		boolean ungültig = true;
+		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
+		try{
+			eingabe = liesEingabe();
+		} catch (IOException e) {}
+		
+		while (ungültig) {
+			switch (eingabe) {
+			case "n":
+				try {
+					wieVielePlayerMenu();
+				} catch (IOException e) {}
+				risiko.verteileEinheiten();
+				// hier abfrage ob mit missionen gespielt werden soll oder nicht
+				//	risiko.verteileMissionen();
+				risiko.setzeAktivenPlayer();
+				System.out.println("jetzt beginnt das Spiel \n");
+				ungültig = false;
+				break;
+			case "l":
+				risiko.spielLaden();
+				System.out.println("Das Spiel wurde erfolgreich geladen.");
+				ungültig = false;
+				break;
+			default:
+				System.out.println("Ungültige Eingabe");
+				break;
+			}
+		}
+	}
+
+
 //public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
 //	try {
 //		
 //	}
 //}
+
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
 		String name = "";
@@ -294,6 +322,7 @@ public class RisikoClientUI {
 		}
 		System.out.print("\n   Einheiten verschieben: e");
 		System.out.print("\n   Zug beenden: z");
+		System.out.println("\n   Spiel speichern: s");
 		System.out.println("\n   Spiel beenden: q \n"); // TODO
 		System.out.print("**Informationen anzeigen:**");
 		System.out.print("\n   Weltübersicht anzeigen: w");
@@ -336,6 +365,10 @@ public class RisikoClientUI {
 			System.out.println(aktiverPlayer.getMission());
 			System.out.println(aktiverPlayer.isMissionComplete(aktiverPlayer));
 			break;
+		case "s":
+			System.out.println(System.getProperty("user.dir"));
+			risiko.spielSpeichern();
+			System.out.println("Das Spiel wurde erfolgreich speichert.");
 		default:
 			System.out.println("Ungültige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
 																			// whileschleife in der round gebaut
@@ -467,7 +500,17 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten);
+			ArrayList<Integer>aList=risiko.diceAttack(attEinheiten);
+			ArrayList<Integer>dList=risiko.diceDefense(defEinheiten);
+			for(int i=0;i<aList.size();i++) {
+				System.out.println("Angreifender Würfel Nr."+(i+1)+" = "+aList.get(i));
+			}
+			
+			for(int i=0;i<dList.size();i++) {
+				System.out.println("Verteidigender Würfel Nr."+(i+1)+" = "+dList.get(i));
+			}
+			
+			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten,aList,dList);
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
@@ -731,7 +774,7 @@ public class RisikoClientUI {
 	}
 
 	public void run() {
-		starteSpiel();
+		eingangsMenue();
 		gibPlayerMissionUndLaenderAus();
 		setzeStartEinheiten();
 //		****************_hier_gehts_los********

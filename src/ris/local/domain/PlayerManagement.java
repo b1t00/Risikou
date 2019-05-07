@@ -1,6 +1,7 @@
 package ris.local.domain;
 //cui frage 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -9,7 +10,7 @@ import java.util.Vector;
 
 import ris.local.valueobjects.Player;
 
-public class PlayerManagement {
+public class PlayerManagement implements Serializable {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();

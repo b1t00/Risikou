@@ -1,5 +1,6 @@
 package ris.local.domain;
 
+import java.io.Serializable;
 import java.util.*;
 
 
@@ -8,10 +9,10 @@ import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 
-public class WorldManagement {
+public class WorldManagement implements Serializable{
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
-	private ArrayList<Land> shuffle = new ArrayList<Land>();
+	private transient ArrayList<Land> shuffle = new ArrayList<Land>();
 	private ArrayList<Kontinent> kontinente = new ArrayList<Kontinent>();
 	
 	public WorldManagement() {
