@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
-import ris.local.valueobjects.MissionsVorlage;
+import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
 public class RisikoClientUI {
@@ -210,7 +210,9 @@ public class RisikoClientUI {
 				int land = -1;
 				try {
 					land = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {}
+				} catch (IOException | NumberFormatException e) {
+					land = -1;
+				}
 				if(pruefArray.contains(land)) {
 					aktuellesLand = risiko.getLandById(land);
 					ungültig = false;

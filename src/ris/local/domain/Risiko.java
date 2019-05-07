@@ -18,7 +18,8 @@ public class Risiko implements Serializable{
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
-	private Player player;
+	private Player player, gewinner;
+	
 
 	// Konstruktor
 
@@ -80,6 +81,24 @@ public class Risiko implements Serializable{
 
 	public void machNaechsterPlayer() {
 		logik.naechsteSpielrunde();
+	}
+	
+	
+	// Missionsabfragen gilt für alle spieler 
+	public boolean missionenComplete() {
+		for(Player play:playerMg.getPlayers()) {
+			if(play.isMissionComplete(player)) {
+				gewinner = player;
+				return true;
+			} 
+			
+		}
+		return false;
+	}
+	
+	//get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw missionenCompletet True ist..
+	public Player getGewinner() {
+		return gewinner;
 	}
 	
 	public ArrayList<Land> getEigeneNachbarn(Land land){

@@ -1,6 +1,6 @@
 package ris.local.valueobjects;
 
-public class MissionLaenderanzahl extends MissionsVorlage {
+public class MissionLaenderanzahl extends Mission {
 
 	public MissionLaenderanzahl(String missionstext) {
 		super(missionstext);

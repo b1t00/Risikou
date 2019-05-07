@@ -1,21 +1,18 @@
 package ris.local.valueobjects;
 
-import java.io.Serializable;
-import java.util.ArrayList;
+public abstract class Mission {
 
-import ris.local.domain.PlayerManagement;
-
-public class Mission implements Serializable{
-
-private String missionstext;
+	protected String missionstext;
 
 	public Mission(String missionstext){
-		this.missionstext = missionstext;
+		this.missionstext = missionstext;		
 	}
 	
 	public String getMission(){
-		return missionstext;
+		return missionstext; 
 	}
 	
-	//missionerledigt methode()
+	public abstract boolean missionComplete(Player aktiverSpieler);	
+	
 }
+

@@ -7,20 +7,19 @@ import ris.local.valueobjects.MissionGegner;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.MissionKontinent;
 import ris.local.valueobjects.MissionLaenderanzahl;
-import ris.local.valueobjects.MissionsVorlage;
+import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
 public class MissionsManagement {
-	private ArrayList<MissionsVorlage> missionen;
+	private ArrayList<Mission> missionen;
 	private PlayerManagement playerMg;
 	private WorldManagement worldMg;
 
-	private boolean isPlayer = false;
 
 	public MissionsManagement(PlayerManagement playerMg, WorldManagement worldMg) {
 		this.playerMg = playerMg;
 		this.worldMg = worldMg;
-		missionen = new ArrayList<MissionsVorlage>();
+		missionen = new ArrayList<Mission>();
 
 		// @tobi Methode wird wahrscheinlich nicht gebraucht
 //		for(Kontinent kontinent : worldMg.getKontinente()) { 
@@ -33,12 +32,12 @@ public class MissionsManagement {
 		missionen.add(new MissionLaenderanzahl("mission2 (test): Erobere 6 Länder deiner Wahl"));
 		for (Player player : playerMg.getPlayers()) {
 			missionen.add(
-					new MissionGegner("loesche " + player.getName() + "(" + player.getFarbe() + ")" + " aus!", player));
+					new MissionGegner("loesche " + player.getName() + " (" + player.getFarbe() + ")" + " aus!", player));
 		}
 
 	}
 
-	public ArrayList<MissionsVorlage> getMission() {
+	public ArrayList<Mission> getMission() {
 		return missionen;
 	}
 
