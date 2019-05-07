@@ -89,25 +89,24 @@ public class Spiellogik implements Serializable {
 	public void setzeStartSpieler() {
 		aktiverPlayer = whoBegins();
 	}
-
+//**********************************>MISSIONS-SACHEN<************************************
+	
 	public void verteileMissionen() {
 		missionsMg = new MissionsManagement(playerMg, worldMg);
 
-		ArrayList<Mission> missionsCopy = missionsMg.getMission();
-		Collections.shuffle(missionsCopy);
-		for (Player play : playerMg.getPlayers()) {
-			Mission mission = missionsCopy.remove(0);
-			if (mission instanceof MissionGegner && ((MissionGegner) mission).getGegner() == play) {
-				// ops suicide, zur�ck tun und neue suchen
-				missionsCopy.add(mission);
-				mission = missionsCopy.remove(0);
+		ArrayList<Mission> missionsAr = missionsMg.getMission();
+		Collections.shuffle(missionsAr);
+		for (Player player : playerMg.getPlayers()) {
+			Mission mission = missionsAr.remove(0);
+			if (mission instanceof MissionGegner && ((MissionGegner) mission).getGegner() == player) {
+				// ops suicide, zurueck tun und neue suchen
+				missionsAr.add(mission);
+				mission = missionsAr.remove(0);
 			}
-			play.setMission(mission);
+			player.setMission(mission);
 		}
-
 	}
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {

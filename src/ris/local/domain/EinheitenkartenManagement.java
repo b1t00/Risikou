@@ -2,6 +2,7 @@ package ris.local.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import ris.local.valueobjects.Einheitenkarte;
 
@@ -12,6 +13,7 @@ public class EinheitenkartenManagement implements Serializable {
 
 	public EinheitenkartenManagement() {
 		einheitenkarten = new ArrayList<Einheitenkarte>();
+		Collections.shuffle(einheitenkarten);
 		worldMg = new WorldManagement();
 		for (int i = 0; i < worldMg.getLaender().size(); i++) {
 			if (i % 3 == 0) {
@@ -22,9 +24,11 @@ public class EinheitenkartenManagement implements Serializable {
 				einheitenkarten.add(new Einheitenkarte("Reiter", worldMg.getLandById(i)));
 			}
 		}
-		// TODO: @tobi Joker einbauen??? 
+		// TODO: @tobi Joker einbauen???
 	}
-	public ArrayList<Einheitenkarte> getEinheitenkarten(){
+
+	public ArrayList<Einheitenkarte> getEinheitenkarten() {
 		return einheitenkarten;
 	}
+
 }

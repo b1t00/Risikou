@@ -20,7 +20,6 @@ public class Risiko implements Serializable {
 	private Player player, gewinner;
 	private ArrayList<Einheitenkarte> einheitenkartenStapel;
 
-
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
@@ -110,7 +109,8 @@ public class Risiko implements Serializable {
 		}
 	}
 
-	// fragt den player, ob er ein land eingenommen hat via boolean gutschriftEinheitenkarte und setzt diesen dann auf false
+	// fragt den player, ob er ein land eingenommen hat via boolean
+	// gutschriftEinheitenkarte und setzt diesen dann auf false
 	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
 			aktiverPlayer.setEinheitenkarte(einheitenkartenStapel.remove(0));

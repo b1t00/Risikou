@@ -14,4 +14,8 @@ public class Einheitenkarte implements Serializable {
 	public String getSymbol() {
 		return symbol;
 	}
+	
+	public Land getLand() {
+		return this.land;
+	}
 }
