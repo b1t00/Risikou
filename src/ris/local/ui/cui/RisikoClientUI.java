@@ -10,6 +10,7 @@ import ris.local.domain.Risiko;
 import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
@@ -374,7 +375,11 @@ public class RisikoClientUI {
 			break;
 		case "z":
 			risiko.machNaechsterPlayer();
-
+			if (risiko.zieheEinheitenkarte(aktiverPlayer)) {
+				// gibt die neueste Einheitenkarte aus, die sich an der letzten Stelle des Einheitenkarten-Arrays befindet
+				Einheitenkarte neu = aktiverPlayer.getEinheitenkarten().get(aktiverPlayer.getEinheitenkarten().size()-1);
+				System.out.println("Du hast ein Land erobert und bekommst eine Einheitenkarte mit dem Symbol: " + neu.getSymbol());
+			}
 			System.out.println(aktiverPlayer + " hat seinen Zug beendet.");
 			break;
 		case "q":
@@ -651,18 +656,22 @@ public class RisikoClientUI {
 					System.out.println(" Einheiten.");
 				}
 				if ((att.getEinheiten() - 1) > 0) {
-					System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
+					System.out.println("Soll erneut angegriffen werden? (n/y)");
 					String answer = "";
 					try {
 						answer = liesEingabe();
 					} catch (IOException e) {
 					}
 					switch (answer) {
-					case "na klar":
-						// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
+					case "y":
 						break;
-					case "auf gar keinen fall":
+					case "j":
+						break;
+					case "n":
 						// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
+						kampf = false;
+						break;
+					case "no":
 						kampf = false;
 						break;
 					}

@@ -18,20 +18,21 @@ public class Risiko implements Serializable {
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player, gewinner;
-	private ArrayList<Einheitenkarte> einheitskartenStapel;
+	private ArrayList<Einheitenkarte> einheitenkartenStapel;
 
-	// Konstruktor
 
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
+		EinheitenkartenManagement einheitenkartenMg = new EinheitenkartenManagement();
+		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
 	}
 
-	public void spielAnlegen(int anzahl) {
-		// ...
-		// return gameObjekt;
-	}
+//	public void spielAnlegen(int anzahl) {
+//		// ...
+//		// return gameObjekt;
+//	}
 
 	// @to: Methode um Laender am Anfang zufällig zu verteilen;
 	public void verteileEinheiten() {
@@ -110,9 +111,14 @@ public class Risiko implements Serializable {
 		}
 	}
 
-	public boolean zieheEinheitenkarte() {
-		gibAktivenPlayer().setEinheitenkarte(einheitskartenStapel.remove(0));
-
+	// fragt den player, ob er ein land eingenommen hat via boolean gutschriftEinheitenkarte und setzt diesen dann auf false
+	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
+		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
+			aktiverPlayer.setEinheitenkarte(einheitenkartenStapel.remove(0));
+			aktiverPlayer.setGutschriftEinheitenkarte(false);
+			return true;
+		}
+		return false;
 	}
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw

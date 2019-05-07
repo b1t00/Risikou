@@ -14,6 +14,8 @@ public class Player implements Serializable {
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
 	int[] uBlock = new int[12];
+	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
+	private boolean gutschriftEinheitenkarte = false;
 
 	public Player(String name, String farbe, int nummer) {
 		this.name = name;
@@ -52,6 +54,15 @@ public class Player implements Serializable {
 
 	public int[] getBlock() {
 		return uBlock;
+	}
+	
+	//Methode wird aufgerufen, wenn ein Zug beendet wird
+	public boolean getGutschriftEinheitenkarte() {
+		return gutschriftEinheitenkarte;
+	}
+	
+	public void setGutschriftEinheitenkarte(boolean wert) {
+		this.gutschriftEinheitenkarte = wert;
 	}
 
 	public int[] setBlock(int[] gB, int indexLand, int units) {
