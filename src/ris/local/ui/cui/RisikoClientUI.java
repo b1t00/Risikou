@@ -68,30 +68,17 @@ public class RisikoClientUI {
 
 	public void starteSpiel() {
 		String eingabe = "";
-<<<<<<< HEAD
-		boolean ungültig = true;//TODO: Check
-		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
-		while (ungültig) {
-		try {
-			eingabe = liesEingabe();
-			ungültig = false;
-		} catch (IOException e) {
-			// TODO hier catchen habs nicht hingekriegt..
-			ungültig = true;
-		}
-		
-=======
 		boolean ungueltig = true;// TODO: Check
 		while (ungueltig) {
 			System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
 			try {
 				eingabe = liesEingabe();
+				ungueltig = false;
 			} catch (IOException | NullPointerException e) {
 				// TODO hier catchen habs nicht hingekriegt..
 				System.out.println("hhhey");
 				ungueltig = true;
 			}
->>>>>>> 1406e11b4b997f823ed15120237fb5953e7d6022
 			switch (eingabe) {
 			case "n":
 				try {
@@ -124,15 +111,6 @@ public class RisikoClientUI {
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
-
-//public int pruefeZahl(int i) { // methode fï¿½r falls zahleneingabe falsch ist..macht code kï¿½rzer
-//	try {
-//		
-//	}
-//}
->>>>>>> 1406e11b4b997f823ed15120237fb5953e7d6022
 
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
@@ -318,36 +296,23 @@ public class RisikoClientUI {
 				}
 				switch (answer) {
 				case "y":
-<<<<<<< HEAD
-					//wenn getauscht werden soll, wird methode aufgerufen, die möglcihe kombis ausgibt und abfragt, welche kombi getauscht ewrden soll
-					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);	
-					//hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in methode!
-					ungültig = false;
-					break;
-				case "n":
-					ungültig = false;
-					break;
-=======
 					// wenn getauscht werden soll, wird methode aufgerufen, die mï¿½glcihe kombis
 					// ausgibt und abfragt, welche kombi getauscht ewrden soll
 					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
 					// hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in
 					// methode!
 					ungueltig = false;
+					break;
 				case "n":
 					ungueltig = false;
->>>>>>> 1406e11b4b997f823ed15120237fb5953e7d6022
+					break;
 				default:
 					System.out.println("ungueltige Eingabe!");
 					break;
 				}
 			}
 		}
-<<<<<<< HEAD
 		//hier werden einheiten für anzahl länder und evtl besitz kontinent von risiko geholt, mit bonuseinheiten addiert
-=======
-		// hier einheiten fï¿½r anzahl lï¿½nder und evtl besitz kontinent
->>>>>>> 1406e11b4b997f823ed15120237fb5953e7d6022
 		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
