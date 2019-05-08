@@ -9,7 +9,7 @@ import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
-import ris.local.valueobjects.Einheitenkarte;
+import ris.local.valueobjects.Risikokarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -19,14 +19,14 @@ public class Risiko implements Serializable {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
-	private Player player, gewinner;
-	private ArrayList<Einheitenkarte> einheitenkartenStapel;
+	private Player player;
+	private ArrayList<Risikokarte> einheitenkartenStapel;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
-		EinheitenkartenManagement einheitenkartenMg = new EinheitenkartenManagement();
+		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
 	}
 
@@ -35,7 +35,7 @@ public class Risiko implements Serializable {
 //		// return gameObjekt;
 //	}
 
-	// @to: Methode um Laender am Anfang zufällig zu verteilen;
+	// @to: Methode um Laender am Anfang zufï¿½llig zu verteilen;
 	public void verteileEinheiten() {
 		logik.verteileEinheiten();
 	}
@@ -44,10 +44,10 @@ public class Risiko implements Serializable {
 		logik.verteileMissionen();
 	}
 
-	// @to: Methode die sagt wer anfängt ... #to generelle frage: die methoden
+	// @to: Methode die sagt wer anfï¿½ngt ... #to generelle frage: die methoden
 	// werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf
 	// zugreifen kann.
-	// weiß ncht ob das richtig ist, in der bibliothek wirds ähnlich gemacht. #losch
+	// weiï¿½ ncht ob das richtig ist, in der bibliothek wirds ï¿½hnlich gemacht. #losch
 	// @annie: ich glaub das ist richtig so
 	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
 	// ansonsten machts ja auch kein sinn
@@ -89,44 +89,43 @@ public class Risiko implements Serializable {
 		logik.naechsteSpielrunde();
 	}
 
-	// Missionsabfragen gilt für alle spieler
+//	******************************>Missions-Sachen<**************************
+	// Missionsabfragen gilt fï¿½r alle spieler
 	public boolean allMissionsComplete() {
-		for (Player play : playerMg.getPlayers()) {
-			if (play.isMissionComplete(play)) {
-				gewinner = play;
-				return true;
-			}
-		}
-		return false;
+		return logik.allMissionsComplete();
 	}
 
-	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde
-	// gewonnen hat, hat gewonnen??
+
 	public boolean rundeMissionComplete(Player play) {
-		if (play.isMissionComplete(play)) {
-			gewinner = play;
-			return true;
-		} else {
-			return false;
-		}
+		return logik.rundeMissionComplete(play);
+	}
+
+	public Player getGewinner() {
+		return logik.getGewinner();
 	}
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
 	// gutschriftEinheitenkarte und setzt diesen dann auf false
 	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
-			aktiverPlayer.setEinheitenkarte(einheitenkartenStapel.remove(0));
+			Risikokarte neueKarte = einheitenkartenStapel.remove(0);
+			aktiverPlayer.setEinheitenkarte(neueKarte);
 			aktiverPlayer.setGutschriftEinheitenkarte(false);
 			return true;
 		}
 		return false;
 	}
 
-	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw
-	// missionenCompletet True ist..
-	public Player getGewinner() {
-		return gewinner;
+	public boolean changePossible(Player aktiverPlayer) {
+		return logik.changePossible(aktiverPlayer);
 	}
+
+	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
+		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
+	}
+
+	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfï¿½llt hat bzw
+	// missionenCompletet True ist..
 
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
@@ -173,7 +172,7 @@ public class Risiko implements Serializable {
 
 //	public AttackResult attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 //		// AttackResult
-//		//	- WÜrfel Angreifer
+//		//	- Wï¿½rfel Angreifer
 //		//  - ...
 //		//  - Ergebnis ...
 //	}
@@ -181,8 +180,9 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws LandInBesitzException,ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption {
-		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
+		ArrayList<Integer> ergebnis;
+		ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
 
@@ -199,22 +199,23 @@ public class Risiko implements Serializable {
 	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public void verschiebeEinheiten(Land start, Land ziel, int menge)
-			throws LandExistiertNichtException, ZuWenigEinheitenException {
+			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
 		logik.moveUnits(start, ziel, menge);
 	}
 
-	public void spielSpeichern() {
+	public void spielSpeichern(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		fileMg.speichern(this);
+		fileMg.speichern(this, datei);
 	}
 
-	public void spielLaden() {
+	public void spielLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		Risiko risikoSpeicher = fileMg.laden();
+		Risiko risikoSpeicher = fileMg.laden(datei);
 		if (risikoSpeicher != null) {
 			this.worldMg = risikoSpeicher.worldMg;
 			this.playerMg = risikoSpeicher.playerMg;
 			this.logik = risikoSpeicher.logik;
+			this.einheitenkartenStapel = risikoSpeicher.einheitenkartenStapel;
 			// namen der datei, damit speicherort immer der gleiche bleibt
 		}
 	}
@@ -242,7 +243,7 @@ public class Risiko implements Serializable {
 ////		test.getPlayerArray().get(0).getMission();
 //		
 //	}
-	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array löschen
+	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array lï¿½schen
 	public boolean isPlayerDead(Player play) {
 		return play.isDead();
 	}

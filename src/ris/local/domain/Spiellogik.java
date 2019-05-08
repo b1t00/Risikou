@@ -29,7 +29,7 @@ public class Spiellogik implements Serializable {
 	private MissionsManagement missionsMg;
 	private int spielrunden;
 	private List<Player> playerList;
-	private Player aktiverPlayer;
+	private Player aktiverPlayer, gewinner;
 
 	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -92,7 +92,7 @@ public class Spiellogik implements Serializable {
 		aktiverPlayer = whoBegins();
 	}
 //**********************************>MISSIONS-SACHEN<************************************
-	
+
 	public void verteileMissionen() {
 		missionsMg = new MissionsManagement(playerMg, worldMg);
 
@@ -109,8 +109,75 @@ public class Spiellogik implements Serializable {
 		}
 	}
 
-
+	public boolean allMissionsComplete() {
+		for (Player play : playerMg.getPlayers()) {
+			if (play.isMissionComplete(play)) {
+				gewinner = play;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean rundeMissionComplete(Player play) {
+		if (play.isMissionComplete(play)) {
+			gewinner = play;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Player getGewinner() {
+		return gewinner;
+	}
+	
 	// ----------------------------------------einheiten-------------------------------------------------
+	public boolean changePossible(Player aktiverPlayer) {
+		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
+		boolean reihe = true;
+		for (int i = 1; i < symbolAnzahlArray.length; i++) {
+			if (symbolAnzahlArray[i] > 2) {
+				return true;
+			}
+			//Eine Reihe wird überprüft, in dem ab dem Moment, wenn ein Symbol auf 0 ist, der boolean reihe auf false gesetzt wird
+			else if (symbolAnzahlArray[i]==0) {
+				reihe = false;
+			}
+		} if(reihe) {
+			return true;
+		}
+		return false;
+	}
+	
+	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
+		//Symbolarray mit Anzahl der vorhandenen Einheitskarten
+		//0 = Kanone, 1 = Reiter, 2 = Soldat
+		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
+		//tauschkombi sagt aus, wieviele kombis vorhanden sind
+		//0 = Kanone, 1 = Reiter, 2 = Soldat, 3 = Reihe
+		int[] tauschkombi = new int[4];
+		if (symbolAnzahlArray[0] >= 3) {
+			tauschkombi[0] = symbolAnzahlArray[0]%3;
+		}
+		if (symbolAnzahlArray[1] >= 3) {
+			tauschkombi[1] = symbolAnzahlArray[1]%3;
+		}
+		if (symbolAnzahlArray[2] >= 3) {
+			tauschkombi[2] = symbolAnzahlArray[2]%3;
+		}
+		if (symbolAnzahlArray[0] > 0 && symbolAnzahlArray[1] > 0 && symbolAnzahlArray[2] > 0) {
+			int min = symbolAnzahlArray[0];
+			for (int i = 1; i < symbolAnzahlArray.length; i++) {
+				if (symbolAnzahlArray[i] < min) {
+					min = symbolAnzahlArray[i];
+				}
+			}
+			tauschkombi[3] = min;
+		}
+		return tauschkombi;
+	}
+	
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
 		int verfuegbareEinheiten = 0;
 		int landBesitz = aktiverPlayer.getBesitz().size();
@@ -289,21 +356,18 @@ public class Spiellogik implements Serializable {
 		return unitLoss;
 	}
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandInBesitzException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption  {
-		if(def.getBesitzer()==att.getBesitzer()) {
-			throw new LandInBesitzException("Zielland ist nicht feindlich");
-		}
-		if(att.getEinheiten()-attEinheiten<1 || def.getEinheiten()-defEinheiten<0) {
-			throw new ZuWenigEinheitenException("Zu wenig Einheiten verfügbar");
-		}
-		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker= att.getBesitzer();
-		
-		//setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock= attacker.getBlock()[att.getNummer()];
-		if(attacker.getBlock()[att.getNummer()]>0) {
-			if(attacker.getBlock()[att.getNummer()]-attEinheiten>=0) {
-				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attEinheiten);
+	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
+		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
+		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+		Player attacker = att.getBesitzer();
+
+		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
+		int buBlock = attacker.getBlock()[att.getNummer()];
+		if (attacker.getBlock()[att.getNummer()] > 0) {
+			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
+				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
+
 
 			}
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
@@ -320,18 +384,9 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
 		ArrayList<Integer> ergebnis = diceResults(aList, dList);
-		try {
-			att.setEinheiten(ergebnis.get(0));
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			def.setEinheiten(ergebnis.get(1));
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		att.setEinheiten(ergebnis.get(0));
+
+		def.setEinheiten(ergebnis.get(1));
 
 		if (def.getEinheiten() > 0) {
 			if (buBlock + ergebnis.get(0) >= 0) {
@@ -355,8 +410,9 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 
 			// setzt bei erobertem Land die beteiligten Einheiten auf Block
 			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
-			
-			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am ende des Zuges ziehen kann
+
+			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
+			// ende des Zuges ziehen kann
 			winner.setGutschriftEinheitenkarte(true);
 		}
 		return ergebnis;
@@ -432,26 +488,16 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge)
-			throws ZuWenigEinheitenException, LandExistiertNichtException {
+			throws ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
 			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
 		}
 		if (!worldMg.getLaender().contains(start)) {
 			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
+		start.setEinheiten(-menge);
+		ziel.setEinheiten(menge);
 
-		try {
-			start.setEinheiten(-menge);
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			ziel.setEinheiten(menge);
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 //		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
 //				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);
