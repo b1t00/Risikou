@@ -39,7 +39,6 @@ public class Land implements Comparable, Serializable{
 		return this.besitzer;
 	}
 	
-//	@to
 	public String auflistung() {
 		return this.nummer + " : " + this.einheiten;
 	}
