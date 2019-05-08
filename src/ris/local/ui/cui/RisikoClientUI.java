@@ -11,6 +11,7 @@ import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
@@ -232,7 +233,12 @@ public class RisikoClientUI {
 				}
 			}
 
-			aktuellesLand.setEinheiten(einheit);
+			try {
+				aktuellesLand.setEinheiten(einheit);
+			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			anzahlEinheiten--;
 			risiko.machNaechsterPlayer();
 		}
@@ -242,8 +248,7 @@ public class RisikoClientUI {
 		String input = "";
 		boolean spielzug;
 		boolean nichtVerschoben = true;
-		boolean spielbeenden = false;
-		while (!win() && !spielbeenden) { // ist so das Spiel beendet? scheinbar schon?
+		while (!win()) { // ist so das Spiel beendet? scheinbar schon?
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			System.out.println("");
@@ -265,9 +270,6 @@ public class RisikoClientUI {
 				}
 				if (input.equals("e")) {
 					nichtVerschoben = false;
-				}
-				if (input.contentEquals("q")) {
-					spielbeenden = true;
 				}
 			}
 		}
@@ -326,7 +328,12 @@ public class RisikoClientUI {
 					ungültig = false;
 				}
 			}
-			landMitNeuerEinheit.setEinheiten(anzahl);
+			try {
+				landMitNeuerEinheit.setEinheiten(anzahl);
+			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			verfuegbareEinheiten -= anzahl;
 		}
 		System.out.println("Alle Einheiten wurden gesetzt.");
@@ -391,6 +398,7 @@ public class RisikoClientUI {
 			break;
 		case "q":
 			System.out.println("Risik wird beendet."); // TODO: Spiel beenden
+			System.exit(0); //TODO: @tobi ist das ok?
 			break;
 		case "m":
 			System.out.println(aktiverPlayer.getMission());
