@@ -3,6 +3,7 @@ package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandNichtInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 
@@ -289,7 +290,7 @@ public class Spiellogik implements Serializable{
 	}
 	
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) {
+public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandNichtInBesitzException {
 		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker= att.getBesitzer();
 		
