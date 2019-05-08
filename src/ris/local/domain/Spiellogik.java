@@ -29,7 +29,7 @@ public class Spiellogik implements Serializable {
 	private MissionsManagement missionsMg;
 	private int spielrunden;
 	private List<Player> playerList;
-	private Player aktiverPlayer;
+	private Player aktiverPlayer, gewinner;
 
 	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -109,6 +109,29 @@ public class Spiellogik implements Serializable {
 		}
 	}
 
+	public boolean allMissionsComplete() {
+		for (Player play : playerMg.getPlayers()) {
+			if (play.isMissionComplete(play)) {
+				gewinner = play;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean rundeMissionComplete(Player play) {
+		if (play.isMissionComplete(play)) {
+			gewinner = play;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Player getGewinner() {
+		return gewinner;
+	}
+	
 	// ----------------------------------------einheiten-------------------------------------------------
 	public boolean changePossible(Player aktiverPlayer) {
 		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();

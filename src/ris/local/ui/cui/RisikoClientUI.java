@@ -652,6 +652,7 @@ public class RisikoClientUI {
 
 			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder
 			if (ergebnis.get(0) > ergebnis.get(1) && def.getBesitzer().equals(defender)) {
+				System.out.println("-------------------------------- \n");
 				System.out.println(angreifer + " hat gewonnen.");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));
 				if (ergebnis.get(0) == -1) {
@@ -687,7 +688,7 @@ public class RisikoClientUI {
 
 			// 2. Angreifer gewinnt und erobert das Land
 			else if (def.getBesitzer().equals(angreifer)) {
-				System.out.println("---------------------- \n");
+				System.out.println("-------------------------------- \n");
 				System.out.println(angreifer + " hat gewonnen und erobert " + def.getName() + ".");
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0) + "\n");
 				if (ergebnis.get(0) == -1) {
@@ -738,8 +739,10 @@ public class RisikoClientUI {
 				// werden? (wenn genug einheiten verbleiben)
 			} else {
 				if (ergebnis.get(1) > ergebnis.get(0)) {
+					System.out.println("-------------------------------- \n");
 					System.out.println(angreifer + " hat verloren!");
 				} else {
+					System.out.println("-------------------------------- \n");
 					System.out.println("Unentschieden!");
 				}
 				System.out.print(angreifer + " verliert: " + ergebnis.get(0));

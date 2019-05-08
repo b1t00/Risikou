@@ -19,7 +19,7 @@ public class Risiko implements Serializable {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
-	private Player player, gewinner;
+	private Player player;
 	private ArrayList<Risikokarte> einheitenkartenStapel;
 
 	public Risiko() {
@@ -89,26 +89,19 @@ public class Risiko implements Serializable {
 		logik.naechsteSpielrunde();
 	}
 
+//	******************************>Missions-Sachen<**************************
 	// Missionsabfragen gilt für alle spieler
 	public boolean allMissionsComplete() {
-		for (Player play : playerMg.getPlayers()) {
-			if (play.isMissionComplete(play)) {
-				gewinner = play;
-				return true;
-			}
-		}
-		return false;
+		return logik.allMissionsComplete();
 	}
 
-	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde
-	// gewonnen hat, hat gewonnen??
+
 	public boolean rundeMissionComplete(Player play) {
-		if (play.isMissionComplete(play)) {
-			gewinner = play;
-			return true;
-		} else {
-			return false;
-		}
+		return logik.rundeMissionComplete(play);
+	}
+
+	public Player getGewinner() {
+		return logik.getGewinner();
 	}
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
@@ -122,20 +115,17 @@ public class Risiko implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean changePossible(Player aktiverPlayer) {
 		return logik.changePossible(aktiverPlayer);
 	}
-	
+
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw
 	// missionenCompletet True ist..
-	public Player getGewinner() {
-		return gewinner;
-	}
 
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
@@ -192,7 +182,7 @@ public class Risiko implements Serializable {
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
 			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
 		ArrayList<Integer> ergebnis;
-			ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+		ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
 
