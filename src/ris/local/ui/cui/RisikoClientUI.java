@@ -359,7 +359,7 @@ public class RisikoClientUI {
 		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
 		for (int i = 0; i < tauschkombiArray.length; i++) {
 			if (tauschkombiArray[i] > 0) {
-				System.out.print("Du kannst " + tauschkombiArray[i] + " mal 3" + symbolkombiArray[i] + " gegen je eine Einheit eintauschen.");
+				System.out.println("Du kannst " + tauschkombiArray[i] + " mal 3" + symbolkombiArray[i] + " gegen je eine Einheit eintauschen.");
 			}
 		}
 		System.out.println("Möchtest du eintauschen? (y/n)");	
@@ -389,7 +389,7 @@ public class RisikoClientUI {
 		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
 		for (int i = 0; i < tauschkombiArray.length; i++) {
 			if (tauschkombiArray[i] > 0) {
-				System.out.print(i + " > " + symbolkombiArray[i]);
+				System.out.println(i + " > " + symbolkombiArray[i]);
 			}
 		}
 		System.out.println("-1 > Ich möchte doch nicht tauschen!");
@@ -675,17 +675,17 @@ public class RisikoClientUI {
 				}
 
 				System.out.println("");
-				System.out.println("Soll erneut angegriffen werden? (na klar/auf gar keinen fall)");
+				System.out.println("Soll erneut angegriffen werden? (y/n)");
 				String answer = "";
 				try {
 					answer = liesEingabe();
 				} catch (IOException e) {
 				}
 				switch (answer) {
-				case "na klar":
+				case "y":
 					// bricht switch-abfrage ab und kehrt an den anfang der while-schleife
 					break;
-				case "auf gar keinen fall":
+				case "n":
 					// änderung des boolean-werts verlässt den kampf und kehrt zum menü zurück
 					kampf = false;
 					break;
@@ -762,12 +762,11 @@ public class RisikoClientUI {
 					System.out.println(" Einheiten.");
 				}
 				if ((att.getEinheiten() - 1) > 0) {
-					System.out.println("Soll erneut angegriffen werden? (n/y)");
+					System.out.println("Soll erneut angegriffen werden? (y/n)");
 					String answer = "";
 					try {
 						answer = liesEingabe();
-					} catch (IOException e) {
-					}
+					} catch (IOException e) {}
 					switch (answer) {
 					case "y":
 						break;
