@@ -78,7 +78,7 @@ public class RisikoClientUI {
 			// TODO hier catchen habs nicht hingekriegt..
 			ungültig = true;
 		}
-		}
+		
 			switch (eingabe) {
 			case "n":
 				try {
@@ -109,13 +109,7 @@ public class RisikoClientUI {
 				break;
 			}
 		}
-	
-
-//public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
-//	try {
-//		
-//	}
-//}
+	}
 
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
@@ -302,15 +296,17 @@ public class RisikoClientUI {
 					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);	
 					//hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in methode!
 					ungültig = false;
+					break;
 				case "n":
 					ungültig = false;
+					break;
 				default:
 					System.out.println("Ungültige Eingabe!");
 					break;
 				}
 			}	
 		}
-		//hier einheiten für anzahl länder und evtl besitz kontinent
+		//hier werden einheiten für anzahl länder und evtl besitz kontinent von risiko geholt, mit bonuseinheiten addiert
 		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
