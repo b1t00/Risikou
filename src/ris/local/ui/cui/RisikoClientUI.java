@@ -241,8 +241,7 @@ public class RisikoClientUI {
 		String input = "";
 		boolean spielzug;
 		boolean nichtVerschoben = true;
-		boolean spielbeenden = false;
-		while (!win() && !spielbeenden) { // ist so das Spiel beendet? scheinbar schon?
+		while (!win()) { // ist so das Spiel beendet? scheinbar schon?
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
 			System.out.println(aktiverPlayer + " ist am Zug.");
 			System.out.println("");
@@ -264,9 +263,6 @@ public class RisikoClientUI {
 				}
 				if (input.equals("e")) {
 					nichtVerschoben = false;
-				}
-				if (input.contentEquals("q")) {
-					spielbeenden = true;
 				}
 			}
 		}
@@ -390,6 +386,7 @@ public class RisikoClientUI {
 			break;
 		case "q":
 			System.out.println("Risik wird beendet."); // TODO: Spiel beenden
+			System.exit(0); //TODO: @tobi ist das ok?
 			break;
 		case "m":
 			System.out.println(aktiverPlayer.getMission());
