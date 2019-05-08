@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import ris.local.domain.Risiko;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.valueobjects.Einheitenkarte;
@@ -557,9 +558,16 @@ public class RisikoClientUI {
 			for (int i = 0; i < dList.size(); i++) {
 				System.out.println("Verteidigender Würfel Nr." + (i + 1) + " = " + dList.get(i));
 			}
-
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
-
+			ArrayList<Integer> ergebnis = null;
+			try {
+				ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+				}
+			catch(LandInBesitzException e) {
+				e.printStackTrace();
+			}
+			catch(ZuWenigEinheitenException e) {
+				e.printStackTrace();
+			}
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
 			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder

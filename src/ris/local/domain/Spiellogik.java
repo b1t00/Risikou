@@ -3,7 +3,7 @@ package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
 import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.LandNichtInBesitzException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 
@@ -285,7 +285,13 @@ public class Spiellogik implements Serializable {
 		return unitLoss;
 	}
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandNichtInBesitzException {
+public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandInBesitzException, ZuWenigEinheitenException {
+		if(def.getBesitzer()==att.getBesitzer()) {
+			throw new LandInBesitzException("Zielland ist nicht feindlich");
+		}
+		if(att.getEinheiten()-attEinheiten<1 || def.getEinheiten()-defEinheiten<0) {
+			throw new ZuWenigEinheitenException("Zu wenig Einheiten verfügbar");
+		}
 		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker= att.getBesitzer();
 		
@@ -342,80 +348,7 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		return ergebnis;
 	}
 
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) throws UngueltigeAnzahlEinheitenException {
-		int lossDef = 0;
-		int lossAtt = 0;
-		ArrayList<Integer> aList = new ArrayList<Integer>();
-		ArrayList<Integer> defList = new ArrayList<Integer>();
-		for (int i = 0; i < attUnits; i++) {
-			aList.add((int) (Math.random() * 6) + 1);
-//Random r = new Random(System.currentTimeMillis());
-//int zahl = r.nextInt(6) + 1;
-		}
-		for (int j = 0; j < defUnits; j++) {
-			defList.add((int) (Math.random() * 6) + 1);
-
-		}
-
-		Collections.sort(aList);
-		Collections.sort(defList);
-		Collections.reverse(aList);
-		Collections.reverse(defList);
-
-		if (aList.size() - defList.size() == 2) {
-			aList.remove(2);
-			aList.remove(1);
-
-		}
-		if (aList.size() - defList.size() == 1) {
-			aList.remove(defList.size());
-		}
-
-		if (defList.size() - aList.size() == 2) {
-			defList.remove(2);
-			defList.remove(1);
-
-		}
-		if (defList.size() - aList.size() == 1) {
-			defList.remove(aList.size());
-
-		}
-
-		if (defList.size() == 1) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 2) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 3) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(2) > defList.get(2))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
-		unitLoss.add(lossAtt);
-		unitLoss.add(lossDef);
-		return unitLoss;
-	}
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ***************************************->Runden<-**************************************

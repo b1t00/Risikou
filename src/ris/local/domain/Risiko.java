@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.persistence.FilePersistenceManager;
@@ -179,7 +180,7 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) {
+			ArrayList<Integer> dList) throws LandInBesitzException,ZuWenigEinheitenException {
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
