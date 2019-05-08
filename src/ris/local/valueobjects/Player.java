@@ -9,7 +9,7 @@ public class Player implements Serializable {
 	private String farbe;
 	private int nummer;
 	private Mission mission; //
-	private ArrayList<Einheitenkarte> gezogeneEinheitenkarten;
+	private ArrayList<Einheitenkarte> gezogeneRisikokarten;
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
@@ -71,11 +71,11 @@ public class Player implements Serializable {
 	}
 	
 	public void setEinheitenkarte(Einheitenkarte karte) {
-		this.gezogeneEinheitenkarten.add(karte);
+		this.gezogeneRisikokarten.add(karte);
 	}
 	
 	public ArrayList<Einheitenkarte> getEinheitenkarten(){
-		return gezogeneEinheitenkarten;
+		return gezogeneRisikokarten;
 	}
 
 	public String toString() {
@@ -112,6 +112,24 @@ public class Player implements Serializable {
 	// diese Methode beim Hinzufügen von einem ganzen Länder-Array, am Anfang
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
+	}
+	
+	public int[] einheitenkartenKombi() {
+		//Array mit den Anzahl der einheitenKarten für die verschiedenen Symbole
+		//1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
+		int[] Symbolarray = {0, 0, 0};
+		if(gezogeneRisikokarten != null) {
+			for (Einheitenkarte karte: gezogeneRisikokarten) {
+				if (karte.getSymbol().equals("Kanone")) {
+					Symbolarray[0]++;
+				} else if (karte.getSymbol().equals("Reiter")) {
+					Symbolarray[1]++;
+				} else {
+					Symbolarray[2]++;
+				}
+			}
+		}
+		return Symbolarray;
 	}
 
 	public boolean isDead() { //checken @tobi muss wahrscheinlich nach jedem angriff kontrolliert werden

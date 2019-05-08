@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.WriteAbortedException;
 import java.util.ArrayList;
 
 import ris.local.domain.Risiko;
@@ -67,13 +68,12 @@ public class RisikoClientUI {
 		String eingabe = "";
 		boolean ungültig = true;
 		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
+		while (ungültig) {
 		try {
 			eingabe = liesEingabe();
 		} catch (IOException e) {
 			// TODO hier catchen
 		}
-
-		while (ungültig) {
 			switch (eingabe) {
 			case "n":
 				try {
@@ -89,7 +89,12 @@ public class RisikoClientUI {
 				ungültig = false;
 				break;
 			case "l":
-				risiko.spielLaden();
+				System.out.println("Welche Datei soll geladen werden? Bitte den Dateinamen korrekt eingeben:");
+				String datei = " ";
+				try {
+					datei = liesEingabe();
+				} catch (IOException e) {}
+				risiko.spielLaden(datei);
 				System.out.println("Das Spiel wurde erfolgreich geladen.");
 				ungültig = false;
 				break;
@@ -269,7 +274,10 @@ public class RisikoClientUI {
 
 	// ----------------------------------einheiten-------------------------------------------------
 	public void setzeNeueEinheiten(Player aktiverPlayer) {
-		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer);
+		//prüfen, ob weitere einheiten verfügbar sind durch eintauschen der einheitenkarten
+		//changePossible()
+		int bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
+		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
 		boolean ungültig = true;
@@ -324,6 +332,75 @@ public class RisikoClientUI {
 		}
 		System.out.println("Alle Einheiten wurden gesetzt.");
 	}
+	
+	
+	//fragt den Spieler zu beginn des Zuges, ob risikokarten eingetauscht werden sollen wenn möglich
+	public int tauscheRisikokarten(Player aktiverPlayer) {
+		//Der TauschkombiArray enthält vier Stellen mit je Anzahl an Tauschkombinationen für
+		//0=Kanone, 1=Reiter, 2=Soldaten, 3=Reihe
+		
+	//	if (risiko.changePossible(aktiverPlayer)) vielleicht auhc besser in der setzeneueeinheiten methode
+		
+		int[] tauschkombiArray = risiko.einheitenkartenTauschkombiVorhanden(aktiverPlayer);
+		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
+		for (int i = 0; i < tauschkombiArray.length; i++) {
+			if (tauschkombiArray[i] > 0) {
+				System.out.print("Du kannst " + tauschkombiArray[i] + " mal 3" + symbolkombiArray[i] + " gegen je eine Einheit eintauschen.");
+			}
+		}
+		System.out.println("Möchtest du eintauschen? (y/n)");	
+		int bonus = 0;
+		boolean ungültig = true;
+		while(ungültig) {
+			String answer = "";
+			try {
+				answer = liesEingabe();
+			} catch(IOException e) {}
+			switch(answer) {
+			case "y":
+				//methode muss noch gemacht werden
+				bonus = zusätzlicheEinheiten(aktiverPlayer, tauschkombiArray);
+				return bonus;
+			case "n":
+				return 0;
+			default:
+				System.out.println("Ungültige Eingabe!");
+				break;
+			}
+		}
+		return bonus;
+	}
+	
+	public int zusätzlicheEinheiten(Player aktiverPlayer, int[] tauschkombiArray) {
+		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
+		for (int i = 0; i < tauschkombiArray.length; i++) {
+			if (tauschkombiArray[i] > 0) {
+				System.out.print(i + " > " + symbolkombiArray[i]);
+			}
+		}
+		System.out.println("-1 > Ich möchte doch nicht tauschen!");
+		int answer = -1;
+		boolean ungültig = true;
+		//hier wird getestet, ob die Eingabe gültig ist, indem geschaut wird, ob an der Stelle answer im tauschkombiArray etwas größeres als 0 steht
+		while (ungültig) {
+			try {
+				answer = Integer.parseInt(liesEingabe());
+			} catch (IOException e) {}
+			if (answer>=0) {
+				if (tauschkombiArray[answer] > 0) {
+					ungültig = false;
+				}
+			} else if (answer == -1) {
+				return 0;
+			} else {
+				System.out.println("Ungültige Eingabe, bitte wiederholen!");
+			}
+		}
+		//hier noch einmal umformulieren für eine reihe
+		System.out.println("Du hast 3 " + symbolkombiArray[answer] + " gegen eine Einheit getauscht!");
+		return 1;
+	}
+	
 	// ----------------------------------einheiten-------------------------------------------------
 
 	public void gibMenuAus(Player aktiverPlayer, boolean nichtVerschoben) {
@@ -401,8 +478,12 @@ public class RisikoClientUI {
 			break;
 
 		case "s":
-			System.out.println(System.getProperty("user.dir"));
-			risiko.spielSpeichern();
+			System.out.println("Wie soll die Datei heißen?");
+			String datei = "";
+			try {
+				datei = liesEingabe();
+			} catch(IOException e) {}
+			risiko.spielSpeichern(datei);
 			System.out.println("Das Spiel wurde erfolgreich speichert.");
 		default:
 			System.out.println("Ungültige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
