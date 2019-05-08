@@ -1,4 +1,5 @@
 package ris.local.domain;
+
 //cui frage 
 import java.io.IOException;
 import java.io.Serializable;
@@ -17,12 +18,12 @@ public class PlayerManagement implements Serializable {
 	private boolean falscheEingabe;
 
 	public PlayerManagement() {
-		farbenAuswahl.add("rot"); //0
-		farbenAuswahl.add("gruen"); //1
-		farbenAuswahl.add("blau"); //2
-		farbenAuswahl.add("weiss"); //3
-		farbenAuswahl.add("pink"); //4
-		farbenAuswahl.add("schwarz"); //5
+		farbenAuswahl.add("rot"); // 0
+		farbenAuswahl.add("gruen"); // 1
+		farbenAuswahl.add("blau"); // 2
+		farbenAuswahl.add("weiss"); // 3
+		farbenAuswahl.add("pink"); // 4
+		farbenAuswahl.add("schwarz"); // 5
 	}
 
 	public String menuFarbeAuswaehlen(String farbe) {
@@ -39,26 +40,27 @@ public class PlayerManagement implements Serializable {
 			return FarbeAuswaehlen(4);
 		case "s":
 			return FarbeAuswaehlen(5);
-		default : 
+		default:
 			falscheEingabe = true;
 		}
 		return farbe;
 	}
-	
-	//@tobi man könnte das auch mit zahlen eingabe machen, dann könnte man sich warhrscheinlich den switchcase sparen
+
+	// @tobi man könnte das auch mit zahlen eingabe machen, dann könnte man sich
+	// warhrscheinlich den switchcase sparen
 	public String FarbeAuswaehlen(int welcheFarbe) {
 		String farbe = "";
-		if(farbenAuswahl.get(welcheFarbe)!= null) {
+		if (farbenAuswahl.get(welcheFarbe) != null) {
 			farbe = farbenAuswahl.get(welcheFarbe);
 			farbenAuswahl.remove(welcheFarbe);
 			farbenAuswahl.add(welcheFarbe, null);
 			falscheEingabe = false;
-			} else {
-				falscheEingabe = true;
-			}
+		} else {
+			falscheEingabe = true;
+		}
 		return farbe;
 	}
-	
+
 	public boolean getRichtigeEingabe() {
 		return falscheEingabe;
 	}
@@ -66,18 +68,17 @@ public class PlayerManagement implements Serializable {
 	public ArrayList<String> getFarbauswahl() {
 		return farbenAuswahl;
 	}
-	
+
 	public ArrayList<Player> getPlayers() {
 		return gamerListe;
 
 	}
-	
+
 //	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen ^^
 	public int getAnzahlPlayer() {
 		return gamerListe.size();
 	}
 //	public void addPlayer(String name, String farbe, int nummer) {} // 
-
 
 	public Player addPlayer(String name, String farbe, int nummer) { // hier die von Teschke Methode. Warum Player?
 		Player player = new Player(name, farbe, nummer);

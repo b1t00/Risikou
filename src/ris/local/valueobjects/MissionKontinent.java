@@ -1,14 +1,14 @@
 package ris.local.valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MissionKontinent extends Mission {
+public class MissionKontinent extends Mission implements Serializable {
 	private Kontinent kontinent1, kontinent2;
 
-	//evtl. noch eine Alternative mit Kontinent einer Wahl
+	// evtl. noch eine Alternative mit Kontinent einer Wahl
 	public MissionKontinent(String missionstext, Kontinent kontinent1, Kontinent kontinent2) {
 		super(missionstext);
-		this.missionstext = missionstext;
 		this.kontinent1 = kontinent1;
 		this.kontinent2 = kontinent2;
 	}

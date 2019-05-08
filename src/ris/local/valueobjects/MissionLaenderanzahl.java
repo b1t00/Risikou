@@ -1,6 +1,8 @@
 package ris.local.valueobjects;
 
-public class MissionLaenderanzahl extends Mission {
+import java.io.Serializable;
+
+public class MissionLaenderanzahl extends Mission implements Serializable {
 
 	public MissionLaenderanzahl(String missionstext) {
 		super(missionstext);
@@ -8,7 +10,7 @@ public class MissionLaenderanzahl extends Mission {
 
 	@Override
 	public boolean missionComplete(Player aktiverSpieler) {
-		if (aktiverSpieler.getBesitz().size() > 5) {
+		if (aktiverSpieler.getBesitz().size() > 7) {
 			return true;
 		}
 		return false;

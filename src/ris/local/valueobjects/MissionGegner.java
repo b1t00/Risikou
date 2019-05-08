@@ -1,24 +1,24 @@
 package ris.local.valueobjects;
 
-public class MissionGegner extends Mission
-{
+import java.io.Serializable;
+
+public class MissionGegner extends Mission implements Serializable {
 	private Player gegenspieler;
-	
-	public MissionGegner(String missionstext, Player gegenspieler){
+
+	public MissionGegner(String missionstext, Player gegenspieler) {
 		super(missionstext);
-		this.gegenspieler = gegenspieler;		
+		this.gegenspieler = gegenspieler;
 	}
-	
-	//um zu gucken ob man nicht sich selbst als Gegner hat
-	public Player getGegner()
-	{
+
+	// um zu gucken ob man nicht sich selbst als Gegner hat
+	public Player getGegner() {
 		return gegenspieler;
 	}
 
-	public boolean missionComplete(Player aktiverSpieler){
-		if(gegenspieler.isDead())
+	public boolean missionComplete(Player aktiverSpieler) {
+		if (gegenspieler.isDead())
 			return true;
-		else 
+		else
 			return false;
 	}
 }
