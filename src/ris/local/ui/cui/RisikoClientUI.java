@@ -60,7 +60,7 @@ public class RisikoClientUI {
 				richtigeEingabe = true;
 				break;
 			default:
-				System.out.println("ung�ltige eingabe");
+				System.out.println("ungueltige eingabe");
 				richtigeEingabe = false;
 			}
 		}
@@ -68,15 +68,15 @@ public class RisikoClientUI {
 
 	public void starteSpiel() {
 		String eingabe = "";
-		boolean ung�ltig = true;//TODO: Check
+		boolean ungueltig = true;//TODO: Check
 		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
-		while (ung�ltig) {
+		while (ungueltig) {
 		try {
 			eingabe = liesEingabe();
-			ung�ltig = false;
+			ungueltig = false;
 		} catch (IOException e) {
 			// TODO hier catchen habs nicht hingekriegt..
-			ung�ltig = true;
+			ungueltig = true;
 		}
 		}
 			switch (eingabe) {
@@ -92,7 +92,7 @@ public class RisikoClientUI {
 				System.out.println("jetzt beginnt das Spiel \n");
 				gibPlayerMissionUndLaenderAus();
 				setzeStartEinheiten();
-				ung�ltig = false;
+				ungueltig = false;
 				break;
 			case "l":
 				System.out.println("Welche Datei soll geladen werden? Bitte den Dateinamen korrekt eingeben:");
@@ -102,10 +102,10 @@ public class RisikoClientUI {
 				} catch (IOException e) {}
 				risiko.spielLaden(datei);
 				System.out.println("Das Spiel wurde erfolgreich geladen.");
-				ung�ltig = false;
+				ungueltig = false;
 				break;
 			default:
-				System.out.println("Ung�ltige Eingabe");
+				System.out.println("ungueltige Eingabe");
 				break;
 			}
 		}
@@ -133,7 +133,7 @@ public class RisikoClientUI {
 				// @tobi die Frage ob wir in solchen F�llen mit Exceptions arbeiten sollen oder
 				// nicht..
 				richtigeEingabe = false;
-				System.err.println("ung�ltige Eingabe. Bitte wiederholen \n");
+				System.err.println("ungueltige Eingabe. Bitte wiederholen \n");
 			}
 			if (nr < 2 || nr > 6) {
 				richtigeEingabe = false;
@@ -155,7 +155,7 @@ public class RisikoClientUI {
 					}
 				}
 				if (name.equals("")) {
-					System.out.println("Ung�ltiger Name: Bitte Eingabe wiederholen");
+					System.out.println("ungueltiger Name: Bitte Eingabe wiederholen");
 					schlechterName = true;
 				}
 
@@ -214,7 +214,7 @@ public class RisikoClientUI {
 		int anzahlEinheiten = risiko.getAnzahlPlayer() * 3;
 		int einheit = 1;
 		Land aktuellesLand = null;
-		boolean ung�ltig = true;
+		boolean ungueltig = true;
 
 		while (anzahlEinheiten > 0) {
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
@@ -224,8 +224,8 @@ public class RisikoClientUI {
 			System.out.println("");
 			ArrayList<Integer> pruefArray = laenderAusgabe(aktiveLaender);
 
-			ung�ltig = true;
-			while (ung�ltig) {
+			ungueltig = true;
+			while (ungueltig) {
 				int land = -1;
 				try {
 					land = Integer.parseInt(liesEingabe());
@@ -234,9 +234,9 @@ public class RisikoClientUI {
 				}
 				if (pruefArray.contains(land)) {
 					aktuellesLand = risiko.getLandById(land);
-					ung�ltig = false;
+					ungueltig = false;
 				} else {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				}
 			}
 
@@ -290,8 +290,8 @@ public class RisikoClientUI {
 		if (risiko.changePossible(aktiverPlayer)){
 			System.out.println("Du kannst Risikokarten gegen Bonuseinheiten eintauschen!");
 			System.out.println("Interesse? (y/n)");
-			boolean ung�ltig = true;
-			while(ung�ltig) {
+			boolean ungueltig = true;
+			while(ungueltig) {
 				String answer = "";
 				try {
 					answer = liesEingabe();
@@ -301,11 +301,11 @@ public class RisikoClientUI {
 					//wenn getauscht werden soll, wird methode aufgerufen, die m�glcihe kombis ausgibt und abfragt, welche kombi getauscht ewrden soll
 					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);	
 					//hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in methode!
-					ung�ltig = false;
+					ungueltig = false;
 				case "n":
-					ung�ltig = false;
+					ungueltig = false;
 				default:
-					System.out.println("Ung�ltige Eingabe!");
+					System.out.println("ungueltige Eingabe!");
 					break;
 				}
 			}	
@@ -314,30 +314,30 @@ public class RisikoClientUI {
 		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
-		boolean ung�ltig = true;
+		boolean ungueltig = true;
 		// information auf der konsole, wie sich die verteilung errechnet?
 		System.out.println(aktiverPlayer + " setzt " + verfuegbareEinheiten + " Einheiten.");
 		ArrayList<Land> laender = aktiverPlayer.getBesitz();
 		while (verfuegbareEinheiten > 0) {
 			System.out.println("Wo sollen die Einheiten gesetzt werden?");
 			pruefArray = laenderAusgabe(laender);
-			ung�ltig = true;
-			while (ung�ltig) {
+			ungueltig = true;
+			while (ungueltig) {
 				try {
 					landWahl = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
 					landWahl = -99;
 				}
 				if (pruefArray.contains(landWahl)) {
-					ung�ltig = false;
+					ungueltig = false;
 				} else {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				}
 			}
 			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
 			int anzahl = 0; // @tobi darf man hier auch 0 hinschreiben??
-			ung�ltig = true;
-			while (ung�ltig) {
+			ungueltig = true;
+			while (ungueltig) {
 				System.out.println("Wie viele Einheiten sollen gesetzt werden? Maximal: " + verfuegbareEinheiten);
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
@@ -345,20 +345,20 @@ public class RisikoClientUI {
 					if (anzahl == 0) {
 						anzahl = -1000;
 					} else {
-						ung�ltig = true;
+						ungueltig = true;
 					}
 
 				}
 				if (anzahl == 0) {
 					System.out.println("Bitte wiederholen");
-					ung�ltig = false;
+					ungueltig = false;
 				} else if (anzahl > verfuegbareEinheiten) {
 					System.out.println(
 							"Verf�gbare Anzahl wurde �berschritten. Maximal verf�gbar: " + verfuegbareEinheiten);
 				} else if (anzahl < 1) {
 					System.err.println("Geht nicht");
 				} else {
-					ung�ltig = false;
+					ungueltig = false;
 				}
 			}
 			try {
@@ -387,9 +387,9 @@ public class RisikoClientUI {
 		}
 		System.out.println("-1 > Ich m�chte doch nicht tauschen!");
 		int answer = -1;
-		boolean ung�ltig = true;
+		boolean ungueltig = true;
 		//hier wird getestet, ob die Eingabe g�ltig ist, indem geschaut wird, ob an der Stelle answer im tauschkombiArray etwas gr��eres als 0 steht
-		while (ung�ltig) {
+		while (ungueltig) {
 			try {
 				answer = Integer.parseInt(liesEingabe());
 			} catch (IOException e) {}
@@ -397,12 +397,12 @@ public class RisikoClientUI {
 				if (tauschkombiArray[answer] > 0) {
 					//l�scht die eingetauschten Risikokarten beim Player
 					aktiverPlayer.loescheRisikokarten(answer);
-					ung�ltig = false;
+					ungueltig = false;
 				}
 			} else if (answer == -1) {
 				return 0;
 			} else {
-				System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+				System.out.println("ungueltige Eingabe, bitte wiederholen!");
 			}
 		}
 		//hier noch einmal umformulieren f�r eine reihe
@@ -442,7 +442,7 @@ public class RisikoClientUI {
 				whoIsDead(); // testet und gibt aus ob jemand tot ist und nimmt ihn aus dem SpielerArray
 				win();
 			} else {
-				System.out.println("Ung�ltige Eingabe, bitte wiederholen.");
+				System.out.println("ungueltige Eingabe, bitte wiederholen.");
 			}
 			break;
 		case "e":
@@ -497,7 +497,7 @@ public class RisikoClientUI {
 			risiko.spielSpeichern(datei);
 			System.out.println("Das Spiel wurde erfolgreich speichert.");
 		default:
-			System.out.println("Ung�ltige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
+			System.out.println("ungueltige Eingabe, bitte wiederholen."); // funktioniert das so? @ annie hab mal eine
 																			// whileschleife in der round gebaut
 			break;
 		}
@@ -505,7 +505,7 @@ public class RisikoClientUI {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	public void attack(Player angreifer) {
-		boolean ung�ltig = true;
+		boolean ungueltig = true;
 
 		Land att = null;
 		Land def = null;
@@ -525,8 +525,8 @@ public class RisikoClientUI {
 		System.out.println(angreifer + ": mit welchem Land m�chtest du angreifen?");
 		ArrayList<Land> attackLaender = risiko.getAngriffsLaender(angreifer);
 		pruefArray = laenderAusgabe(attackLaender);
-		ung�ltig = true;
-		while (ung�ltig) {
+		ungueltig = true;
+		while (ungueltig) {
 			int start = 0;
 			try {
 				start = Integer.parseInt(liesEingabe());
@@ -535,9 +535,9 @@ public class RisikoClientUI {
 				start = -1;
 			}
 			if (pruefArray.contains(start)) {
-				ung�ltig = false;
+				ungueltig = false;
 			} else {
-				System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+				System.out.println("ungueltige Eingabe, bitte wiederholen!");
 			}
 		}
 
@@ -550,8 +550,8 @@ public class RisikoClientUI {
 			e.printStackTrace();
 		}
 		pruefArray = laenderAusgabe(feindlicheNachbarn);
-		ung�ltig = true;
-		while (ung�ltig) {
+		ungueltig = true;
+		while (ungueltig) {
 			int ziel = 0;
 			try {
 				ziel = Integer.parseInt(liesEingabe());
@@ -561,9 +561,9 @@ public class RisikoClientUI {
 				ziel = -99; // dadurch wird eingabe ungueltig
 			}
 			if (pruefArray.contains(ziel)) {
-				ung�ltig = false;
+				ungueltig = false;
 			} else {
-				System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+				System.out.println("ungueltige Eingabe, bitte wiederholen!");
 			}
 		}
 
@@ -573,42 +573,42 @@ public class RisikoClientUI {
 
 		while (kampf) {
 			// Abfrage, wie viele Einheiten angreifen
-			ung�ltig = true;
+			ungueltig = true;
 			System.out.println(angreifer + ": mit wie viel Einheiten soll angegriffen werden? Verf�gbar: "
 					+ (att.getEinheiten() - 1));
 			if (att.getEinheiten() - 1 > 3) {
 				System.out.println(" Maximal m�glich: 3");
 			}
-			while (ung�ltig) {
+			while (ungueltig) {
 				try {
 					attEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
-					ung�ltig = true;
+					ungueltig = true;
 				}
 				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten == 0) {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen");
+					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
-					ung�ltig = false;
+					ungueltig = false;
 				}
 			}
 			// Abfrage, wie viele Einheiten verteidigen
-			ung�ltig = true;
+			ungueltig = true;
 			System.out.println(defender + ": mit wie viel Einheiten soll verteidigt werden? Mindestens 1, Du hast: "
 					+ def.getEinheiten());
 			if (def.getEinheiten() > 2) {
 				System.out.println("Maximal 2");
 			}
-			while (ung�ltig) {
+			while (ungueltig) {
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
 					System.out.println("keine gueltige eingabe");
-					ung�ltig = true;
+					ungueltig = true;
 				}
 				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten == 0) {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen");
+					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
-					ung�ltig = false;
+					ungueltig = false;
 				}
 			}
 
@@ -716,18 +716,18 @@ public class RisikoClientUI {
 					System.out.println(
 							"Wieviele Einheiten sollen auf das eroberte Land verschoben werden (auch 0 m�glich)? Maximal: "
 									+ (att.getEinheiten() - 1));
-					ung�ltig = true;
+					ungueltig = true;
 					//TODO: CHECKEN hier k�nnen auch minus einheiten verschoben werdne 
-					while (ung�ltig) {
+					while (ungueltig) {
 						try {
 							answer = Integer.parseInt(liesEingabe());
 						} catch (IOException | NumberFormatException e) {
 							answer = 999; //TODO: Check
 						}
 						if (answer > (att.getEinheiten() - 1)) {
-							System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+							System.out.println("ungueltige Eingabe, bitte wiederholen!");
 						} else {
-							ung�ltig = false;
+							ungueltig = false;
 						}
 					}
 					try {
@@ -863,8 +863,8 @@ public class RisikoClientUI {
 			// kann
 			ArrayList<Land> ursprungsLaender = risiko.getEinheitenVerschiebenVonLaender(aktiverPlayer);
 			pruefArray = laenderAusgabe(ursprungsLaender);
-			boolean ung�ltig = true;
-			while (ung�ltig) {
+			boolean ungueltig = true;
+			while (ungueltig) {
 				int von = 0;
 				try {
 					von = Integer.parseInt(liesEingabe());
@@ -873,14 +873,14 @@ public class RisikoClientUI {
 					von = -99;
 				}
 				if (pruefArray.contains(von)) {
-					ung�ltig = false;
+					ungueltig = false;
 				} else {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				}
 			}
 			System.out.println("Anzahl der Einheiten: (Maximal) " + (start.getEinheiten() - 1));
-			ung�ltig = true;
-			while (ung�ltig) {
+			ungueltig = true;
+			while (ungueltig) {
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
 				} catch (IOException e) {
@@ -888,16 +888,16 @@ public class RisikoClientUI {
 					e.printStackTrace();
 				}
 				if (anzahl > (start.getEinheiten() - 1) || anzahl < 0) {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				} else {
-					ung�ltig = false;
+					ungueltig = false;
 				}
 			}
 			System.out.println("Einheiten verschieben nach: \n");
 			ArrayList<Land> nachbarLaender = risiko.getEigeneNachbarn(start);
 			pruefArray = laenderAusgabe(nachbarLaender);
-			ung�ltig = true;
-			while (ung�ltig) {
+			ungueltig = true;
+			while (ungueltig) {
 				int nach = 0;
 				try {
 					nach = Integer.parseInt(liesEingabe());
@@ -905,9 +905,9 @@ public class RisikoClientUI {
 				} catch (IOException e) {
 				}
 				if (pruefArray.contains(nach)) {
-					ung�ltig = false;
+					ungueltig = false;
 				} else {
-					System.out.println("Ung�ltige Eingabe, bitte wiederholen!");
+					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				}
 			}
 			try {
