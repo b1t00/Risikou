@@ -395,6 +395,8 @@ public class RisikoClientUI {
 			} catch (IOException e) {}
 			if (answer>=0) {
 				if (tauschkombiArray[answer] > 0) {
+					//löscht die eingetauschten Risikokarten beim Player
+					aktiverPlayer.loescheRisikokarten(answer);
 					ungültig = false;
 				}
 			} else if (answer == -1) {

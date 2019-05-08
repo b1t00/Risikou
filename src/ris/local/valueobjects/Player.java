@@ -73,6 +73,9 @@ public class Player implements Serializable {
 	
 	public void setEinheitenkarte(Einheitenkarte karte) {
 		this.gezogeneRisikokarten.add(karte);
+	//	Collections.sort(gezogeneRisikokarten, new SymbolComparator());
+		//beim Hinzufügen einer Karte wird die ArrayList sortiert -> hilft beim Löschen weiter unten
+		Collections.sort(gezogeneRisikokarten, (karte1, karte2) -> karte1.getSymbol().compareTo(karte2.getSymbol()));
 	}
 	
 	public ArrayList<Einheitenkarte> getEinheitenkarten(){
@@ -118,19 +121,47 @@ public class Player implements Serializable {
 	public int[] risikokartenKombi() {
 		//Array mit den Anzahl der einheitenKarten für die verschiedenen Symbole
 		//1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
-		int[] Symbolarray = {0, 0, 0};
+		int[] symbolAnzahlArray = {0, 0, 0};
 		if(gezogeneRisikokarten != null) {
 			for (Einheitenkarte karte: gezogeneRisikokarten) {
 				if (karte.getSymbol().equals("Kanone")) {
-					Symbolarray[0]++;
+					symbolAnzahlArray[0]++;
 				} else if (karte.getSymbol().equals("Reiter")) {
-					Symbolarray[1]++;
+					symbolAnzahlArray[1]++;
 				} else {
-					Symbolarray[2]++;
+					symbolAnzahlArray[2]++;
 				}
 			}
 		}
-		return Symbolarray;
+		return symbolAnzahlArray;
+	}
+	
+	//Methode bekommt eine int, stellvertretend für symbol (0 = Kanone, 1 = Reiter, 3 = Soldat, 4 = je eine)
+	public void loescheRisikokarten(int index) {
+		String[] symbolArray = {"Kanone", "Reiter", "Soldat"};
+		int eingetauscht = 3;
+		while(eingetauscht > 0) {
+			//für den Fall, dass je eine Karte eingetauscht wird, wird zaehler hochgezählt, erst eine Kanone, dann Reiter, dann Soldat gelöscht
+			//möglich durch Collections.sort beim Hinzufügen einer Karte
+			if (index == 4) {
+				int zaehler = 0;
+				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
+					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[zaehler])){
+						gezogeneRisikokarten.remove(i);
+						eingetauscht--;
+						zaehler ++;
+					}
+				}
+			} 	
+			else {
+				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
+					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[index])){
+						gezogeneRisikokarten.remove(i);
+						eingetauscht--;
+					}
+				}
+			}
+		}
 	}
 
 	public boolean isDead() { //checken @tobi muss wahrscheinlich nach jedem angriff kontrolliert werden
