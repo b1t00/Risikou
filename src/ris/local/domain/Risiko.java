@@ -19,7 +19,7 @@ public class Risiko implements Serializable {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
-	private Player player, gewinner;
+	private Player player;
 	private ArrayList<Risikokarte> einheitenkartenStapel;
 
 	public Risiko() {
@@ -35,7 +35,7 @@ public class Risiko implements Serializable {
 //		// return gameObjekt;
 //	}
 
-	// @to: Methode um Laender am Anfang zufällig zu verteilen;
+	// @to: Methode um Laender am Anfang zufï¿½llig zu verteilen;
 	public void verteileEinheiten() {
 		logik.verteileEinheiten();
 	}
@@ -44,10 +44,10 @@ public class Risiko implements Serializable {
 		logik.verteileMissionen();
 	}
 
-	// @to: Methode die sagt wer anfängt ... #to generelle frage: die methoden
+	// @to: Methode die sagt wer anfï¿½ngt ... #to generelle frage: die methoden
 	// werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf
 	// zugreifen kann.
-	// weiß ncht ob das richtig ist, in der bibliothek wirds ähnlich gemacht. #losch
+	// weiï¿½ ncht ob das richtig ist, in der bibliothek wirds ï¿½hnlich gemacht. #losch
 	// @annie: ich glaub das ist richtig so
 	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
 	// ansonsten machts ja auch kein sinn
@@ -89,26 +89,19 @@ public class Risiko implements Serializable {
 		logik.naechsteSpielrunde();
 	}
 
-	// Missionsabfragen gilt für alle spieler
+//	******************************>Missions-Sachen<**************************
+	// Missionsabfragen gilt fï¿½r alle spieler
 	public boolean allMissionsComplete() {
-		for (Player play : playerMg.getPlayers()) {
-			if (play.isMissionComplete(play)) {
-				gewinner = play;
-				return true;
-			}
-		}
-		return false;
+		return logik.allMissionsComplete();
 	}
 
-	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde
-	// gewonnen hat, hat gewonnen??
+
 	public boolean rundeMissionComplete(Player play) {
-		if (play.isMissionComplete(play)) {
-			gewinner = play;
-			return true;
-		} else {
-			return false;
-		}
+		return logik.rundeMissionComplete(play);
+	}
+
+	public Player getGewinner() {
+		return logik.getGewinner();
 	}
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
@@ -122,20 +115,17 @@ public class Risiko implements Serializable {
 		}
 		return false;
 	}
-	
+
 	public boolean changePossible(Player aktiverPlayer) {
 		return logik.changePossible(aktiverPlayer);
 	}
-	
+
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
 
-	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw
+	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfï¿½llt hat bzw
 	// missionenCompletet True ist..
-	public Player getGewinner() {
-		return gewinner;
-	}
 
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
@@ -175,14 +165,14 @@ public class Risiko implements Serializable {
 		return attackLaender;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException{
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
 
 //	public AttackResult attack (Land att, Land def, int attEinheiten, int defEinheiten) {
 //		// AttackResult
-//		//	- WÜrfel Angreifer
+//		//	- Wï¿½rfel Angreifer
 //		//  - ...
 //		//  - Ergebnis ...
 //	}
@@ -192,7 +182,7 @@ public class Risiko implements Serializable {
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
 			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
 		ArrayList<Integer> ergebnis;
-			ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+		ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
 
@@ -253,7 +243,7 @@ public class Risiko implements Serializable {
 ////		test.getPlayerArray().get(0).getMission();
 //		
 //	}
-	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array löschen
+	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array lï¿½schen
 	public boolean isPlayerDead(Player play) {
 		return play.isDead();
 	}

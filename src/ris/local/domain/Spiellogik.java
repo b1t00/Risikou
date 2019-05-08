@@ -29,7 +29,7 @@ public class Spiellogik implements Serializable {
 	private MissionsManagement missionsMg;
 	private int spielrunden;
 	private List<Player> playerList;
-	private Player aktiverPlayer;
+	private Player aktiverPlayer, gewinner;
 
 	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
@@ -110,6 +110,29 @@ public class Spiellogik implements Serializable {
 		
 	}
 
+	public boolean allMissionsComplete() {
+		for (Player play : playerMg.getPlayers()) {
+			if (play.isMissionComplete(play)) {
+				gewinner = play;
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean rundeMissionComplete(Player play) {
+		if (play.isMissionComplete(play)) {
+			gewinner = play;
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public Player getGewinner() {
+		return gewinner;
+	}
+	
 	// ----------------------------------------einheiten-------------------------------------------------
 	public boolean changePossible(Player aktiverPlayer) {
 		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
@@ -206,7 +229,10 @@ public class Spiellogik implements Serializable {
 		return moeglicheAngreifer;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
+		if(!worldMg.getLaender().contains(attackLand)) {
+			throw new LandExistiertNichtException("Das ausgewählte Land existiert nicht");
+		}
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
 			if (worldMg.nachbarn[attackLand.getNummer()][i]) {
@@ -218,7 +244,7 @@ public class Spiellogik implements Serializable {
 		return feindlicheLaender;
 	}
 
-	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender) {
+	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender)  {
 		ArrayList<Land> hatNachbarn = new ArrayList<Land>();
 		for (Land land : eigeneLaender) {
 			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
