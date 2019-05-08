@@ -7,6 +7,7 @@ import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
@@ -165,7 +166,7 @@ public class Risiko implements Serializable {
 		return attackLaender;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException{
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
@@ -180,7 +181,7 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws LandInBesitzException,ZuWenigEinheitenException {
+			ArrayList<Integer> dList) throws LandInBesitzException,ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption {
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}

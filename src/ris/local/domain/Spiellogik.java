@@ -161,7 +161,10 @@ public class Spiellogik implements Serializable {
 		return moeglicheAngreifer;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
+		if(!worldMg.getLaender().contains(attackLand)) {
+			throw new LandExistiertNichtException("Das ausgewählte Land existiert nicht");
+		}
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
 			if (worldMg.nachbarn[attackLand.getNummer()][i]) {
@@ -173,7 +176,7 @@ public class Spiellogik implements Serializable {
 		return feindlicheLaender;
 	}
 
-	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender) {
+	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender)  {
 		ArrayList<Land> hatNachbarn = new ArrayList<Land>();
 		for (Land land : eigeneLaender) {
 			for (int i = 0; i < worldMg.nachbarn[land.getNummer()].length; i++) {
@@ -286,7 +289,7 @@ public class Spiellogik implements Serializable {
 		return unitLoss;
 	}
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandInBesitzException, ZuWenigEinheitenException {
+public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandInBesitzException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption  {
 		if(def.getBesitzer()==att.getBesitzer()) {
 			throw new LandInBesitzException("Zielland ist nicht feindlich");
 		}

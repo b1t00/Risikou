@@ -467,7 +467,12 @@ public class RisikoClientUI {
 
 		// Abfrage, welches Land angegriffen werden soll
 		System.out.println("Welches Land soll angegriffen werden?");
-		ArrayList<Land> feindlicheNachbarn = risiko.getFeindlicheNachbarn(att);
+		ArrayList<Land> feindlicheNachbarn = null;
+		try{
+			feindlicheNachbarn=risiko.getFeindlicheNachbarn(att);}
+		catch(LandExistiertNichtException e) {
+			e.printStackTrace();
+		}
 		pruefArray = laenderAusgabe(feindlicheNachbarn);
 		ungültig = true;
 		while (ungültig) {
@@ -574,6 +579,9 @@ public class RisikoClientUI {
 				e.printStackTrace();
 			}
 			catch(ZuWenigEinheitenException e) {
+				e.printStackTrace();
+			}
+			catch(ZuWenigEinheitenNichtMoeglichExeption e) {
 				e.printStackTrace();
 			}
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
