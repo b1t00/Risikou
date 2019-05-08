@@ -112,10 +112,17 @@ public class Spiellogik implements Serializable {
 	// ----------------------------------------einheiten-------------------------------------------------
 	public boolean changePossible(Player aktiverPlayer) {
 		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
+		boolean reihe = true;
 		for (int i = 1; i < symbolAnzahlArray.length; i++) {
 			if (symbolAnzahlArray[i] > 2) {
 				return true;
 			}
+			//Eine Reihe wird überprüft, in dem ab dem Moment, wenn ein Symbol auf 0 ist, der boolean reihe auf false gesetzt wird
+			else if (symbolAnzahlArray[i]==0) {
+				reihe = false;
+			}
+		} if(reihe) {
+			return true;
 		}
 		return false;
 	}
