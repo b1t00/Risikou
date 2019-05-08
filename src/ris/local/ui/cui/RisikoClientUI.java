@@ -56,7 +56,7 @@ public class RisikoClientUI {
 			case "no":
 			case "nein":
 			case "n":
-				System.out.println("Risik wird beendet"); // Platzhalter f�r Spielbeenden TODO: Spiel beenden
+				System.out.println("Dann nicht!\nRisiko wird beendet"); // Platzhalter f�r Spielbeenden TODO: Spiel beenden
 				System.exit(0);
 				break;
 			default:
@@ -75,8 +75,6 @@ public class RisikoClientUI {
 				eingabe = liesEingabe();
 				ungueltig = false;
 			} catch (IOException | NullPointerException e) {
-				// TODO hier catchen habs nicht hingekriegt..
-				System.out.println("hhhey");
 				ungueltig = true;
 			}
 			switch (eingabe) {

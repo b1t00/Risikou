@@ -8,6 +8,7 @@ import ris.local.valueobjects.MissionGegner;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.MissionKontinent;
 import ris.local.valueobjects.MissionLaenderanzahl;
+import ris.local.valueobjects.MissionTest;
 import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
@@ -28,6 +29,7 @@ public class MissionsManagement implements Serializable {
 //				
 //			}
 
+		missionen.add(new MissionTest(worldMg.getLaender().get(0)));
 		missionen.add(new MissionKontinent("mission 1: Erobere Europa und Australien", worldMg.getKontinente().get(0),
 				worldMg.getKontinente().get(1)));
 		missionen.add(new MissionLaenderanzahl("mission2 : Erobere 8 (test) Länder deiner Wahl"));
