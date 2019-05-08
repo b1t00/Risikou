@@ -286,7 +286,7 @@ public class Spiellogik implements Serializable {
 	}
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption, LandNichtInBesitzException {
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
 		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
 		// Einheiten vom Angreifer, an zweiter vom Verteidiger
 		Player attacker = att.getBesitzer();

@@ -210,7 +210,7 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption , LandNichtInBesitzException{
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
 		ArrayList<Integer> ergebnis;
 			ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;

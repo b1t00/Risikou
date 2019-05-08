@@ -68,16 +68,15 @@ public class RisikoClientUI {
 
 	public void starteSpiel() {
 		String eingabe = "";
-		boolean ungültig = true, ungültig2 = true; //TODO: Check
-		while(ungültig2) {
+		boolean ungültig = true;//TODO: Check
 		System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
 		while (ungültig) {
 		try {
 			eingabe = liesEingabe();
-			ungültig2 = false;
+			ungültig = false;
 		} catch (IOException e) {
 			// TODO hier catchen habs nicht hingekriegt..
-			ungültig2 = true;
+			ungültig = true;
 		}
 		}
 			switch (eingabe) {
@@ -108,7 +107,7 @@ public class RisikoClientUI {
 				break;
 			}
 		}
-	}
+	
 
 //public int pruefeZahl(int i) { // methode für falls zahleneingabe falsch ist..macht code kürzer
 //	try {
