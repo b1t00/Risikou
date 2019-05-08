@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandNichtInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
@@ -179,8 +181,9 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) {
-		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption , LandNichtInBesitzException{
+		ArrayList<Integer> ergebnis;
+			ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
 
@@ -197,7 +200,7 @@ public class Risiko implements Serializable {
 	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public void verschiebeEinheiten(Land start, Land ziel, int menge)
-			throws LandExistiertNichtException, ZuWenigEinheitenException {
+			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
 		logik.moveUnits(start, ziel, menge);
 	}
 

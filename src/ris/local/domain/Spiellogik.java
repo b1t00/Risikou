@@ -92,7 +92,7 @@ public class Spiellogik implements Serializable {
 		aktiverPlayer = whoBegins();
 	}
 //**********************************>MISSIONS-SACHEN<************************************
-	
+
 	public void verteileMissionen() {
 		missionsMg = new MissionsManagement(playerMg, worldMg);
 
@@ -108,7 +108,6 @@ public class Spiellogik implements Serializable {
 			player.setMission(mission);
 		}
 	}
-
 
 	// ----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
@@ -286,15 +285,17 @@ public class Spiellogik implements Serializable {
 		return unitLoss;
 	}
 
-public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandNichtInBesitzException {
-		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker= att.getBesitzer();
-		
-		//setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock= attacker.getBlock()[att.getNummer()];
-		if(attacker.getBlock()[att.getNummer()]>0) {
-			if(attacker.getBlock()[att.getNummer()]-attEinheiten>=0) {
-				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attEinheiten);
+	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
+			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption, LandNichtInBesitzException {
+		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
+		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+		Player attacker = att.getBesitzer();
+
+		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
+		int buBlock = attacker.getBlock()[att.getNummer()];
+		if (attacker.getBlock()[att.getNummer()] > 0) {
+			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
+				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
 
 			}
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
@@ -311,18 +312,9 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
 		ArrayList<Integer> ergebnis = diceResults(aList, dList);
-		try {
-			att.setEinheiten(ergebnis.get(0));
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			def.setEinheiten(ergebnis.get(1));
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		att.setEinheiten(ergebnis.get(0));
+
+		def.setEinheiten(ergebnis.get(1));
 
 		if (def.getEinheiten() > 0) {
 			if (buBlock + ergebnis.get(0) >= 0) {
@@ -346,8 +338,9 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 
 			// setzt bei erobertem Land die beteiligten Einheiten auf Block
 			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
-			
-			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am ende des Zuges ziehen kann
+
+			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
+			// ende des Zuges ziehen kann
 			winner.setGutschriftEinheitenkarte(true);
 		}
 		return ergebnis;
@@ -496,26 +489,16 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge)
-			throws ZuWenigEinheitenException, LandExistiertNichtException {
+			throws ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
 			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
 		}
 		if (!worldMg.getLaender().contains(start)) {
 			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
+		start.setEinheiten(-menge);
+		ziel.setEinheiten(menge);
 
-		try {
-			start.setEinheiten(-menge);
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			ziel.setEinheiten(menge);
-		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 //		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
 //				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);

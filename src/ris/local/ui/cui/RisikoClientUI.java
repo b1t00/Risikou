@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import ris.local.domain.Risiko;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandNichtInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -566,7 +567,17 @@ public class RisikoClientUI {
 				System.out.println("Verteidigender Würfel Nr." + (i + 1) + " = " + dList.get(i));
 			}
 
-			ArrayList<Integer> ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+			ArrayList<Integer> ergebnis;
+			try {
+				ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
+			} catch (ZuWenigEinheitenNichtMoeglichExeption e1) {
+				// TODO Auto-generated catch block
+				System.err.println("zu wenig einheite test stack");
+				e1.printStackTrace();
+			} catch (LandNichtInBesitzException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
@@ -645,6 +656,8 @@ public class RisikoClientUI {
 					try {
 						risiko.verschiebeEinheiten(att, def, answer);
 					} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
+						e.printStackTrace();
+					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 						e.printStackTrace();
 					}
 				}
@@ -793,8 +806,10 @@ public class RisikoClientUI {
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
 				} catch (IOException e) {
+					System.err.println("nicht gecatched 807");
+					e.printStackTrace();
 				}
-				if (anzahl > (start.getEinheiten() - 1)) {
+				if (anzahl > (start.getEinheiten() - 1) || anzahl < 0) {
 					System.out.println("Ungültige Eingabe, bitte wiederholen!");
 				} else {
 					ungültig = false;
