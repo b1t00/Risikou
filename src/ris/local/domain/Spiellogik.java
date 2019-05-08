@@ -3,8 +3,10 @@ package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -89,25 +91,24 @@ public class Spiellogik implements Serializable {
 	public void setzeStartSpieler() {
 		aktiverPlayer = whoBegins();
 	}
-
+//**********************************>MISSIONS-SACHEN<************************************
+	
 	public void verteileMissionen() {
 		missionsMg = new MissionsManagement(playerMg, worldMg);
 
-		ArrayList<Mission> missionsCopy = missionsMg.getMission();
-		Collections.shuffle(missionsCopy);
-		for (Player play : playerMg.getPlayers()) {
-			Mission mission = missionsCopy.remove(0);
-			if (mission instanceof MissionGegner && ((MissionGegner) mission).getGegner() == play) {
-				// ops suicide, zur�ck tun und neue suchen
-				missionsCopy.add(mission);
-				mission = missionsCopy.remove(0);
+		ArrayList<Mission> missionsAr = missionsMg.getMission();
+		Collections.shuffle(missionsAr);
+		for (Player player : playerMg.getPlayers()) {
+			Mission mission = missionsAr.remove(0);
+			if (mission instanceof MissionGegner && ((MissionGegner) mission).getGegner() == player) {
+				// ops suicide, zurueck tun und neue suchen
+				missionsAr.add(mission);
+				mission = missionsAr.remove(0);
 			}
-			play.setMission(mission);
+			player.setMission(mission);
 		}
-
 	}
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^SpielAnfang_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
@@ -285,17 +286,21 @@ public class Spiellogik implements Serializable {
 		return unitLoss;
 	}
 
-	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) {
-		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
-		// Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker = att.getBesitzer();
-
-		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock = attacker.getBlock()[att.getNummer()];
-		if (attacker.getBlock()[att.getNummer()] > 0) {
-			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
+public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEinheiten,ArrayList<Integer> aList,ArrayList<Integer> dList) throws LandInBesitzException, ZuWenigEinheitenException {
+		if(def.getBesitzer()==att.getBesitzer()) {
+			throw new LandInBesitzException("Zielland ist nicht feindlich");
+		}
+		if(att.getEinheiten()-attEinheiten<1 || def.getEinheiten()-defEinheiten<0) {
+			throw new ZuWenigEinheitenException("Zu wenig Einheiten verfügbar");
+		}
+		//rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen Einheiten vom Angreifer, an zweiter vom Verteidiger
+		Player attacker= att.getBesitzer();
+		
+		//setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
+		int buBlock= attacker.getBlock()[att.getNummer()];
+		if(attacker.getBlock()[att.getNummer()]>0) {
+			if(attacker.getBlock()[att.getNummer()]-attEinheiten>=0) {
+				attacker.setBlock(attacker.getBlock(),att.getNummer(),-attEinheiten);
 
 			}
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
@@ -312,8 +317,18 @@ public class Spiellogik implements Serializable {
 		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
 		ArrayList<Integer> ergebnis = diceResults(aList, dList);
-		att.setEinheiten(ergebnis.get(0));
-		def.setEinheiten(ergebnis.get(1));
+		try {
+			att.setEinheiten(ergebnis.get(0));
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			def.setEinheiten(ergebnis.get(1));
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if (def.getEinheiten() > 0) {
 			if (buBlock + ergebnis.get(0) >= 0) {
@@ -344,80 +359,7 @@ public class Spiellogik implements Serializable {
 		return ergebnis;
 	}
 
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) throws UngueltigeAnzahlEinheitenException {
-		int lossDef = 0;
-		int lossAtt = 0;
-		ArrayList<Integer> aList = new ArrayList<Integer>();
-		ArrayList<Integer> defList = new ArrayList<Integer>();
-		for (int i = 0; i < attUnits; i++) {
-			aList.add((int) (Math.random() * 6) + 1);
-//Random r = new Random(System.currentTimeMillis());
-//int zahl = r.nextInt(6) + 1;
-		}
-		for (int j = 0; j < defUnits; j++) {
-			defList.add((int) (Math.random() * 6) + 1);
-
-		}
-
-		Collections.sort(aList);
-		Collections.sort(defList);
-		Collections.reverse(aList);
-		Collections.reverse(defList);
-
-		if (aList.size() - defList.size() == 2) {
-			aList.remove(2);
-			aList.remove(1);
-
-		}
-		if (aList.size() - defList.size() == 1) {
-			aList.remove(defList.size());
-		}
-
-		if (defList.size() - aList.size() == 2) {
-			defList.remove(2);
-			defList.remove(1);
-
-		}
-		if (defList.size() - aList.size() == 1) {
-			defList.remove(aList.size());
-
-		}
-
-		if (defList.size() == 1) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 2) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 3) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(2) > defList.get(2))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
-		unitLoss.add(lossAtt);
-		unitLoss.add(lossDef);
-		return unitLoss;
-	}
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ***************************************->Runden<-**************************************
@@ -495,8 +437,18 @@ public class Spiellogik implements Serializable {
 			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
 
-		start.setEinheiten(-menge);
-		ziel.setEinheiten(menge);
+		try {
+			start.setEinheiten(-menge);
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			ziel.setEinheiten(menge);
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
 //				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);

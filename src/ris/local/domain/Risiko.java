@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.persistence.FilePersistenceManager;
@@ -19,7 +20,6 @@ public class Risiko implements Serializable {
 	private Spiellogik logik;
 	private Player player, gewinner;
 	private ArrayList<Einheitenkarte> einheitenkartenStapel;
-
 
 	public Risiko() {
 		worldMg = new WorldManagement();
@@ -102,7 +102,6 @@ public class Risiko implements Serializable {
 	// Missionsabfrage vom akriven Spieler TODO: der spieler der in seiner Runde
 	// gewonnen hat, hat gewonnen??
 	public boolean rundeMissionComplete(Player play) {
-
 		if (play.isMissionComplete(play)) {
 			gewinner = play;
 			return true;
@@ -111,7 +110,8 @@ public class Risiko implements Serializable {
 		}
 	}
 
-	// fragt den player, ob er ein land eingenommen hat via boolean gutschriftEinheitenkarte und setzt diesen dann auf false
+	// fragt den player, ob er ein land eingenommen hat via boolean
+	// gutschriftEinheitenkarte und setzt diesen dann auf false
 	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
 			Einheitenkarte neueKarte = einheitenkartenStapel.remove(0);
@@ -209,7 +209,7 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) {
+			ArrayList<Integer> dList) throws LandInBesitzException,ZuWenigEinheitenException {
 		ArrayList<Integer> ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 		return ergebnis;
 	}
