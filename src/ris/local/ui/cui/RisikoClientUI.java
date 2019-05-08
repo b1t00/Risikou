@@ -14,7 +14,7 @@ import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
-import ris.local.valueobjects.Einheitenkarte;
+import ris.local.valueobjects.Risikokarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -461,7 +461,7 @@ public class RisikoClientUI {
 			if (risiko.zieheEinheitenkarte(aktiverPlayer)) {
 				// gibt die neueste Einheitenkarte aus, die sich an der letzten Stelle des
 				// Einheitenkarten-Arrays befindet
-				Einheitenkarte neu = aktiverPlayer.getEinheitenkarten()
+				Risikokarte neu = aktiverPlayer.getEinheitenkarten()
 						.get(aktiverPlayer.getEinheitenkarten().size() - 1);
 				System.out.println("Du hast mindestens ein Land erobert und bekommst die Einheitenkarte "
 						+ neu.getLand().getName() + " mit dem Symbol: " + neu.getSymbol());
@@ -482,7 +482,7 @@ public class RisikoClientUI {
 			if (aktiverPlayer.getEinheitenkarten().size() == 0) {
 				System.out.println("... ups, du hast keine Risikokarte!");
 			} else {
-				for (Einheitenkarte ein : aktiverPlayer.getEinheitenkarten()) {
+				for (Risikokarte ein : aktiverPlayer.getEinheitenkarten()) {
 					System.out.println(ein.getSymbol() + " : " + ein.getLand().getName());
 				}
 			}
@@ -531,7 +531,7 @@ public class RisikoClientUI {
 			try {
 				start = Integer.parseInt(liesEingabe());
 				att = risiko.getLandById(start);
-			} catch (IOException | NumberFormatException e) {
+			} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
 				start = -1;
 			}
 			if (pruefArray.contains(start)) {
@@ -622,7 +622,7 @@ public class RisikoClientUI {
 			System.out.println("");
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
-
+			
 			ArrayList<Integer> aList = null;
 			try {
 				aList = risiko.diceAttack(attEinheiten);

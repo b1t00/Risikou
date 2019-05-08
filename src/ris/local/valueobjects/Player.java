@@ -9,7 +9,7 @@ public class Player implements Serializable {
 	private String farbe;
 	private int nummer;
 	private Mission mission; //
-	private ArrayList<Einheitenkarte> gezogeneRisikokarten;
+	private ArrayList<Risikokarte> gezogeneRisikokarten;
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
@@ -21,7 +21,7 @@ public class Player implements Serializable {
 		this.name = name;
 		this.farbe = farbe;
 		this.nummer = nummer;
-		this.gezogeneRisikokarten = new ArrayList<Einheitenkarte>();
+		this.gezogeneRisikokarten = new ArrayList<Risikokarte>();
 	}
 
 	public int getNummer() {
@@ -71,14 +71,14 @@ public class Player implements Serializable {
 		return gB;
 	}
 	
-	public void setEinheitenkarte(Einheitenkarte karte) {
+	public void setEinheitenkarte(Risikokarte karte) {
 		this.gezogeneRisikokarten.add(karte);
 	//	Collections.sort(gezogeneRisikokarten, new SymbolComparator());
 		//beim Hinzufügen einer Karte wird die ArrayList sortiert -> hilft beim Löschen weiter unten
 		Collections.sort(gezogeneRisikokarten, (karte1, karte2) -> karte1.getSymbol().compareTo(karte2.getSymbol()));
 	}
 	
-	public ArrayList<Einheitenkarte> getEinheitenkarten(){
+	public ArrayList<Risikokarte> getEinheitenkarten(){
 		return gezogeneRisikokarten;
 	}
 
@@ -123,7 +123,7 @@ public class Player implements Serializable {
 		//1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
 		int[] symbolAnzahlArray = {0, 0, 0};
 		if(gezogeneRisikokarten != null) {
-			for (Einheitenkarte karte: gezogeneRisikokarten) {
+			for (Risikokarte karte: gezogeneRisikokarten) {
 				if (karte.getSymbol().equals("Kanone")) {
 					symbolAnzahlArray[0]++;
 				} else if (karte.getSymbol().equals("Reiter")) {

@@ -9,7 +9,7 @@ import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
-import ris.local.valueobjects.Einheitenkarte;
+import ris.local.valueobjects.Risikokarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -20,13 +20,13 @@ public class Risiko implements Serializable {
 	private PlayerManagement playerMg;
 	private Spiellogik logik;
 	private Player player, gewinner;
-	private ArrayList<Einheitenkarte> einheitenkartenStapel;
+	private ArrayList<Risikokarte> einheitenkartenStapel;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
 		logik = new Spiellogik(worldMg, playerMg);
-		EinheitenkartenManagement einheitenkartenMg = new EinheitenkartenManagement();
+		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
 	}
 
@@ -115,7 +115,7 @@ public class Risiko implements Serializable {
 	// gutschriftEinheitenkarte und setzt diesen dann auf false
 	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
-			Einheitenkarte neueKarte = einheitenkartenStapel.remove(0);
+			Risikokarte neueKarte = einheitenkartenStapel.remove(0);
 			aktiverPlayer.setEinheitenkarte(neueKarte);
 			aktiverPlayer.setGutschriftEinheitenkarte(false);
 			return true;
