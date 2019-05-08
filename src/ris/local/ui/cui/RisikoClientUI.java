@@ -626,7 +626,7 @@ public class RisikoClientUI {
 				} catch (IOException | NumberFormatException e) {
 					ungueltig = true;
 				}
-				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten == 0) {
+				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten <= 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
 					ungueltig = false;
@@ -640,13 +640,14 @@ public class RisikoClientUI {
 				System.out.println("Maximal 2");
 			}
 			while (ungueltig) {
+				defEinheiten = 0;
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
 					System.out.println("keine gueltige eingabe");
 					ungueltig = true;
 				}
-				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten == 0) {
+				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten <= 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
 					ungueltig = false;
@@ -918,7 +919,7 @@ public class RisikoClientUI {
 				try {
 					von = Integer.parseInt(liesEingabe());
 					start = risiko.getLandById(von);
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
 					von = -99;
 				}
 				if (pruefArray.contains(von)) {
@@ -932,9 +933,8 @@ public class RisikoClientUI {
 			while (ungueltig) {
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
-					System.err.println("nicht gecatched 807");
-					e.printStackTrace();
+				} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
+					anzahl = -99;
 				}
 				if (anzahl > (start.getEinheiten() - 1) || anzahl < 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen!");
@@ -951,7 +951,10 @@ public class RisikoClientUI {
 				try {
 					nach = Integer.parseInt(liesEingabe());
 					ziel = risiko.getLandById(nach);
-				} catch (IOException e) {
+				} catch (IOException |NumberFormatException |IndexOutOfBoundsException e) {
+					System.err.println("hats geklappt? 926");
+					nach = -1;
+					ungueltig = true;
 				}
 				if (pruefArray.contains(nach)) {
 					ungueltig = false;
