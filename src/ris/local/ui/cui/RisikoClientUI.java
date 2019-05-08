@@ -90,6 +90,8 @@ public class RisikoClientUI {
 				risiko.verteileMissionen();
 				risiko.setzeAktivenPlayer();
 				System.out.println("jetzt beginnt das Spiel \n");
+				gibPlayerMissionUndLaenderAus();
+				setzeStartEinheiten();
 				ungültig = false;
 				break;
 			case "l":
@@ -284,8 +286,31 @@ public class RisikoClientUI {
 	// ----------------------------------einheiten-------------------------------------------------
 	public void setzeNeueEinheiten(Player aktiverPlayer) {
 		//prüfen, ob weitere einheiten verfügbar sind durch eintauschen der einheitenkarten
-		//changePossible()
-		int bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
+		int bonusEinheiten = 0;
+		if (risiko.changePossible(aktiverPlayer)){
+			System.out.println("Du kannst Risikokarten gegen Bonuseinheiten eintauschen!");
+			System.out.println("Interesse? (y/n)");
+			boolean ungültig = true;
+			while(ungültig) {
+				String answer = "";
+				try {
+					answer = liesEingabe();
+				} catch(IOException e) {}
+				switch(answer) {
+				case "y":
+					//wenn getauscht werden soll, wird methode aufgerufen, die möglcihe kombis ausgibt und abfragt, welche kombi getauscht ewrden soll
+					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);	
+					//hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in methode!
+					ungültig = false;
+				case "n":
+					ungültig = false;
+				default:
+					System.out.println("Ungültige Eingabe!");
+					break;
+				}
+			}	
+		}
+		//hier einheiten für anzahl länder und evtl besitz kontinent
 		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
@@ -353,39 +378,7 @@ public class RisikoClientUI {
 		//Der TauschkombiArray enthält vier Stellen mit je Anzahl an Tauschkombinationen für
 		//0=Kanone, 1=Reiter, 2=Soldaten, 3=Reihe
 		
-	//	if (risiko.changePossible(aktiverPlayer)) vielleicht auhc besser in der setzeneueeinheiten methode
-		
-		int[] tauschkombiArray = risiko.einheitenkartenTauschkombiVorhanden(aktiverPlayer);
-		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
-		for (int i = 0; i < tauschkombiArray.length; i++) {
-			if (tauschkombiArray[i] > 0) {
-				System.out.println("Du kannst " + tauschkombiArray[i] + " mal 3" + symbolkombiArray[i] + " gegen je eine Einheit eintauschen.");
-			}
-		}
-		System.out.println("Möchtest du eintauschen? (y/n)");	
-		int bonus = 0;
-		boolean ungültig = true;
-		while(ungültig) {
-			String answer = "";
-			try {
-				answer = liesEingabe();
-			} catch(IOException e) {}
-			switch(answer) {
-			case "y":
-				//methode muss noch gemacht werden
-				bonus = zusätzlicheEinheiten(aktiverPlayer, tauschkombiArray);
-				return bonus;
-			case "n":
-				return 0;
-			default:
-				System.out.println("Ungültige Eingabe!");
-				break;
-			}
-		}
-		return bonus;
-	}
-	
-	public int zusätzlicheEinheiten(Player aktiverPlayer, int[] tauschkombiArray) {
+		int[] tauschkombiArray = risiko.risikokartenTauschkombiVorhanden(aktiverPlayer);
 		String[] symbolkombiArray = {"Kanonen", "Reitern", "Soldaten", "Reihen"};
 		for (int i = 0; i < tauschkombiArray.length; i++) {
 			if (tauschkombiArray[i] > 0) {
@@ -969,8 +962,7 @@ public class RisikoClientUI {
 
 	public void run() {
 		eingangsMenue();
-		gibPlayerMissionUndLaenderAus();
-		setzeStartEinheiten();
+//		setzeEinheiten und gibPlayerUndMissionenAus sind jetzt in der StarteSpielMethode, sonst werden die Methoden auch aufgerufen, wenn das Spiel nur geladen wird
 //		****************_hier_gehts_los********
 		System.out.println("");
 		System.out.println("Jetzt beginnt das Spiel!");

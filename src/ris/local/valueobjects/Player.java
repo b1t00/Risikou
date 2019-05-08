@@ -115,7 +115,7 @@ public class Player implements Serializable {
 		this.inBesitz = neueLaender;
 	}
 	
-	public int[] einheitenkartenKombi() {
+	public int[] risikokartenKombi() {
 		//Array mit den Anzahl der einheitenKarten für die verschiedenen Symbole
 		//1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
 		int[] Symbolarray = {0, 0, 0};

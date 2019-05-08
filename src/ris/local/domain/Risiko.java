@@ -123,32 +123,12 @@ public class Risiko implements Serializable {
 		return false;
 	}
 	
-	public int[] einheitenkartenTauschkombiVorhanden(Player aktiverPlayer) {
-		//Symbolarray mit Anzahl der vorhandenen Einheitskarten
-		//0 = Kanone, 1 = Reiter, 2 = Soldat
-		int[] Symbolarray = aktiverPlayer.einheitenkartenKombi();
-		//tauschkombi sagt aus, wieviele kombis vorhanden sind
-		//0 = Kanone, 1 = Reiter, 2 = Soldat, 3 = Reihe
-		int[] Tauschkombi = new int[4];
-		if (Symbolarray[0] >= 3) {
-			Tauschkombi[0] = Symbolarray[0]%3;
-		}
-		if (Symbolarray[1] >= 3) {
-			Tauschkombi[1] = Symbolarray[1]%3;
-		}
-		if (Symbolarray[2] >= 3) {
-			Tauschkombi[2] = Symbolarray[2]%3;
-		}
-		if (Symbolarray[0] > 0 && Symbolarray[1] > 0 && Symbolarray[2] > 0) {
-			int min = Symbolarray[0];
-			for (int i = 1; i < Symbolarray.length; i++) {
-				if (Symbolarray[i] < min) {
-					min = Symbolarray[i];
-				}
-			}
-			Tauschkombi[3] = min;
-		}
-		return Tauschkombi;
+	public boolean changePossible(Player aktiverPlayer) {
+		return logik.changePossible(aktiverPlayer);
+	}
+	
+	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
+		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw
