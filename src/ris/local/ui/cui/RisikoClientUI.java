@@ -57,7 +57,6 @@ public class RisikoClientUI {
 			case "nein":
 			case "n":
 				System.out.println("Risik wird beendet"); // Platzhalter f�r Spielbeenden TODO: Spiel beenden
-				richtigeEingabe = true;
 				System.exit(0);
 				break;
 			default:
