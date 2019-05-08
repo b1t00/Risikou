@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.LandNichtInBesitzException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -115,11 +115,40 @@ public class Risiko implements Serializable {
 	// gutschriftEinheitenkarte und setzt diesen dann auf false
 	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
-			aktiverPlayer.setEinheitenkarte(einheitenkartenStapel.remove(0));
+			Einheitenkarte neueKarte = einheitenkartenStapel.remove(0);
+			aktiverPlayer.setEinheitenkarte(neueKarte);
 			aktiverPlayer.setGutschriftEinheitenkarte(false);
 			return true;
 		}
 		return false;
+	}
+	
+	public int[] einheitenkartenTauschkombiVorhanden(Player aktiverPlayer) {
+		//Symbolarray mit Anzahl der vorhandenen Einheitskarten
+		//0 = Kanone, 1 = Reiter, 2 = Soldat
+		int[] Symbolarray = aktiverPlayer.einheitenkartenKombi();
+		//tauschkombi sagt aus, wieviele kombis vorhanden sind
+		//0 = Kanone, 1 = Reiter, 2 = Soldat, 3 = Reihe
+		int[] Tauschkombi = new int[4];
+		if (Symbolarray[0] >= 3) {
+			Tauschkombi[0] = Symbolarray[0]%3;
+		}
+		if (Symbolarray[1] >= 3) {
+			Tauschkombi[1] = Symbolarray[1]%3;
+		}
+		if (Symbolarray[2] >= 3) {
+			Tauschkombi[2] = Symbolarray[2]%3;
+		}
+		if (Symbolarray[0] > 0 && Symbolarray[1] > 0 && Symbolarray[2] > 0) {
+			int min = Symbolarray[0];
+			for (int i = 1; i < Symbolarray.length; i++) {
+				if (Symbolarray[i] < min) {
+					min = Symbolarray[i];
+				}
+			}
+			Tauschkombi[3] = min;
+		}
+		return Tauschkombi;
 	}
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfüllt hat bzw
@@ -204,18 +233,19 @@ public class Risiko implements Serializable {
 		logik.moveUnits(start, ziel, menge);
 	}
 
-	public void spielSpeichern() {
+	public void spielSpeichern(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		fileMg.speichern(this);
+		fileMg.speichern(this, datei);
 	}
 
-	public void spielLaden() {
+	public void spielLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		Risiko risikoSpeicher = fileMg.laden();
+		Risiko risikoSpeicher = fileMg.laden(datei);
 		if (risikoSpeicher != null) {
 			this.worldMg = risikoSpeicher.worldMg;
 			this.playerMg = risikoSpeicher.playerMg;
 			this.logik = risikoSpeicher.logik;
+			this.einheitenkartenStapel = risikoSpeicher.einheitenkartenStapel;
 			// namen der datei, damit speicherort immer der gleiche bleibt
 		}
 	}

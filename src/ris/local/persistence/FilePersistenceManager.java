@@ -13,14 +13,13 @@ import ris.local.domain.Risiko;
 
 public class FilePersistenceManager {
 	
-	public void speichern(Serializable risiko) {
+	public void speichern(Serializable risiko, String datei) {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
-			fos = new FileOutputStream("risikou.ser");
+			fos = new FileOutputStream(datei + ".ser");
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(risiko);
-			System.out.println("Speichern klappt");
 		}catch (IOException e) {}
 		try {
 			oos.close();
@@ -28,17 +27,17 @@ public class FilePersistenceManager {
 		} catch (IOException e) {}
 	}
 		
-	public Risiko laden() {
+	public Risiko laden(String datei) {
 		Risiko risiko = null;
 		try (ObjectInputStream ois = new ObjectInputStream(
-				new FileInputStream("risikou.ser"))){
+				new FileInputStream(datei + ".ser"))){
 			risiko = (Risiko) ois.readObject();
 			ois.close();
 		} catch (IOException e) {
 			System.err.println("fehler");
 		} catch (ClassNotFoundException e) {
 			System.err.println("Fehler!");
-		}
+		} 
 		return risiko;
 	}
 }

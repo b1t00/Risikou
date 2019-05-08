@@ -3,7 +3,7 @@ package ris.local.domain;
 
 import ris.local.domain.PlayerManagement;
 import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.LandNichtInBesitzException;
+import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -297,6 +297,7 @@ public class Spiellogik implements Serializable {
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
 				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
 
+
 			}
 			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
 				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attacker.getBlock()[att.getNummer()]);
@@ -346,80 +347,7 @@ public class Spiellogik implements Serializable {
 		return ergebnis;
 	}
 
-	public ArrayList<Integer> rollDice(int attUnits, int defUnits) throws UngueltigeAnzahlEinheitenException {
-		int lossDef = 0;
-		int lossAtt = 0;
-		ArrayList<Integer> aList = new ArrayList<Integer>();
-		ArrayList<Integer> defList = new ArrayList<Integer>();
-		for (int i = 0; i < attUnits; i++) {
-			aList.add((int) (Math.random() * 6) + 1);
-//Random r = new Random(System.currentTimeMillis());
-//int zahl = r.nextInt(6) + 1;
-		}
-		for (int j = 0; j < defUnits; j++) {
-			defList.add((int) (Math.random() * 6) + 1);
-
-		}
-
-		Collections.sort(aList);
-		Collections.sort(defList);
-		Collections.reverse(aList);
-		Collections.reverse(defList);
-
-		if (aList.size() - defList.size() == 2) {
-			aList.remove(2);
-			aList.remove(1);
-
-		}
-		if (aList.size() - defList.size() == 1) {
-			aList.remove(defList.size());
-		}
-
-		if (defList.size() - aList.size() == 2) {
-			defList.remove(2);
-			defList.remove(1);
-
-		}
-		if (defList.size() - aList.size() == 1) {
-			defList.remove(aList.size());
-
-		}
-
-		if (defList.size() == 1) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 2) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		if (defList.size() == 3) {
-			if (aList.get(0) > defList.get(0))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(1) > defList.get(1))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-			if (aList.get(2) > defList.get(2))
-				lossDef = lossDef - 1;
-			else
-				lossAtt = lossAtt - 1;
-		}
-		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
-		unitLoss.add(lossAtt);
-		unitLoss.add(lossDef);
-		return unitLoss;
-	}
+	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ***************************************->Runden<-**************************************
