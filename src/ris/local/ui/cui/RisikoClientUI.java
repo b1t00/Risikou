@@ -648,18 +648,14 @@ public class RisikoClientUI {
 				System.out.println("Verteidigender Würfel Nr." + (i + 1) + " = " + dList.get(i));
 			}
 
-			ArrayList<Integer> ergebnis;
+			ArrayList<Integer> ergebnis = null; //TODO: Achtung check
 			try {
 				ergebnis = risiko.attack(att, def, attEinheiten, defEinheiten, aList, dList);
 			} catch (ZuWenigEinheitenNichtMoeglichExeption e1) {
 				// TODO Auto-generated catch block
 				System.err.println("zu wenig einheite test stack");
 				e1.printStackTrace();
-			} catch (LandNichtInBesitzException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
-			// je nach Ausgang des Kampfs unterschiedliche fortgänge:
 
 			// 1. angreifer hat gewonnen, aber die Verteidigung hat weitere Länder
 			if (ergebnis.get(0) > ergebnis.get(1) && def.getBesitzer().equals(defender)) {
@@ -914,7 +910,7 @@ public class RisikoClientUI {
 			}
 			try {
 				risiko.verschiebeEinheiten(start, ziel, anzahl);
-			} catch (ZuWenigEinheitenException | LandExistiertNichtException e) {
+			} catch (ZuWenigEinheitenException | LandExistiertNichtException | ZuWenigEinheitenNichtMoeglichExeption e) {
 				e.printStackTrace();
 			}
 		}
