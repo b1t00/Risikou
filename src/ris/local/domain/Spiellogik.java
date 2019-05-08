@@ -6,6 +6,7 @@ import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.LandNichtInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -310,8 +311,18 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
 		ArrayList<Integer> ergebnis = diceResults(aList, dList);
-		att.setEinheiten(ergebnis.get(0));
-		def.setEinheiten(ergebnis.get(1));
+		try {
+			att.setEinheiten(ergebnis.get(0));
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			def.setEinheiten(ergebnis.get(1));
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		if (def.getEinheiten() > 0) {
 			if (buBlock + ergebnis.get(0) >= 0) {
@@ -493,8 +504,18 @@ public ArrayList<Integer> attack (Land att, Land def,int attEinheiten, int defEi
 			throw new LandExistiertNichtException(start + " existiert nicht.");
 		}
 
-		start.setEinheiten(-menge);
-		ziel.setEinheiten(menge);
+		try {
+			start.setEinheiten(-menge);
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			ziel.setEinheiten(menge);
+		} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
 //				&&ziel.getBesitzer() == gibAktivenPlayer()) {
 //			start.setEinheiten(-menge);

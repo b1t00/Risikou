@@ -10,6 +10,7 @@ import ris.local.domain.Risiko;
 import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
+import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.valueobjects.Einheitenkarte;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
@@ -231,7 +232,12 @@ public class RisikoClientUI {
 				}
 			}
 
-			aktuellesLand.setEinheiten(einheit);
+			try {
+				aktuellesLand.setEinheiten(einheit);
+			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			anzahlEinheiten--;
 			risiko.machNaechsterPlayer();
 		}
@@ -321,7 +327,12 @@ public class RisikoClientUI {
 					ungültig = false;
 				}
 			}
-			landMitNeuerEinheit.setEinheiten(anzahl);
+			try {
+				landMitNeuerEinheit.setEinheiten(anzahl);
+			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			verfuegbareEinheiten -= anzahl;
 		}
 		System.out.println("Alle Einheiten wurden gesetzt.");
