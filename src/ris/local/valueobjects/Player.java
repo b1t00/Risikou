@@ -21,7 +21,7 @@ public class Player implements Serializable {
 		this.name = name;
 		this.farbe = farbe;
 		this.nummer = nummer;
-		this.gezogeneEinheitenkarten = new ArrayList<Einheitenkarte>();
+		this.gezogeneRisikokarten = new ArrayList<Einheitenkarte>();
 	}
 
 	public int getNummer() {
