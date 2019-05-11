@@ -54,10 +54,10 @@ public class RisikoClientUI {
 				richtigeEingabe = true;
 				break;
 			case "no":
-			case "nï¿½":
+			case "nein":
 			case "n":
 				System.out.println("Risik wird beendet"); // Platzhalter fï¿½r Spielbeenden TODO: Spiel beenden
-				richtigeEingabe = true;
+				System.exit(0);
 				break;
 			default:
 				System.out.println("ungueltige eingabe");
@@ -73,6 +73,7 @@ public class RisikoClientUI {
 			System.out.println("Neues Spiel beginnen (n) oder Spiel laden (l)?");
 			try {
 				eingabe = liesEingabe();
+				ungueltig = false;
 			} catch (IOException | NullPointerException e) {
 				// TODO hier catchen habs nicht hingekriegt..
 				System.out.println("hhhey");
@@ -110,12 +111,6 @@ public class RisikoClientUI {
 			}
 		}
 	}
-
-//public int pruefeZahl(int i) { // methode fï¿½r falls zahleneingabe falsch ist..macht code kï¿½rzer
-//	try {
-//		
-//	}
-//}
 
 	public void wieVielePlayerMenu() throws IOException {
 		String eingabePlayer;
@@ -307,15 +302,17 @@ public class RisikoClientUI {
 					// hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in
 					// methode!
 					ungueltig = false;
+					break;
 				case "n":
 					ungueltig = false;
+					break;
 				default:
 					System.out.println("ungueltige Eingabe!");
 					break;
 				}
 			}
 		}
-		// hier einheiten fï¿½r anzahl lï¿½nder und evtl besitz kontinent
+		//hier werden einheiten für anzahl länder und evtl besitz kontinent von risiko geholt, mit bonuseinheiten addiert
 		int verfuegbareEinheiten = risiko.errechneVerfuegbareEinheiten(aktiverPlayer) + bonusEinheiten;
 		ArrayList<Integer> pruefArray = new ArrayList<Integer>();
 		int landWahl = 0;
@@ -594,7 +591,7 @@ public class RisikoClientUI {
 				} catch (IOException | NumberFormatException e) {
 					ungueltig = true;
 				}
-				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten == 0) {
+				if (attEinheiten > (att.getEinheiten() - 1) || attEinheiten > 3 || attEinheiten <= 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
 					ungueltig = false;
@@ -608,13 +605,14 @@ public class RisikoClientUI {
 				System.out.println("Maximal 2");
 			}
 			while (ungueltig) {
+				defEinheiten = 0;
 				try {
 					defEinheiten = Integer.parseInt(liesEingabe());
 				} catch (IOException | NumberFormatException e) {
 					System.out.println("keine gueltige eingabe");
 					ungueltig = true;
 				}
-				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten == 0) {
+				if (defEinheiten > 2 || defEinheiten > def.getEinheiten() || defEinheiten <= 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen");
 				} else {
 					ungueltig = false;
@@ -886,7 +884,7 @@ public class RisikoClientUI {
 				try {
 					von = Integer.parseInt(liesEingabe());
 					start = risiko.getLandById(von);
-				} catch (IOException e) {
+				} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
 					von = -99;
 				}
 				if (pruefArray.contains(von)) {
@@ -900,9 +898,8 @@ public class RisikoClientUI {
 			while (ungueltig) {
 				try {
 					anzahl = Integer.parseInt(liesEingabe());
-				} catch (IOException e) {
-					System.err.println("nicht gecatched 807");
-					e.printStackTrace();
+				} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
+					anzahl = -99;
 				}
 				if (anzahl > (start.getEinheiten() - 1) || anzahl < 0) {
 					System.out.println("ungueltige Eingabe, bitte wiederholen!");
@@ -919,7 +916,10 @@ public class RisikoClientUI {
 				try {
 					nach = Integer.parseInt(liesEingabe());
 					ziel = risiko.getLandById(nach);
-				} catch (IOException e) {
+				} catch (IOException |NumberFormatException |IndexOutOfBoundsException e) {
+					System.err.println("hats geklappt? 926");
+					nach = -1;
+					ungueltig = true;
 				}
 				if (pruefArray.contains(nach)) {
 					ungueltig = false;
