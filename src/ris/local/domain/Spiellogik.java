@@ -273,7 +273,7 @@ public class Spiellogik implements Serializable {
 
 	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException {
 		if (attUnit > 3 | attUnit <= 0) {
-			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit, maximal 3");
+			throw new UngueltigeAnzahlEinheitenException(1, 3);
 		}
 		ArrayList<Integer> aList = new ArrayList<Integer>();
 		for (int i = 0; i < attUnit; i++) {
@@ -293,7 +293,10 @@ public class Spiellogik implements Serializable {
 		return dList;
 	}
 
-	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) {
+	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) throws UngueltigeAnzahlEinheitenException {
+		if(aList.size()>3|| aList.size()<=0 || defList.size()>2||defList.size()<=0) {
+			throw new UngueltigeAnzahlEinheitenException("Ungueltige Anzahl an Einheiten, Angreifer mininmal 1,maximal 3, Verteidiger minimal 1, maximal 2");
+		}
 		int lossDef = 0;
 		int lossAtt = 0;
 		Collections.sort(aList);
@@ -383,7 +386,13 @@ public class Spiellogik implements Serializable {
 		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
 		// die verlorenen defense-Einheiten
 		// #TODO: nochmal checken ob nichts doppelt
-		ArrayList<Integer> ergebnis = diceResults(aList, dList);
+		ArrayList<Integer> ergebnis= null;
+		try{
+			ergebnis= diceResults(aList, dList);
+			}
+		catch(UngueltigeAnzahlEinheitenException e) {
+			e.printStackTrace();
+		}
 		att.setEinheiten(ergebnis.get(0));
 
 		def.setEinheiten(ergebnis.get(1));

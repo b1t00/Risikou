@@ -13,7 +13,6 @@ public class RisikokartenManagement implements Serializable {
 
 	public RisikokartenManagement() {
 		einheitenkarten = new ArrayList<Risikokarte>();
-		Collections.shuffle(einheitenkarten);
 		worldMg = new WorldManagement();
 		for (int i = 0; i < worldMg.getLaender().size(); i++) {
 			if (i % 3 == 0) {
@@ -24,11 +23,12 @@ public class RisikokartenManagement implements Serializable {
 				einheitenkarten.add(new Risikokarte("Reiter", worldMg.getLandById(i)));
 			}
 		}
+		Collections.shuffle(einheitenkarten);
 		// TODO: @tobi Joker einbauen???
 	}
 
 	public ArrayList<Risikokarte> getEinheitenkarten() {
-		Collections.shuffle(einheitenkarten);
+//		Collections.shuffle(einheitenkarten);
 		return einheitenkarten;
 	}
 
