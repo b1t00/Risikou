@@ -285,7 +285,7 @@ public class Spiellogik implements Serializable {
 
 	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
 		if (defUnit > 2 | defUnit <= 0) {
-			throw new UngueltigeAnzahlEinheitenException("Mindestens 1 Einheit,maximal 2");
+			throw new UngueltigeAnzahlEinheitenException(1,2);
 		}
 		ArrayList<Integer> dList = new ArrayList<Integer>();
 		for (int i = 0; i < defUnit; i++) {
