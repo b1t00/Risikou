@@ -253,36 +253,73 @@ public class RisikoClientUI {
 		boolean nichtVerschoben = true;
 		while (!win()) { // ist so das Spiel beendet? scheinbar schon?
 			Player aktiverPlayer = risiko.gibAktivenPlayer();
-			System.out.println(aktiverPlayer + " ist am Zug.");
-			System.out.println("");
-			spielzug = true;
-			// Player bekommt einheiten
-			setzeNeueEinheiten(aktiverPlayer);
-
-			while (spielzug && !win()) {
-				System.out.println("");
-				gibMenuAus(aktiverPlayer, nichtVerschoben);
-				try {
-					input = liesEingabe();
-				} catch (IOException e) {
+			switch (risiko.getCurrentState()) {
+			case SETUNITS:
+				setzeNeueEinheiten(aktiverPlayer);
+				risiko.setNextState();
+			case ATTACK:
+				boolean ungültig = true;
+				while(ungültig) {
+					System.out.println("Soll angegriffen werden? (y/n) Zugriff auf Informationen über m");
+					String eingabe = "";
+					try {
+						eingabe = liesEingabe();
+					} catch(IOException e) {}
+					switch(eingabe) {
+					case "y":
+						attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
+						// einheiten kommen
+						whoIsDead(); // testet und gibt aus ob jemand tot ist und nimmt ihn aus dem SpielerArray
+						win();
+						break;
+					case "n":
+						risiko.setNextState();
+						ungültig = false;
+						break;
+					case "m":
+						gibMenuAus(aktiverPlayer, nichtVerschoben);
+						
+					default:
+						System.out.println("Ungültige Eingabe, bitte wiederholen!");	
+					}
 				}
-				verarbeiteEingabe(input, aktiverPlayer, nichtVerschoben);
-				if (input.equals("z")) {
-					spielzug = false;
-					nichtVerschoben = true;
-				}
-				if (input.equals("e")) {
-					nichtVerschoben = false;
-				}
+				break;
+			case CHANGEUNITS:
+				verschiebeEinheiten(aktiverPlayer);
+				win();
 			}
+			
+			
+			//Ab hier alter Vorgang
+//			System.out.println(aktiverPlayer + " ist am Zug.");
+//			System.out.println("");
+//			spielzug = true;
+//			// Player bekommt einheiten
+//			setzeNeueEinheiten(aktiverPlayer);
+//
+//			while (spielzug && !win()) {
+//				System.out.println("");
+//				gibMenuAus(aktiverPlayer, nichtVerschoben);
+//				try {
+//					input = liesEingabe();
+//				} catch (IOException e) {
+//				}
+//				verarbeiteEingabe(input, aktiverPlayer, nichtVerschoben);
+//				if (input.equals("z")) {
+//					spielzug = false;
+//					nichtVerschoben = true;
+//				}
+//				if (input.equals("e")) {
+//					nichtVerschoben = false;
+//				}
+//			}
 		}
 		System.out.println(risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 	}
 
 	// ----------------------------------einheiten-------------------------------------------------
 	public void setzeNeueEinheiten(Player aktiverPlayer) {
-		// prï¿½fen, ob weitere einheiten verfï¿½gbar sind durch eintauschen der
-		// einheitenkarten
+		// pruefen, ob weitere einheiten verfuegbar sind durch eintauschen der einheitenkarten
 		int bonusEinheiten = 0;
 		if (risiko.changePossible(aktiverPlayer)) {
 			System.out.println("Du kannst Risikokarten gegen Bonuseinheiten eintauschen!");
@@ -296,9 +333,31 @@ public class RisikoClientUI {
 				}
 				switch (answer) {
 				case "y":
+					ArrayList<Risikokarte> tauschkarten = aktiverPlayer.getEinheitenkarten();
+					System.out.println("Welche Karten sollen eingetauscht werden?");
+					for (int i = 0; i<tauschkarten.size(); i++) {
+						for (Risikokarte karte: tauschkarten) {
+							System.out.println(i + " > Symbol: " + karte.getSymbol() + ", Land: " + karte.getLand());
+						}
+					}
+					int karte1 = -1;
+					int karte2 = -1;
+					int karte3 = -1;
+					try {
+						karte1 = Integer.parseInt(liesEingabe());
+					} catch(IOException e) {}
+					try {
+						karte2 = Integer.parseInt(liesEingabe());
+					} catch(IOException e) {}
+					try {
+						karte3 = Integer.parseInt(liesEingabe());
+					} catch(IOException e) {}
+					if(tauschkarten.get(karte1).getSymbol().equals(tauschkarten.get(karte2).getSymbol()) && tauschkarten.get(karte1).getSymbol().equals(tauschkarten.get(karte3).getSymbol()) ) {
+						//tausche karten ein und gib extra punkte
+					}
 					// wenn getauscht werden soll, wird methode aufgerufen, die mï¿½glcihe kombis
 					// ausgibt und abfragt, welche kombi getauscht ewrden soll
-					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
+//					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
 					// hier noch abfrage, ob noch mehr getauscht werden soll, eventuell auch in
 					// methode!
 					ungueltig = false;
@@ -374,11 +433,10 @@ public class RisikoClientUI {
 		System.out.println("Alle Einheiten wurden gesetzt.");
 	}
 
-	// fragt den Spieler zu beginn des Zuges, ob risikokarten eingetauscht werden
-	// sollen wenn mï¿½glich
+	//diese methode brauchen wir nicht mehr
 	public int tauscheRisikokarten(Player aktiverPlayer) {
-		// Der TauschkombiArray enthï¿½lt vier Stellen mit je Anzahl an
-		// Tauschkombinationen fï¿½r
+		// Der TauschkombiArray enthält vier Stellen mit je Anzahl an
+		// Tauschkombinationen für
 		// 0=Kanone, 1=Reiter, 2=Soldaten, 3=Reihe
 
 		int[] tauschkombiArray = risiko.risikokartenTauschkombiVorhanden(aktiverPlayer);
@@ -440,20 +498,20 @@ public class RisikoClientUI {
 
 	public void verarbeiteEingabe(String input, Player aktiverPlayer, boolean nichtVerschoben) {
 		switch (input) {
-		case "a":
-			if (nichtVerschoben) {
-				attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
-										// einheiten kommen
-				whoIsDead(); // testet und gibt aus ob jemand tot ist und nimmt ihn aus dem SpielerArray
-				win();
-			} else {
-				System.out.println("ungueltige Eingabe, bitte wiederholen.");
-			}
-			break;
-		case "e":
-			verschiebeEinheiten(aktiverPlayer);
-			win();
-			break;
+//		case "a":
+//			if (nichtVerschoben) {
+//				attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
+//										// einheiten kommen
+//				whoIsDead(); // testet und gibt aus ob jemand tot ist und nimmt ihn aus dem SpielerArray
+//				win();
+//			} else {
+//				System.out.println("ungueltige Eingabe, bitte wiederholen.");
+//			}
+//			break;
+//		case "e":
+//			verschiebeEinheiten(aktiverPlayer);
+//			win();
+//			break;
 		case "w":
 			gibWeltAus();
 			break;

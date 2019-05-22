@@ -1,20 +1,14 @@
 package ris.local.valueobjects;
 
-public class Turn {
+import java.io.Serializable;
+
+public class Turn implements Serializable{
 	private Player aktuellerPlayer;
 	//state steht für Spielphase
-	public State state;
+	private State state;
 	
-	
-	//enum State enthält drei Spielphasen
-	private enum State {
-		SETUNITS,
-		ATTACK,
-		CHANGEUNITS;
-		
-		public State setNextState() {
-			return State.values()[(this.ordinal() + 1) % values().length];
-		}
+	public Turn() {
+		this.state = State.SETUNITS;
 	}
 	
 	//turn gibt aktuellen player zurück
@@ -28,18 +22,13 @@ public class Turn {
 	
 	public State getCurrentState () {
 		return state;
-	}
+	}	
 	
-	public static void main (String[] args) {
-		Turn turn = new Turn();
-		turn.state = State.SETUNITS;
-		System.out.println("Anfangswert = " + turn.state);
-		turn.setNextState();
-		System.out.println("Iterierter Wert = " + turn.state);
-		turn.setNextState();
-		System.out.println("Iterierter Wert = " + turn.state);
-		turn.setNextState();
-		System.out.println("Iterierter Wert = " + turn.state);
-		
-	}
+//	public static void main(String[] args) {
+//		Turn turn = new Turn();
+//		turn.state = State.ATTACK;
+//		System.out.println(turn.state);
+//		turn.setNextState();
+//		System.out.println(turn.state);
+//	}
 }

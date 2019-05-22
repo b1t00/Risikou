@@ -115,8 +115,11 @@ public class Player implements Serializable {
 		this.inBesitz = neueLaender;
 	}
 	
+//	------------------------------------------RisikokartenKombi-----------------------------------------------------------------------
+	//TODO: diese beiden methoden können bestimmt vereinfacht werden und zusammengefasst werden
+	
 	public int[] risikokartenKombi() {
-		//Array mit den Anzahl der einheitenKarten für die verschiedenen Symbole
+		//erstellt Array mit den Anzahlen der Risikokarten für die verschiedenen Symbole
 		//1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
 		int[] symbolAnzahlArray = {0, 0, 0};
 		if(gezogeneRisikokarten != null) {
@@ -132,6 +135,24 @@ public class Player implements Serializable {
 		}
 		return symbolAnzahlArray;
 	}
+	
+	public boolean changePossible() {
+		boolean reihe = true;
+		for (int i = 0; i < this.risikokartenKombi().length; i++) {
+			if (this.risikokartenKombi()[i] > 2) {
+				return true;
+			}
+			//Eine Reihe wird überprüft, in dem ab dem Moment, wenn ein Symbol auf 0 ist, der boolean reihe auf false gesetzt wird
+			else if (risikokartenKombi()[i]==0) {
+				reihe = false;
+			}
+		} if(reihe) {
+			return true;
+		}
+		return false;
+	}
+	
+//	-----------------------------------------------------------------------------------------------------------------------------------------
 	
 	//Methode bekommt eine int, stellvertretend für symbol (0 = Kanone, 1 = Reiter, 3 = Soldat, 4 = je eine)
 	public void loescheRisikokarten(int index) {
