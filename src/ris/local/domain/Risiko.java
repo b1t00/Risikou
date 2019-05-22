@@ -10,6 +10,7 @@ import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Risikokarte;
+import ris.local.valueobjects.State;
 import ris.local.valueobjects.Turn;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
@@ -31,6 +32,15 @@ public class Risiko implements Serializable {
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
 		turn = new Turn();
+		turn.state = State.SETUNITS;
+	}
+	
+	public State getCurrentState() {
+		return turn.getCurrentState();
+	}
+	
+	public void setNextState() {
+		turn.setNextState();
 	}
 
 //	public void spielAnlegen(int anzahl) {
@@ -120,7 +130,7 @@ public class Risiko implements Serializable {
 	}
 
 	public boolean changePossible(Player aktiverPlayer) {
-		return logik.changePossible(aktiverPlayer);
+		return aktiverPlayer.changePossible();
 	}
 
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
