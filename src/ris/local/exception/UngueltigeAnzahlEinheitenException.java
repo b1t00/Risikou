@@ -4,12 +4,21 @@ public class UngueltigeAnzahlEinheitenException extends Exception{
 	
 	private int minimum;
 	private int maximum;
+	private int minD;
+	private int maxD;
 	
 	public UngueltigeAnzahlEinheitenException(int min, int max) {
-//		super("Minimal " + min + " Einheiten usw...");
+		super("Minimal " + min + " Einheiten , maximal"+max+" Einheiten");
 		
 		this.minimum = min;
 		this.maximum = max;
+	}
+	public UngueltigeAnzahlEinheitenException(int minA,int maxA,int minD,int maxD) {
+		super("Ungueltige Anzahl an Einheiten, Angreifer mininma l" +minA+" ,maximal "+maxA+" ,Verteidiger minimal"+minD+" ,maximal "+2);
+		this.minimum=minA;
+		this.maximum=maxA;
+		this.minD=minD;
+		this.maxD=maxD;
 	}
 	
 	public UngueltigeAnzahlEinheitenException(String message) {
