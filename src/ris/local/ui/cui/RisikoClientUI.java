@@ -15,6 +15,7 @@ import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.valueobjects.Risikokarte;
+import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -243,7 +244,7 @@ public class RisikoClientUI {
 				e.printStackTrace();
 			}
 			anzahlEinheiten--;
-			risiko.machNaechsterPlayer();
+			risiko.setNaechsterPlayer();
 		}
 	}
 
@@ -267,7 +268,7 @@ public class RisikoClientUI {
 					} catch(IOException e) {}
 					switch(eingabe) {
 					case "y":
-						attack(aktiverPlayer); // TODO beim verschieben nach dem attackn kann es zu exception zu wenige
+						attack(aktiverPlayer); // TODO beim verschieben nach dem attack kann es zu exception zu wenige
 						// einheiten kommen
 						whoIsDead(); // testet und gibt aus ob jemand tot ist und nimmt ihn aus dem SpielerArray
 						win();
@@ -278,7 +279,6 @@ public class RisikoClientUI {
 						break;
 					case "m":
 						gibMenuAus(aktiverPlayer, nichtVerschoben);
-						
 					default:
 						System.out.println("Ungültige Eingabe, bitte wiederholen!");	
 					}
@@ -287,6 +287,8 @@ public class RisikoClientUI {
 			case CHANGEUNITS:
 				verschiebeEinheiten(aktiverPlayer);
 				win();
+				risiko.setNextState();
+				risiko.setNaechsterPlayer();
 			}
 			
 			
@@ -340,19 +342,21 @@ public class RisikoClientUI {
 							System.out.println(i + " > Symbol: " + karte.getSymbol() + ", Land: " + karte.getLand());
 						}
 					}
-					int karte1 = -1;
-					int karte2 = -1;
-					int karte3 = -1;
+					Symbol symbolKarte1 = null, symbolKarte2 = null, symbolKarte3 = null;
 					try {
-						karte1 = Integer.parseInt(liesEingabe());
+						int karte1 = Integer.parseInt(liesEingabe());
+						symbolKarte1 = tauschkarten.get(karte1).getSymbol();
 					} catch(IOException e) {}
 					try {
-						karte2 = Integer.parseInt(liesEingabe());
+						int karte2 = Integer.parseInt(liesEingabe());
+						symbolKarte2 = tauschkarten.get(karte2).getSymbol();
 					} catch(IOException e) {}
 					try {
-						karte3 = Integer.parseInt(liesEingabe());
+						int karte3 = Integer.parseInt(liesEingabe());
+						symbolKarte3 = tauschkarten.get(karte3).getSymbol();
 					} catch(IOException e) {}
-					if(tauschkarten.get(karte1).getSymbol().equals(tauschkarten.get(karte2).getSymbol()) && tauschkarten.get(karte1).getSymbol().equals(tauschkarten.get(karte3).getSymbol()) ) {
+					if((symbolKarte1 == symbolKarte2 && symbolKarte2 == symbolKarte3) || 
+							symbolKarte1 != symbolKarte2 && symbolKarte1 != symbolKarte3 && symbolKarte2 != symbolKarte3) {
 						//tausche karten ein und gib extra punkte
 					}
 					// wenn getauscht werden soll, wird methode aufgerufen, die mï¿½glcihe kombis
@@ -520,7 +524,7 @@ public class RisikoClientUI {
 			laenderAusgabe(landAusgabe);
 			break;
 		case "z":
-			risiko.machNaechsterPlayer();
+			risiko.setNaechsterPlayer();
 			if (risiko.zieheEinheitenkarte(aktiverPlayer)) {
 				// gibt die neueste Einheitenkarte aus, die sich an der letzten Stelle des
 				// Einheitenkarten-Arrays befindet

@@ -98,7 +98,7 @@ public class Risiko implements Serializable {
 		return logik.gibAktivenPlayer();
 	}
 
-	public void machNaechsterPlayer() {
+	public void setNaechsterPlayer() {
 		logik.naechsteSpielrunde();
 	}
 
