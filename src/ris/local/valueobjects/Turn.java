@@ -5,7 +5,11 @@ import java.io.Serializable;
 public class Turn implements Serializable{
 	private Player aktuellerPlayer;
 	//state steht für Spielphase
-	public State state;
+	private State state;
+	
+	public Turn() {
+		this.state = State.SETUNITS;
+	}
 	
 	//turn gibt aktuellen player zurück
 	public Player getAktuellerPlayer (){

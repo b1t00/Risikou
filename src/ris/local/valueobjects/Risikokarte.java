@@ -17,7 +17,7 @@ public class Risikokarte implements Serializable {
 		}
 	
 	public String getSymbol() {
-		return symbol;
+		return symbol2;
 	}
 	
 	public Land getLand() {
