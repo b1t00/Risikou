@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class MissionGegner extends Mission implements Serializable {
 	private Player gegenspieler;
 
-	public MissionGegner(String missionstext, Player gegenspieler) {
-		super(missionstext);
+	public MissionGegner(Player gegenspieler) {
+		super("loesche " + gegenspieler.getName() + " (" + gegenspieler.getFarbe() + ")" + " aus!");
 		this.gegenspieler = gegenspieler;
 	}
 

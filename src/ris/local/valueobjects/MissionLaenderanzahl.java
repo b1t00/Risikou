@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class MissionLaenderanzahl extends Mission implements Serializable {
 
-	public MissionLaenderanzahl(String missionstext) {
-		super(missionstext);
+	public MissionLaenderanzahl() {
+		super("mission2 : Erobere 8 (test) Länder deiner Wahl");
 	}
 
 	@Override
