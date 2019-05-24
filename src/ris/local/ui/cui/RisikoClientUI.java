@@ -355,10 +355,7 @@ public class RisikoClientUI {
 						int karte3 = Integer.parseInt(liesEingabe());
 						symbolKarte3 = tauschkarten.get(karte3).getSymbol();
 					} catch(IOException e) {}
-					if((symbolKarte1 == symbolKarte2 && symbolKarte2 == symbolKarte3) || 
-							symbolKarte1 != symbolKarte2 && symbolKarte1 != symbolKarte3 && symbolKarte2 != symbolKarte3) {
-						//tausche karten ein und gib extra punkte
-					}
+					if risiko.
 					// wenn getauscht werden soll, wird methode aufgerufen, die m�glcihe kombis
 					// ausgibt und abfragt, welche kombi getauscht ewrden soll
 //					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);

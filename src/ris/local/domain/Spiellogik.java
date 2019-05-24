@@ -207,6 +207,7 @@ public class Spiellogik implements Serializable {
 		}
 		return verfuegbareEinheiten;
 	}
+	
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
