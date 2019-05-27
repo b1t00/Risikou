@@ -1,14 +1,16 @@
 package ris.local.ui.gui.swing.panels;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import ris.local.domain.Risiko;
 
-public class DialogPanel {
+public class DialogPanel extends JPanel {
 
-	// Interface 
-	public interface DialogListener {
-	}
-
-	public DialogPanel(Risiko risk, DialogListener dl) {
+	private JLabel titel;
+	private JLabel info;
+	
+	public DialogPanel(Risiko risko) {
 
 	}
 
