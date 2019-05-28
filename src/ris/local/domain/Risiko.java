@@ -80,6 +80,10 @@ public class Risiko implements Serializable {
 	public ArrayList<String> gibLaenderUndNummer() {
 		return player.gibLaenderUndNummer();
 	}
+	
+	public ArrayList<Land> getEigeneLaender(Player player){
+		return player.getBesitz();
+	}
 
 	public ArrayList<Player> getPlayerArray() {
 		return playerMg.getPlayers();

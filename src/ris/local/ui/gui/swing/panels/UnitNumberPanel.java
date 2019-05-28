@@ -46,7 +46,7 @@ public class UnitNumberPanel extends JPanel {
 	//hier switchcase von ris.getCurrentState -> für Defense: if aktiverPlayer == eigener Player
 	//TODO: wie funktioniert das?
 	public void setupUI(){
-		switch(ris.getCurrentState()) {
+		switch(unitNumber) {
 		case ATTACK:
 			titel = new JLabel("Attack");
 			frage = new JLabel("Mit vielen Einheiten soll angegriffen werden?");

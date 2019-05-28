@@ -60,5 +60,9 @@ public class RequestPanel extends JPanel{
 		this.add(titel);
 		this.add(abfrage);
 	}
+	
+	public CountryRequest getCountryRequest() {
+		return countryR;
+	}
 
 }
