@@ -36,6 +36,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //	private RequestPanel changeUnitsSecondPl;
 //	private DefensePanel defensePl;
 //  private RequestPanel attackSecondPl;
+	
+	//Das RequestPanel wird benötigt, wenn auf 
 	private RequestPanel attackFirstPl;
 	private QuestionPanel attackQuestion;
 	private UnitNumberPanel attackUnitPl;
