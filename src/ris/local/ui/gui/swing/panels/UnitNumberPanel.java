@@ -76,6 +76,13 @@ public class UnitNumberPanel extends JPanel {
 			}
 		});
 	}
+	
+	public void setUnitNumber(UnitNumber un) {
+		unitNumber = un;
+	}
+	public UnitNumber getUnitNumber() {
+		return unitNumber;
+	}
 
 	private void UnitNumberEinloggen() {
 		String number = numberTextField.getText();

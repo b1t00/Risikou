@@ -38,6 +38,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private RequestPanel attackFirstPl;
 	private QuestionPanel attackQuestion;
 	private UnitNumberPanel attackUnitPl;
+	private UnitNumberPanel defenseUnitPl;
 	
 	public RisikoClientGUI() {
 		initialize();
@@ -59,6 +60,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		//NORTH
 		attackFirstPl = new RequestPanel(this, CountryRequest.ATTACKCOUNTRY);
 		attackUnitPl = new UnitNumberPanel(this, UnitNumber.ATTACK);
+		defenseUnitPl = new UnitNumberPanel(this, UnitNumber.DEFENSE);
 		
 		//SOUTH
 		infoPl = new InfoPanel();
@@ -66,6 +68,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		container.setLayout(cl);
 		container.add(attackQuestion, "1");
 		container.add(attackUnitPl, "2");
+		container.add(defenseUnitPl, "3");
+		
 //		container.add(attackFirstPl, "2");
 		cl.show(container, "1");
 
@@ -104,6 +108,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void numberLogged(int number, UnitNumber un) {
 		//ruft methoden auf, die die eingaben verarbeiten
 		System.out.println("Es wird mit " + number + " Einheiten angegriffen.");
+		System.out.println("status: " + attackUnitPl.getUnitNumber());
+		cl.show(container, "3");
 	}
 	
 	public static void main (String[] args) {
