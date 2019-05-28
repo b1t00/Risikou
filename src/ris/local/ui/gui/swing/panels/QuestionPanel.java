@@ -17,15 +17,15 @@ public class QuestionPanel extends JPanel{
 	public interface QuestionListener {
 		public void answerSelected(boolean answer);
 	}
+
+//	public enum Question {
+//		ATTACK,
+//		CHANGEUNITS
+//	}
 	
-	public enum Question {
-		ATTACK,
-		CHANGEUNITS
-	}
-	
-//	private Risiko ris = null;
+	private Risiko ris = null;
 	private QuestionListener listener = null;
-	private Question question;
+//	private Question question;
 	
 
 	private JLabel titel = new JLabel("Attack");
@@ -34,10 +34,10 @@ public class QuestionPanel extends JPanel{
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	
-	public QuestionPanel(QuestionListener listener, Question question) {
-		//ris = risiko;
+	public QuestionPanel(QuestionListener listener, Risiko risiko) {
+		ris = risiko;
 		this.listener = listener;
-		this.question = question;
+//		this.question = question;
 		
 		setupUI();
 		
@@ -49,7 +49,7 @@ public class QuestionPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.add(titel);
 		
-		switch (question) {
+		switch (ris.getCurrentState()) {
 		case ATTACK: 
 			 abfrage = new JLabel("Möchtest du angreifen?");
 			 break;

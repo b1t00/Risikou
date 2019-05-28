@@ -137,7 +137,8 @@ public class Risiko implements Serializable {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
 	
-	public boolean isGueltigeTauschkombi()
+	//TODO: Methode implementieren
+//	public boolean isGueltigeTauschkombi()
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat bzw
 	// missionenCompletet True ist..

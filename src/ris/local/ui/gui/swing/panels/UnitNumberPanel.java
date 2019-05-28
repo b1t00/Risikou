@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ris.local.domain.Risiko;
+
 public class UnitNumberPanel extends JPanel {
 
 	public interface UnitNumberListener{
@@ -22,7 +24,7 @@ public class UnitNumberPanel extends JPanel {
 		MOVE
 	}
 	
-//	private Risiko ris = null;
+	private Risiko ris;
 	private UnitNumberListener listener;
 	private JLabel titel;
 	private JLabel frage;
@@ -34,14 +36,17 @@ public class UnitNumberPanel extends JPanel {
 		listener = unl;
 		unitNumber = un;
 		
-		//ris = risiko;
+//		ris = risiko;
 		
 		setupUI();
 		setupEvents();
 	}
 	
+	
+	//hier switchcase von ris.getCurrentState -> für Defense: if aktiverPlayer == eigener Player
+	//TODO: wie funktioniert das?
 	public void setupUI(){
-		switch(unitNumber) {
+		switch(ris.getCurrentState()) {
 		case ATTACK:
 			titel = new JLabel("Attack");
 			frage = new JLabel("Mit vielen Einheiten soll angegriffen werden?");

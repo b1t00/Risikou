@@ -7,9 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import ris.local.domain.Risiko;
 import ris.local.ui.gui.swing.panels.InfoPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel;
-import ris.local.ui.gui.swing.panels.QuestionPanel.Question;
+//import ris.local.ui.gui.swing.panels.QuestionPanel.Question;
 import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
 import ris.local.ui.gui.swing.panels.RequestPanel;
 import ris.local.ui.gui.swing.panels.RequestPanel.CountryRequest;
@@ -22,9 +23,9 @@ import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
 
 public class RisikoClientGUI extends JFrame implements QuestionListener, WorldListener, RequestListener, UnitNumberListener {
  
-	//private Risiko risiko;
+	private Risiko risiko;
 
-	private JPanel container = new JPanel();
+	private JPanel container;
 	private CardLayout cl = new CardLayout();
 //	private DicePanel dicePl;
 	private WorldPanel worldPl;
@@ -40,7 +41,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private UnitNumberPanel attackUnitPl;
 	
 	public RisikoClientGUI() {
+		risiko = new Risiko();
 		initialize();
+		showDialog();
 	}
 
 	private void initialize() {
@@ -51,29 +54,20 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.setLayout(new BorderLayout());
 		
 		//NORTH
-		attackQuestion = new QuestionPanel(this, Question.ATTACK);
+		container = new JPanel();
+		//Layout = CardLayout
+		container.setLayout(cl);
 		
 		//EAST
 		worldPl = new WorldPanel(this);
 		
-		//NORTH
-		attackFirstPl = new RequestPanel(this, CountryRequest.ATTACKCOUNTRY);
-		attackUnitPl = new UnitNumberPanel(this, UnitNumber.ATTACK);
-		
 		//SOUTH
-		infoPl = new InfoPanel();
-		
-		container.setLayout(cl);
-		container.add(attackQuestion, "1");
-		container.add(attackUnitPl, "2");
-//		container.add(attackFirstPl, "2");
-		cl.show(container, "1");
+		infoPl = new InfoPanel();	
 
 //		dialogPl = new DialogPanel(risiko, this);
 //		dicePl = new DicePanel(risiko,this);
-		
-	//	this.add(questionPl, BorderLayout.NORTH);
-	//	this.add(attackPl, BorderLayout.SOUTH);
+
+		//evtl hier ein Problem, da in demcContainer noch nix ist
 		this.add(container, BorderLayout.NORTH);
 		this.add(worldPl, BorderLayout.EAST);
 		this.add(infoPl, BorderLayout.SOUTH);
@@ -81,17 +75,52 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.setSize(480, 480);
 		this.setVisible(true);
 	}
+	
+	//je nach spielphase wird ein anderes panel im container-panel angezeigt
+	public void showDialog() {	
+		switch(risiko.getCurrentState()) {
+		case ATTACK:
+			QuestionPanel attackPl = new QuestionPanel(this, risiko);
+			//attack methode checken: was muss hier hin? auswertung 
+			break;
+		case CHANGEUNITS:
+			QuestionPanel moveUnitsPl = new QuestionPanel(this, risiko);			
+		}
+		attackQuestion = new QuestionPanel(this, risiko);
+		attackFirstPl = new RequestPanel(this, CountryRequest.ATTACKCOUNTRY);
+		attackUnitPl = new UnitNumberPanel(this, UnitNumber.ATTACK);
+		
+		
+		container.add(attackQuestion, "1");
+		container.add(attackUnitPl, "2");
+//		container.add(attackFirstPl, "2");
+		cl.show(container, "1");
+	}
 
 	@Override
 	//antwortListener vom Question Panel
 	public void answerSelected(boolean answer) {
+		//funktioniert nicht!
+		if(risiko.getCurrentState() == ATTACK)
+			
+			
 		//eventuell noch ein zweiter parameter, um welche frage es sich handelt
 		if (answer) {
-			cl.show(container, "2");
-			System.out.println("Der Angriff beginnt");
-			//ersetze das fragePanel durch das attackPanel
+			switch(risiko.getCurrentState()) {
+			case ATTACK:
+				//ersetze das fragePanel durch das attackPanel
+				cl.show(container, "2");
+				System.out.println("Der Angriff beginnt");
+				break;
+			case CHANGEUNITS:
+				UnitNumberPanel moveFromPl = new UnitNumberPanel(this, UnitNumber.MOVE);
+				break;
+			default:
+				break;
+
+			}
 		} else {
-			QuestionPanel changeQuestion = new QuestionPanel(this, Question.CHANGEUNITS);
+			QuestionPanel changeQuestion = new QuestionPanel(this, risiko);
 			container.add(changeQuestion, "3");
 			cl.show(container, "3");
 			System.out.println("Nächste Phase");
