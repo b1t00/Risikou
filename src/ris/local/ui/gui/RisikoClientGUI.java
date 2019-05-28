@@ -37,9 +37,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //	private DefensePanel defensePl;
 //  private RequestPanel attackSecondPl;
 	
-	//Das RequestPanel wird benötigt, wenn auf 
+	//Das RequestPanel wird benötigt, wenn auf ein Land geklickt werden muss
 	private RequestPanel attackFirstPl;
 	private QuestionPanel attackQuestion;
+	
+	private UnitNumberPanel moveFromPl;
 	private UnitNumberPanel attackUnitPl;
 	
 	public RisikoClientGUI() {
@@ -76,6 +78,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 		this.setSize(480, 480);
 		this.setVisible(true);
+		
+		//ab hier werden die einzelnen Panels erstellt und mit einem key versehen
+		attackFirstPl = new RequestPanel(this, CountryRequest.ATTACKCOUNTRY);
+		container.add(attackFirstPl, "attackFirst");
+		
+		moveFromPl = new UnitNumberPanel(this, UnitNumber.MOVE);
+		container.add(moveFromPl, "moveFrom");
 	}
 	
 	//je nach spielphase wird ein anderes panel im container-panel angezeigt
@@ -111,11 +120,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			switch(risiko.getCurrentState()) {
 			case ATTACK:
 				//ersetze das fragePanel durch das attackPanel
-				cl.show(container, "2");
+				cl.show(container, "attackFirst");
 				System.out.println("Der Angriff beginnt");
 				break;
 			case CHANGEUNITS:
-				UnitNumberPanel moveFromPl = new UnitNumberPanel(this, UnitNumber.MOVE);
+				
 				break;
 			default:
 				break;
