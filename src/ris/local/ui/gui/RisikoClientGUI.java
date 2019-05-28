@@ -124,7 +124,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				System.out.println("Der Angriff beginnt");
 				break;
 			case CHANGEUNITS:
-				
+				cl.show(container, "moveFrom");
+				System.out.println("Frage nach move From");
 				break;
 			default:
 				break;
