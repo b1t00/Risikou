@@ -107,6 +107,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	
 	//je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showDialog() {	
+		//if player = risiko.gibAktiverPlayer()
 		switch(risiko.getCurrentState()) {
 		case ATTACK:
 			cl.show(container, "attackQuestion");
@@ -183,7 +184,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			//neues Attack-Objekt
 			//Attack-Objekt hat Angreifer, Verteidiger, Land1 und Land2 und zwei Werte für Einheiten
 			//hat eine Methode mit Angriff auswerten
-		}
+		case CHANGEUNITS:
+			//checkt zuerst, ob das Land dem spieler gehört
+			if(risiko.getEigeneLaender(risiko.gibAktivenPlayer()).contains(land)) {
+				
+			} else {
+				//dialogfenster mit fehlermeldung
+			}
+			}
 	}
 	
 	public static void main (String[] args) {
