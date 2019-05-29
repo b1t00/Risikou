@@ -9,6 +9,7 @@ import javax.swing.WindowConstants;
 
 import ris.local.domain.Risiko;
 import ris.local.ui.gui.swing.panels.InfoPanel;
+import ris.local.ui.gui.swing.panels.LoginPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel;
 //import ris.local.ui.gui.swing.panels.QuestionPanel.Question;
 import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
@@ -31,6 +32,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //	private DicePanel dicePl;
 	private WorldPanel worldPl;
 	private InfoPanel infoPl;
+	private LoginPanel loginPl;
 //	private DialogPanel dialogPl;
 //	private SetUnitsPanel setUnitsPl;
 //	private RequestPanel changeUnitsFirstPl;
@@ -59,10 +61,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private void initialize() {
 		//ermoeglicht das schliessen des fensters
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+		
 		//Layot der Frames
 		this.setLayout(new BorderLayout());
-		
+		// LOGIN
+		loginPl = new LoginPanel();
 		//NORTH
 		container = new JPanel();
 		//Layout = CardLayout
@@ -77,6 +80,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		dicePl = new DicePanel(risiko,this);
 
 		//evtl hier ein Problem, da in demcContainer noch nix ist
+		this.add(loginPl);
 		this.add(container, BorderLayout.NORTH);
 		this.add(worldPl, BorderLayout.EAST);
 		this.add(infoPl, BorderLayout.SOUTH);
