@@ -248,7 +248,7 @@ public class Spiellogik implements Serializable {
 
 	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
 		if(!worldMg.getLaender().contains(attackLand)) {
-			throw new LandExistiertNichtException("Das ausgewählte Land existiert nicht");
+			throw new LandExistiertNichtException(attackLand);
 		}
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
@@ -472,7 +472,7 @@ public class Spiellogik implements Serializable {
 	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) throws UngueltigeAnzahlEinheitenException {
 		
 		if(aList.size()>3|| aList.size()<=0 || defList.size()>2||defList.size()<=0) {
-			throw new UngueltigeAnzahlEinheitenException("Ungueltige Anzahl an Einheiten, Angreifer mininmal 1,maximal 3, Verteidiger minimal 1, maximal 2");
+			throw new UngueltigeAnzahlEinheitenException(1,3,1,2);
 		}
 		int lossDef = 0;
 		int lossAtt = 0;
@@ -626,7 +626,7 @@ public class Spiellogik implements Serializable {
 			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
 		}
 		if (!worldMg.getLaender().contains(start)) {
-			throw new LandExistiertNichtException(start + " existiert nicht.");
+			throw new LandExistiertNichtException(start);
 		}
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);

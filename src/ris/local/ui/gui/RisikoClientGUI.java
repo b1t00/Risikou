@@ -15,6 +15,7 @@ import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DicePanel;
 import ris.local.ui.gui.swing.panels.InfoPanel;
+import ris.local.ui.gui.swing.panels.LoginPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel;
 //import ris.local.ui.gui.swing.panels.QuestionPanel.Question;
 import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
@@ -37,6 +38,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private CardLayout cl = new CardLayout();
 	private WorldPanel worldPl;
 	private InfoPanel infoPl;
+	private LoginPanel loginPl;
 //	private DialogPanel dialogPl;
 //	private SetUnitsPanel setUnitsPl;
 	
@@ -64,10 +66,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private void initialize() {
 		//ermoeglicht das schliessen des fensters
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
+		
 		//Layot der Frames
 		this.setLayout(new BorderLayout());
+
 		
+	
+
+		// LOGIN
+		loginPl = new LoginPanel();
+
 		//WEST
 		container = new JPanel();
 		//Layout = CardLayout
@@ -84,8 +92,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		dicePl = new DicePanel(risiko,this);
 
 		//evtl hier ein Problem, da in demcContainer noch nix ist
+
 		this.add(container, BorderLayout.WEST);
 		this.add(worldPl, BorderLayout.CENTER);
+
+		this.add(loginPl);
+		this.add(container, BorderLayout.NORTH);
+		this.add(worldPl, BorderLayout.CENTER);
+
 		this.add(infoPl, BorderLayout.SOUTH);
 		
 		this.setSize(600, 600);
