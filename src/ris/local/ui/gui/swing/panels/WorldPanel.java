@@ -1,11 +1,14 @@
 package ris.local.ui.gui.swing.panels;
 
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
-import javax.swing.ImageIcon;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
@@ -21,8 +24,9 @@ public class WorldPanel extends JPanel {
 	private Land moveLand2;
 	private int attackState;
 	private int moveState;
-//	private BufferedImage karte = null;
-	private ImageIcon karte = null;
+	private BufferedImage karte = null;
+	
+//	private ImageIcon karte = null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
@@ -37,35 +41,20 @@ public class WorldPanel extends JPanel {
 		this.moveState = 1;
 		
 		loadImage();
-        initPanel();
-	}
-	
-	  private void loadImage() {
-	        karte = new ImageIcon("assets/img/karte.jpg");
-	    }
-	    
-	    private void initPanel() {
-//	        int w = karte.getIconWidth();
-//	        int h = karte.getIconHeight();
-//	        setPreferredSize(new Dimension(w, h));
-//	        setSize(800, 600);
-	        karte.setImage(karte.getImage().getScaledInstance(800,600,Image.SCALE_DEFAULT));
-	    }    
 
-	    @Override
-	    public void paintComponent(Graphics g) {
-	        super.paintComponent(g);
-	        karte.paintIcon(this, g, 0, 0);
-	        
-	    }
-	
-	
-	public class ClickListener implements ActionListener{
-		
-		@Override
-		public void actionPerformed(ActionEvent arg0) {
+//_________________Methode bei MouseClic___________________________
+        //Kann die Methode ausgelagert werden?
+        addMouseListener(new MouseAdapter() { 
+            public void mousePressed(MouseEvent me) { 
+            	System.out.println("Klick!");
+			// TODO Auto-generated method stub
+			int x = me.getX();
+			int y = me.getY();
+			int color = karte.getRGB(x,y);
+			System.out.println(color);
+			
 			Land land = null;
-			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
+//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 		//	Land land = ris.getLandById(zahl);
 			switch(ris.getCurrentState()) {
 			case SETUNITS:	
@@ -88,33 +77,49 @@ public class WorldPanel extends JPanel {
 			}
 			
 			listener.countryClicked(land);
+            } 
+//_________________ENDE Methode bei MouseClic___________________________
+            
+            
+          }); 
+	}
+	
+	  private void loadImage() {
+//	        karte = new ImageIcon("assets/img/karte.jpg");        
+			try
+			{
+				karte=ImageIO.read(new File("assets/img/karte.jpg"));
+			}
+			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");}		
+	  }
+	  
+	    @Override
+	    public void paintComponent(Graphics g) {
+	    	g.drawImage(karte,0,0,null);	        
+	    }
+
+		//Getter Methoden
+		public int getAttackState() {
+			return attackState;
+		}
+		
+		public int getMoveState() {
+			return moveState;
+		}
+		
+		public Land getAttackLand1() {
+			return attackLand1;
+		}
+		
+		public Land getAttackLand2() {
+			return attackLand2;
+		}
+		
+		public Land getMoveLand1() {
+			return moveLand1;
+		}
+		
+		public Land getMoveLand2() {
+			return moveLand2;
 		}
 	}
-	
-	//Getter Methoden
-	public int getAttackState() {
-		return attackState;
-	}
-	
-	public int getMoveState() {
-		return moveState;
-	}
-	
-	public Land getAttackLand1() {
-		return attackLand1;
-	}
-	
-	public Land getAttackLand2() {
-		return attackLand2;
-	}
-	
-	public Land getMoveLand1() {
-		return moveLand1;
-	}
-	
-	public Land getMoveLand2() {
-		return moveLand2;
-	}
-
-	
-}
