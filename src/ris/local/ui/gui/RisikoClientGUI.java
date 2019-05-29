@@ -108,7 +108,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void numberLogged(int number, UnitNumber un) {
 		//ruft methoden auf, die die eingaben verarbeiten
 		System.out.println("Es wird mit " + number + " Einheiten angegriffen.");
-		System.out.println("status: " + attackUnitPl.getUnitNumber());
+		System.out.println("status: " + un);
 		cl.show(container, "3");
 	}
 	
