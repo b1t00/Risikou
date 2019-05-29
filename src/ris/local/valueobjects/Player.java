@@ -141,9 +141,12 @@ public class Player implements Serializable {
 		return symbolAnzahlArray;
 	}
 	
+	//risikokarten-change possible?
 	public boolean changePossible() {
 		boolean reihe = true;
+		
 		for (int i = 0; i < this.risikokartenKombi().length; i++) {
+			//Prüfen, ob drei gleiche Karten vorhanden sind
 			if (this.risikokartenKombi()[i] > 2) {
 				return true;
 			}
@@ -151,10 +154,8 @@ public class Player implements Serializable {
 			else if (risikokartenKombi()[i]==0) {
 				reihe = false;
 			}
-		} if(reihe) {
-			return true;
 		}
-		return false;
+		return reihe;
 	}
 	
 //	-----------------------------------------------------------------------------------------------------------------------------------------

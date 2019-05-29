@@ -70,24 +70,23 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		//Layot der Frames
 		this.setLayout(new BorderLayout());
 
-		
-	
-
 		// LOGIN
 		loginPl = new LoginPanel();
 
 		//WEST
 		container = new JPanel();
-		//Layout = CardLayout
-		container.setLayout(cl);
-		container.setSize(100,400);
-		container.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		//CENTER
 		worldPl = new WorldPanel(this, risiko);
 		
 		//SOUTH
 		infoPl = new InfoPanel();	
+		
+		//Layout = CardLayout
+		container.setLayout(cl);
+		container.setSize(100,400);
+		container.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 
 //		dicePl = new DicePanel(risiko,this);
 
@@ -96,8 +95,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.add(container, BorderLayout.WEST);
 		this.add(worldPl, BorderLayout.CENTER);
 
-		this.add(loginPl);
-		this.add(container, BorderLayout.NORTH);
+//		this.add(loginPl);
+//		this.add(container, BorderLayout.NORTH);
 		this.add(worldPl, BorderLayout.CENTER);
 
 		this.add(infoPl, BorderLayout.SOUTH);

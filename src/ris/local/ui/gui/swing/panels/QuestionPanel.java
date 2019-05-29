@@ -54,7 +54,9 @@ public class QuestionPanel extends JPanel{
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
-			abfrage = new JLabel("Hier muss noch default hin!");
+			if(ris.changePossible(ris.gibAktivenPlayer())) {
+				abfrage = new JLabel("Möchtest du Risiko-Karten eintauschen?");
+			}
 			break;
 		case ATTACK: 
 			 abfrage = new JLabel("Möchtest du angreifen?");
