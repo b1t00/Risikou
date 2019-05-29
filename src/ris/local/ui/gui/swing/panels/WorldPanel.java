@@ -1,13 +1,11 @@
 package ris.local.ui.gui.swing.panels;
 
 import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
@@ -23,8 +21,8 @@ public class WorldPanel extends JPanel {
 	private Land moveLand2;
 	private int attackState;
 	private int moveState;
-	
-	private BufferedImage karte = null;
+//	private BufferedImage karte = null;
+	private ImageIcon karte = null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
@@ -38,51 +36,28 @@ public class WorldPanel extends JPanel {
 		this.attackState = 1;
 		this.moveState = 1;
 		
-	
-//		try {
-//			karte = ImageIO.read(WorldPanel.class.getClassLoader().getResourceAsStream("karte.jpg"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-		
-//		getContentPane().add(new JLabel(new ImageIcon("karte.jpg")));
-//		pack();
-//		ImageIcon icon = new ImageIcon("karte.jpg");
-		JLabel label = new JLabel(new ImageIcon("file: assets/img/karte.jpg"));
-//		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("karte.jpg")));
-//		JLabel label = new JLabel(new ImageIcon(this.getClass().getResource("karte.jpg")));
-//		JLabel label = new JLabel(icon);
-//		JLabel label = new JLabel(showImg());
-//        JPanel panel = new JPanel();
-		this.setLayout(new GridLayout(2, 1));
-		this.add(label);
-        this.add(new JLabel("Test"));
-        this.setSize(400,400);
-//        this.add(panel);
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        this.setTitle("Bild laden bei Swing");
-//        this.setSize(600, 400);
-//        this.setLocationRelativeTo(null);
-//        this.setVisible(true);
-        
+		loadImage();
+        initPanel();
 	}
-
-//	    private ImageIcon showImg() {
-//	        BufferedImage img = null;
-//	        try {
-//	        	ImageIO.read(getClass().getResource("karte.jpg"));
-//	        } catch (IOException e) {
-//	            e.printStackTrace();
-//	        }
-//	        return new ImageIcon(img);
-//	    }
 	
-	public void paintComponent(Graphics g) {
-		g.drawImage(karte, 0, 0, 200, 100, null);
-//		g.drawString(this.getBounds().toString(), 5, 15);
-	}
+	  private void loadImage() {
+	        karte = new ImageIcon("assets/img/karte.jpg");
+	    }
+	    
+	    private void initPanel() {
+//	        int w = karte.getIconWidth();
+//	        int h = karte.getIconHeight();
+//	        setPreferredSize(new Dimension(w, h));
+//	        setSize(800, 600);
+	        karte.setImage(karte.getImage().getScaledInstance(800,600,Image.SCALE_DEFAULT));
+	    }    
+
+	    @Override
+	    public void paintComponent(Graphics g) {
+	        super.paintComponent(g);
+	        karte.paintIcon(this, g, 0, 0);
+	        
+	    }
 	
 	
 	public class ClickListener implements ActionListener{

@@ -54,9 +54,10 @@ public class QuestionPanel extends JPanel{
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
-			if(ris.changePossible(ris.gibAktivenPlayer())) {
-				abfrage = new JLabel("Möchtest du Risiko-Karten eintauschen?");
-			}
+//			if(ris.changePossible(ris.gibAktivenPlayer())) {
+//				abfrage = new JLabel("Möchtest du Risiko-Karten eintauschen?");
+//			}
+			abfrage = new JLabel("Hier kommt noch eine Abfrage hin");
 			break;
 		case ATTACK: 
 			 abfrage = new JLabel("Möchtest du angreifen?");

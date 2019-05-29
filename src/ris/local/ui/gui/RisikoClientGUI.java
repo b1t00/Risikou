@@ -38,7 +38,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private CardLayout cl = new CardLayout();
 	private WorldPanel worldPl;
 	private InfoPanel infoPl;
-	private LoginPanel loginPl;
+//	private LoginPanel loginPl;
 //	private DialogPanel dialogPl;
 //	private SetUnitsPanel setUnitsPl;
 	
@@ -71,7 +71,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.setLayout(new BorderLayout());
 
 		// LOGIN
-		loginPl = new LoginPanel();
+//		loginPl = new LoginPanel();
 
 		//WEST
 		container = new JPanel();
@@ -84,7 +84,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 		//Layout = CardLayout
 		container.setLayout(cl);
-		container.setSize(100,400);
+		container.setSize(400,100);
 		container.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 
@@ -92,16 +92,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 		//evtl hier ein Problem, da in demcContainer noch nix ist
 
-		this.add(container, BorderLayout.WEST);
-		this.add(worldPl, BorderLayout.CENTER);
+
 
 //		this.add(loginPl);
-//		this.add(container, BorderLayout.NORTH);
+		this.add(container, BorderLayout.WEST);
 		this.add(worldPl, BorderLayout.CENTER);
-
 		this.add(infoPl, BorderLayout.SOUTH);
 		
-		this.setSize(600, 600);
+		this.setSize(1200, 800);
 		this.setVisible(true);
 		this.setTitle("Risiko");
 		

@@ -18,7 +18,7 @@ public class ImagePanel extends JPanel{
 
     private void loadImage() {
 
-        icon = new ImageIcon("...assets/img/karte.jpg");
+        icon = new ImageIcon("src/ris/local/ui/gui/swing/panels/karte.jpg");
     }
     
     private void initPanel() {
@@ -26,6 +26,7 @@ public class ImagePanel extends JPanel{
         int w = icon.getIconWidth();
         int h = icon.getIconHeight();
         setPreferredSize(new Dimension(w, h));
+
     }    
 
     @Override
@@ -35,48 +36,6 @@ public class ImagePanel extends JPanel{
         icon.paintIcon(this, g, 0, 0);
     }
     
-    public class PaintingIconEx extends JFrame {
-
-        public PaintingIconEx() {
-
-            initUI();
-        }
-
-        private void initUI() {
-
-            DrawingPanel dpnl = new DrawingPanel();
-
-            createLayout(dpnl);
-
-            setTitle("Image");
-            setLocationRelativeTo(null);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }
-
-        private void createLayout(JComponent... arg) {
-
-            Container pane = getContentPane();
-            GroupLayout gl = new GroupLayout(pane);
-            pane.setLayout(gl);
-
-            gl.setHorizontalGroup(gl.createSequentialGroup()
-                    .addComponent(arg[0])
-            );
-
-            gl.setVerticalGroup(gl.createParallelGroup()
-                    .addComponent(arg[0])
-            );
-
-            pack();
-        }
-
-        public static void main(String[] args) {
-
-            EventQueue.invokeLater(() -> {
-                JFrame ex = new PaintingIconEx();
-                ex.setVisible(true);
-            });
-        }
-    }
+   
 }
 
