@@ -4,40 +4,31 @@ import java.util.ArrayList;
 
 public class Attack {
 	private Player attacker;
-	private Player verteidiger;
-	private Land att;
+	private Player defender;
+	private Land attack;
 	private Land defense;
-	private int attUnits;
-	private int unitsVerteidigung;
-	private ArrayList<Integer> auswertung = new ArrayList<Integer>();
+	private ArrayList<Integer> attUnits;
+	private ArrayList<Integer> defUnits;
+	private ArrayList<Integer> result;
+
 	
-	public Attack(Player attacker, Land attack) {
+	public Attack(Player attacker, Player defender, Land attack, Land defense) {
 		this.attacker = attacker;
-		this.att = attack;
-	}
-	
-	public void setDefense(Land defense, Player verteidiger) {
+		this.defender = defender;
+		this.attack = attack;
 		this.defense = defense;
-		this.verteidiger = verteidiger;
 	}
 	
-	public void setUnitsAngriff(int angriff) {
-		attUnits = angriff;
+	public void setAttUnits(ArrayList<Integer> attUnits) {
+		this.attUnits = attUnits;
 	}
 	
-	public void setUnitsVerteidigung(int verteidigung) {
-		unitsVerteidigung = verteidigung;
+	public void setDefUnits(ArrayList<Integer> defUnits) {
+		this.defUnits = defUnits;
 	}
 	
-	public ArrayList<Integer> angriffAuswerten(){
-		int buBlock = attacker.getBlock()[att.getNummer()];
-		if (attacker.getBlock()[att.getNummer()] > 0) {
-			if (attacker.getBlock()[att.getNummer()] - attUnits >= 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attUnits);
-			}
-			if (attacker.getBlock()[att.getNummer()] - attUnits < 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attacker.getBlock()[att.getNummer()]);
-			}
-		}
+	public void setResult(ArrayList<Integer> result) {
+		this.result = result;
 	}
+
 }

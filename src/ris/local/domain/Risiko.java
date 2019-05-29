@@ -3,18 +3,19 @@ package ris.local.domain;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
-import ris.local.valueobjects.Risikokarte;
-import ris.local.valueobjects.State;
-import ris.local.valueobjects.Turn;
+import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Risikokarte;
+import ris.local.valueobjects.State;
+import ris.local.valueobjects.Turn;
 
 public class Risiko implements Serializable {
 
@@ -31,7 +32,7 @@ public class Risiko implements Serializable {
 		logik = new Spiellogik(worldMg, playerMg);
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
-		turn = new Turn();
+		turn = new Turn(playerMg);
 		turn.state = State.SETUNITS;
 	}
 	
@@ -74,7 +75,7 @@ public class Risiko implements Serializable {
 	}
 
 	public void setzeAktivenPlayer() {
-		logik.setzeStartSpieler();
+		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
 
 	public ArrayList<String> gibLaenderUndNummer() {
@@ -99,11 +100,11 @@ public class Risiko implements Serializable {
 	}
 
 	public Player gibAktivenPlayer() {
-		return logik.gibAktivenPlayer();
+		return turn.gibAktivenPlayer();
 	}
 
 	public void setNaechsterPlayer() {
-		logik.naechsteSpielrunde();
+		turn.naechsteSpielrunde();
 	}
 
 //	******************************>Missions-Sachen<**************************
@@ -150,6 +151,10 @@ public class Risiko implements Serializable {
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
 	}
+	
+	public boolean isBenachbart(Land land1, Land land2) {
+		return worldMg.isBenachbart(land1, land2);
+	}
 
 	public ArrayList<Land> getEinheitenVerschiebenVonLaender(Player player) {
 		ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
@@ -179,6 +184,7 @@ public class Risiko implements Serializable {
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 	public ArrayList<Land> getAngriffsLaender(Player angreifer) {
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
 		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(angreifer, moeglicheLaender);
@@ -190,20 +196,10 @@ public class Risiko implements Serializable {
 		return feindlicheLaender;
 	}
 
-//	public AttackResult attack (Land att, Land def, int attEinheiten, int defEinheiten) {
-//		// AttackResult
-//		//	- W�rfel Angreifer
-//		//  - ...
-//		//  - Ergebnis ...
-//	}
-
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
-	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
-		ArrayList<Integer> ergebnis;
-		ergebnis = logik.attack(att, def, attEinheiten, defEinheiten, aList, dList);
-		return ergebnis;
+	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten) throws ZuWenigEinheitenNichtMoeglichExeption {
+		return logik.attack(att, def, attEinheiten, defEinheiten);
 	}
 
 	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
@@ -215,12 +211,16 @@ public class Risiko implements Serializable {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
-	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	public void verschiebeEinheiten(Land start, Land ziel, int menge)
+	public void moveUnits(Land start, Land ziel, int menge)
 			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
 		logik.moveUnits(start, ziel, menge);
+	}
+	
+	//rechnet aus, ob auf dem Land genug Einheiten zum Verschieben stehen
+	public boolean genugEinheiten(Land land, int units) {
+		return (land.getVerfuegbareEinheiten() >= units);
 	}
 
 	public void spielSpeichern(String datei) {

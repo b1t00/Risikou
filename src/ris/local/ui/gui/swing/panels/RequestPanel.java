@@ -1,7 +1,9 @@
 package ris.local.ui.gui.swing.panels;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -57,6 +59,8 @@ public class RequestPanel extends JPanel{
 		}
 		
 		this.setLayout(new GridLayout(4, 1));
+//		this.setSize(400,100);
+//		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.add(titel);
 		this.add(abfrage);
 	}

@@ -355,7 +355,7 @@ public class RisikoClientUI {
 						int karte3 = Integer.parseInt(liesEingabe());
 						symbolKarte3 = tauschkarten.get(karte3).getSymbol();
 					} catch(IOException e) {}
-					if risiko.
+				//	if risiko.
 					// wenn getauscht werden soll, wird methode aufgerufen, die mï¿½glcihe kombis
 					// ausgibt und abfragt, welche kombi getauscht ewrden soll
 //					bonusEinheiten = tauscheRisikokarten(aktiverPlayer);
@@ -694,6 +694,8 @@ public class RisikoClientUI {
 			// arrayList(0) > verlorene einheiten von attack, arrayList(1) > verlorene
 			// einheiten von defense
 
+			
+			//TODO: WÜRFEL MUSS IN DIE LOGIK!
 			ArrayList<Integer> aList = null;
 			try {
 				aList = risiko.diceAttack(attEinheiten);
@@ -799,7 +801,7 @@ public class RisikoClientUI {
 						}
 					}
 					try {
-						risiko.verschiebeEinheiten(att, def, answer);
+						risiko.moveUnits(att, def, answer);
 					} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
 						e.printStackTrace();
 					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
@@ -987,7 +989,7 @@ public class RisikoClientUI {
 				}
 			}
 			try {
-				risiko.verschiebeEinheiten(start, ziel, anzahl);
+				risiko.moveUnits(start, ziel, anzahl);
 			} catch (ZuWenigEinheitenException | LandExistiertNichtException
 					| ZuWenigEinheitenNichtMoeglichExeption e) {
 				e.printStackTrace();

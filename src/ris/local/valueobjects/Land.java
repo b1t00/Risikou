@@ -47,6 +47,16 @@ public class Land implements Comparable, Serializable{
 		return einheiten;
 	}
 	
+	/*
+	 * gibt Anzahl Einheiten zurueck, die fuer das Verschieben am Ende des Zuges zur Verfuegung stehen
+	 * dafuer wird der Wert beim uBlock(dieser wird beim automatischen Verschieben beim Angriff gesetzt)
+	 * von dem eigentlichen Einheiten-Wert abgezogen.
+	 */
+	
+	public int getVerfuegbareEinheiten() {
+		return einheiten - besitzer.getBlock()[nummer] - 1;
+	}
+	
 	public String getName() {
 		return name;
 	}

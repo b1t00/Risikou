@@ -66,9 +66,14 @@ public class Player implements Serializable {
 		this.gutschriftEinheitenkarte = wert;
 	}
 
-	public int[] setBlock(int[] gB, int indexLand, int units) {
-		gB[indexLand] += units;
-		return gB;
+	//müsste nicht statt gb direkt auf uBlock zugegriffen werden?
+//	public int[] setBlock(int[] gB, int indexLand, int units) {
+//		gB[indexLand] += units;
+//		return gB;
+//	}
+ 	
+	public void setBlock(int indexLand, int units) {
+		uBlock[indexLand] += units;
 	}
 	
 	public void setEinheitenkarte(Risikokarte karte) {

@@ -18,6 +18,7 @@ import java.util.Random;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.MissionGegner;
+import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
@@ -28,14 +29,14 @@ public class Spiellogik implements Serializable {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private MissionsManagement missionsMg;
-	private int spielrunden;
+//	private int spielrunden;
 	private List<Player> playerList;
 	private Player aktiverPlayer, gewinner;
 
 	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
-		spielrunden = 0;
+//		spielrunden = 0;
 		playerList = playerMg.getPlayers();
 	}
 
@@ -89,8 +90,8 @@ public class Spiellogik implements Serializable {
 		return playerList.get(0);
 	}
 
-	public void setzeStartSpieler() {
-		aktiverPlayer = whoBegins();
+	public Player setzeStartSpieler() {
+		return whoBegins();
 	}
 //**********************************>MISSIONS-SACHEN<************************************
 
@@ -211,8 +212,11 @@ public class Spiellogik implements Serializable {
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+//					**********************Angriff-Abfragen******************************
 
-	// Methode pr�ft, ob Laender von einem Player mehr als eine Einheit hat
+	//TODO: nur für die CUI?
+	// Methode prueft, ob Laender von einem Player mehr als eine Einheit hat
 	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit(Player player) {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
@@ -224,7 +228,8 @@ public class Spiellogik implements Serializable {
 		return starkeLaender;
 	}
 
-	// Methode pr�ft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
+	//TODO: nur für die CUI?
+	// Methode prueft, ob das Land ein Nachbarland mit einem anderen Besitzer hat
 	public ArrayList<Land> getLaenderMitFeindlichenNachbarn(Player angreifer, ArrayList<Land> laender) {
 		ArrayList<Land> moeglicheAngreifer = new ArrayList<Land>();
 		ArrayList<Land> besitzVonPlayer = laender;
@@ -270,8 +275,110 @@ public class Spiellogik implements Serializable {
 		}
 		return hatNachbarn;
 	}
+	
+	
+//					**********************ENDE Angriff-Abfragen******************************
 
 //	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten) {
+//		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
+//		// Einheiten vom Angreifer, an zweiter vom Verteidiger
+//		Player attacker = att.getBesitzer();
+	
+
+	public Attack attack(Land att, Land def, int attUnits, int defUnits) throws ZuWenigEinheitenNichtMoeglichExeption {
+		Player attacker = att.getBesitzer();
+		Player defender = def.getBesitzer();
+		
+		//erstellt ein neues Attack-Objekt, das später die Würfelaugen speichert
+		Attack attackObjekt = new Attack(attacker, defender, att, def);
+		
+		/*
+		 *  setzt, wenn "blockierte" einheiten agreifen diese vorerst auf 0
+		 * Einheiten sind blockiert, wenn sie in der gleichen Runde durch einen Angriff verschoben wurden
+		 */
+		
+		//buBlock speichert die Anzahl der blockierten Einheiten vom AngriffsLand
+		int buBlock = attacker.getBlock()[att.getNummer()];
+		if (buBlock > 0) {
+			if (buBlock - attUnits >= 0) {
+				attacker.setBlock(att.getNummer(), -attUnits);
+			}
+			if (buBlock - attUnits < 0) {
+				attacker.setBlock(att.getNummer(), -attacker.getBlock()[att.getNummer()]);
+			}
+		}
+		
+		// Methode diceAttack und diceDefense geben pro Unit einen zufälligen Wert zwischen 1 und 6 in einer ArrayList zurück
+		ArrayList<Integer> attList = null;
+		try {
+			attList = diceAttack(attUnits);
+			attackObjekt.setAttUnits(attList);
+		} catch (UngueltigeAnzahlEinheitenException e) {
+			e.printStackTrace();
+		}
+		ArrayList<Integer> defList = null;
+		try {
+			defList = diceDefense(defUnits);
+			attackObjekt.setDefUnits(defList);
+		} catch (UngueltigeAnzahlEinheitenException e) {
+			e.printStackTrace();
+		}
+
+		// ergebnis ist ein Array[2]: an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten (Werte sind negativ
+		ArrayList<Integer> result = null;
+		try{
+			result= diceResults(attList, defList);
+			}
+		catch(UngueltigeAnzahlEinheitenException e) {
+			e.printStackTrace();
+		}
+		attackObjekt.setResult(result);
+		
+		//das Spielfeld wird dem Ergebnis des Angriff angepasst
+		//den beiden Ländern werden mit setEinheiten die verlorenen Einheiten abgezogen
+		att.setEinheiten(result.get(0));
+		def.setEinheiten(result.get(1));
+		
+		/*
+		 * wurde das Land nicht erobert, wird der alte Wert an 
+		 * Blockierten Einheiten - die verlorenen Einheiten wieder in das Block-Array geschrieben
+		 */
+		if (def.getEinheiten() > 0) {
+			if (buBlock + result.get(0) >= 0) {
+				int block = buBlock + result.get(0);
+				attacker.setBlock(att.getNummer(), block);
+			} else {
+				attacker.setBlock(att.getNummer(), 0);
+			}
+		}
+
+		// wenn das Land erobert wurde (def-einheiten sind auf 0), werden die Angriffs-Einheiten verschoben
+		if (def.getEinheiten() == 0) {
+			//winUnits sind die Einheiten, die automatisch in das eroberte Land ziehen (angreifende Einheiten - verlorene Attack-Einheiten)
+			int winUnits = attUnits + result.get(0);
+			def.setEinheiten(winUnits);
+			att.setEinheiten(-winUnits);
+			
+			//das Land wird beim verlierer gelöscht und dem Sieger hinzugefügt
+			defender.setBesitz(def);
+			attacker.setBesitz(def);
+			//der Besitzer des eroberten Landes wird aktualisiert
+			def.setBesitzer(attacker);
+
+			// setzt bei erobertem Land die beteiligten Einheiten auf Block
+			attacker.setBlock(def.getNummer(), def.getEinheiten());
+
+			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
+			// ende des Zuges ziehen kann
+			attacker.setGutschriftEinheitenkarte(true);
+		}
+		
+		return attackObjekt;
+	}
+	
+	//ALTE ATTACK METHODE - KANN GELÖSCHT WERDEN, WENN NICHT MEHR BENÖTIGT
+//	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
+//			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
 //		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
 //		// Einheiten vom Angreifer, an zweiter vom Verteidiger
 //		Player attacker = att.getBesitzer();
@@ -281,9 +388,62 @@ public class Spiellogik implements Serializable {
 //		if (attacker.getBlock()[att.getNummer()] > 0) {
 //			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
 //				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
+//
+//
+//			}
+//			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
+//				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attacker.getBlock()[att.getNummer()]);
 //			}
 //		}
+//
+//
+//		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
+//		// die verlorenen defense-Einheiten
+////		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
+//		// #TODO: nochmal checken ob nichts doppelt
+//		ArrayList<Integer> ergebnis= null;
+//		try{
+//			ergebnis= diceResults(aList, dList);
+//			}
+//		catch(UngueltigeAnzahlEinheitenException e) {
+//			e.printStackTrace();
+//		}
+//		att.setEinheiten(ergebnis.get(0));
+//		def.setEinheiten(ergebnis.get(1));
+//
+//		if (def.getEinheiten() > 0) {
+//			if (buBlock + ergebnis.get(0) >= 0) {
+//				int block = buBlock + ergebnis.get(0);
+//				attacker.setBlock(attacker.getBlock(), att.getNummer(), block);
+//			} else {
+//				attacker.setBlock(attacker.getBlock(), att.getNummer(), 0);
+//			}
+//		}
+//
+//		// wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten
+//		// verschoben
+//		if (def.getEinheiten() == 0) {
+//			def.setEinheiten(attEinheiten + ergebnis.get(0));
+//			att.setEinheiten(-(attEinheiten + ergebnis.get(0)));
+//			Player loser = def.getBesitzer();
+//			loser.setBesitz(def);
+//			Player winner = att.getBesitzer();
+//			winner.setBesitz(def);
+//			def.setBesitzer(winner);
+//
+//			// setzt bei erobertem Land die beteiligten Einheiten auf Block
+//			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
+//
+//			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
+//			// ende des Zuges ziehen kann
+//			winner.setGutschriftEinheitenkarte(true);
+//		}
+//		return ergebnis;
+//	}
+	//BIS HIERHIN LÖSCHEN!
 
+	//DICEDICEDICE
+	
 	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException {
 		if (attUnit > 3 | attUnit <= 0) {
 			throw new UngueltigeAnzahlEinheitenException(1, 3);
@@ -292,6 +452,7 @@ public class Spiellogik implements Serializable {
 		for (int i = 0; i < attUnit; i++) {
 			aList.add((int) (Math.random() * 6) + 1);
 		}
+		
 		return aList;
 	}
 
@@ -303,10 +464,13 @@ public class Spiellogik implements Serializable {
 		for (int i = 0; i < defUnit; i++) {
 			dList.add((int) (Math.random() * 6) + 1);
 		}
+		
 		return dList;
 	}
 
+
 	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) throws UngueltigeAnzahlEinheitenException {
+		
 		if(aList.size()>3|| aList.size()<=0 || defList.size()>2||defList.size()<=0) {
 			throw new UngueltigeAnzahlEinheitenException("Ungueltige Anzahl an Einheiten, Angreifer mininmal 1,maximal 3, Verteidiger minimal 1, maximal 2");
 		}
@@ -317,31 +481,32 @@ public class Spiellogik implements Serializable {
 		Collections.reverse(aList);
 		Collections.reverse(defList);
 
+		//die anzahl der einheiten von att und def wird angeglichen, indem die niedrigsten Augen von def/att gelöscht werden
 		if (aList.size() - defList.size() == 2) {
 			aList.remove(2);
 			aList.remove(1);
-
 		}
 		if (aList.size() - defList.size() == 1) {
 			aList.remove(defList.size());
 		}
-
 		if (defList.size() - aList.size() == 2) {
 			defList.remove(2);
 			defList.remove(1);
-
 		}
 		if (defList.size() - aList.size() == 1) {
 			defList.remove(aList.size());
-
 		}
 
+		//die Augenanzahlen werden verglichen
+		//bei insgesamt einem Würfel pro Person
 		if (defList.size() == 1) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
 			else
 				lossAtt = lossAtt - 1;
 		}
+		
+		//bei insgesamt 2 Würfeln pro Person
 		if (defList.size() == 2) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
@@ -352,6 +517,8 @@ public class Spiellogik implements Serializable {
 			else
 				lossAtt = lossAtt - 1;
 		}
+	
+		//bei insgesamt 3 Würfeln pro Person
 		if (defList.size() == 3) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
@@ -366,104 +533,48 @@ public class Spiellogik implements Serializable {
 			else
 				lossAtt = lossAtt - 1;
 		}
+		
+		//ergebnis-Array wird zurückgegeben, 1.Stelle = verlorene Einheiten att, 2.Stelle = verlorene Einheiten def
 		ArrayList<Integer> unitLoss = new ArrayList<Integer>();
 		unitLoss.add(lossAtt);
 		unitLoss.add(lossDef);
 		return unitLoss;
 	}
-
-	public ArrayList<Integer> attack(Land att, Land def, int attEinheiten, int defEinheiten, ArrayList<Integer> aList,
-			ArrayList<Integer> dList) throws ZuWenigEinheitenNichtMoeglichExeption {
-		// rollDice gibt eine Int-ArrayList zurueck, an erster Stelle die verlorenen
-		// Einheiten vom Angreifer, an zweiter vom Verteidiger
-		Player attacker = att.getBesitzer();
-
-		// setzt, wenn blockierte einheiten agreifen diese vorerst auf 0
-		int buBlock = attacker.getBlock()[att.getNummer()];
-		if (attacker.getBlock()[att.getNummer()] > 0) {
-			if (attacker.getBlock()[att.getNummer()] - attEinheiten >= 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attEinheiten);
-
-
-			}
-			if (attacker.getBlock()[att.getNummer()] - attEinheiten < 0) {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), -attacker.getBlock()[att.getNummer()]);
-			}
-		}
-
-//
-//		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
-//		// die verlorenen defense-Einheiten
-//		ArrayList<Integer> ergebnis = rollDice(defEinheiten, attEinheiten);
-
-		// ergebnis ist ein Array, an 1. Stelle die verlorenen attack-Einheiten, an 2.
-		// die verlorenen defense-Einheiten
-		// #TODO: nochmal checken ob nichts doppelt
-		ArrayList<Integer> ergebnis= null;
-		try{
-			ergebnis= diceResults(aList, dList);
-			}
-		catch(UngueltigeAnzahlEinheitenException e) {
-			e.printStackTrace();
-		}
-		att.setEinheiten(ergebnis.get(0));
-
-		def.setEinheiten(ergebnis.get(1));
-
-		if (def.getEinheiten() > 0) {
-			if (buBlock + ergebnis.get(0) >= 0) {
-				int block = buBlock + ergebnis.get(0);
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), block);
-			} else {
-				attacker.setBlock(attacker.getBlock(), att.getNummer(), 0);
-			}
-		}
-
-		// wenn die Einheiten auf def jetzt bei 0 sind, werden die Angriffs-Einheiten
-		// verschoben
-		if (def.getEinheiten() == 0) {
-			def.setEinheiten(attEinheiten + ergebnis.get(0));
-			att.setEinheiten(-(attEinheiten + ergebnis.get(0)));
-			Player loser = def.getBesitzer();
-			loser.setBesitz(def);
-			Player winner = att.getBesitzer();
-			winner.setBesitz(def);
-			def.setBesitzer(winner);
-
-			// setzt bei erobertem Land die beteiligten Einheiten auf Block
-			winner.setBlock(winner.getBlock(), def.getNummer(), def.getEinheiten());
-
-			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
-			// ende des Zuges ziehen kann
-			winner.setGutschriftEinheitenkarte(true);
-		}
-		return ergebnis;
-	}
+	
+	//END DICEDICEDICE
 
 	
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ***************************************->Runden<-**************************************
-
-	public Player gibAktivenPlayer() {
-		return aktiverPlayer;
-	}
-
-	// @tobi wird glaube nirgendwo benutzt.. kann man aber evtl Extrasachen mit
-	// machen
-	public int getSpielrunden() {
-		return spielrunden;
-	}
-
-	// evtl andere bennenung als set
-	public void naechsteSpielrunde() {
-		this.spielrunden++;
-		aktiverPlayer = playerList.get((aktiverPlayer.getNummer() + 1) % playerList.size());
-	}
+//ist jetzt komplett im Turn, kann GELÖSCHT WERDEN, wenn nicht mehr benötigt!
+//	public Player gibAktivenPlayer() {
+//		return aktiverPlayer;
+//	}
+//
+//	// @tobi wird glaube nirgendwo benutzt.. kann man aber evtl Extrasachen mit
+//	// machen
+//	public int getSpielrunden() {
+//		return spielrunden;
+//	}
+//
+//	// evtl andere bennenung als set
+//	public void naechsteSpielrunde() {
+//		this.spielrunden++;
+//		aktiverPlayer = playerList.get((aktiverPlayer.getNummer() + 1) % playerList.size());
+//	}
 //	********************************** Angriffslogik **********************************
+	
+	
 
+	/*Angriff ist möglich, wenn attacker und defender-Länder benachbart sind,
+	 * der attacker mehr als eine Einheit auf seinem Land hat 
+	 * und ihm nicht beide Länder gehören
+	 */
 	boolean angriffMoeglich(Land def, Land att, int countUnits) {
-		if (worldMg.nachbarn[def.getNummer()][att.getNummer()] == true && att.getEinheiten() - countUnits > 0) {
+		if (worldMg.nachbarn[def.getNummer()][att.getNummer()] == true 
+				&& att.getEinheiten() - countUnits > 0 
+				&& !(def.getBesitzer().equals(att.getBesitzer()))) {
 			return true;
 		} else {
 			return false;
