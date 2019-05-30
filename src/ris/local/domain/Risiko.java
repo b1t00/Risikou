@@ -80,6 +80,10 @@ public class Risiko implements Serializable {
 	public ArrayList<String> gibLaenderUndNummer() {
 		return player.gibLaenderUndNummer();
 	}
+	
+	public ArrayList<Land> getEigeneLaender(Player player){
+		return player.getBesitz();
+	}
 
 	public ArrayList<Player> getPlayerArray() {
 		return playerMg.getPlayers();
@@ -98,7 +102,7 @@ public class Risiko implements Serializable {
 		return logik.gibAktivenPlayer();
 	}
 
-	public void machNaechsterPlayer() {
+	public void setNaechsterPlayer() {
 		logik.naechsteSpielrunde();
 	}
 
@@ -136,6 +140,9 @@ public class Risiko implements Serializable {
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
+	
+	//TODO: Methode implementieren
+//	public boolean isGueltigeTauschkombi()
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat bzw
 	// missionenCompletet True ist..

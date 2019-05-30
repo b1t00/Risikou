@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.MissionGegner;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
@@ -180,6 +181,15 @@ public class Spiellogik implements Serializable {
 		return tauschkombi;
 	}
 	
+	//die Methode bekommt drei Symbole und gibt zurück, ob die Kombi gültig ist
+	public boolean isGueltigeTauschkombi(Symbol symbol1, Symbol symbol2, Symbol symbol3) {
+		if (symbol1 == symbol2 && symbol2 == symbol3) {
+			return true;
+		} else if (symbol1 != symbol2 && symbol2 != symbol3 && symbol1 != symbol3) {
+			return true;
+		} else return false;
+	}
+	
 	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
 		int verfuegbareEinheiten = 0;
 		int landBesitz = aktiverPlayer.getBesitz().size();
@@ -197,11 +207,12 @@ public class Spiellogik implements Serializable {
 		}
 		return verfuegbareEinheiten;
 	}
+	
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Anfang^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	// Methode pr�ft, ob L�nder von einem Player mehr als eine Einheit hat
+	// Methode pr�ft, ob Laender von einem Player mehr als eine Einheit hat
 	public ArrayList<Land> getLaenderMitMehrAlsEinerEinheit(Player player) {
 		ArrayList<Land> starkeLaender = new ArrayList<Land>();
 		ArrayList<Land> besitzPlayer = player.getBesitz();
