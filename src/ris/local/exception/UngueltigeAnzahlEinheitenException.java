@@ -21,9 +21,7 @@ public class UngueltigeAnzahlEinheitenException extends Exception{
 		this.maxD=maxD;
 	}
 	
-	public UngueltigeAnzahlEinheitenException(String message) {
-		super(message);
-	}
+	
 
 //	@Override
 //	public String getMessage() {
