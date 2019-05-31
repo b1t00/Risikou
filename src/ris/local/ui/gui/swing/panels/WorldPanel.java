@@ -50,6 +50,7 @@ public class WorldPanel extends JPanel {
 			// TODO Auto-generated method stub
 			int x = me.getX();
 			int y = me.getY();
+
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
 			System.out.println("color ist: " + b);
@@ -89,7 +90,7 @@ public class WorldPanel extends JPanel {
 //	        karte = new ImageIcon("assets/img/karte.jpg");        
 			try
 			{
-				karte=ImageIO.read(new File("assets/img/risiko_map_rgb.png"));
+				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");}		
 	  }

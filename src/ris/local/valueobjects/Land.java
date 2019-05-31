@@ -15,7 +15,7 @@ public class Land implements Comparable, Serializable{
 		this.nummer = nummer;
 		this.name = name;
 		this.einheiten = einheiten;
-	//	this.rgb = rgb;
+		//this.rgb = rgb;
 	}
 	
 	// Methode um Einheiten zu setzten 
