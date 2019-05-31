@@ -35,11 +35,11 @@ public class Risiko implements Serializable {
 		turn = new Turn(playerMg);
 		turn.state = State.SETUNITS;
 	}
-	
+
 	public State getCurrentState() {
 		return turn.getCurrentState();
 	}
-	
+
 	public void setNextState() {
 		turn.setNextState();
 	}
@@ -61,7 +61,8 @@ public class Risiko implements Serializable {
 	// @to: Methode die sagt wer anf�ngt ... #to generelle frage: die methoden
 	// werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf
 	// zugreifen kann.
-	// wei� ncht ob das richtig ist, in der bibliothek wirds �hnlich gemacht. #losch
+	// wei� ncht ob das richtig ist, in der bibliothek wirds �hnlich gemacht.
+	// #losch
 	// @annie: ich glaub das ist richtig so
 	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
 	// ansonsten machts ja auch kein sinn
@@ -69,7 +70,7 @@ public class Risiko implements Serializable {
 		return logik.whoBegins();
 	}
 
-	public Player PlayerAnlegen(String name, String farbe, int nummer) {
+	public Player playerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 		return player;
 	}
@@ -81,8 +82,8 @@ public class Risiko implements Serializable {
 	public ArrayList<String> gibLaenderUndNummer() {
 		return player.gibLaenderUndNummer();
 	}
-	
-	public ArrayList<Land> getEigeneLaender(Player player){
+
+	public ArrayList<Land> getEigeneLaender(Player player) {
 		return player.getBesitz();
 	}
 
@@ -113,7 +114,6 @@ public class Risiko implements Serializable {
 		return logik.allMissionsComplete();
 	}
 
-
 	public boolean rundeMissionComplete(Player play) {
 		return logik.rundeMissionComplete(play);
 	}
@@ -141,17 +141,18 @@ public class Risiko implements Serializable {
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
-	
-	//TODO: Methode implementieren
+
+	// TODO: Methode implementieren
 //	public boolean isGueltigeTauschkombi()
 
-	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat bzw
+	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat
+	// bzw
 	// missionenCompletet True ist..
 
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
 	}
-	
+
 	public boolean isBenachbart(Land land1, Land land2) {
 		return worldMg.isBenachbart(land1, land2);
 	}
@@ -191,14 +192,15 @@ public class Risiko implements Serializable {
 		return attackLaender;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException{
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
 
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
-	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten) throws ZuWenigEinheitenNichtMoeglichExeption {
+	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
+			throws ZuWenigEinheitenNichtMoeglichExeption {
 		return logik.attack(att, def, attEinheiten, defEinheiten);
 	}
 
@@ -211,14 +213,15 @@ public class Risiko implements Serializable {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
+	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public void moveUnits(Land start, Land ziel, int menge)
 			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
 		logik.moveUnits(start, ziel, menge);
 	}
-	
-	//rechnet aus, ob auf dem Land genug Einheiten zum Verschieben stehen
+
+	// rechnet aus, ob auf dem Land genug Einheiten zum Verschieben stehen
 	public boolean genugEinheiten(Land land, int units) {
 		return (land.getVerfuegbareEinheiten() >= units);
 	}

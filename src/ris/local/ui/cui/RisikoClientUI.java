@@ -166,7 +166,7 @@ public class RisikoClientUI {
 							"Diese Farbe wurde schon vergeben oder es gibt die Farbe nicht : bitte waehle nochmal eine Farbe!");
 			} while (risiko.getRichtigeEingabe());
 
-			risiko.PlayerAnlegen(name, farbe, i);
+			risiko.playerAnlegen(name, farbe, i);
 		}
 	}
 
