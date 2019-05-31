@@ -14,6 +14,7 @@ import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte;
+import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.State;
 import ris.local.valueobjects.Turn;
 
@@ -121,6 +122,8 @@ public class Risiko implements Serializable {
 	public Player getGewinner() {
 		return logik.getGewinner();
 	}
+	
+//	****************************RISIKOKARTEN************************************
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
 	// gutschriftEinheitenkarte und setzt diesen dann auf false
@@ -134,16 +137,21 @@ public class Risiko implements Serializable {
 		return false;
 	}
 
+	//gibt zurück, ob ein Player Risikokarten gegen Einheiten eintauschen kann
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
 	}
-
-	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
-		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
+	
+	public boolean isGueltigeTauschkombi(Symbol s1, Symbol s2, Symbol s3) {
+		return logik.isGueltigeTauschkombi(s1, s2, s3);
 	}
+	
+//	****************************RISIKOKARTEN************************************
 
-	// TODO: Methode implementieren
-//	public boolean isGueltigeTauschkombi()
+	//ALTE METHODE, KANN GELÖSCHT WERDEN
+//	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
+//		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
+//	}
 
 	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfï¿½llt hat
 	// bzw

@@ -92,9 +92,9 @@ public class RisikoClientGUI extends JFrame
 		worldPl = new WorldPanel(this, risiko);
 //		
 //		//SOUTH
-		infoPl = new InfoPanel();
-
-		// Layout = CardLayout
+		infoPl = new InfoPanel(risiko);	
+		
+		//Layout = CardLayout
 		container.setLayout(cl);
 		container.setSize(50, 100);
 		container.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -160,12 +160,14 @@ public class RisikoClientGUI extends JFrame
 		// WEST
 //				container = new JPanel();
 
-		// CENTER
-		worldPl = new WorldPanel(this, risiko);
-
-		// SOUTH
-		infoPl = new InfoPanel();
-
+				
+				//CENTER
+				worldPl = new WorldPanel(this, risiko);
+				
+				//SOUTH
+//				infoPl = new InfoPanel();
+		
+		
 //		container.setLayout(cl);
 //		container.setSize(50,100);
 //		container.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -325,12 +327,31 @@ public class RisikoClientGUI extends JFrame
 				}
 			}
 
-			// checkt zuerst, ob das Land dem spieler gehört
-			if (risiko.getEigeneLaender(risiko.gibAktivenPlayer()).contains(land)) {
+			System.out.println("movestate: " + worldPl.getMoveState());
+			
+			//checkt zuerst, ob das Land dem spieler gehört
+			if(risiko.getEigeneLaender(risiko.gibAktivenPlayer()).contains(land)) {
 
 			} else {
 				// dialogfenster mit fehlermeldung
 			}
+	}
+	
+		public static void main (String[] args) {
+			RisikoClientGUI gui = new RisikoClientGUI();
+			gui.risiko.PlayerAnlegen("Annie", "rot", 1);
+			gui.risiko.PlayerAnlegen("Tobi", "gruen", 2);
+			gui.risiko.PlayerAnlegen("Hannes", "blau", 3);
+			gui.risiko.verteileEinheiten();
+			gui.risiko.verteileMissionen();
+			gui.risiko.setzeAktivenPlayer();
+			gui.risiko.setNextState();
+			gui.risiko.setNextState();
+			gui.risiko.whoBegins();
+			System.out.println(gui.risiko.gibAktivenPlayer());
+			System.out.println(gui.risiko.getEigeneLaender(gui.risiko.gibAktivenPlayer()));
+			System.out.println(gui.risiko.getCurrentState());
+			System.out.println("movestate: " + gui.worldPl.getMoveState());
 		}
 	}
 	public void showPanel(JPanel panel) {
@@ -369,8 +390,8 @@ public class RisikoClientGUI extends JFrame
 		return wieVielePl.getAnzahlSpieler();
 	}
 
-	public static void main(String[] args) {
-		RisikoClientGUI gui = new RisikoClientGUI();
+	//public static void main(String[] args) {
+//		RisikoClientGUI gui = new RisikoClientGUI();
 
-	}
+//	}
 }

@@ -161,12 +161,12 @@ public class Player implements Serializable {
 //	-----------------------------------------------------------------------------------------------------------------------------------------
 	
 	//Methode bekommt eine int, stellvertretend für symbol (0 = Kanone, 1 = Reiter, 3 = Soldat, 4 = je eine)
-	public void loescheRisikokarten(int index) {
+	public void loescheRisikokarten(int symbol) {
 		String[] symbolArray = {"Kanone", "Reiter", "Soldat"};
 		int eingetauscht = 3;
 		while(eingetauscht > 0) {
 			//für den Fall, dass je eine Karte eingetauscht wird, wird zaehler hochgezählt, erst eine Kanone, dann Reiter, dann Soldat gelöscht
-			if (index == 3) {
+			if (symbol == 3) {
 				//dafür muss der Risikokarten-Array zuerst sortiert werden
 				Collections.sort(this.gezogeneRisikokarten, (karte1, karte2) -> karte1.getSymbol().compareTo(karte2.getSymbol()));
 				int zaehler = 0;
@@ -180,7 +180,7 @@ public class Player implements Serializable {
 				}
 			} else {
 				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
-					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[index])){
+					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[symbol])){
 						gezogeneRisikokarten.remove(i);
 						eingetauscht--;
 					}
