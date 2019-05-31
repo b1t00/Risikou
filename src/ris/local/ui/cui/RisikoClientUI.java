@@ -126,9 +126,6 @@ public class RisikoClientUI {
 
 				nr = Integer.parseInt(eingabePlayer);
 			} catch (IOException | NumberFormatException e) {
-				// @tobi die Frage ob wir in solchen F�llen mit Exceptions arbeiten sollen
-				// oder
-				// nicht..
 				richtigeEingabe = false;
 				System.err.println("ungueltige Eingabe. Bitte wiederholen \n");
 			}
@@ -161,12 +158,13 @@ public class RisikoClientUI {
 			do {
 				farbe = farbeAuswaehlen();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
+				System.out.println(risiko.getFarbauswahl());
 				if (risiko.getRichtigeEingabe())
 					System.out.println(
 							"Diese Farbe wurde schon vergeben oder es gibt die Farbe nicht : bitte waehle nochmal eine Farbe!");
 			} while (risiko.getRichtigeEingabe());
 
-			risiko.PlayerAnlegen(name, farbe, i);
+			risiko.playerAnlegen(name, farbe, i);
 		}
 	}
 

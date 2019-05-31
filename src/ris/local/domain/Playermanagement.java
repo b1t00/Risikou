@@ -53,7 +53,7 @@ public class PlayerManagement implements Serializable {
 		if (farbenAuswahl.get(welcheFarbe) != null) {
 			farbe = farbenAuswahl.get(welcheFarbe);
 			farbenAuswahl.remove(welcheFarbe);
-			farbenAuswahl.add(welcheFarbe, null);
+//			farbenAuswahl.add(welcheFarbe, null);
 			falscheEingabe = false;
 		} else {
 			falscheEingabe = true;

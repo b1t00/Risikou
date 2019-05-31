@@ -34,11 +34,11 @@ public class Risiko implements Serializable {
 		turn = new Turn();
 		turn.state = State.SETUNITS;
 	}
-	
+
 	public State getCurrentState() {
 		return turn.getCurrentState();
 	}
-	
+
 	public void setNextState() {
 		turn.setNextState();
 	}
@@ -60,7 +60,8 @@ public class Risiko implements Serializable {
 	// @to: Methode die sagt wer anf�ngt ... #to generelle frage: die methoden
 	// werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf
 	// zugreifen kann.
-	// wei� ncht ob das richtig ist, in der bibliothek wirds �hnlich gemacht. #losch
+	// wei� ncht ob das richtig ist, in der bibliothek wirds �hnlich gemacht.
+	// #losch
 	// @annie: ich glaub das ist richtig so
 	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
 	// ansonsten machts ja auch kein sinn
@@ -68,7 +69,7 @@ public class Risiko implements Serializable {
 		return logik.whoBegins();
 	}
 
-	public Player PlayerAnlegen(String name, String farbe, int nummer) {
+	public Player playerAnlegen(String name, String farbe, int nummer) {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 		return player;
 	}
@@ -108,7 +109,6 @@ public class Risiko implements Serializable {
 		return logik.allMissionsComplete();
 	}
 
-
 	public boolean rundeMissionComplete(Player play) {
 		return logik.rundeMissionComplete(play);
 	}
@@ -136,10 +136,13 @@ public class Risiko implements Serializable {
 	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 	}
-	
-	public boolean isGueltigeTauschkombi()
 
-	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat bzw
+	public boolean isGueltigeTauschkombi() {
+		return true; //mal eingebaut
+	};
+
+	// get Gewinner kann nur geholt werden, wenn einer eine Mission erf�llt hat
+	// bzw
 	// missionenCompletet True ist..
 
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
@@ -180,7 +183,7 @@ public class Risiko implements Serializable {
 		return attackLaender;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException{
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
@@ -241,6 +244,7 @@ public class Risiko implements Serializable {
 	}
 
 	public String setFarbeAuswaehlen(String farbe) { // hier string
+		System.out.println("eins");
 		return playerMg.menuFarbeAuswaehlen(farbe);
 
 	}
