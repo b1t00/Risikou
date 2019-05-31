@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
@@ -63,19 +64,32 @@ public class WorldPanel extends JPanel {
 			case SETUNITS:	
 			case ATTACK:
 				if(attackState == 1) {
-					attackLand1 = land;
-					attackState = 2;
+					//es wird überprüft, ob das angeklickte Land gültig ist
+					if(ris.attackLandGueltig(land)) {
+						attackLand1 = land;
+						attackState = 2;
+					} else {
+						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht.");
+					}	
 				} else {
 					attackLand2 = land;
 					attackState = 1;
 				}
 			case CHANGEUNITS:
 				if(moveState == 1) {
-					moveLand1 = land;
-					moveState = 2;
+					if(ris.moveFromLandGueltig(land)) {
+						moveLand1 = land;
+						moveState = 2;
+					} else {
+						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht oder du kannst von hier keine Einheiten verschieben.");
+					}
 				} else {
-					moveLand2 = land;
-					moveState = 1;
+					if(land.getBesitzer().equals(ris.gibAktivenPlayer())) {
+						moveLand2 = land;
+						moveState = 1;
+					} else {
+						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht.");
+					}
 				}
 			}
 			

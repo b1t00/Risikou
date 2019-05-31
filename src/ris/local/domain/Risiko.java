@@ -30,10 +30,10 @@ public class Risiko implements Serializable {
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
-		logik = new Spiellogik(worldMg, playerMg);
+		turn = new Turn(playerMg);
+		logik = new Spiellogik(worldMg, playerMg, turn);
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
-		turn = new Turn(playerMg);
 		turn.state = State.SETUNITS;
 	}
 	
@@ -192,6 +192,21 @@ public class Risiko implements Serializable {
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	
+	
+	//TODO: exception behandeln
+	public boolean attackLandGueltig(Land att) {
+		try {
+			return logik.attackLandGueltig(att);
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} return false;
+	}
+	
+	public boolean moveFromLandGueltig(Land move) {
+		return logik.moveFromLandGueltig(move);
+	}
 
 	public ArrayList<Land> getAngriffsLaender(Player angreifer) {
 		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
@@ -203,8 +218,6 @@ public class Risiko implements Serializable {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
-
-//	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten) throws ZuWenigEinheitenNichtMoeglichExeption {
 		return logik.attack(att, def, attEinheiten, defEinheiten);

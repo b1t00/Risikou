@@ -180,7 +180,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;			
 		}
 	}
-
+	
 	@Override
 	//antwortListener vom Question Panel
 	public void answerSelected(boolean answer) {
@@ -270,19 +270,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		case SETUNITS:
 		case ATTACK:
 			if(worldPl.getAttackState() == 1) {
-				if(land.getBesitzer().equals(risiko.gibAktivenPlayer())) {
-					// und hier auch noch Abfrage, ob Land angreifen kann -> am besten in Risiko Methode, die das überprüft
 					cl.show(container, "attackTo");
-				} else {
-					//Fehlermeldung mit Schleife
-				}
 			} else {
-//				if(!land.getBesitzer().equals(risiko.gibAktivenPlayer()) && risiko.isBenachbart(land, worldPl.getAttackLand1())) {
-					// eventuell die Bedingung in risiko auslagern
-//					cl.show(container, "attackNumber");
-//				} else {
-					//Fehlermeldung mit Schleife
-//				}
+								if(!land.getBesitzer().equals(risiko.gibAktivenPlayer()) && risiko.isBenachbart(land, worldPl.getAttackLand1())) {
+//				 eventuell die Bedingung in risiko auslagern
+									cl.show(container, "attackNumber");
+								} else {
+//				Fehlermeldung mit Schleife
+								}
 			}
 			//neues Attack-Objekt
 			//Attack-Objekt hat Angreifer, Verteidiger, Land1 und Land2 und zwei Werte für Einheiten

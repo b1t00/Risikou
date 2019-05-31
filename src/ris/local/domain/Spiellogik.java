@@ -1,27 +1,23 @@
 ﻿
 package ris.local.domain;
 
-import ris.local.domain.PlayerManagement;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.LandInBesitzException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-
-import ris.local.valueobjects.Player;
-import ris.local.valueobjects.Risikokarte.Symbol;
-import ris.local.valueobjects.MissionGegner;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Mission;
+import ris.local.valueobjects.MissionGegner;
+import ris.local.valueobjects.Player;
+import ris.local.valueobjects.Risikokarte.Symbol;
+import ris.local.valueobjects.Turn;
 
 public class Spiellogik implements Serializable {
 
@@ -29,13 +25,15 @@ public class Spiellogik implements Serializable {
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
 	private MissionsManagement missionsMg;
+	private Turn turn;
 //	private int spielrunden;
 	private List<Player> playerList;
 	private Player aktiverPlayer, gewinner;
 
-	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg) {
+	public Spiellogik(WorldManagement worldMg, PlayerManagement playerMg, Turn turn) {
 		this.worldMg = worldMg;
 		this.playerMg = playerMg;
+		this.turn = turn;
 //		spielrunden = 0;
 		playerList = playerMg.getPlayers();
 	}
@@ -263,6 +261,21 @@ public class Spiellogik implements Serializable {
 		return feindlicheLaender;
 	}
 
+	public ArrayList<Land> getEigeneNachbarn(Land moveLand) throws LandExistiertNichtException {
+		if(!worldMg.getLaender().contains(moveLand)) {
+			throw new LandExistiertNichtException(moveLand);
+		}
+		ArrayList<Land> eigeneNachbarn = new ArrayList<Land>();
+		for (int i = 0; i < worldMg.nachbarn[moveLand.getNummer()].length; i++) {
+			if (worldMg.nachbarn[moveLand.getNummer()][i]) {
+				if (worldMg.getLaender().get(i).getBesitzer().equals(moveLand.getBesitzer())) {
+					eigeneNachbarn.add(worldMg.getLaender().get(i));
+				}
+			}
+		}
+		return eigeneNachbarn;
+	}
+	
 	public ArrayList<Land> getLaenderMitEigenenNachbarn(ArrayList<Land> eigeneLaender)  {
 		ArrayList<Land> hatNachbarn = new ArrayList<Land>();
 		for (Land land : eigeneLaender) {
@@ -276,6 +289,30 @@ public class Spiellogik implements Serializable {
 			}
 		}
 		return hatNachbarn;
+	}
+	
+	//gibt zurück, ob von einem Land Einheiten verschoben werden können
+	public boolean moveFromLandGueltig(Land move) {
+		try {
+			if(move.getBesitzer().equals(turn.gibAktivenPlayer()) &&
+					getEigeneNachbarn(move).size() > 0) {
+				return true;
+			}
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	//überprüft, ob ein ausgewähltes Land angreifen kann (Besitzer = aktiverPlayer, hat feindliche Nachbarn und mehr als 1Einheit)
+	public boolean attackLandGueltig(Land att) throws LandExistiertNichtException {
+		if(turn.gibAktivenPlayer().equals(att.getBesitzer()) &&
+				getFeindlicheNachbarn(att).size() > 0 &&
+				att.getEinheiten() > 1) {
+			return true;
+		} 
+		return false;
 	}
 	
 	
