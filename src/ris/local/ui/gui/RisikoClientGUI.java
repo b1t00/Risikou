@@ -85,7 +85,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		worldPl = new WorldPanel(this, risiko);
 //		
 //		//SOUTH
-		infoPl = new InfoPanel();	
+		infoPl = new InfoPanel(risiko);	
 		
 		//Layout = CardLayout
 		container.setLayout(cl);
@@ -151,7 +151,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				worldPl = new WorldPanel(this, risiko);
 				
 				//SOUTH
-				infoPl = new InfoPanel();
+//				infoPl = new InfoPanel();
 		
 		
 //		container.setLayout(cl);
@@ -306,6 +306,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					//TODO: Fehlermeldung
 				}
 			}
+			System.out.println("movestate: " + worldPl.getMoveState());
 			
 			//checkt zuerst, ob das Land dem spieler gehört
 			if(risiko.getEigeneLaender(risiko.gibAktivenPlayer()).contains(land)) {
@@ -320,8 +321,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			RisikoClientGUI gui = new RisikoClientGUI();
 			gui.risiko.PlayerAnlegen("Annie", "rot", 1);
 			gui.risiko.PlayerAnlegen("Tobi", "gruen", 2);
+			gui.risiko.PlayerAnlegen("Hannes", "blau", 3);
 			gui.risiko.verteileEinheiten();
 			gui.risiko.verteileMissionen();
 			gui.risiko.setzeAktivenPlayer();
+			gui.risiko.setNextState();
+			gui.risiko.setNextState();
+			gui.risiko.whoBegins();
+			System.out.println(gui.risiko.gibAktivenPlayer());
+			System.out.println(gui.risiko.getEigeneLaender(gui.risiko.gibAktivenPlayer()));
+			System.out.println(gui.risiko.getCurrentState());
+			System.out.println("movestate: " + gui.worldPl.getMoveState());
 		}
 }

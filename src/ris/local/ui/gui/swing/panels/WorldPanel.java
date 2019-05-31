@@ -54,10 +54,11 @@ public class WorldPanel extends JPanel {
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
 			System.out.println("color ist: " + b);
+			System.out.println("Land: " + risiko.getLandById(b));
 			
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
-		//	Land land = ris.getLandById(zahl);
+			land = ris.getLandById(b);
 			switch(ris.getCurrentState()) {
 			case SETUNITS:	
 			case ATTACK:
@@ -86,13 +87,12 @@ public class WorldPanel extends JPanel {
           }); 
 	}
 	
-	  private void loadImage() {
-//	        karte = new ImageIcon("assets/img/karte.jpg");        
-			try
-			{
+	  private void loadImage() {    
+			try {
 				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
 			}
-			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");}		
+			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");
+			}	
 	  }
 	  
 	    @Override

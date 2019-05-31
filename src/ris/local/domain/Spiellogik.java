@@ -154,33 +154,35 @@ public class Spiellogik implements Serializable {
 //		return false;
 //	}
 	
-	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
-		//Symbolarray mit Anzahl der vorhandenen Einheitskarten
-		//0 = Kanone, 1 = Reiter, 2 = Soldat
-		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
-		//tauschkombi sagt aus, wieviele kombis vorhanden sind
-		//0 = Kanone, 1 = Reiter, 2 = Soldat, 3 = Reihe
-		int[] tauschkombi = new int[4];
-		if (symbolAnzahlArray[0] >= 3) {
-			tauschkombi[0] = symbolAnzahlArray[0]%3;
-		}
-		if (symbolAnzahlArray[1] >= 3) {
-			tauschkombi[1] = symbolAnzahlArray[1]%3;
-		}
-		if (symbolAnzahlArray[2] >= 3) {
-			tauschkombi[2] = symbolAnzahlArray[2]%3;
-		}
-		if (symbolAnzahlArray[0] > 0 && symbolAnzahlArray[1] > 0 && symbolAnzahlArray[2] > 0) {
-			int min = symbolAnzahlArray[0];
-			for (int i = 1; i < symbolAnzahlArray.length; i++) {
-				if (symbolAnzahlArray[i] < min) {
-					min = symbolAnzahlArray[i];
-				}
-			}
-			tauschkombi[3] = min;
-		}
-		return tauschkombi;
-	}
+	
+//	ALTE METHODE, KANN GELÖSCHT WERDEN, BEFINDET SICH JETZT IM PLAYER OBJEKT
+//	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
+//		//Symbolarray mit Anzahl der vorhandenen Einheitskarten
+//		//0 = Kanone, 1 = Reiter, 2 = Soldat
+//		int[] symbolAnzahlArray = aktiverPlayer.risikokartenKombi();
+//		//tauschkombi sagt aus, wieviele kombis vorhanden sind
+//		//0 = Kanone, 1 = Reiter, 2 = Soldat, 3 = Reihe
+//		int[] tauschkombi = new int[4];
+//		if (symbolAnzahlArray[0] >= 3) {
+//			tauschkombi[0] = symbolAnzahlArray[0]%3;
+//		}
+//		if (symbolAnzahlArray[1] >= 3) {
+//			tauschkombi[1] = symbolAnzahlArray[1]%3;
+//		}
+//		if (symbolAnzahlArray[2] >= 3) {
+//			tauschkombi[2] = symbolAnzahlArray[2]%3;
+//		}
+//		if (symbolAnzahlArray[0] > 0 && symbolAnzahlArray[1] > 0 && symbolAnzahlArray[2] > 0) {
+//			int min = symbolAnzahlArray[0];
+//			for (int i = 1; i < symbolAnzahlArray.length; i++) {
+//				if (symbolAnzahlArray[i] < min) {
+//					min = symbolAnzahlArray[i];
+//				}
+//			}
+//			tauschkombi[3] = min;
+//		}
+//		return tauschkombi;
+//	}
 	
 	//die Methode bekommt drei Symbole und gibt zurück, ob die Kombi gültig ist
 	public boolean isGueltigeTauschkombi(Symbol symbol1, Symbol symbol2, Symbol symbol3) {
