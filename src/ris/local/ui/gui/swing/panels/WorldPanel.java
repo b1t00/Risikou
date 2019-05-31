@@ -26,6 +26,7 @@ public class WorldPanel extends JPanel {
 	private int attackState;
 	private int moveState;
 	private BufferedImage karte = null;
+	private BufferedImage karte2 =null;
 	
 //	private ImageIcon karte = null;
 
@@ -104,6 +105,7 @@ public class WorldPanel extends JPanel {
 	  private void loadImage() {    
 			try {
 				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
+				karte2=ImageIO.read(new File("assets/img/risiko_map.jpg"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");
 			}	
@@ -111,7 +113,8 @@ public class WorldPanel extends JPanel {
 	  
 	    @Override
 	    public void paintComponent(Graphics g) {
-	    	g.drawImage(karte,0,0,null);	        
+	    	g.drawImage(karte,0,0,null);
+	    	g.drawImage(karte2,0,0,null);
 	    }
 
 		//Getter Methoden
