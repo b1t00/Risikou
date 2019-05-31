@@ -337,22 +337,22 @@ public class RisikoClientGUI extends JFrame
 			}
 	}
 	
-		public static void main (String[] args) {
-			RisikoClientGUI gui = new RisikoClientGUI();
-			gui.risiko.PlayerAnlegen("Annie", "rot", 1);
-			gui.risiko.PlayerAnlegen("Tobi", "gruen", 2);
-			gui.risiko.PlayerAnlegen("Hannes", "blau", 3);
-			gui.risiko.verteileEinheiten();
-			gui.risiko.verteileMissionen();
-			gui.risiko.setzeAktivenPlayer();
-			gui.risiko.setNextState();
-			gui.risiko.setNextState();
-			gui.risiko.whoBegins();
-			System.out.println(gui.risiko.gibAktivenPlayer());
-			System.out.println(gui.risiko.getEigeneLaender(gui.risiko.gibAktivenPlayer()));
-			System.out.println(gui.risiko.getCurrentState());
-			System.out.println("movestate: " + gui.worldPl.getMoveState());
-		}
+//		public static void main (String[] args) {
+//			RisikoClientGUI gui = new RisikoClientGUI();
+//			gui.risiko.playerAnlegen("Annie", "rot", 1);
+//			gui.risiko.playerAnlegen("Tobi", "gruen", 2);
+//			gui.risiko.playerAnlegen("Hannes", "blau", 3);
+//			gui.risiko.verteileEinheiten();
+//			gui.risiko.verteileMissionen();
+//			gui.risiko.setzeAktivenPlayer();
+//			gui.risiko.setNextState();
+//			gui.risiko.setNextState();
+//			gui.risiko.whoBegins();
+//			System.out.println(gui.risiko.gibAktivenPlayer());
+//			System.out.println(gui.risiko.getEigeneLaender(gui.risiko.gibAktivenPlayer()));
+//			System.out.println(gui.risiko.getCurrentState());
+//			System.out.println("movestate: " + gui.worldPl.getMoveState());
+//		}
 	}
 	public void showPanel(JPanel panel) {
 		
@@ -390,8 +390,7 @@ public class RisikoClientGUI extends JFrame
 		return wieVielePl.getAnzahlSpieler();
 	}
 
-	//public static void main(String[] args) {
-//		RisikoClientGUI gui = new RisikoClientGUI();
-
-//	}
+	public static void main(String[] args) {
+		RisikoClientGUI gui = new RisikoClientGUI();
+	}
 }
