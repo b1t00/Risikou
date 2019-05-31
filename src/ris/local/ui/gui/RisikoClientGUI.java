@@ -57,9 +57,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private UnitNumberPanel attackNumberPl;	
 	private UnitNumberPanel defenseNumberPl;
 	
+	private JPanel gamePl;
+	
 	public RisikoClientGUI() {
 		risiko = new Risiko();
 		initialize();
+//		showGamePl();
 		showQuestion();
 	}
 
@@ -67,24 +70,26 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		//ermoeglicht das schliessen des fensters
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
+		gamePl = new JPanel();
+		
 		//Layot der Frames
-		this.setLayout(new BorderLayout());
+		gamePl.setLayout(new BorderLayout());
 
 		// LOGIN
 //		loginPl = new LoginPanel();
 
-		//WEST
+//		//WEST
 		container = new JPanel();
-		
-		//CENTER
+//		
+//		//CENTER
 		worldPl = new WorldPanel(this, risiko);
-		
-		//SOUTH
+//		
+//		//SOUTH
 		infoPl = new InfoPanel();	
 		
 		//Layout = CardLayout
 		container.setLayout(cl);
-		container.setSize(400,100);
+		container.setSize(50,100);
 		container.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 
@@ -95,11 +100,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 
 //		this.add(loginPl);
-		this.add(container, BorderLayout.WEST);
-		this.add(worldPl, BorderLayout.CENTER);
-		this.add(infoPl, BorderLayout.SOUTH);
-		
-		this.setSize(1200, 800);
+		gamePl.add(container, BorderLayout.WEST);
+		gamePl.add(worldPl, BorderLayout.CENTER);
+		gamePl.add(infoPl, BorderLayout.SOUTH);
+//		
+		this.add(gamePl);
+		this.setSize(1400, 800);
 		this.setVisible(true);
 		this.setTitle("Risiko");
 		
@@ -134,6 +140,29 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dicePl = new DicePanel();
 		container.add(dicePl, "dice");
 		
+	}
+	
+	public void showGamePl() {
+		this.add(gamePl);
+		//WEST
+//				container = new JPanel();
+				
+				//CENTER
+				worldPl = new WorldPanel(this, risiko);
+				
+				//SOUTH
+				infoPl = new InfoPanel();
+		
+		
+//		container.setLayout(cl);
+//		container.setSize(50,100);
+//		container.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		gamePl.add(container, BorderLayout.WEST);
+		gamePl.add(worldPl, BorderLayout.CENTER);
+		gamePl.add(infoPl, BorderLayout.SOUTH);
+		
+		this.add(gamePl);
 	}
 	
 	//je nach spielphase wird ein anderes panel im container-panel angezeigt
@@ -248,12 +277,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					//Fehlermeldung mit Schleife
 				}
 			} else {
-				if(!land.getBesitzer().equals(risiko.gibAktivenPlayer()) && risiko.isBenachbart(land, worldPl.getAttackLand1())) {
+//				if(!land.getBesitzer().equals(risiko.gibAktivenPlayer()) && risiko.isBenachbart(land, worldPl.getAttackLand1())) {
 					// eventuell die Bedingung in risiko auslagern
-					cl.show(container, "attackNumber");
-				} else {
+//					cl.show(container, "attackNumber");
+//				} else {
 					//Fehlermeldung mit Schleife
-				}
+//				}
 			}
 			//neues Attack-Objekt
 			//Attack-Objekt hat Angreifer, Verteidiger, Land1 und Land2 und zwei Werte für Einheiten
