@@ -9,11 +9,13 @@ public class Land implements Comparable, Serializable{
 	private int nummer;
 	private String name;
 	private Player besitzer;
+	private String rgb;
 	
-	public Land(String name, int nummer, int einheiten) {
+	public Land(String name, int nummer, int einheiten,String rgb) {
 		this.nummer = nummer;
 		this.name = name;
 		this.einheiten = einheiten;
+		this.rgb = rgb;
 	}
 	
 	// Methode um Einheiten zu setzten 
