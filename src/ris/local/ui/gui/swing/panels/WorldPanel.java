@@ -1,9 +1,9 @@
 package ris.local.ui.gui.swing.panels;
 
+import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +50,9 @@ public class WorldPanel extends JPanel {
 			// TODO Auto-generated method stub
 			int x = me.getX();
 			int y = me.getY();
-			int color = karte.getRGB(x,y);
-			System.out.println(color);
+			Color color = new Color( karte.getRGB(x,y));
+			int b= color.getBlue();
+			System.out.println(b);
 			
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
