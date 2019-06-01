@@ -88,7 +88,7 @@ public class WorldPanel extends JPanel {
 //	        karte = new ImageIcon("assets/img/karte.jpg");        
 			try
 			{
-				karte=ImageIO.read(new File("assets/img/karte.jpg"));
+				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");}		
 	  }
