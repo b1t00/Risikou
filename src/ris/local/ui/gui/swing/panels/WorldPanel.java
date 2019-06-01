@@ -25,6 +25,7 @@ public class WorldPanel extends JPanel {
 	private int attackState;
 	private int moveState;
 	private BufferedImage karte = null;
+	private BufferedImage karte2 =null;
 	
 //	private ImageIcon karte = null;
 
@@ -56,7 +57,7 @@ public class WorldPanel extends JPanel {
 			
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
-		//	Land land = ris.getLandById(zahl);
+			land = ris.getLandById(b);
 			switch(ris.getCurrentState()) {
 			case SETUNITS:	
 			case ATTACK:
@@ -90,13 +91,15 @@ public class WorldPanel extends JPanel {
 			try
 			{
 				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
+				karte2=ImageIO.read(new File("assets/img/risiko_map.jpg"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");}		
 	  }
 	  
 	    @Override
 	    public void paintComponent(Graphics g) {
-	    	g.drawImage(karte,0,0,null);	        
+	    	g.drawImage(karte,0,0,null);
+	    	g.drawImage(karte2,0,0,null);
 	    }
 
 		//Getter Methoden
