@@ -32,7 +32,7 @@ public class NeuerSpielerPanel extends JPanel {
 	public NeuerSpielerPanel(Risiko risiko, RisikoClientGUI client) {
 		this.risiko = risiko;
 		this.client = client;
-		
+		this.setIgnoreRepaint(false);
 		x = risiko.getPlayerArray().size() + 1;
 
 //		x = client.getSpielerAnzahl();
@@ -50,9 +50,10 @@ public class NeuerSpielerPanel extends JPanel {
 		farbauswahlCB = new JComboBox<String>(farbListe);
 
 		hinzufuegen = new JButton("hinzufuegen");
+		System.out.println("hey");
 		hinzufuegen.addActionListener(new ActionListener() {
-
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("ho");
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
@@ -61,8 +62,8 @@ public class NeuerSpielerPanel extends JPanel {
 					risiko.playerAnlegen(name, farbe, x);
 					System.out.println("hier gucken playerAnlegen :" + x);
 					x++;
-					revalidate();
-					repaint();
+					
+					
 
 					client.showNeuerSpielerPanel();
 					revalidate();
