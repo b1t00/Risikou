@@ -20,7 +20,6 @@ import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
 public class WorldPanel extends JPanel {
-	private WorldManagement wM = new WorldManagement();
 	private Risiko ris;
 	private WorldListener listener;
 	private Land attackLand1;
@@ -149,8 +148,8 @@ public class WorldPanel extends JPanel {
 	  }
 
 
-	  public void flagForCountry(Land land,Graphics g) {
-		  switch() {
+	  public void drawFlag(Land land, String farbe, Graphics g) {
+		  switch(farbe) {
 		  case "rot":
 			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
 			  break;
@@ -180,74 +179,17 @@ public class WorldPanel extends JPanel {
 	    	ArrayList<Player> playerArray = ris.getPlayerArray();
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {
-	    			drawFlag(land, player.getFarbe());
+	    			drawFlag(land, player.getFarbe(), g);
+		    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
 	    		}
 	    	}
 //	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
 	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
-	    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
-	    		flagForCountry(land, g);
+
+//	    		flagForCountry(land, g);
 	    		//flagForCountry(wM.getLaender(), g);
-
 	    	}
-	    	
-	    	
-	    }
 
-		//Getter Methoden
-		public int getAttackState() {
-			return attackState;
-		}
-		
-		public int getMoveState() {
-			return moveState;
-		}
-		
-		public Land getAttackLand1() {
-			return attackLand1;
-		}
-		
-		public Land getAttackLand2() {
-			return attackLand2;
-		}
-	}
-
-	public void flagForCountry(Land land, Graphics g) {
-		switch (land.getBesitzer().getFarbe()) {
-		case "rot":
-			g.drawImage(flagr, land.getXf(), land.getYf(), null);
-			break;
-		case "gruen":
-			g.drawImage(flaggr, land.getXf(), land.getYf(), null);
-			break;
-		case "blau":
-			g.drawImage(flagbl, land.getXf(), land.getYf(), null);
-			break;
-		case "weiss":
-			g.drawImage(flagw, land.getXf(), land.getYf(), null);
-		case "pink":
-			g.drawImage(flagp, land.getXf(), land.getYf(), null);
-		case "schwarz":
-			g.drawImage(flagbc, land.getXf(), land.getYf(), null);
-			g.drawString("1", land.getxE(), land.getyE());
-		default:
-			g.drawImage(flagp, land.getXf(), land.getYf(), null);
-
-		}
-	}
-
-	@Override
-	public void paintComponent(Graphics g) {
-		g.drawImage(karte, 0, 0, null);
-		g.drawImage(karte2, 0, 0, null);
-		for (Land land : wM.getLaender()) {
-			g.drawImage(flagp, land.getXf(), land.getYf(), null);
-			g.setFont(new Font("TimesRoman", Font.BOLD, 24));
-			g.drawString(" " + land.getEinheiten(), land.getxE(), land.getyE());
-
-		}
-
-	}
 
 	// Getter Methoden
 	public int getAttackState() {
