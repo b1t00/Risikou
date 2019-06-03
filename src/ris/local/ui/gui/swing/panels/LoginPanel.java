@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,6 +31,7 @@ public class LoginPanel extends JPanel {
 		setPreferredSize( new Dimension( 640, 480 ) );
 //		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
+		spielStartenBtn.setMnemonic(KeyEvent.VK_ENTER);
 		spielStartenBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
