@@ -2,6 +2,7 @@ package ris.local.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -14,9 +15,10 @@ import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Land;
+import ris.local.domain.WorldManagement;
 
 public class WorldPanel extends JPanel {
-	
+	private WorldManagement wM= new WorldManagement();
 	private Risiko ris;
 	private WorldListener listener;
 	private Land attackLand1;
@@ -32,17 +34,14 @@ public class WorldPanel extends JPanel {
 	private BufferedImage flaggr= null;
 	private BufferedImage flagw= null;
 	private BufferedImage flagbc= null;
+	private BufferedImage flagp= null;
 	
 //	private ImageIcon karte = null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
 	}
-	public static void main(String[]args) {
-		Risiko risiko = new Risiko();
-		WorldPanel wp= null;
-		wp= new WorldPanel(wp.getListener(),risiko );
-	}
+
 	public WorldListener getListener() {
 		return this.listener;
 	}
@@ -67,8 +66,9 @@ public class WorldPanel extends JPanel {
 
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
-			System.out.println("color ist: " + b);
+			//System.out.println("color ist: " + b);
 			System.out.println("Land: " + risiko.getLandById(b));
+			System.out.println("x: "+ x+"  y: "+y);
 			
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
@@ -118,32 +118,36 @@ public class WorldPanel extends JPanel {
 			try {
 				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
 				karte2=ImageIO.read(new File("assets/img/risiko_map.jpg"));
-				flagr=ImageIO.read(new File("assets/img/flag_red.png"));
-				flagbl=ImageIO.read(new File("assets/img/flag_blue.png"));
-				flaggr=ImageIO.read(new File("assets/img/flag_green.png"));
-				flagw=ImageIO.read(new File("assets/img/flag_white.png"));
+				flagr=ImageIO.read(new File("assets/img/flag_rot.png"));
+				flagbl=ImageIO.read(new File("assets/img/flag_blau.png"));
+				flaggr=ImageIO.read(new File("assets/img/flag_gruen.png"));
+				flagw=ImageIO.read(new File("assets/img/flag_weiss.png"));
+				flagp=ImageIO.read(new File("assets/img/flag_pink.png"));
+				flagbc=ImageIO.read(new File("assets/img/flag_schwarz.png"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");
 			}	
 	  }
-	  private void loadFlags() {
-		  
-	  }
+
 	  public void flagForCountry(Land land,Graphics g) {
 		  switch(land.getBesitzer().getFarbe()) {
 		  case "rot":
-			  g.drawImage(flagr,0,0,null);
+			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
 			  break;
 		  case "gruen":
-			  g.drawImage(flaggr,0,0,null);
+			  g.drawImage(flaggr,land.getXf(),land.getYf(),null);
 			  break;
 		  case "blau":
-			  g.drawImage(flagbl,0,0,null);
+			  g.drawImage(flagbl,land.getXf(),land.getYf(),null);
 			  break;
 		  case "weiss":
-			  g.drawImage(flagw,0,0,null);
+			  g.drawImage(flagw,land.getXf(),land.getYf(),null);
 		  case "pink":
+			  g.drawImage(flagp,land.getXf(),land.getYf(),null);
 		  case "schwarz":
+			  g.drawImage(flagbc,land.getXf(),land.getYf(),null);
+		default:
+			g.drawImage(flagp,land.getXf(),land.getYf(),null);
 			  
 		  }
 	  }
@@ -151,6 +155,13 @@ public class WorldPanel extends JPanel {
 	    public void paintComponent(Graphics g) {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
+	    	for(Land land:wM.getLaender()) {
+	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
+	    	}
+	    	Label l1= new Label("1");
+	    	l1.setBounds(500, 500, 50, 50);
+	    	
+	    	
 	    }
 
 		//Getter Methoden
