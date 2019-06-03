@@ -85,8 +85,8 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI() {
 		RepaintManager rp = new RepaintManager();
 		risiko = new Risiko();
-//		initializeLoginPl();
-		testSetUp();
+		initializeLoginPl();
+//		testSetUp();
 		showGamePanel();
 
 	}
@@ -425,6 +425,8 @@ public class RisikoClientGUI extends JFrame
 		risiko.playerAnlegen("Tobi", "gruen", 2);
 		risiko.playerAnlegen("Hannes", "blau", 3);
 		risiko.verteileEinheiten();
+		System.out.println(risiko.getPlayerArray().get(0).getBesitz());
+		System.out.println("eins");
 		risiko.verteileMissionen();
 		risiko.setzeAktivenPlayer();
 	}
@@ -446,8 +448,7 @@ public class RisikoClientGUI extends JFrame
 	public void showLoginPanel() {
 		this.setSize(getPreferredSize());
 		showPanel(loginPl);
-		rp.addDirtyRegion(loginPl, 500, 500, 200, 200);
-		rp.paintDirtyRegions();
+		setLocationRelativeTo(null);
 	}
 
 	public void showNeuerSpielerPanel() {

@@ -22,8 +22,7 @@ public class NeuerSpielerPanel extends JPanel {
 	JButton hinzufuegen;
 	JComboBox<String> farbauswahlCB;
 	RisikoClientGUI client;
-	int x;
-	RepaintManager rp = new RepaintManager();
+	int x = 0;
 
 	private Risiko risiko;
 
@@ -34,8 +33,6 @@ public class NeuerSpielerPanel extends JPanel {
 		this.client = client;
 
 		this.setIgnoreRepaint(false);
-
-		x = 0;
 //		Dimension size = this.getPreferredSize();
 //		size.width = 200;
 //		this.setPreferredSize(size);
@@ -50,9 +47,7 @@ public class NeuerSpielerPanel extends JPanel {
 		farbauswahlCB = new JComboBox<String>(farbListe);
 		farbauswahlCB.setSelectedIndex(x);
 
-		hinzufuegen = new JButton("hinzufuegen");
-		System.out.println("hey");
-		
+		hinzufuegen = new JButton("hinzufuegen");		
 		hinzufuegen.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -60,6 +55,7 @@ public class NeuerSpielerPanel extends JPanel {
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
+				int farbIndex = farbauswahlCB.getSelectedIndex();
 				
 				System.out.println(risiko.getFarbauswahl());
 				
@@ -69,22 +65,15 @@ public class NeuerSpielerPanel extends JPanel {
 					System.out.println("hier gucken playerAnlegen :" + x);
 					
 					nameField.setText("");
-					farbauswahlCB.revalidate();
-					farbauswahlCB.repaint();
-					rp.markCompletelyDirty(nameLabel);
-					rp.paintDirtyRegions();
-					nameLabel.removeAll();
-					nameLabel.revalidate();
-					nameLabel.repaint();
 
 					client.showNeuerSpielerPanel();
-					rp.markCompletelyDirty(nameLabel);
-					rp.paintDirtyRegions();
+					farbauswahlCB.removeItemAt(farbIndex);
+
 					revalidate();
 					RepaintManager.currentManager(client).removeInvalidComponent(farbauswahlCB);
 					repaint();
 
-					test = "zwei";
+					x++;
 				}
 				if (x == client.getSpielerAnzahl()) {
 					risiko.verteileEinheiten();

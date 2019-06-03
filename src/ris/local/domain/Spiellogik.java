@@ -47,6 +47,7 @@ public class Spiellogik implements Serializable {
 
 	// Methode um Laender am Anfang zuf�llig zu verteilen;
 	public void verteileEinheiten() {
+		System.out.println("werde ich ausgeführt?");
 		ArrayList<Land> alleLaender = worldMg.getLaender();
 		Collections.shuffle(alleLaender);
 
@@ -70,6 +71,7 @@ public class Spiellogik implements Serializable {
 	public void teileLaenderBesitzerZu() {
 		for (Player player : playerMg.getPlayers()) {
 			for (Land land : player.getBesitz()) {
+				System.out.println("hio" + player.getName());
 				land.setBesitzer(player);
 			}
 		}
