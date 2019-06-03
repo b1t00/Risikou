@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.RepaintManager;
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import ris.local.domain.Risiko;
@@ -26,8 +28,8 @@ import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
 import ris.local.ui.gui.swing.panels.RequestPanel;
 import ris.local.ui.gui.swing.panels.RequestPanel.CountryRequest;
 import ris.local.ui.gui.swing.panels.RequestPanel.RequestListener;
-
-
+import ris.local.ui.gui.swing.panels.RisikokartenTauschPanel;
+import ris.local.ui.gui.swing.panels.SetUnitsPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumber;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
@@ -53,6 +55,8 @@ public class RisikoClientGUI extends JFrame
 	private InfoPanel infoPl;
 //	private DialogPanel dialogPl;
 //	private SetUnitsPanel setUnitsPl;
+	
+	private RepaintManager rp;
 
 	private DicePanel dicePl;
 
@@ -76,6 +80,7 @@ public class RisikoClientGUI extends JFrame
 	private RisikokartenTauschPanel risikoKartenTPl;
 
 	public RisikoClientGUI() {
+		RepaintManager rp = new RepaintManager();
 		risiko = new Risiko();
 		initializeLoginPl();
 
@@ -399,8 +404,8 @@ public class RisikoClientGUI extends JFrame
 //		}
 	}
 
-		}
-	}
+		
+	
 	
 	public void showPanel(JPanel panel) {
 
@@ -419,10 +424,15 @@ public class RisikoClientGUI extends JFrame
 	public void showLoginPanel() {
 		this.setSize(getPreferredSize());
 		showPanel(loginPl);
+		rp.addDirtyRegion(loginPl, 500, 500,200, 200);
+		rp.paintDirtyRegions();
 	}
 
 	public void showNeuerSpielerPanel() {
 		showPanel(neuerSpielerPl);
+		System.out.println(rp.currentManager(neuerSpielerPl));
+		RepaintManager test = rp.currentManager(neuerSpielerPl);
+		test.paintDirtyRegions();
 	}
 
 	public void showGamePanel() {
@@ -439,6 +449,13 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public static void main(String[] args) {
-		RisikoClientGUI gui = new RisikoClientGUI();
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RisikoClientGUI gui = new RisikoClientGUI();
+				
+			}
+		});
 	}
 }

@@ -68,12 +68,15 @@ public class NeuerSpielerPanel extends JPanel {
 					x++;
 					farbauswahlCB.revalidate();
 					farbauswahlCB.repaint();
-
+					rp.markCompletelyDirty(nameLabel);
+					rp.paintDirtyRegions();
 					nameLabel.removeAll();
 					nameLabel.revalidate();
 					nameLabel.repaint();
 
 					client.showNeuerSpielerPanel();
+					rp.markCompletelyDirty(nameLabel);
+					rp.paintDirtyRegions();
 					revalidate();
 					RepaintManager.currentManager(client).removeInvalidComponent(farbauswahlCB);
 					repaint();
