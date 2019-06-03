@@ -67,7 +67,7 @@ public class WorldPanel extends JPanel {
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
 			System.out.println("Land: " + risiko.getLandById(b));
-			System.out.println("x: "+ x+"  y: "+y);
+//			System.out.println("x: "+ x+"  y: "+y);
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 			land = ris.getLandById(b);

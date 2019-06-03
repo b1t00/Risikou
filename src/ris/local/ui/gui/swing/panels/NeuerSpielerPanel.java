@@ -54,7 +54,9 @@ public class NeuerSpielerPanel extends JPanel {
 
 		hinzufuegen = new JButton("hinzufuegen");
 		System.out.println("hey");
+		
 		hinzufuegen.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("ho");
 				String name = nameField.getText();
@@ -66,8 +68,7 @@ public class NeuerSpielerPanel extends JPanel {
 					System.out.println("hier gucken playerAnlegen :" + x);
 					x++;
 					
-					
-
+					nameField.setText("");
 					client.showNeuerSpielerPanel();
 					revalidate();
 					repaint();
