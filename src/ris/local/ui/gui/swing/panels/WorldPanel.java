@@ -27,13 +27,25 @@ public class WorldPanel extends JPanel {
 	private int moveState;
 	private BufferedImage karte = null;
 	private BufferedImage karte2 =null;
+	private BufferedImage flagr= null;
+	private BufferedImage flagbl= null;
+	private BufferedImage flaggr= null;
+	private BufferedImage flagw= null;
+	private BufferedImage flagbc= null;
 	
 //	private ImageIcon karte = null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
 	}
-	
+	public static void main(String[]args) {
+		Risiko risiko = new Risiko();
+		WorldPanel wp= null;
+		wp= new WorldPanel(wp.getListener(),risiko );
+	}
+	public WorldListener getListener() {
+		return this.listener;
+	}
 	public WorldPanel (WorldListener wl, Risiko risiko) {
 		listener = wl;
 		ris = risiko;
@@ -106,11 +118,35 @@ public class WorldPanel extends JPanel {
 			try {
 				karte=ImageIO.read(new File("assets/img/risiko_map_b.png"));
 				karte2=ImageIO.read(new File("assets/img/risiko_map.jpg"));
+				flagr=ImageIO.read(new File("assets/img/flag_red.png"));
+				flagbl=ImageIO.read(new File("assets/img/flag_blue.png"));
+				flaggr=ImageIO.read(new File("assets/img/flag_green.png"));
+				flagw=ImageIO.read(new File("assets/img/flag_white.png"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");
 			}	
 	  }
-	  
+	  private void loadFlags() {
+		  
+	  }
+	  public void flagForCountry(Land land,Graphics g) {
+		  switch(land.getBesitzer().getFarbe()) {
+		  case "rot":
+			  g.drawImage(flagr,0,0,null);
+			  break;
+		  case "gruen":
+			  g.drawImage(flaggr,0,0,null);
+			  break;
+		  case "blau":
+			  g.drawImage(flagbl,0,0,null);
+			  break;
+		  case "weiss":
+			  g.drawImage(flagw,0,0,null);
+		  case "pink":
+		  case "schwarz":
+			  
+		  }
+	  }
 	    @Override
 	    public void paintComponent(Graphics g) {
 	    	g.drawImage(karte,0,0,null);
