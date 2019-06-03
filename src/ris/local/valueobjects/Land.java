@@ -10,11 +10,19 @@ public class Land implements Comparable, Serializable{
 	private String name;
 	private Player besitzer;
 	private String rgb;
+	private int xf;
+	private int yf;
+	private int xE;
+	private int yE;
 	
-	public Land(String name, int nummer, int einheiten) {
+	public Land(String name, int nummer, int einheiten,int xf,int yf,int xE,int yE) {
 		this.nummer = nummer;
 		this.name = name;
 		this.einheiten = einheiten;
+		this.setXf(xf);
+		this.setYf(yf);
+		this.setxE(xE);
+		this.setyE(yE);
 		//this.rgb = rgb;
 	}
 	
@@ -81,6 +89,38 @@ public class Land implements Comparable, Serializable{
 	public int compareTo(Object o) {
 		Land other = (Land) o;
 		return this.nummer - other.getNummer();
+	}
+
+	public int getXf() {
+		return xf;
+	}
+
+	public void setXf(int xf) {
+		this.xf = xf;
+	}
+
+	public int getYf() {
+		return yf;
+	}
+
+	public void setYf(int yf) {
+		this.yf = yf;
+	}
+
+	public int getyE() {
+		return yE;
+	}
+
+	public void setyE(int yE) {
+		this.yE = yE;
+	}
+
+	public int getxE() {
+		return xE;
+	}
+
+	public void setxE(int xE) {
+		this.xE = xE;
 	}
 	
 	

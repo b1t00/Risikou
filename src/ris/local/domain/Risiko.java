@@ -67,8 +67,9 @@ public class Risiko implements Serializable {
 	// @annie: ich glaub das ist richtig so
 	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
 	// ansonsten machts ja auch kein sinn
-	public Player whoBegins() {
-		return logik.whoBegins();
+	public void whoBegins() {
+		turn.setAktivenPlayer(logik.whoBegins());
+		turn.setPlayerList(playerMg.getPlayers());
 	}
 
 	public Player playerAnlegen(String name, String farbe, int nummer) {
@@ -76,6 +77,7 @@ public class Risiko implements Serializable {
 		return player;
 	}
 
+	//TODO: diese methode kann wahrschienich weg, nochmal überprüfen!
 	public void setzeAktivenPlayer() {
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
@@ -203,6 +205,10 @@ public class Risiko implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} return false;
+	}
+	
+	public boolean defenseLandGueltig(Land att, Land def) {
+		return logik.defenseLandGueltig(att, def);
 	}
 	
 	public boolean moveFromLandGueltig(Land move) {

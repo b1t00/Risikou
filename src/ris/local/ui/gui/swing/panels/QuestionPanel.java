@@ -18,15 +18,9 @@ public class QuestionPanel extends JPanel{
 	public interface QuestionListener {
 		public void answerSelected(boolean answer);
 	}
-
-//	public enum Question {
-//		ATTACK,
-//		CHANGEUNITS
-//	}
 	
 	private Risiko ris = null;
 	private QuestionListener listener = null;
-//	private Question question;
 	
 
 	private JLabel titel = new JLabel("Attack");
@@ -38,7 +32,6 @@ public class QuestionPanel extends JPanel{
 	public QuestionPanel(QuestionListener listener, Risiko risiko) {
 		ris = risiko;
 		this.listener = listener;
-//		this.question = question;
 		
 		setupUI();
 		

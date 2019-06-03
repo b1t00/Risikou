@@ -1,3 +1,4 @@
+
 package ris.local.ui.gui.swing.panels;
 
 import java.awt.GridBagConstraints;
@@ -31,8 +32,8 @@ public class NeuerSpielerPanel extends JPanel {
 	public NeuerSpielerPanel(Risiko risiko, RisikoClientGUI client) {
 		this.risiko = risiko;
 		this.client = client;
+
 		this.setIgnoreRepaint(false);
-		
 
 		x = 0;
 //		Dimension size = this.getPreferredSize();

@@ -7,6 +7,8 @@ public class Attack {
 	private Player defender;
 	private Land attack;
 	private Land defense;
+	private Player winner;
+	private Player loser;
 	private ArrayList<Integer> attUnits;
 	private ArrayList<Integer> defUnits;
 	private ArrayList<Integer> result;
@@ -29,6 +31,30 @@ public class Attack {
 	
 	public void setResult(ArrayList<Integer> result) {
 		this.result = result;
+	}
+	
+	public void setWinner(Player player) {
+		winner = player;
+	}
+	
+	public void setLoser(Player player) {
+		loser = player;
+	}
+	
+	public Player getWinner() {
+		return winner;
+	}
+
+	public Player getLoser() {
+		return loser;
+	}
+	
+	public ArrayList getAttUnits() {
+		return attUnits;
+	}
+	
+	public ArrayList getDefUnits() {
+		return defUnits;
 	}
 
 }
