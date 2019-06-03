@@ -36,12 +36,8 @@ public class NeuerSpielerPanel extends JPanel {
 		this.setIgnoreRepaint(false);
 
 		x = 0;
-//		Dimension size = this.getPreferredSize();
-//		size.width = 200;
-//		this.setPreferredSize(size);
-//		this.revalidate();
-//		this.repaint();
-		nameLabel = new JLabel("Name von Spieler " + x);
+
+		nameLabel = new JLabel("Name von Spieler " + (x + 1));
 
 		test = "test";
 		nameField = new JTextField(20);
@@ -52,6 +48,8 @@ public class NeuerSpielerPanel extends JPanel {
 
 		hinzufuegen = new JButton("hinzufuegen");
 		System.out.println("hey");
+		
+		
 		
 		hinzufuegen.addActionListener(new ActionListener() {
 			
@@ -66,23 +64,17 @@ public class NeuerSpielerPanel extends JPanel {
 				if (x < client.getSpielerAnzahl()) {
 					
 					risiko.playerAnlegen(name, farbe, x);
-					System.out.println("hier gucken playerAnlegen :" + x);
+//					System.out.println("hier gucken playerAnlegen :" + x);
 					
 					nameField.setText("");
-					farbauswahlCB.revalidate();
-					farbauswahlCB.repaint();
-					rp.markCompletelyDirty(nameLabel);
-					rp.paintDirtyRegions();
-					nameLabel.removeAll();
+					x++;
+					nameLabel.setText("Name von Spieler " + (x + 1));
 					nameLabel.revalidate();
 					nameLabel.repaint();
+					
+//					farbauswahlCB.revalidate();
+//					farbauswahlCB.repaint();
 
-					client.showNeuerSpielerPanel();
-					rp.markCompletelyDirty(nameLabel);
-					rp.paintDirtyRegions();
-					revalidate();
-					RepaintManager.currentManager(client).removeInvalidComponent(farbauswahlCB);
-					repaint();
 
 					test = "zwei";
 				}

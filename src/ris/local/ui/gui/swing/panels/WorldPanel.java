@@ -54,6 +54,8 @@ public class WorldPanel extends JPanel {
 		this.attackState = 1;
 		this.moveState = 1;
 		
+
+		
 		loadImage();
 
 //_________________Methode bei MouseClic___________________________
@@ -144,7 +146,7 @@ public class WorldPanel extends JPanel {
 	  }
 
 	  public void flagForCountry(Land land,Graphics g) {
-		  switch(land.getBesitzer().getFarbe()) {
+		  switch(ris.getPlayerArray().get(0).getBesitz().get(0).getBesitzer().getFarbe()) {
 		  case "rot":
 			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
 			  break;
@@ -163,7 +165,6 @@ public class WorldPanel extends JPanel {
 			  g.drawString("1", land.getxE(), land.getyE());
 		default:
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
-			  
 		  }
 	  }
 	    @Override
@@ -171,10 +172,10 @@ public class WorldPanel extends JPanel {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
 	    	for(Land land:wM.getLaender()) {
-	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
+//	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
 	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
 	    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
-
+	    		flagForCountry(land, g);
 	    	}
 	    	
 	    	

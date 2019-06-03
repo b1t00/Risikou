@@ -171,7 +171,7 @@ public class RisikoClientGUI extends JFrame
 //				container = new JPanel();
 
 		// CENTER
-		worldPl = new WorldPanel(this, risiko);
+//		worldPl = new WorldPanel(this, risiko);
 
 		// SOUTH
 //				infoPl = new InfoPanel();
@@ -181,7 +181,7 @@ public class RisikoClientGUI extends JFrame
 //		container.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		gamePl.add(container, BorderLayout.WEST);
-		gamePl.add(worldPl, BorderLayout.CENTER);
+//		gamePl.add(worldPl, BorderLayout.CENTER);
 		gamePl.add(infoPl, BorderLayout.SOUTH);
 
 		this.add(gamePl);
@@ -330,11 +330,9 @@ public class RisikoClientGUI extends JFrame
 			}
 			System.out.println("Einheiten nachher: " + land.getEinheiten());
 			setUnitsPl.decrementUnits();
-			System.out.println("EIheiten panel: " + setUnitsPl.getVerfuegbareEinheiten());
+			System.out.println("Einheiten panel: " + setUnitsPl.getVerfuegbareEinheiten());
 			if(setUnitsPl.getVerfuegbareEinheiten() > 0) {
-				setUnitsPl.revalidate();
-//				setUnitsPl.repaint();
-				cl.show(container, "setUnits");
+				setUnitsPl.update();
 			} else {
 				System.out.println("FrageStatus vorher: " + risiko.getCurrentState());
 				risiko.setNextState();
@@ -343,7 +341,6 @@ public class RisikoClientGUI extends JFrame
 			}
 			break;
 		case ATTACK:
-
 			//wenn attackState 2 ist, wurde nur das erste Land eingeloggt, das zweite wird erwartet
 			if(worldPl.getAttackState() == 2) {
 					cl.show(container, "attackTo");
@@ -383,34 +380,15 @@ public class RisikoClientGUI extends JFrame
 				// dialogfenster mit fehlermeldung
 			}
 		}
-
-//		public static void main (String[] args) {
-//			RisikoClientGUI gui = new RisikoClientGUI();
-//			gui.risiko.playerAnlegen("Annie", "rot", 1);
-//			gui.risiko.playerAnlegen("Tobi", "gruen", 2);
-//			gui.risiko.playerAnlegen("Hannes", "blau", 3);
-//			gui.risiko.verteileEinheiten();
-//			gui.risiko.verteileMissionen();
-//			gui.risiko.setzeAktivenPlayer();
-//			gui.risiko.setNextState();
-//			gui.risiko.setNextState();
-//			gui.risiko.whoBegins();
-//			System.out.println(gui.risiko.gibAktivenPlayer());
-//			System.out.println(gui.risiko.getEigeneLaender(gui.risiko.gibAktivenPlayer()));
-//			System.out.println(gui.risiko.getCurrentState());
-//			System.out.println("movestate: " + gui.worldPl.getMoveState());
-//		}
 	}
 
 	
 	public void showPanel(JPanel panel) {
-
 		Container c = getContentPane();
 		c.removeAll();
 		c.add(panel);
 		c.revalidate();
 		c.repaint();
-
 	}
 
 	public void showNeuesSpielPanel() {
@@ -436,6 +414,11 @@ public class RisikoClientGUI extends JFrame
 		System.out.println("aktiver Player: " + risiko.gibAktivenPlayer());
 		System.out.println("aktive player länder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
 		showDialog();
+		System.out.println("länder von spieler 1" + risiko.getPlayerArray().get(0).getBesitz());
+
+		System.out.println("");
+		worldPl = new WorldPanel(this, risiko);
+		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
 	}
 

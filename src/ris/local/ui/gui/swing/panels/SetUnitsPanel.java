@@ -43,4 +43,7 @@ public class SetUnitsPanel extends JPanel {
 		return units;
 	}
 	
+	public void update() {
+		info.setText("Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
+	}
 }
