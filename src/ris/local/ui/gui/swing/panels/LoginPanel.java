@@ -25,8 +25,10 @@ public class LoginPanel extends JPanel {
 	public LoginPanel(RisikoClientGUI client) {
 		this.client = client;
 //		Dimension size = this.getPreferredSize();
-//		size.width = 500;
+//		size.width = 1100;
 //		this.setPreferredSize(size);
+		setPreferredSize( new Dimension( 640, 480 ) );
+//		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
 		spielStartenBtn.addActionListener(new ActionListener() {
 			@Override

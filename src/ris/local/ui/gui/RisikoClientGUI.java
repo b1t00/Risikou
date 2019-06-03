@@ -369,7 +369,6 @@ public class RisikoClientGUI extends JFrame
 		showPanel(loginPl);
 	}
 
-
 	public void showNeuerSpielerPanel() {
 		showPanel(neuerSpielerPl);
 	}
