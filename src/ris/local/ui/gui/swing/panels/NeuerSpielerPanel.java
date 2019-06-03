@@ -33,7 +33,7 @@ public class NeuerSpielerPanel extends JPanel {
 		this.risiko = risiko;
 		this.client = client;
 		
-		x = risiko.getPlayerArray().size() + 1;
+		x = risiko.getPlayerArray().size();
 
 //		x = client.getSpielerAnzahl();
 
@@ -73,6 +73,7 @@ public class NeuerSpielerPanel extends JPanel {
 				if (x == client.getSpielerAnzahl()) {
 					risiko.verteileEinheiten();
 					risiko.verteileMissionen();
+					risiko.whoBegins();
 					client.showGamePanel();
 				}
 				System.out.println(risiko.getPlayerArray());

@@ -1,6 +1,7 @@
 package ris.local.valueobjects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import ris.local.domain.PlayerManagement;
@@ -11,7 +12,7 @@ public class Turn implements Serializable{
 	//TODO: muss noch private gemacht werdem
 	public State state;
 	private int spielrunden;
-	private List<Player> playerList;
+	private ArrayList<Player> playerList;
 	private PlayerManagement playerMg;
 	
 	public Turn(PlayerManagement playerMg) {
@@ -37,6 +38,10 @@ public class Turn implements Serializable{
 		return aktiverPlayer;
 	}
 
+	public void setPlayerList(ArrayList<Player> playerList) {
+		this.playerList = playerList;
+	}
+	
 	// @tobi wird glaube nirgendwo benutzt.. kann man aber evtl Extrasachen mit
 	// machen
 	public int getSpielrunden() {

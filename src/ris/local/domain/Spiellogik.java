@@ -315,6 +315,14 @@ public class Spiellogik implements Serializable {
 		return false;
 	}
 	
+	public boolean defenseLandGueltig(Land att, Land def) {
+		if(!turn.gibAktivenPlayer().equals(def.getBesitzer())&&
+				worldMg.isBenachbart(att, def)) {
+			return true;
+		} 
+		return false;
+	}
+	
 	
 //					**********************ENDE Angriff-Abfragen******************************
 
@@ -389,6 +397,8 @@ public class Spiellogik implements Serializable {
 			} else {
 				attacker.setBlock(att.getNummer(), 0);
 			}
+			attackObjekt.setWinner(defender);
+			attackObjekt.setLoser(attacker);
 		}
 
 		// wenn das Land erobert wurde (def-einheiten sind auf 0), werden die Angriffs-Einheiten verschoben
@@ -397,6 +407,8 @@ public class Spiellogik implements Serializable {
 			int winUnits = attUnits + result.get(0);
 			def.setEinheiten(winUnits);
 			att.setEinheiten(-winUnits);
+			attackObjekt.setLoser(defender);
+			attackObjekt.setWinner(attacker);
 			
 			//das Land wird beim verlierer gelöscht und dem Sieger hinzugefügt
 			defender.setBesitz(def);

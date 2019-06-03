@@ -48,14 +48,12 @@ public class WorldPanel extends JPanel {
         //Kann die Methode ausgelagert werden?
         addMouseListener(new MouseAdapter() { 
             public void mousePressed(MouseEvent me) { 
-            	System.out.println("Klick!");
-			// TODO Auto-generated method stub
+
 			int x = me.getX();
 			int y = me.getY();
 
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
-			System.out.println("color ist: " + b);
 			System.out.println("Land: " + risiko.getLandById(b));
 			
 			Land land = null;
@@ -63,38 +61,54 @@ public class WorldPanel extends JPanel {
 			land = ris.getLandById(b);
 			switch(ris.getCurrentState()) {
 			case SETUNITS:	
+				if(land.getBesitzer().equals(ris.gibAktivenPlayer())) {
+					listener.countryClicked(land);
+					return;
+				} else {
+					JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht");
+				}
+				break;
 			case ATTACK:
 				if(attackState == 1) {
 					//es wird überprüft, ob das angeklickte Land gültig ist
 					if(ris.attackLandGueltig(land)) {
 						attackLand1 = land;
 						attackState = 2;
+						listener.countryClicked(land);
 					} else {
 						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht.");
 					}	
 				} else {
-					attackLand2 = land;
-					attackState = 1;
+					if(ris.defenseLandGueltig(attackLand1, land)) {
+						attackLand2 = land;
+						attackState = 1;
+						listener.countryClicked(land);
+					} else {
+						JOptionPane.showMessageDialog(null, "Das Land gehört dir selber oder ist nicht mit dem Angriffsland benachbart!");
+					}
 				}
+				break;
 			case CHANGEUNITS:
 				if(moveState == 1) {
 					if(ris.moveFromLandGueltig(land)) {
 						moveLand1 = land;
 						moveState = 2;
+						listener.countryClicked(land);
 					} else {
 						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht oder du kannst von hier keine Einheiten verschieben.");
 					}
 				} else {
+					//TODO: und länder sind benachbart!
 					if(land.getBesitzer().equals(ris.gibAktivenPlayer())) {
 						moveLand2 = land;
 						moveState = 1;
+						listener.countryClicked(land);
 					} else {
 						JOptionPane.showMessageDialog(null, "Das Land gehört dir nicht.");
 					}
 				}
+				break;
 			}
-			
-			listener.countryClicked(land);
             } 
 //_________________ENDE Methode bei MouseClic___________________________
             
