@@ -3,7 +3,6 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Label;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -16,8 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
-import ris.local.valueobjects.Land;
 import ris.local.domain.WorldManagement;
+import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Player;
 
 public class WorldPanel extends JPanel {
 	private WorldManagement wM = new WorldManagement();
@@ -150,7 +150,7 @@ public class WorldPanel extends JPanel {
 
 
 	  public void flagForCountry(Land land,Graphics g) {
-		  switch(ris.getPlayerArray().get(0).getBesitz().get(0).getBesitzer().getFarbe()) {
+		  switch() {
 		  case "rot":
 			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
 			  break;
@@ -177,7 +177,12 @@ public class WorldPanel extends JPanel {
 	    public void paintComponent(Graphics g) {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
-	    	for(Land land:wM.getLaender()) {
+	    	ArrayList<Player> playerArray = ris.getPlayerArray();
+	    	for(Player player: playerArray) {
+	    		for (Land land: player.getBesitz()) {
+	    			drawFlag(land, player.getFarbe());
+	    		}
+	    	}
 //	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
 	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
 	    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
