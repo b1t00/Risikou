@@ -57,4 +57,11 @@ public class Attack {
 		return defUnits;
 	}
 
+	public Player getAttacker() {
+		return attacker;
+	}
+
+	public Player getDefender() {
+		return defender;
+	}
 }

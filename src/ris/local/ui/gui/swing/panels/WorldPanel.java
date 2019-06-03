@@ -59,18 +59,19 @@ public class WorldPanel extends JPanel {
 		loadImage();
 
 //_________________Methode bei MouseClic___________________________
-		// Kann die Methode ausgelagert werden?
-		addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent me) {
 
-				int x = me.getX();
-				int y = me.getY();
+        //Kann die Methode ausgelagert werden?
+        addMouseListener(new MouseAdapter() { 
+            public void mousePressed(MouseEvent me) { 
 
-				Color color = new Color(karte.getRGB(x, y));
-				int b = color.getBlue();
-				System.out.println("Land: " + risiko.getLandById(b));
-				System.out.println("x: " + x + "  y: " + y);
-				Land land = null;
+			int x = me.getX();
+			int y = me.getY();
+
+			Color color = new Color(karte.getRGB(x,y));
+			int b = color.getBlue();
+			System.out.println("Land: " + risiko.getLandById(b));
+//			System.out.println("x: "+ x+"  y: "+y);
+			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 				land = ris.getLandById(b);
 				switch (ris.getCurrentState()) {

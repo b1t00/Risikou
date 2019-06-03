@@ -13,7 +13,7 @@ public class Player implements Serializable {
 	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	// private int einheiten;
-	int[] uBlock = new int[12];
+	int[] uBlock = new int[42];
 	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
 	private boolean gutschriftEinheitenkarte = false;
 

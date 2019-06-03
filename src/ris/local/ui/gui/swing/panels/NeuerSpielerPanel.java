@@ -52,7 +52,9 @@ public class NeuerSpielerPanel extends JPanel {
 
 		hinzufuegen = new JButton("hinzufuegen");
 		System.out.println("hey");
+		
 		hinzufuegen.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
 				
 				String name = nameField.getText();
@@ -65,7 +67,8 @@ public class NeuerSpielerPanel extends JPanel {
 					
 					risiko.playerAnlegen(name, farbe, x);
 					System.out.println("hier gucken playerAnlegen :" + x);
-					x++;
+					
+					nameField.setText("");
 					farbauswahlCB.revalidate();
 					farbauswahlCB.repaint();
 					rp.markCompletelyDirty(nameLabel);

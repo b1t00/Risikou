@@ -278,33 +278,42 @@ public class RisikoClientGUI extends JFrame
 	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns
 	// befinden, eventuell unnötig, wenn Turn gefragt werden kann?
 	public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption {
-
+		System.out.println("Status un: " + un);
 		switch (un) {
 		case ATTACK:
-			if (number > (worldPl.getAttackLand1().getEinheiten() - 1) && number < 4 && number > 0) {
-				cl.show(container, "defenseNumber");
-			} else {
+
+			if((number > (worldPl.getAttackLand1().getEinheiten()-1)) || number > 3 || number < 1) {
+				System.out.println("Einheiten auf angriffsland: " + worldPl.getAttackLand1().getEinheiten());
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
+			}  else {
+				cl.show(container, "defenseNumber");
 			}
 			break;
 		case DEFENSE:
+			//wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
 			if (number <= worldPl.getAttackLand2().getEinheiten() && number < 3) {
 				Attack attackObjekt = null;
 				try {
 					attackObjekt = risiko.attack(worldPl.getAttackLand1(), worldPl.getAttackLand2(),
 							attackNumberPl.getNumber(), defenseNumberPl.getNumber());
 					dicePl.setAttack(attackObjekt);
-					cl.show(container, "dice");
+					dicePl.showResult();
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat "
-						+ attackObjekt.getAttUnits().get(0) + ", " + attackObjekt.getAttUnits().get(1));
-				JOptionPane.showMessageDialog(null, attackObjekt.getWinner() + " hat gewonnen!");
-			}
+				//hier eher dice panel aufrufen
+				JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat " + attackObjekt.getAttUnits().get(0) + " gewürfelt");
 
-			// ausgabe von der attacke und wie geht es weiter?
+				if(attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt " + worldPl.getAttackLand2() + " ein.");
+				} else {
+					JOptionPane.showMessageDialog(null, attackObjekt.getWinner() + " hat den Kampf gewonnen!");
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
+			}
+			showQuestion();
 			break;
 
 		case MOVE:
@@ -321,9 +330,6 @@ public class RisikoClientGUI extends JFrame
 			}
 
 		}
-
-		// ruft methoden auf, die die eingaben verarbeiten
-		System.out.println("Es wird mit " + number + " Einheiten angegriffen.");
 	}
 
 	@Override // worldlistener
@@ -359,18 +365,10 @@ public class RisikoClientGUI extends JFrame
 			if (worldPl.getAttackState() == 2) {
 				cl.show(container, "attackTo");
 			} else {
-				if (!land.getBesitzer().equals(risiko.gibAktivenPlayer())
-						&& risiko.isBenachbart(land, worldPl.getAttackLand1())) {
-//				 eventuell die Bedingung in risiko auslagern
+				//wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele Einheiten angreifen sollen
 					cl.show(container, "attackNumber");
-				} else {
-//				Fehlermeldung mit Schleife
 				}
-			}
-			// neues Attack-Objekt
-			// Attack-Objekt hat Angreifer, Verteidiger, Land1 und Land2 und zwei Werte für
-			// Einheiten
-			// hat eine Methode mit Angriff auswerten
+			showQuestion();
 			break;
 		case CHANGEUNITS:
 			// abfrage nach dem stand der Phase
@@ -461,7 +459,6 @@ public class RisikoClientGUI extends JFrame
 
 	public void showGamePanel() {
 		initializeGamePl();
-		System.out.println("aktive Player ANzahl: " + risiko.getPlayerArray().size());
 		System.out.println("aktiver Player: " + risiko.gibAktivenPlayer());
 		System.out.println("aktive player länder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
 		showDialog();
