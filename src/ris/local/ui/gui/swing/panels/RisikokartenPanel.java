@@ -13,18 +13,18 @@ import javax.swing.JPanel;
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Risikokarte;
 
-public class RisikokartenTauschPanel extends JPanel {
+public class RisikokartenPanel extends JPanel {
 
 	private JButton kartenButton;
 	private Risikokarte karte;
 	private Risiko risiko;
 	
-	public RisikokartenTauschPanel(Risiko risk) {
+	public RisikokartenPanel(Risiko risk) {
 		kartenButton = new JButton("Leer");
 		kartenButton.setBackground(Color.GRAY);
 		
 	}
-	public RisikokartenTauschPanel(Risiko risk, Risikokarte karte) {
+	public RisikokartenPanel(Risiko risk, Risikokarte karte) {
 
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(20, 10));

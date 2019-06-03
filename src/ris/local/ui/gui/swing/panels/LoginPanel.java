@@ -28,7 +28,6 @@ public class LoginPanel extends JPanel {
 //		Dimension size = this.getPreferredSize();
 //		size.width = 1100;
 //		this.setPreferredSize(size);
-		setPreferredSize( new Dimension( 640, 480 ) );
 //		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
 		spielStartenBtn.setMnemonic(KeyEvent.VK_ENTER);

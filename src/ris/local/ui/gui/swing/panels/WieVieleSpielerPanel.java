@@ -28,15 +28,40 @@ public class WieVieleSpielerPanel extends JPanel {
 
 	public WieVieleSpielerPanel(RisikoClientGUI client) {
 		this.client = client;
-		Dimension size = this.getPreferredSize();
-		size.width = 850;
-		this.setPreferredSize(size);
 		setup();
 
 	}
 
 	private void setup() {
-		//*****Layout*****
+
+		setzteLayout();
+		
+		starteSpiel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String inputText = anzahlSpielertextfield.getText();
+				try {
+					anzahlSpieler = Integer.parseInt(inputText);
+					// ... start new session
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, "Uh-oh!", inputText + " ist keine gültige Nummer",
+							JOptionPane.ERROR_MESSAGE);
+				}
+				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
+
+					client.showNeuerSpielerPanel();
+				} else {
+					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");
+				}
+
+			}
+
+		});
+	}
+
+	public void setzteLayout() {
+		// *****Layout*****
 		setLayout(new GridBagLayout());
 
 		GridBagConstraints gc = new GridBagConstraints();
@@ -60,6 +85,7 @@ public class WieVieleSpielerPanel extends JPanel {
 
 		anzahlSpielertextfield = new JTextField(10);
 		this.add(anzahlSpielertextfield, gc);
+		anzahlSpielertextfield.setText("2");
 
 		//// 2. Line 1. Column ///////////////////
 
@@ -82,40 +108,9 @@ public class WieVieleSpielerPanel extends JPanel {
 		gc.anchor = GridBagConstraints.CENTER;
 		gc.gridx = 1;
 		gc.gridy = 1;
-
-		starteSpiel = new JButton("starte Spiel");
-		starteSpiel.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String inputText = anzahlSpielertextfield.getText();
-				try {
-					anzahlSpieler = Integer.parseInt(inputText);
-					// ... start new session
-				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, "Uh-oh!", inputText + " ist keine gültige Nummer",
-							JOptionPane.ERROR_MESSAGE);
-				}
-				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
-					
-					client.showNeuerSpielerPanel();
-				} else {
-					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");
-				}
-
-			}
-
-
-
-		});
-		this.add(starteSpiel, gc);
 		
-
-	}
-	public void addGehtNicht() {
-		JLabel gehtNet = new JLabel("Geht nicht");
-		this.add(gehtNet);
-
+		starteSpiel = new JButton("starte Spiel");
+		this.add(starteSpiel, gc);
 	}
 
 	public int getAnzahlSpieler() {
