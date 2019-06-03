@@ -1,29 +1,28 @@
 package ris.local.ui.gui.swing.panels;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.RepaintManager;
 
 import ris.local.domain.Risiko;
 import ris.local.ui.gui.RisikoClientGUI;
 
 public class NeuerSpielerPanel extends JPanel {
-
+	JLabel nameLabel;
 	JTextField nameField;
 	JButton hinzufuegen;
 	JComboBox<String> farbauswahlCB;
 	RisikoClientGUI client;
 	int x;
+	RepaintManager rp = new RepaintManager();
 
 	private Risiko risiko;
 
@@ -33,40 +32,49 @@ public class NeuerSpielerPanel extends JPanel {
 		this.risiko = risiko;
 		this.client = client;
 		this.setIgnoreRepaint(false);
-		x = risiko.getPlayerArray().size() + 1;
+		
 
-//		x = client.getSpielerAnzahl();
-
+		x = 0;
 //		Dimension size = this.getPreferredSize();
 //		size.width = 200;
 //		this.setPreferredSize(size);
 //		this.revalidate();
 //		this.repaint();
+		nameLabel = new JLabel("Name von Spieler " + x);
 
 		test = "test";
 		nameField = new JTextField(20);
 
 		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]);
 		farbauswahlCB = new JComboBox<String>(farbListe);
+		farbauswahlCB.setSelectedIndex(x);
 
 		hinzufuegen = new JButton("hinzufuegen");
 		System.out.println("hey");
 		hinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("ho");
+				
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
+				
 				System.out.println(risiko.getFarbauswahl());
+				
 				if (x < client.getSpielerAnzahl()) {
+					
 					risiko.playerAnlegen(name, farbe, x);
 					System.out.println("hier gucken playerAnlegen :" + x);
 					x++;
-					
-					
+					farbauswahlCB.revalidate();
+					farbauswahlCB.repaint();
+
+					nameLabel.removeAll();
+					nameLabel.revalidate();
+					nameLabel.repaint();
 
 					client.showNeuerSpielerPanel();
 					revalidate();
+					RepaintManager.currentManager(client).removeInvalidComponent(farbauswahlCB);
 					repaint();
 
 					test = "zwei";
@@ -74,6 +82,7 @@ public class NeuerSpielerPanel extends JPanel {
 				if (x == client.getSpielerAnzahl()) {
 					risiko.verteileEinheiten();
 					risiko.verteileMissionen();
+					risiko.setzeAktivenPlayer();
 					client.showGamePanel();
 				}
 				System.out.println(risiko.getPlayerArray());
@@ -97,7 +106,7 @@ public class NeuerSpielerPanel extends JPanel {
 		gc.gridx = 0;
 		gc.gridy = 0;
 
-		this.add(new JLabel("Name von Spieler " + x), gc);
+		this.add(nameLabel, gc);
 		System.out.println("hier gucken x JLabel: " + x);
 
 		//// 1. Line 2. Column ///////////////////
