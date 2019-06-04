@@ -2,6 +2,7 @@ package ris.local.ui.gui.swing.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -29,13 +30,7 @@ public class RisikokartenPanel extends JPanel {
 	private InfoPanel ip;
 	private RisikoKartenListener listener;
 
-//	private KartenButton karteBtn1;
-//	private KartenButton karteBtn2;
-//	private KartenButton karteBtn3;
-//	private KartenButton karteBtn4;
-//	private KartenButton karteBtn5;
 	private ArrayList<KartenButton> spielerKarten = new ArrayList<KartenButton>();
-//	private ArrayList<JButton> spielerKarten2 = new ArrayList<JButton>();
 
 	public interface RisikoKartenListener {
 
@@ -54,7 +49,14 @@ public class RisikokartenPanel extends JPanel {
 	}
 
 	public void setUp() {
-
+		
+		if(!(spielerKarten.size() == 0)) {
+//		for(int i = 0 ; i < 5 ; i++ ) {
+			spielerKarten.removeAll(spielerKarten);
+			this.removeAll();
+//		}
+		}
+		
 		for (int i = 0; i < 5; i++) {
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
 				spielerKarten.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
