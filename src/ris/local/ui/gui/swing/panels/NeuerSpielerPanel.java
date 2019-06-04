@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.RepaintManager;
@@ -48,42 +49,40 @@ public class NeuerSpielerPanel extends JPanel {
 
 		hinzufuegen = new JButton("hinzufuegen");
 		System.out.println("hey");
-		
-		
-		
+
 		hinzufuegen.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
-				
+
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
-				
-				System.out.println(risiko.getFarbauswahl());
-				
-				if (x < client.getSpielerAnzahl()) {
-					
+				int farbIndex = farbauswahlCB.getSelectedIndex();
+				System.out.println("name : " + name);
+				System.out.println(risiko.getFarbauswahl() + " funktioniert leider nicht"); // TODO: geht leider net
+				if (name.equals("")) {
+					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswahlen");
+				} else if (x < client.getSpielerAnzahl()) {
+
 					risiko.playerAnlegen(name, farbe, x);
-//					System.out.println("hier gucken playerAnlegen :" + x);
-					
+
 					nameField.setText("");
 					x++;
 					nameLabel.setText("Name von Spieler " + (x + 1));
 					nameLabel.revalidate();
 					nameLabel.repaint();
-					
-//					farbauswahlCB.revalidate();
-//					farbauswahlCB.repaint();
+					farbauswahlCB.removeItemAt(farbIndex);
+					client.showNeuerSpielerPanel();
 
-
-					test = "zwei";
 				}
 				if (x == client.getSpielerAnzahl()) {
-					risiko.verteileEinheiten();
-					risiko.verteileMissionen();
-					risiko.setzeAktivenPlayer();
+					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
+					risiko.verteileEinheiten(); // Einheiten werden verteilt
+					risiko.verteileMissionen(); // missionen werden verteilt
+					risiko.setzeAktivenPlayer(); // der erste Spieler wird berechnet
 					client.showGamePanel();
 				}
+				// TODO: Sysos sind nur zum testen. koennen weg
 				System.out.println(risiko.getPlayerArray());
 				for (int i = 0; i < risiko.getPlayerArray().size(); i++) {
 					System.out.println(risiko.getPlayerArray().get(i).getFarbe());

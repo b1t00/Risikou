@@ -26,12 +26,11 @@ import ris.local.ui.gui.swing.panels.InfoPanel;
 import ris.local.ui.gui.swing.panels.LoginPanel;
 import ris.local.ui.gui.swing.panels.NeuerSpielerPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel;
-//import ris.local.ui.gui.swing.panels.QuestionPanel.Question;
 import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
 import ris.local.ui.gui.swing.panels.RequestPanel;
 import ris.local.ui.gui.swing.panels.RequestPanel.CountryRequest;
 import ris.local.ui.gui.swing.panels.RequestPanel.RequestListener;
-import ris.local.ui.gui.swing.panels.RisikokartenTauschPanel;
+import ris.local.ui.gui.swing.panels.RisikokartenPanel;
 import ris.local.ui.gui.swing.panels.SetUnitsPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumber;
@@ -41,11 +40,11 @@ import ris.local.ui.gui.swing.panels.WorldPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Land;
+//	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, RequestListener, UnitNumberListener {
 
-//	MapImage Größe 120 / 711
 
 	private Risiko risiko;
 
@@ -60,8 +59,6 @@ public class RisikoClientGUI extends JFrame
 	private WorldPanel worldPl;
 	private InfoPanel infoPl;
 	private DialogPanel dialogPl;
-
-	private RepaintManager rp;
 
 	private DicePanel dicePl;
 
@@ -83,15 +80,15 @@ public class RisikoClientGUI extends JFrame
 
 	private JPanel gamePl;
 
-	private RisikokartenTauschPanel risikoKartenTPl;
+	private RisikokartenPanel risikoKartenTPl;
 
 	public RisikoClientGUI() {
 		RepaintManager rp = new RepaintManager();
 		risiko = new Risiko();
-		initializeLoginPl();
-		testSetUp();
-		showGamePanel();
 
+//		initializeLoginPl();
+		testSetUp(); // legt drei spieler an. zum testen
+		showGamePanel(); //TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
@@ -100,9 +97,9 @@ public class RisikoClientGUI extends JFrame
 		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
-		c.setPreferredSize(new Dimension(300, 200));
-		c.setSize(new Dimension(200, 300));
 		c.add(loginPl);
+		setSize(new Dimension(400, 400)); //größe vom Loginpanel
+		setLocationRelativeTo(null); //setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
 	}
 
@@ -114,6 +111,7 @@ public class RisikoClientGUI extends JFrame
 		int ySize = ((int) tk.getScreenSize().getHeight()); 
 		System.out.println(ySize);
 		
+		setLocation(0,0); //setzt Jframe wieder nach links oben (nicht mehr in die mitte)
 		this.setSize(xSize, ySize);
 		
 		this.setVisible(true);
@@ -149,9 +147,11 @@ public class RisikoClientGUI extends JFrame
 
 //		dicePl = new DicePanel(risiko,this);
 
-		gamePl.add(westPanel, BorderLayout.WEST);
+
 //		gamePl.add(worldPl, BorderLayout.CENTER);
+
 		gamePl.add(infoPl, BorderLayout.SOUTH);
+		gamePl.add(worldPl, BorderLayout.CENTER);
 
 //		infoPl.add(risikoKartenTPl);
 //		
@@ -415,17 +415,12 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public void showLoginPanel() {
-		this.setSize(getPreferredSize());
+		loginPl.setPreferredSize(new Dimension(50, 50));
 		showPanel(loginPl);
-		rp.addDirtyRegion(loginPl, 500, 500, 200, 200);
-		rp.paintDirtyRegions();
 	}
 
 	public void showNeuerSpielerPanel() {
 		showPanel(neuerSpielerPl);
-		System.out.println(rp.currentManager(neuerSpielerPl));
-		RepaintManager test = rp.currentManager(neuerSpielerPl);
-		test.paintDirtyRegions();
 	}
 
 	public void showGamePanel() {
