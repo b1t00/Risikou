@@ -11,19 +11,21 @@ import ris.local.valueobjects.Player;
 public class SpielerUebersichtsPanel extends JPanel {
 
 	private Risiko risiko;
-	private JLabel player1;
-	private JLabel player2;
-	private JLabel player3;
+	private ArrayList<JLabel> players;
 
-	SpielerUebersichtsPanel(Risiko risiko) {
+	public SpielerUebersichtsPanel(Risiko risiko) {
 		this.risiko = risiko;
-		setupUI();
 	}
 	
 	public void setupUI(){
 		ArrayList<Player> alleSpieler = risiko.getPlayerArray();
 		for (Player player: alleSpieler) {
-//			JLabel 
+			System.out.println("in der schleife angekommen");
+			players.add(new JLabel(player.getName()));
+		}
+		
+		for(JLabel label: players) {
+			this.add(label);
 		}
 	}
 }

@@ -85,7 +85,6 @@ public class RisikoClientGUI extends JFrame
 
 	public RisikoClientGUI() {
 		risiko = new Risiko();
-
 //		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
 		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
@@ -201,7 +200,10 @@ public class RisikoClientGUI extends JFrame
 				changeCardsPl = new QuestionPanel(this, risiko);
 				container.add(changeCardsPl, "changeCards");
 				cl.show(container, "changeCards");
+			} else {
+				showSetUnits();
 			}
+			break;
 		case ATTACK:
 			if(risiko.kannAngreifen(risiko.gibAktivenPlayer())) {
 				attackQuestionPl = new QuestionPanel(this, risiko);
@@ -224,7 +226,7 @@ public class RisikoClientGUI extends JFrame
 				risiko.setNextPlayer();
 				infoPl.update();
 				risikoKartenTPl.setUp();
-				showSetUnits();
+				showQuestion();
 			}
 			break;
 		default:
@@ -264,6 +266,9 @@ public class RisikoClientGUI extends JFrame
 			// wenn mit nein geantwortet wird:
 		} else {
 			switch (risiko.getCurrentState()) {
+			case SETUNITS:
+				showSetUnits();
+				break;
 			case ATTACK:
 				risiko.setNextState();
 				showQuestion();
@@ -274,7 +279,7 @@ public class RisikoClientGUI extends JFrame
 				risiko.setNextPlayer();
 				infoPl.update();
 				risikoKartenTPl.setUp();
-				showSetUnits();
+				showQuestion();
 				System.out.println("Nächste Spielphase");
 				break;
 			default:
@@ -285,8 +290,7 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	@Override
-	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns
-	// befinden, eventuell unnötig, wenn Turn gefragt werden kann? (attack, defense, move)
+	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir unsbefinden (attack, defense, move)
 	public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption {
 		System.out.println("Status un: " + un);
 		switch (un) {
@@ -394,7 +398,6 @@ public class RisikoClientGUI extends JFrame
 			risiko.getPlayerArray().get(x % 3).setEinheitenkarte(risiko.getRisikoKarten().get(x));
 			System.out.println(risiko.getPlayerArray().get(x % 3).getEinheitenkarten().get(0).getSymbol());
 		}
-
 	}
 
 /////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
@@ -424,10 +427,10 @@ public class RisikoClientGUI extends JFrame
 		initializeGamePl();
 		System.out.println("aktiver Player: " + risiko.gibAktivenPlayer());
 		System.out.println("aktive player länder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
-		showSetUnits();
 		worldPl = new WorldPanel(this, risiko);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
+		showQuestion();
 	}
 
 //TODO: uberflüssig?

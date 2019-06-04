@@ -55,9 +55,11 @@ public class QuestionPanel extends JPanel{
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
+			titel.setText("CardCombi");
 			abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 			break;
 		case ATTACK: 
+			titel.setText("Attack");
 			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du angreifen?");
 			 break;
 		case CHANGEUNITS:

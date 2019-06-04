@@ -57,6 +57,10 @@ public class InfoPanel extends JPanel {
 		return this.getHeight();
 	}
 	
+	public void setupUebersicht() {
+		spielerUebersichtsPl.setupUI();
+	}
+	
 	public void update() {
 		spielerDetailsPl.update();
 		//allespeilerpl update
