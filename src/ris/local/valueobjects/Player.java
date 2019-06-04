@@ -160,7 +160,6 @@ public class Player implements Serializable {
 	// risikokarten-change possible?
 	public boolean changePossible() {
 		boolean reihe = true;
-
 		for (int i = 0; i < this.risikokartenKombi().length; i++) {
 			// Prüfen, ob drei gleiche Karten vorhanden sind
 			if (this.risikokartenKombi()[i] > 2) {
@@ -174,7 +173,6 @@ public class Player implements Serializable {
 		}
 		return reihe;
 	}
-	//muss 
 
 	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
 		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { //alle sind gleich 
@@ -223,6 +221,16 @@ public class Player implements Serializable {
 			}
 		}
 		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
+	}
+	
+	public void removeKarten(ArrayList<Risikokarte> kicked) {
+		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
+			for(Risikokarte kick: kicked) {
+				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
+					this.gezogeneRisikokarten.remove(i);
+				}
+			}
+		}
 	}
 
 	public boolean isDead() { // TODO: @tobi muss wahrscheinlich nach jedem angriff kontrolliert werden
