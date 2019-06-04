@@ -202,6 +202,7 @@ public class RisikoClientGUI extends JFrame
 				changeCardsPl = new QuestionPanel(this, risiko);
 				container.add(changeCardsPl, "changeCards");
 				cl.show(container, "changeCards");
+				
 			} else {
 				showSetUnits();
 			}

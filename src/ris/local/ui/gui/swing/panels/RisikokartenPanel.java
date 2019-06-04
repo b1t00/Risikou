@@ -123,6 +123,7 @@ public class RisikokartenPanel extends JPanel {
 																									// einheiten gesetzt
 //						System.out.println("hier danach " + risiko.gibAktivenPlayer().getLandById(l.getNummer()));
 						// TODO: karte aus dejm Array Loeschen
+						risiko.gibAktivenPlayer();
 						// TODO: generell anzahl zu setztenden Einheiten erhöhen!
 						risiko.gibAktivenPlayer();
 					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
@@ -146,8 +147,14 @@ public class RisikokartenPanel extends JPanel {
 			if (!dreiKartenAusgewaehlt() && risiko.getTauschZeit()) {
 				KartenButton b = (KartenButton) e.getSource();
 				b.setAusgewaehlt();
+				
+				if (dreiKartenAusgewaehlt()) {
+					if(//abfrage nach gültigkeit)
+							listener.tauscheRisikokarten(ausgewahelte kartenarray)
+				}
+				
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
-			}
+			} 
 		}
 
 	}
