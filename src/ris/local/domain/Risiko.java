@@ -47,6 +47,14 @@ public class Risiko {
 	public void setNextState() {
 		turn.setNextState();
 	}
+	
+	public boolean getTauschZeit() {
+		return turn.getTauschZeit();
+	}
+	
+	public void setTauschZeit(boolean tauschZeit) {
+		turn.setTauschZeit(tauschZeit);
+	}
 
 	// @to: Methode um Laender am Anfang zufaellig zu verteilen;
 	public void verteileEinheiten() {

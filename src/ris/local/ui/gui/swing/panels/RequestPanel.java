@@ -13,6 +13,7 @@ public class RequestPanel extends JPanel{
 	//wird benötigt, damit die richtige Frage ausgegeben werden kann
 	// besser: im turn implementieren
 	public enum CountryRequest{
+		CARDREQUEST,
 		SETUNITS,
 		ATTACKCOUNTRY,
 		DEFENSECOUNTRY,
@@ -42,6 +43,9 @@ public class RequestPanel extends JPanel{
 	// auch möglich: mittels enum alle abfragen durch eine Abfrage-Klasse implementieren?
 	public void setupUI() {
 		switch(countryR) {
+		case CARDREQUEST:
+			titel = new JLabel("CardCombi");
+			abfrage.setText("Klicke auf drei deiner Risikokarten. Mögliche Kombinationen: drei gleiche Symbole oder drei unterschiedliche. \n Eine Karte mit einem Land, das du besitzt, bringt eine extra Einheit.");
 		case SETUNITS:
 			break;
 		case ATTACKCOUNTRY:

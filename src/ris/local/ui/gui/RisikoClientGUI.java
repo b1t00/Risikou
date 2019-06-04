@@ -68,6 +68,7 @@ public class RisikoClientGUI extends JFrame
 	private RequestPanel attackToPl;
 	private RequestPanel moveFromPl;
 	private RequestPanel moveToPl;
+	private RequestPanel cardRequestPl;
 
 	private SetUnitsPanel setUnitsPl;
 
@@ -165,6 +166,9 @@ public class RisikoClientGUI extends JFrame
 
 		moveToPl = new RequestPanel(CountryRequest.MOVETOCOUNTRY, risiko);
 		container.add(moveToPl, "moveTo");
+		
+		cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
+		container.add(cardRequestPl, "cardRequest");
 
 		moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE);
 		container.add(moveNumberPl, "moveNumber");
@@ -248,6 +252,10 @@ public class RisikoClientGUI extends JFrame
 		if (answer) {
 			//wenn mit ja geantwortet wird:
 			switch (risiko.getCurrentState()) {
+			case SETUNITS:
+				cl.show(container, "cardRequest");
+				risiko.setTauschZeit(true);
+				break;
 			case ATTACK:
 				dialogPl.update("attack");
 				cl.show(container, "attackFrom");
@@ -257,11 +265,8 @@ public class RisikoClientGUI extends JFrame
 				dialogPl.update("moveUnits");
 				cl.show(container, "moveFrom");
 				break;
-			default:
-				// TODO
-				break;
-			}
 			// wenn mit nein geantwortet wird:
+			} 
 		} else {
 			switch (risiko.getCurrentState()) {
 			case SETUNITS:
