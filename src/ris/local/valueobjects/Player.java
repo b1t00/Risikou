@@ -19,6 +19,8 @@ public class Player implements Serializable {
 	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
 	private boolean gutschriftEinheitenkarte = false;
 	
+	private boolean kartenWurdenEntfernt = false;
+	
 	private ArrayList<Symbol> dreiAusgewaehltenKarten = new ArrayList<Symbol>();
 
 	public Player(String name, String farbe, int nummer) {
@@ -192,36 +194,36 @@ public class Player implements Serializable {
 
 	// Methode bekommt eine int, stellvertretend für symbol (0 = Kanone, 1 = Reiter,
 	// 3 = Soldat, 4 = je eine)
-	public void loescheRisikokarten(int symbol) {
-		String[] symbolArray = { "Kanone", "Reiter", "Soldat" };
-		int eingetauscht = 3;
-		while (eingetauscht > 0) {
-			// für den Fall, dass je eine Karte eingetauscht wird, wird zaehler hochgezählt,
-			// erst eine Kanone, dann Reiter, dann Soldat gelöscht
-			if (symbol == 3) {
-				// dafür muss der Risikokarten-Array zuerst sortiert werden
-				Collections.sort(this.gezogeneRisikokarten,
-						(karte1, karte2) -> karte1.getSymbol().compareTo(karte2.getSymbol()));
-				int zaehler = 0;
-				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
-					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[zaehler])) {
-						gezogeneRisikokarten.remove(i);
-						eingetauscht--;
-						zaehler++;
-						i--;
-					}
-				}
-			} else {
-				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
-					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[symbol])) {
-						gezogeneRisikokarten.remove(i);
-						eingetauscht--;
-					}
-				}
-			}
-		}
-		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
-	}
+//	public void loescheRisikokarten(int symbol) {
+//		String[] symbolArray = { "Kanone", "Reiter", "Soldat" };
+//		int eingetauscht = 3;
+//		while (eingetauscht > 0) {
+//			// für den Fall, dass je eine Karte eingetauscht wird, wird zaehler hochgezählt,
+//			// erst eine Kanone, dann Reiter, dann Soldat gelöscht
+//			if (symbol == 3) {
+//				// dafür muss der Risikokarten-Array zuerst sortiert werden
+//				Collections.sort(this.gezogeneRisikokarten,
+//						(karte1, karte2) -> karte1.getSymbol().compareTo(karte2.getSymbol()));
+//				int zaehler = 0;
+//				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
+//					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[zaehler])) {
+//						gezogeneRisikokarten.remove(i);
+//						eingetauscht--;
+//						zaehler++;
+//						i--;
+//					}
+//				}
+//			} else {
+//				for (int i = 0; i < gezogeneRisikokarten.size(); i++) {
+//					if (gezogeneRisikokarten.get(i).getSymbol().equals(symbolArray[symbol])) {
+//						gezogeneRisikokarten.remove(i);
+//						eingetauscht--;
+//					}
+//				}
+//			}
+//		}
+//		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
+//	}
 	
 	public void removeKarten(ArrayList<Risikokarte> kicked) {
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
@@ -230,7 +232,12 @@ public class Player implements Serializable {
 					this.gezogeneRisikokarten.remove(i);
 				}
 			}
+			kartenWurdenEntfernt = true;
 		}
+	}
+	
+	public boolean getKartenWurdenEntfernt() {
+		return kartenWurdenEntfernt;
 	}
 
 	public boolean isDead() { // TODO: @tobi muss wahrscheinlich nach jedem angriff kontrolliert werden
