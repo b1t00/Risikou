@@ -36,7 +36,6 @@ public class QuestionPanel extends JPanel{
 		this.listener = listener;
 		
 		setupUI();
-		
 		setupEvents();
 	}
 	
@@ -48,25 +47,22 @@ public class QuestionPanel extends JPanel{
 		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
 		
+		//ermöglicht automatischen Zeilenumbruch
 		abfrage = new JTextArea();
 		abfrage.setLineWrap(true);
 		abfrage.setWrapStyleWord(true);
-
-//		this.add(new JScrollPane(abfrage));
-//		pack();
+		abfrage.setEditable(false);
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
-//			abfrage = new JLabel("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 			abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 			break;
 		case ATTACK: 
-//			abfrage = new JLabel(ris.gibAktivenPlayer() + ": Möchtest du angreifen?");
-			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du angreifen? Möchtest du angreifen? Möchtest du angreifen? Möchtest du angreifen?");
+			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du angreifen?");
 			 break;
 		case CHANGEUNITS:
-//			 abfrage = new JLabel(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
-			 abfrage = new JTextArea(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
+			titel.setText("Move units");
+			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
 			 break;
 		}
 		

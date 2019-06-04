@@ -223,6 +223,7 @@ public class RisikoClientGUI extends JFrame
 				JOptionPane.showMessageDialog(null, "Du kannst leider keine Einheiten verschieben.");
 				risiko.setNextState();
 				risiko.setNextPlayer();
+//				playerPanel.update();
 				showSetUnits();
 			}
 			break;
@@ -253,6 +254,7 @@ public class RisikoClientGUI extends JFrame
 				System.out.println("Der Angriff beginnt");
 				break;
 			case CHANGEUNITS:
+				dialogPl.update("moveUnits");
 				cl.show(container, "moveFrom");
 				break;
 			default:
@@ -326,6 +328,7 @@ public class RisikoClientGUI extends JFrame
 				try {
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
+					dialogPl.update(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
 				} catch (LandExistiertNichtException | ZuWenigEinheitenException
 						| ZuWenigEinheitenNichtMoeglichExeption e) {
 					// TODO Auto-generated catch block
@@ -362,11 +365,9 @@ public class RisikoClientGUI extends JFrame
 			// wenn attackState 2 ist, wurde nur das erste Land eingeloggt, das zweite wird erwartet
 			if (worldPl.getAttackState() == 2) {
 				cl.show(container, "attackTo");
-				System.out.println("eigentlich richtig");
 			} else {
 				//wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele Einheiten angreifen sollen
 				cl.show(container, "attackNumber");
-				System.out.println("eher falsch");
 			}
 			break;
 		case CHANGEUNITS:

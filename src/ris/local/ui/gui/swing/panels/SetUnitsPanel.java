@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import ris.local.domain.Risiko;
 
@@ -17,7 +18,7 @@ public class SetUnitsPanel extends JPanel {
 	private int units;
 	private Risiko ris;
 	private JLabel titel = new JLabel("Set units");
-	private JLabel info;
+	private JTextArea info;
 	
 	public SetUnitsPanel (int einheiten, Risiko risiko) {
 //		listener = sul;
@@ -29,7 +30,12 @@ public class SetUnitsPanel extends JPanel {
 
 	public void setupUI() {
 		this.setLayout(new GridLayout(4, 1));
-		info =  new JLabel(ris.gibAktivenPlayer() + ": Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
+		
+		info = new JTextArea();
+		info.setLineWrap(true);
+		info.setWrapStyleWord(true);
+		info.setEditable(false);
+		info.setText(ris.gibAktivenPlayer() + ": Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
 		this.add(titel);
 		this.add(info);
 	}

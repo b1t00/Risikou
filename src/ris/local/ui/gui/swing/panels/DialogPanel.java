@@ -4,14 +4,16 @@ import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import ris.local.domain.Risiko;
 import ris.local.valueobjects.Attack;
+import ris.local.valueobjects.Land;
 
 public class DialogPanel extends JPanel {
 
 	private JLabel titel;
-	private JLabel info;
+	private JTextArea info;
 	private Risiko ris;
 	private String aktion;
 	
@@ -22,7 +24,11 @@ public class DialogPanel extends JPanel {
 	
 	public void setupUI() {
 		titel = new JLabel("Info");
-		info = new JLabel("Herzlich Willkommen zu Risiko!");
+		info = new JTextArea();
+		info.setLineWrap(true);
+		info.setWrapStyleWord(true);
+		info.setEditable(false);
+		info.setText("Herzlich Willkommen zu Risiko!");
 		this.setLayout(new GridLayout(2,1));
 		this.add(titel);
 		this.add(info);
@@ -40,12 +46,24 @@ public class DialogPanel extends JPanel {
 		case "attack":
 			info.setText(ris.gibAktivenPlayer() + " greift an.");
 			break;
-			//attack objekt?
-//			info = new JLabel()
+		case "moveUnits":
+			info.setText(ris.gibAktivenPlayer() + " verschiebt Einheiten.");
 		}
 	}
 	
 	public void update(Attack attackObj) {
-		info.setText(attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen.");
+		if(attackObj.getWinner().equals(attackObj.getAttacker())) {
+			info.setText(attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen. \n"
+				+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
+				".\n" + attackObj.getWinner() + " gewinnt und erobert " + attackObj.getDefLand());
+		} else {
+			info.setText(attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen.\n"
+					+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
+					"\n" + attackObj.getAttacker() + " verliert den Kampf.");
+		}
+	}
+	
+	public void update(Land land1, Land land2, int number) {
+		info.setText(ris.gibAktivenPlayer() + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + ".");
 	}
 }
