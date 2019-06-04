@@ -143,7 +143,7 @@ public class RisikokartenPanel extends JPanel {
 
 //			risiko.gibAktivenPlayer().auswahlPruefen(Arr); // gucken ob das array geht..
 //			listener.combiAusgewaehlt();
-			if (!dreiKartenAusgewaehlt() && risiko.getTauschzeit()) {
+			if (!dreiKartenAusgewaehlt() && risiko.getTauschZeit()) {
 				KartenButton b = (KartenButton) e.getSource();
 				b.setAusgewaehlt();
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
