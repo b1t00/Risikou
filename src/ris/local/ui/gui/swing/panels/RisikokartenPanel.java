@@ -54,6 +54,7 @@ public class RisikokartenPanel extends JPanel {
 	}
 
 	public void setUp() {
+		System.out.println("update gucken spieler " + risiko.gibAktivenPlayer());
 
 		for (int i = 0; i < 5; i++) {
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
@@ -133,6 +134,9 @@ public class RisikokartenPanel extends JPanel {
 				}
 			}
 		}
+	}
+	public void updateKarten() {
+		setUp();
 	}
 
 	// muss in gleich klasse

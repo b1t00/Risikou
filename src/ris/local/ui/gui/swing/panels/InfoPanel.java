@@ -51,6 +51,9 @@ public class InfoPanel extends JPanel {
 //		risikoKartenTPl.setPreferredSize(new Dimension(500, this.getHeight()));
 //		add(risikoKartenTPl, BorderLayout.CENTER);
 	}
+	public void updateKarten() {
+		
+	}
 	
 	//funktion um Heigth auszugeben
 	public int getInfoHeight() {

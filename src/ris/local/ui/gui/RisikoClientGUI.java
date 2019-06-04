@@ -223,7 +223,7 @@ public class RisikoClientGUI extends JFrame
 				JOptionPane.showMessageDialog(null, "Du kannst leider keine Einheiten verschieben.");
 				risiko.setNextState();
 				risiko.setNextPlayer();
-//				playerPanel.update();
+				updateKarten();
 				showSetUnits();
 			}
 			break;
@@ -231,6 +231,10 @@ public class RisikoClientGUI extends JFrame
 			// TODO
 			break;
 		}
+	}
+	
+	public void updateKarten() {
+		risikoKartenTPl.updateKarten();
 	}
 
 	public void showSetUnits() {
@@ -272,6 +276,7 @@ public class RisikoClientGUI extends JFrame
 				// dialog-fenster: dein zug ist beendet
 				risiko.setNextState();
 				risiko.setNextPlayer();
+				updateKarten();
 				// zeigt für den neuen Player das SetUnitPanel an
 				showSetUnits();
 				System.out.println("Nächste Spielphase");
