@@ -40,7 +40,7 @@ public class InfoPanel extends JPanel {
 		setLayout(new BorderLayout());
 		spielerDetailsPl = new SpielerDetailsPanel(risiko);
 		spielerDetailsPl.setPreferredSize(new Dimension(400, this.getHeight()));
-		spielerDetailsPl.setBackground(Color.blue);
+		spielerDetailsPl.setBackground(Color.lightGray);
 		add(spielerDetailsPl, BorderLayout.WEST);
 		
 		spielerUebersichtsPl = new SpielerUebersichtsPanel(risiko);

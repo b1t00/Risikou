@@ -272,7 +272,8 @@ public class RisikoClientGUI extends JFrame
 				// dialog-fenster: dein zug ist beendet
 				risiko.setNextState();
 				risiko.setNextPlayer();
-				// zeigt für den neuen Player das SetUnitPanel an
+				infoPl.update();
+				risikoKartenTPl.setUp();
 				showSetUnits();
 				System.out.println("Nächste Spielphase");
 				break;

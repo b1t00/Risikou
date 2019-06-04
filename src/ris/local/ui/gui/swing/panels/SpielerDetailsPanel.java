@@ -34,7 +34,7 @@ public class SpielerDetailsPanel extends JPanel {
 		layOutSetUp();
 
 		this.setBorder(BorderFactory.createEtchedBorder());
-		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
+//		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
 
 	}
 	
