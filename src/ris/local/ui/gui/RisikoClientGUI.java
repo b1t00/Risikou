@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -29,20 +30,21 @@ import ris.local.ui.gui.swing.panels.RequestPanel;
 import ris.local.ui.gui.swing.panels.RequestPanel.CountryRequest;
 import ris.local.ui.gui.swing.panels.RequestPanel.RequestListener;
 import ris.local.ui.gui.swing.panels.RisikokartenPanel;
+import ris.local.ui.gui.swing.panels.RisikokartenPanel.RisikoKartenListener;
 import ris.local.ui.gui.swing.panels.SetUnitsPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumber;
 import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.local.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel;
+import ris.local.ui.gui.swing.panels.KartenButton.kartenAuswahlListener;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Land;
 //	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
-		implements QuestionListener, WorldListener, RequestListener, UnitNumberListener {
-
+		implements QuestionListener, WorldListener, RequestListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener{
 
 	private Risiko risiko;
 
@@ -50,12 +52,13 @@ public class RisikoClientGUI extends JFrame
 	private LoginPanel loginPl;
 	private WieVieleSpielerPanel wieVielePl;
 	private NeuerSpielerPanel neuerSpielerPl;
+	private RisikokartenPanel risikoKartenTPl;
 
 	private JPanel container;
 	private CardLayout cl = new CardLayout();
 	private WorldPanel worldPl;
 	private InfoPanel infoPl;
-	
+
 //	private DialogPanel dialogPl;
 //	private SetUnitsPanel setUnitsPl;
 
@@ -78,14 +81,11 @@ public class RisikoClientGUI extends JFrame
 
 	private JPanel gamePl;
 
-	private RisikokartenPanel risikoKartenTPl;
-
 	public RisikoClientGUI() {
-		RepaintManager rp = new RepaintManager();
 		risiko = new Risiko();
 //		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
-		showGamePanel(); //TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
+		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
@@ -95,22 +95,24 @@ public class RisikoClientGUI extends JFrame
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
-		setSize(new Dimension(400, 400)); //größe vom Loginpanel
-		setLocationRelativeTo(null); //setzt Jframe in die Mitte vom Bildschirm
+		setSize(new Dimension(340, 340)); // größe vom Loginpanel
+//		pack();
+		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
 	}
 
+	
 	private void initializeGamePl() {
-		
-		Toolkit tk = Toolkit.getDefaultToolkit();  
-		int xSize = ((int) tk.getScreenSize().getWidth());  
+
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = ((int) tk.getScreenSize().getWidth());
 		System.out.println(xSize);
-		int ySize = ((int) tk.getScreenSize().getHeight()); 
+		int ySize = ((int) tk.getScreenSize().getHeight());
 		System.out.println(ySize);
-		
-		setLocation(0,0); //setzt Jframe wieder nach links oben (nicht mehr in die mitte)
+
+		setLocation(0, 0); // setzt Jframe wieder nach links oben (nicht mehr in die mitte)
 		this.setSize(xSize, ySize);
-		
+
 		this.setVisible(true);
 		this.setTitle("Risiko");
 
@@ -127,14 +129,17 @@ public class RisikoClientGUI extends JFrame
 //		
 //		//CENTER
 		worldPl = new WorldPanel(this, risiko);
-		
+
 //		//SOUTH
 		infoPl = new InfoPanel(risiko);
-		infoPl.setPreferredSize(new Dimension(1400, (int)(ySize * 0.17)));
+		infoPl.setPreferredSize(new Dimension(1400, (int) (ySize * 0.17)));
+		risikoKartenTPl = new RisikokartenPanel(risiko, this);
+		risikoKartenTPl.setPreferredSize(new Dimension(500, infoPl.getHeight()));
+		infoPl.add(risikoKartenTPl, BorderLayout.CENTER);
 
 		// Layout = CardLayout
 		container.setLayout(cl);
-		container.setPreferredSize(new Dimension(200,60));
+		container.setPreferredSize(new Dimension(200, 60));
 		container.setBorder(BorderFactory.createLineBorder(Color.black));
 
 //		dicePl = new DicePanel(risiko,this);
@@ -279,16 +284,15 @@ public class RisikoClientGUI extends JFrame
 		System.out.println("Status un: " + un);
 		switch (un) {
 		case ATTACK:
-
-			if((number > (worldPl.getAttackLand1().getEinheiten()-1)) || number > 3 || number < 1) {
+			if ((number > (worldPl.getAttackLand1().getEinheiten() - 1)) || number > 3 || number < 1) {
 				System.out.println("Einheiten auf angriffsland: " + worldPl.getAttackLand1().getEinheiten());
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
-			}  else {
+			} else {
 				cl.show(container, "defenseNumber");
 			}
 			break;
 		case DEFENSE:
-			//wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
+			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
 			if (number <= worldPl.getAttackLand2().getEinheiten() && number < 3) {
 				Attack attackObjekt = null;
 				try {
@@ -300,11 +304,13 @@ public class RisikoClientGUI extends JFrame
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//hier eher dice panel aufrufen
-				JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat " + attackObjekt.getAttUnits().get(0) + " gewürfelt");
+				// hier eher dice panel aufrufen
+				JOptionPane.showMessageDialog(null,
+						risiko.gibAktivenPlayer() + " hat " + attackObjekt.getAttUnits().get(0) + " gewürfelt");
 
-				if(attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
-					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt " + worldPl.getAttackLand2() + " ein.");
+				if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt "
+							+ worldPl.getAttackLand2() + " ein.");
 				} else {
 					JOptionPane.showMessageDialog(null, attackObjekt.getWinner() + " hat den Kampf gewonnen!");
 				}
@@ -345,7 +351,7 @@ public class RisikoClientGUI extends JFrame
 			System.out.println("Einheiten nachher: " + land.getEinheiten());
 			setUnitsPl.decrementUnits();
 			System.out.println("Einheiten panel: " + setUnitsPl.getVerfuegbareEinheiten());
-			if(setUnitsPl.getVerfuegbareEinheiten() > 0) {
+			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
 				setUnitsPl.update();
 			} else {
 				System.out.println("FrageStatus vorher: " + risiko.getCurrentState());
@@ -360,9 +366,10 @@ public class RisikoClientGUI extends JFrame
 			if (worldPl.getAttackState() == 2) {
 				cl.show(container, "attackTo");
 			} else {
-				//wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele Einheiten angreifen sollen
-					cl.show(container, "attackNumber");
-				}
+				// wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele
+				// Einheiten angreifen sollen
+				cl.show(container, "attackNumber");
+			}
 			showQuestion();
 			break;
 		case CHANGEUNITS:
@@ -397,16 +404,23 @@ public class RisikoClientGUI extends JFrame
 		}
 	}
 
+	//// TestSpielstart ohne login \\\\
 	public void testSetUp() {
-
 		risiko.playerAnlegen("Annie", "rot", 1);
 		risiko.playerAnlegen("Tobi", "gruen", 2);
 		risiko.playerAnlegen("Hannes", "blau", 3);
 		risiko.verteileEinheiten();
 		risiko.verteileMissionen();
 		risiko.setzeAktivenPlayer();
+		for (int x = 0; x < 10; x++) {
+			System.out.println("hier :" + x % 3);
+			risiko.getPlayerArray().get(x % 3).setEinheitenkarte(risiko.getRisikoKarten().get(x));
+			System.out.println(risiko.getPlayerArray().get(x % 3).getEinheitenkarten().get(0).getSymbol());
+		}
+
 	}
 
+/////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
 	public void showPanel(JPanel panel) {
 		Container c = getContentPane();
 		c.removeAll();
@@ -420,7 +434,8 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public void showLoginPanel() {
-		loginPl.setPreferredSize(new Dimension(50, 50));
+//		loginPl.setPreferredSize(new Dimension(50, 50));
+		this.pack();
 		showPanel(loginPl);
 	}
 
@@ -441,18 +456,18 @@ public class RisikoClientGUI extends JFrame
 		showPanel(gamePl);
 	}
 
+//TODO: uberflüssig?
 	public int getSpielerAnzahl() {
 		return wieVielePl.getAnzahlSpieler();
 	}
 
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
-
 			@Override
 			public void run() {
 				RisikoClientGUI gui = new RisikoClientGUI();
-
 			}
 		});
 	}
+
 }
