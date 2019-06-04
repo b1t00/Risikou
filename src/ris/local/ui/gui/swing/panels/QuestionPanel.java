@@ -9,7 +9,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import ris.local.domain.Risiko;
 
@@ -24,8 +26,8 @@ public class QuestionPanel extends JPanel{
 	
 
 	private JLabel titel = new JLabel("Attack");
-	private JLabel abfrage;
-//	abfrage.setHorizontalAlignment(JLabel.Left);
+	//vorher statt JTextArea: JLabel, dann aber kein Zeilenumbruch
+	private JTextArea abfrage;
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	
@@ -43,27 +45,34 @@ public class QuestionPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.setSize(100,400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
+		
+		abfrage = new JTextArea();
+		abfrage.setLineWrap(true);
+		abfrage.setWrapStyleWord(true);
+
+//		this.add(new JScrollPane(abfrage));
+//		pack();
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
-//			if(ris.changePossible(ris.gibAktivenPlayer())) {
-//				abfrage = new JLabel("Möchtest du Risiko-Karten eintauschen?");
-//			}
-			abfrage = new JLabel("Hier kommt noch eine Abfrage hin");
+//			abfrage = new JLabel("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
+			abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 			break;
 		case ATTACK: 
-			 abfrage = new JLabel("Möchtest du angreifen?");
+//			abfrage = new JLabel(ris.gibAktivenPlayer() + ": Möchtest du angreifen?");
+			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du angreifen? Möchtest du angreifen? Möchtest du angreifen? Möchtest du angreifen?");
 			 break;
 		case CHANGEUNITS:
-			 abfrage = new JLabel("Möchtest du Einheiten verschieben?");
+//			 abfrage = new JLabel(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
+			 abfrage = new JTextArea(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
 			 break;
 		}
 		
 		this.add(abfrage);
 		this.add(yesButton);
 		this.add(noButton);
-		this.setBackground(Color.GREEN);
 	}
 	
 	public void setupEvents() {

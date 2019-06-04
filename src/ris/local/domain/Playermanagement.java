@@ -11,7 +11,7 @@ import java.util.Vector;
 
 import ris.local.valueobjects.Player;
 
-public class PlayerManagement implements Serializable {
+public class PlayerManagement {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
@@ -71,27 +71,17 @@ public class PlayerManagement implements Serializable {
 
 	public ArrayList<Player> getPlayers() {
 		return gamerListe;
-
 	}
 
 //	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen ^^
 	public int getAnzahlPlayer() {
 		return gamerListe.size();
 	}
-//	public void addPlayer(String name, String farbe, int nummer) {} // 
 
-	public Player addPlayer(String name, String farbe, int nummer) { // hier die von Teschke Methode. Warum Player?
+	public Player addPlayer(String name, String farbe, int nummer) { 
 		Player player = new Player(name, farbe, nummer);
 		gamerListe.add(player);
 		return player;
 	}
 
-	// gibt Anzahl an Playern zurueck
-	public int getPlayerAnzahl() { // es könnte sein das diese Methode ueberfluessig ist..
-		return gamerListe.size();
-	}
-
-	// public void addElements(ArrayList<Land>) {
-
-	// }
 }

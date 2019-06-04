@@ -10,6 +10,7 @@ import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
 import ris.local.valueobjects.Attack;
+import ris.local.valueobjects.GameObject;
 import ris.local.valueobjects.Kontinent;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
@@ -18,7 +19,7 @@ import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.State;
 import ris.local.valueobjects.Turn;
 
-public class Risiko implements Serializable {
+public class Risiko {
 
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
@@ -26,6 +27,7 @@ public class Risiko implements Serializable {
 	private Player player;
 	private ArrayList<Risikokarte> einheitenkartenStapel;
 	private Turn turn;
+	private GameObject game;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
@@ -35,6 +37,7 @@ public class Risiko implements Serializable {
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
 		turn.state = State.SETUNITS;
+		game = new GameObject(playerMg.getPlayers(), turn);
 	}
 
 	public State getCurrentState() {
@@ -45,12 +48,7 @@ public class Risiko implements Serializable {
 		turn.setNextState();
 	}
 
-//	public void spielAnlegen(int anzahl) {
-//		// ...
-//		// return gameObjekt;
-//	}
-
-	// @to: Methode um Laender am Anfang zufï¿½llig zu verteilen;
+	// @to: Methode um Laender am Anfang zufaellig zu verteilen;
 	public void verteileEinheiten() {
 		logik.verteileEinheiten();
 	}
@@ -107,7 +105,7 @@ public class Risiko implements Serializable {
 		return turn.gibAktivenPlayer();
 	}
 
-	public void setNaechsterPlayer() {
+	public void setNextPlayer() {
 		turn.naechsteSpielrunde();
 	}
 
@@ -196,6 +194,9 @@ public class Risiko implements Serializable {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 	
+	public boolean kannAngreifen(Player player) {
+		return logik.kannAngreifen(player);
+	}
 	
 	//TODO: exception behandeln
 	public boolean attackLandGueltig(Land att) {
@@ -213,6 +214,14 @@ public class Risiko implements Serializable {
 	
 	public boolean moveFromLandGueltig(Land move) {
 		return logik.moveFromLandGueltig(move);
+	}
+	
+	public boolean moveToLandGueltig(Land from, Land to) {
+		return logik.moveToLandGueltig(from, to);
+	}
+	
+	public boolean moveUnitsGueltig(Land from, Land to, int units) {
+		return logik.moveUnitsGueltig(from, to, units);
 	}
 
 	public ArrayList<Land> getAngriffsLaender(Player angreifer) {
@@ -246,30 +255,38 @@ public class Risiko implements Serializable {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
 	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+	public boolean kannVerschieben(Player player) {
+		return logik.kannVerschieben(player);
+	}
+	
 	public void moveUnits(Land start, Land ziel, int menge)
 			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
 		logik.moveUnits(start, ziel, menge);
 	}
 
-	// rechnet aus, ob auf dem Land genug Einheiten zum Verschieben stehen
-	public boolean genugEinheiten(Land land, int units) {
-		return (land.getVerfuegbareEinheiten() >= units);
-	}
-
 	public void spielSpeichern(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		fileMg.speichern(this, datei);
+		fileMg.speichern(game, datei);
 	}
 
 	public void spielLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
-		Risiko risikoSpeicher = fileMg.laden(datei);
-		if (risikoSpeicher != null) {
-			this.worldMg = risikoSpeicher.worldMg;
-			this.playerMg = risikoSpeicher.playerMg;
-			this.logik = risikoSpeicher.logik;
-			this.einheitenkartenStapel = risikoSpeicher.einheitenkartenStapel;
-			// namen der datei, damit speicherort immer der gleiche bleibt
+		GameObject gameSpeicher = fileMg.laden(datei);
+		if (gameSpeicher != null) {
+			game.setAllePlayer(gameSpeicher.getAllePlayer());
+			game.setSpielstand(gameSpeicher.getSpielstand());
+			//Jeder geladene Spieler muss erst dem Playermanagement hinzugefügt werden
+			for(int i = 0; i < game.getAllePlayer().size(); i++) {
+				Player loadedPlayer = game.getAllePlayer().get(i);
+				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
+				//im anschluss werden die Länder entsprechend verteilt
+				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
+				//und die Risikokarten
+				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
+					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
+//					TODO: was ist mit in Einheiten auf Ländern
+				}
+			}
 		}
 	}
 

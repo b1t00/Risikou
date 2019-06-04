@@ -39,7 +39,7 @@ public class InfoPanel extends JPanel{
 		this.add(farbe);
 		this.add(mission);
 		System.out.println(risiko.gibAktivenPlayer());
-		System.out.println(risiko.gibAktivenPlayer().getEinheitenkarten());
+//		System.out.println(risiko.gibAktivenPlayer().getEinheitenkarten());
 //		if(risiko.gibAktivenPlayer().getEinheitenkarten() == null) {
 			risikoKartenTPl = new RisikokartenTauschPanel(risiko);
 			add(risikoKartenTPl);

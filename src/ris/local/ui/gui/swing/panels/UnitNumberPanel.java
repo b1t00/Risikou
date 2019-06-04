@@ -3,9 +3,9 @@ package ris.local.ui.gui.swing.panels;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.Thread.State;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -34,25 +34,17 @@ public class UnitNumberPanel extends JPanel {
 	private UnitNumber unitNumber;
 	private JButton logButton;
 	private int safedNumber;
-	
-//	private int attackNumber;
-//	private int defenseNumber;
-//	private int state;
+//	private JComboBox <Integer> anzahl;
 	
 	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un) {
 		listener = unl;
 		unitNumber = un;
-//		state = 1;
-		
 //		ris = risiko;
 		
 		setupUI();
 		setupEvents();
 	}
-	
-	
-	//hier switchcase von ris.getCurrentState -> für Defense: if aktiverPlayer == eigener Player
-	//TODO: wie funktioniert das?
+
 	public void setupUI(){
 		switch(unitNumber) {
 		case ATTACK:
@@ -69,7 +61,10 @@ public class UnitNumberPanel extends JPanel {
 		case MOVE:
 			titel = new JLabel("Move units");
 			frage = new JLabel("Wie viele Einheiten sollen verschoben werden?");
+//			Integer[] zahlen = getMöglicheZahlen;
+//			anzahl = new JComboBox<>(zahlen);
 			logButton = new JButton("Verschieben!");
+//			this.add(anzahl);	
 			break;
 		}
 		

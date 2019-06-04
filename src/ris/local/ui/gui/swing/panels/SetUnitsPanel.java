@@ -29,7 +29,7 @@ public class SetUnitsPanel extends JPanel {
 
 	public void setupUI() {
 		this.setLayout(new GridLayout(4, 1));
-		info =  new JLabel("Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
+		info =  new JLabel(ris.gibAktivenPlayer() + ": Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
 		this.add(titel);
 		this.add(info);
 	}
