@@ -12,13 +12,17 @@ public class Land implements Comparable, Serializable{
 	private String rgb;
 	private int xf;
 	private int yf;
+	private int xE;
+	private int yE;
 	
-	public Land(String name, int nummer, int einheiten,int xf,int yf) {
+	public Land(String name, int nummer, int einheiten,int xf,int yf,int xE,int yE) {
 		this.nummer = nummer;
 		this.name = name;
 		this.einheiten = einheiten;
 		this.setXf(xf);
 		this.setYf(yf);
+		this.setxE(xE);
+		this.setyE(yE);
 		//this.rgb = rgb;
 	}
 	
@@ -101,6 +105,22 @@ public class Land implements Comparable, Serializable{
 
 	public void setYf(int yf) {
 		this.yf = yf;
+	}
+
+	public int getyE() {
+		return yE;
+	}
+
+	public void setyE(int yE) {
+		this.yE = yE;
+	}
+
+	public int getxE() {
+		return xE;
+	}
+
+	public void setxE(int xE) {
+		this.xE = xE;
 	}
 	
 	

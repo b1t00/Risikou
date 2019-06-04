@@ -1,6 +1,7 @@
 package ris.local.ui.gui.swing.panels;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Label;
 import java.awt.event.MouseAdapter;
@@ -69,7 +70,6 @@ public class WorldPanel extends JPanel {
 			//System.out.println("color ist: " + b);
 			System.out.println("Land: " + risiko.getLandById(b));
 			System.out.println("x: "+ x+"  y: "+y);
-			
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 			land = ris.getLandById(b);
@@ -146,6 +146,7 @@ public class WorldPanel extends JPanel {
 			  g.drawImage(flagp,land.getXf(),land.getYf(),null);
 		  case "schwarz":
 			  g.drawImage(flagbc,land.getXf(),land.getYf(),null);
+			  g.drawString("1", land.getxE(), land.getyE());
 		default:
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
 			  
@@ -157,9 +158,10 @@ public class WorldPanel extends JPanel {
 	    	g.drawImage(karte2,0,0,null);
 	    	for(Land land:wM.getLaender()) {
 	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
+	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
+	    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
+
 	    	}
-	    	Label l1= new Label("1");
-	    	l1.setBounds(500, 500, 50, 50);
 	    	
 	    	
 	    }
