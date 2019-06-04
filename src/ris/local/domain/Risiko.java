@@ -110,7 +110,7 @@ public class Risiko {
 	}
 
 //	******************************>Missions-Sachen<**************************
-	// Missionsabfragen gilt f�r alle spieler
+	// Missionsabfragen gilt fuer alle spieler
 	public boolean allMissionsComplete() {
 		return logik.allMissionsComplete();
 	}

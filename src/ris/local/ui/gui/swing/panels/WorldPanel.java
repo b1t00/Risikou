@@ -88,7 +88,7 @@ public class WorldPanel extends JPanel {
 							System.out.println("attackstate: " + attackState);
 							listener.countryClicked(land);
 						} else {
-							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht.");
+							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht oder du kannst nicht mit dem Land angreifen.");
 						}
 					} else {
 						if (ris.defenseLandGueltig(attackLand1, land)) {
