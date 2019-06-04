@@ -33,7 +33,7 @@ public class UnitNumberPanel extends JPanel {
 	private JTextField numberTextField = new JTextField();
 	private UnitNumber unitNumber;
 	private JButton logButton;
-	private int numberAsInt;
+	private int safedNumber;
 	
 //	private int attackNumber;
 //	private int defenseNumber;
@@ -81,7 +81,7 @@ public class UnitNumberPanel extends JPanel {
 	}
 	
 	public int getNumber() {
-		return numberAsInt;
+		return safedNumber;
 	}
 	
 	//ab hier verarbeitung von events
@@ -100,23 +100,10 @@ public class UnitNumberPanel extends JPanel {
 		if (!number.isEmpty()) {
 			try {
 				int numberAsInt = Integer.parseInt(number);
-				
-				//TODO: hier if-Abfrage besser
-//				switch(ris.getCurrentState()) {
-//				case ATTACK:
-//					if(state == 1) {
-//						attackNumber = numberAlsInt;
-//						state = 2;
-//					} else {
-//						defenseNumber = numberAlsInt;
-//						state = 1;
-//					}
-//				default:
-//					break;
-//				}
-				
+				safedNumber = numberAsInt;
 				try {
 					listener.numberLogged(numberAsInt, unitNumber);
+					numberTextField.setText("");
 				} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

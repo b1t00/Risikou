@@ -1,6 +1,7 @@
 package ris.local.ui.gui.swing.panels;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
@@ -31,7 +32,6 @@ public class InfoPanel extends JPanel{
 	public void setupUI() {
 		GridBagLayout gb = new GridBagLayout();
 		this.setLayout(gb);
-		this.setSize(600,400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		
