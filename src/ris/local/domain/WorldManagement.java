@@ -18,6 +18,7 @@ public class WorldManagement {
 	public WorldManagement() {
 		erstelleWelt();
 	}
+	
 
 	public void erstelleWelt() {
 		//Erstellung von Ländern und speichern in der ArrayList<Land>
@@ -25,19 +26,19 @@ public class WorldManagement {
 		laender.add(groenland);
 		Land island = new Land("Island", 1, 1,452,103,467,106);
 		laender.add(island);
-		Land brexit = new Land("Grossbritannien", 2, 1,426,227,446,230);
+		Land brexit = new Land("Grossbritannien", 2, 1,426,227,446,237);
 		laender.add(brexit);
 		Land westeuropa = new Land("Westeuropa", 3, 1,449,274,460,325);
 		laender.add(westeuropa);
-		Land suedeuropa = new Land("Suedeuropa", 4, 1,557,265,541,311);
+		Land suedeuropa = new Land("Suedeuropa", 4, 1,557,265,541,318);
 		laender.add(suedeuropa);
-		Land nordeuropa = new Land("Nordeuropa", 5, 1,525,201,547,202);
+		Land nordeuropa = new Land("Nordeuropa", 5, 1,525,201,547,209);
 		laender.add(nordeuropa);
 		Land skandinavien = new Land("Skandinavien", 6, 1,555,111,522,151);
 		laender.add(skandinavien);
 		Land ukraine = new Land("Ukraine", 7, 1,586,192,604,201);
 		laender.add(ukraine);
-		Land ural = new Land("Ural", 8, 1,732,189,717,114);
+		Land ural = new Land("Ural", 8, 1,732,189,717,124);
 		laender.add(ural);
 		Land sibirien = new Land("Sibirien", 9, 1,781,124,806,126);
 		laender.add(sibirien);
@@ -47,11 +48,11 @@ public class WorldManagement {
 		laender.add(kamchatka);
 		Land irkutsk = new Land("Irkutsk", 12, 1,849,175,856,140);
 		laender.add(irkutsk);
-		Land mongolei = new Land("Mongolei", 13, 1,889,200,873,254);
+		Land mongolei = new Land("Mongolei", 13, 1,889,200,873,260);
 		laender.add(mongolei);
-		Land japan = new Land("Japan", 14, 1,985,215,982,189);
+		Land japan = new Land("Japan", 14, 1,985,215,982,204);
 		laender.add(japan);
-		Land china = new Land("China", 15, 1,801,264,818,268);
+		Land china = new Land("China", 15, 1,801,264,818,278);
 		laender.add(china);
 		Land afghanistan = new Land("Afghanistan", 16, 1,703,277,725,278);
 		laender.add(afghanistan);
@@ -59,11 +60,11 @@ public class WorldManagement {
 		laender.add(naherOsten);
 		Land indien = new Land("Indien", 18, 1,741,330,761,336);
 		laender.add(indien);
-		Land siam = new Land("Siam", 19, 1,841,336,844,373);
+		Land siam = new Land("Siam", 19, 1,841,336,844,383);
 		laender.add(siam);
-		Land indonesien = new Land("Indonesien", 20, 1,890,483,829,504);
+		Land indonesien = new Land("Indonesien", 20, 1,890,483,829,519);
 		laender.add(indonesien);
-		Land neuGuinea = new Land("Neu Guinea", 21, 1,966,471,910,600);
+		Land neuGuinea = new Land("Neu Guinea", 21, 1,966,471,930,480);
 		laender.add(neuGuinea);
 		Land westaustralien = new Land("Westaustralien", 22, 1,922,574,932,591);
 		laender.add(westaustralien);
@@ -71,41 +72,41 @@ public class WorldManagement {
 		laender.add(ostaustralien);
 		Land madagaskar = new Land("Madagaskar", 24, 1,665,600,709,593);
 		laender.add(madagaskar);
-		Land suedafrika = new Land("Suedafrika", 25, 1,543,584,565,592);
+		Land suedafrika = new Land("Suedafrika", 25, 1,543,584,565,599);
 		laender.add(suedafrika);
-		Land kongo = new Land("Kongo", 26, 1,560,501,571,549);
+		Land kongo = new Land("Kongo", 26, 1,560,501,571,556);
 		laender.add(kongo);
 		Land ostafrika = new Land("Ostafrika", 27, 1,583,453,602,456);
 		laender.add(ostafrika);
-		Land aegypten = new Land("Aegypten", 28, 1,539,397,590,402);
+		Land aegypten = new Land("Aegypten", 28, 1,539,397,590,412);
 		laender.add(aegypten);
 		Land nordafrika = new Land("Nordafrika", 29, 1,450,385,470,388);
 		laender.add(nordafrika);
 		Land argentinien = new Land("Argentinien", 30, 1,248,535,251,593);
 		laender.add(argentinien);
-		Land peru = new Land("Peru", 31, 1,209,463,227,487);
+		Land peru = new Land("Peru", 31, 1,209,463,227,493);
 		laender.add(peru);
 		Land brasilien = new Land("Brasilien", 32, 1,316,489,337,491);
 		laender.add(brasilien);
-		Land venezuela = new Land("Venezuela", 33, 1,200,394,227,374);
+		Land venezuela = new Land("Venezuela", 33, 1,200,394,227,385);
 		laender.add(venezuela);
-		Land zentralamerika = new Land("Zentralamerika", 34, 1,163,313,182,347);
+		Land zentralamerika = new Land("Zentralamerika", 34, 1,163,313,182,354);
 		laender.add(zentralamerika);
 		Land oststaaten = new Land("Oststaaten", 35, 1,259,239,273,246);
 		laender.add(oststaaten);
 		Land weststaaten = new Land("Weststaaten", 36, 1,121,251,138,257);
 		laender.add(weststaaten);
-		Land quebec = new Land("Quebec", 37, 1,267,186,287,191);
+		Land quebec = new Land("Quebec", 37, 1,267,186,287,196);
 		laender.add(quebec);
-		Land ontario = new Land("Ontario", 38, 1,118,133,204,143);
+		Land ontario = new Land("Ontario", 38, 1,201,150,204,143);
 		laender.add(ontario);
-		Land alberta = new Land("Alberta", 39, 1,144,171,148,137);
+		Land alberta = new Land("Alberta", 39, 1,144,171,135,146);
 		laender.add(alberta);
-		Land alaska = new Land("Alaska", 40, 1,52,71,69,77);
+		Land alaska = new Land("Alaska", 40, 1,52,71,69,90);
 		laender.add(alaska);
-		Land nwTerrit = new Land("Nord-West Territorium", 41, 1,141,70,143,108);
+		Land nwTerrit = new Land("Nord-West Territorium", 41, 1,141,70,143,118);
 		laender.add(nwTerrit);
-		
+
 		
 		//ab hier werden die Kontinente erstellt und dann in der Array-Liste<Kontinent> gespeichert
 		ArrayList<Land> eu = new ArrayList<Land>();	
