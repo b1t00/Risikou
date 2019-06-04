@@ -32,14 +32,6 @@ public class InfoPanel extends JPanel {
 	public void setupUI() {
 		layOutSetUp();
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		
-		this.add(name);
-		this.add(farbe);
-		this.add(mission);
-		System.out.println(risiko.gibAktivenPlayer());
-//		System.out.println(risiko.gibAktivenPlayer().getEinheitenkarten());
-
 	}
 
 	public void layOutSetUp() {
@@ -47,7 +39,6 @@ public class InfoPanel extends JPanel {
 		setLayout(new BorderLayout());
 		spielerDetailsPl = new SpielerDetailsPanel(risiko);
 		spielerDetailsPl.setPreferredSize(new Dimension(400, this.getHeight()));
-//		spielerDetailsPl.set
 		spielerDetailsPl.setBackground(Color.blue);
 		add(spielerDetailsPl, BorderLayout.WEST);
 		
