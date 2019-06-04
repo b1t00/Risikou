@@ -102,7 +102,7 @@ public class RisikokartenPanel extends JPanel {
 			if ((ausgeWahlteKarten.size() > 2)) { // wenn drei Karten ausgewahlt wurden, wird diese Methode ausgeführt.
 				if (risiko.gibAktivenPlayer().auswahlPruefen(ausgeWahlteKarten)) {
 					System.out.println("einlösen wäre schonmal richtig");
-					loeseRisikoKartenEin(ausgeWahlteKarten); // wenn drei
+//					loeseRisikoKartenEin(ausgeWahlteKarten); // wenn drei
 					return true;
 				} else {
 					// es wurden nicht die richtigen Karten eingelöst
@@ -133,11 +133,7 @@ public class RisikokartenPanel extends JPanel {
 					listener.combiAusgewaehlt();
 				}
 			}
-
-			} 
-
-		}
-
+		} 
 	}
 
 }
