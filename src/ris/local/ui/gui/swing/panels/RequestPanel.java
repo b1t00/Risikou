@@ -1,11 +1,11 @@
 package ris.local.ui.gui.swing.panels;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import ris.local.domain.Risiko;
 
 public class RequestPanel extends JPanel{
 	
@@ -16,6 +16,7 @@ public class RequestPanel extends JPanel{
 	//wird benötigt, damit die richtige Frage ausgegeben werden kann
 	// besser: im turn implementieren
 	public enum CountryRequest{
+		SETUNITS,
 		ATTACKCOUNTRY,
 		DEFENSECOUNTRY,
 		MOVEFROMCOUNTRY,
@@ -23,15 +24,16 @@ public class RequestPanel extends JPanel{
 	}
 	
 	private RequestListener listener;
-//	private Risiko ris = null;
+	private Risiko ris = null;
 	private JLabel titel;
 	private JLabel abfrage;
 	private CountryRequest countryR;
+
 	
-	public RequestPanel (RequestListener rl, CountryRequest cr) {
+	public RequestPanel (RequestListener rl, CountryRequest cr, Risiko risiko) {
 		listener = rl;
 		countryR = cr;
-//		ris = risiko;
+		ris = risiko;
 		
 		setupUI();
 	}
@@ -40,6 +42,8 @@ public class RequestPanel extends JPanel{
 	// auch möglich: mittels enum alle abfragen durch eine Abfrage-Klasse implementieren?
 	public void setupUI() {
 		switch(countryR) {
+		case SETUNITS:
+			break;
 		case ATTACKCOUNTRY:
 			titel = new JLabel("Attack");
 			abfrage =  new JLabel("Mit welchem Land soll angegriffen werden? (direkt anklicken)");
@@ -68,5 +72,6 @@ public class RequestPanel extends JPanel{
 	public CountryRequest getCountryRequest() {
 		return countryR;
 	}
+
 
 }
