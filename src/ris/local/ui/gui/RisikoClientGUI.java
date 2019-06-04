@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -82,6 +83,8 @@ public class RisikoClientGUI extends JFrame
 
 	private JPanel gamePl;
 
+	
+	
 	public RisikoClientGUI() {
 		risiko = new Risiko();
 //		initializeLoginPl();
@@ -392,9 +395,12 @@ public class RisikoClientGUI extends JFrame
 
 	//// TestSpielstart ohne login \\\\
 	public void testSetUp() {
-		risiko.playerAnlegen("Annie", "rot", 1);
-		risiko.playerAnlegen("Tobi", "gruen", 2);
-		risiko.playerAnlegen("Hannes", "blau", 3);
+		risiko.playerAnlegen("Annie", "rot", 0);
+		risiko.playerAnlegen("Tobi", "gruen", 1);
+		risiko.playerAnlegen("Hannes", "blau", 2);
+		risiko.setColorArray(new Color(226, 19, 43));
+		risiko.setColorArray(new Color(23, 119, 50));
+		risiko.setColorArray(new Color(30, 53, 214));
 		risiko.verteileEinheiten();
 		risiko.verteileMissionen();
 		risiko.setzeAktivenPlayer();
@@ -462,6 +468,12 @@ public class RisikoClientGUI extends JFrame
 	public boolean pruefenObDreiRichtig() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void updateKartenpanel() {
+		risikoKartenTPl.invalidate();
+		risikoKartenTPl.repaint();
 	}
 
 }

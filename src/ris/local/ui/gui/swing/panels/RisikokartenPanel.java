@@ -1,23 +1,16 @@
 package ris.local.ui.gui.swing.panels;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
-import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Risikokarte;
-import ris.local.valueobjects.Risikokarte.Symbol;
 
 public class RisikokartenPanel extends JPanel {
 
@@ -33,11 +26,12 @@ public class RisikokartenPanel extends JPanel {
 	private ArrayList<KartenButton> spielerKarten = new ArrayList<KartenButton>();
 
 	public interface RisikoKartenListener {
-
+		public void updateKartenpanel();
 	}
 
 	public RisikokartenPanel(Risiko risk, RisikoKartenListener listener) {
 		this.risiko = risk;
+		this.listener = listener;
 //		this.ip = ip;
 		setUp();
 //		System.out.println("muss man?" + manMussTauschen());
@@ -49,12 +43,14 @@ public class RisikokartenPanel extends JPanel {
 	}
 
 	public void setUp() {
-		
-		if(!(spielerKarten.size() == 0)) {
+
+		if (!(spielerKarten.size() == 0)) {
+			for (KartenButton kb : spielerKarten)
+				this.remove(kb);
 			spielerKarten.removeAll(spielerKarten);
-			this.removeAll();
+			// this.removeAll();
 		}
-		
+
 		for (int i = 0; i < 5; i++) {
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
 				spielerKarten.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
@@ -72,10 +68,10 @@ public class RisikokartenPanel extends JPanel {
 		setLayout(fl);
 		for (KartenButton k : spielerKarten) {
 			add(k);
+			k.setVisible(true);
 			k.addActionListener(new KartenListener());
 		}
 		this.setBackground(Color.YELLOW);
-
 	}
 
 	// Wenn 5 Karten vorhanden sind! TODO: in runden implementieren
@@ -102,7 +98,16 @@ public class RisikokartenPanel extends JPanel {
 					return true;
 				} else {
 					// es wurden nicht die richtigen Karten eingelöst
-					System.out.println("es wurden nicht die richtigen Karten eingelöst");
+					JOptionPane.showInternalMessageDialog(null, "es wurden nicht die richtigen Karten eingeloest",
+					        "Diese Kombination geht leider nicht VER", JOptionPane.INFORMATION_MESSAGE);
+
+					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
+						r.setAusgewaehl(false);
+					}
+					for(KartenButton kb : spielerKarten) { 
+						kb.setAusgewaehlt(false);
+						}
+					listener.updateKartenpanel();
 					return false;
 				}
 			}
@@ -120,19 +125,19 @@ public class RisikokartenPanel extends JPanel {
 //			risiko.gibAktivenPlayer().auswahlPruefen(Arr); // gucken ob das array geht..
 //			listener.combiAusgewaehlt();
 			if (!dreiKartenAusgewaehlt() && risiko.getTauschZeit()) {
-				
+
 				KartenButton b = (KartenButton) e.getSource();
-				b.setAusgewaehlt();
-				
+				b.setAusgewaehlt(true);
+
 				if (dreiKartenAusgewaehlt()) {
 //					if(//abfrage nach gültigkeit)
 //							listener.tauscheRisikokarten(ausgewahelte kartenarray);
 				}
 
-				
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
-			} 
-}
+			}
+
+		}
 	}
 
 }

@@ -149,7 +149,7 @@ public class Player implements Serializable {
 			for (Risikokarte karte : gezogeneRisikokarten) {
 				if (karte.getSymbol() == Symbol.KANONE) {
 					symbolAnzahlArray[0]++;
-				} else if (karte.getSymbol().equals(Symbol.KANONE)) {
+				} else if (karte.getSymbol().equals(Symbol.REITER)) {
 					symbolAnzahlArray[1]++;
 				} else {
 					symbolAnzahlArray[2]++;

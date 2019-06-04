@@ -1,13 +1,7 @@
 package ris.local.domain;
 
-//cui frage 
-import java.io.IOException;
-import java.io.Serializable;
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Vector;
 
 import ris.local.valueobjects.Player;
 
@@ -16,6 +10,7 @@ public class PlayerManagement {
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
 	private boolean falscheEingabe;
+	private ArrayList<Color> colorArray;
 
 	public PlayerManagement() {
 		farbenAuswahl.add("rot"); // 0
@@ -24,6 +19,7 @@ public class PlayerManagement {
 		farbenAuswahl.add("weiss"); // 3
 		farbenAuswahl.add("pink"); // 4
 		farbenAuswahl.add("schwarz"); // 5
+		colorArray = new ArrayList<Color>();
 	}
 
 	public String menuFarbeAuswaehlen(String farbe) {
@@ -83,5 +79,11 @@ public class PlayerManagement {
 		gamerListe.add(player);
 		return player;
 	}
+	public ArrayList<Color> getColorArray() {
+		return colorArray;
+	}
 
+	public void setColorArray(Color color) {
+		this.colorArray.add(color);
+	}
 }

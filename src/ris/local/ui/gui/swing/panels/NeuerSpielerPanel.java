@@ -1,6 +1,7 @@
 
 package ris.local.ui.gui.swing.panels;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -12,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.RepaintManager;
+import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
 import ris.local.ui.gui.RisikoClientGUI;
@@ -41,9 +42,14 @@ public class NeuerSpielerPanel extends JPanel {
 
 		test = "test";
 		nameField = new JTextField(10);
-		
-		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); //moeglichkeit ArrayList<String> zu einem String[] array umzuschreiben
-		farbauswahlCB = new JComboBox<String>(farbListe); //ComboBox braucht String[] Array
+
+		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); // moeglichkeit
+																											// ArrayList<String>
+																											// zu einem
+																											// String[]
+																											// array
+																											// umzuschreiben
+		farbauswahlCB = new JComboBox<String>(farbListe); // ComboBox braucht String[] Array
 		farbauswahlCB.setSelectedIndex(x);
 
 		hinzufuegen = new JButton("hinzufuegen");
@@ -55,6 +61,7 @@ public class NeuerSpielerPanel extends JPanel {
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
+				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
 				System.out.println("name : " + name);
 				System.out.println(risiko.getFarbauswahl() + " funktioniert leider nicht"); // TODO: geht leider net
@@ -75,9 +82,9 @@ public class NeuerSpielerPanel extends JPanel {
 				}
 				if (x == client.getSpielerAnzahl()) {
 					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
-					risiko.verteileEinheiten(); 		// Einheiten werden verteilt
-					risiko.verteileMissionen(); 		// missionen werden verteilt
-					risiko.setzeAktivenPlayer();		// der erste Spieler wird berechnet
+					risiko.verteileEinheiten(); // Einheiten werden verteilt
+					risiko.verteileMissionen(); // missionen werden verteilt
+					risiko.setzeAktivenPlayer(); // der erste Spieler wird berechnet
 					client.showGamePanel();
 				}
 				// TODO: Sysos sind nur zum testen. koennen weg
@@ -135,6 +142,30 @@ public class NeuerSpielerPanel extends JPanel {
 		gc.gridx = 1;
 
 		this.add(hinzufuegen, gc);
+	}
+
+	public void colorArraySetzten(String farbe) {
+		switch (farbe) {
+		case "rot":
+			risiko.setColorArray(new Color(226, 19, 43));
+			break;
+		case "gruen":
+			risiko.setColorArray(new Color(23, 119, 50));
+			break;
+		case "blau":
+			risiko.setColorArray(new Color(30, 53, 214));
+			break;
+		case "pink":
+			risiko.setColorArray(new Color(255, 51, 245));
+			break;
+		case "weiss":
+			risiko.setColorArray(new Color(255, 255, 255));
+			break;
+		case "schwarz":
+			risiko.setColorArray(new Color(0, 0, 0));
+			break;
+		}
+
 	}
 
 }

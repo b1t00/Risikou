@@ -1,6 +1,6 @@
 package ris.local.domain;
 
-import java.io.Serializable;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -311,7 +311,15 @@ public class Risiko {
 
 	public String setFarbeAuswaehlen(String farbe) { // hier string
 		return playerMg.menuFarbeAuswaehlen(farbe);
+	}
+	
+	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom gewünschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
+	public ArrayList<Color> getColorArray() {
+		return playerMg.getColorArray();
+	}
 
+	public void setColorArray(Color color) {
+		playerMg.setColorArray(color);
 	}
 
 	public boolean getRichtigeEingabe() {
