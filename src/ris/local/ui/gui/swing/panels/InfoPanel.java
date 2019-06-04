@@ -23,6 +23,7 @@ public class InfoPanel extends JPanel {
 
 	private RisikokartenPanel risikoKartenTPl;
 	private SpielerDetailsPanel spielerDetailsPl;
+	private SpielerUebersichtsPanel spielerUebersichtsPl;
 	
 	public InfoPanel(Risiko ris) {
 		this.risiko = ris;
@@ -42,6 +43,10 @@ public class InfoPanel extends JPanel {
 		spielerDetailsPl.setBackground(Color.blue);
 		add(spielerDetailsPl, BorderLayout.WEST);
 		
+		spielerUebersichtsPl = new SpielerUebersichtsPanel(risiko);
+		spielerUebersichtsPl.setPreferredSize(new Dimension(200, this.getHeight()));
+		spielerUebersichtsPl.setBackground(Color.ORANGE);
+		add(spielerUebersichtsPl, BorderLayout.EAST);
 //		risikoKartenTPl = new RisikokartenPanel(risiko,RisikoClientGUI client);
 //		risikoKartenTPl.setPreferredSize(new Dimension(500, this.getHeight()));
 //		add(risikoKartenTPl, BorderLayout.CENTER);
