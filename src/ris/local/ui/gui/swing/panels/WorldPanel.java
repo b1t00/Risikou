@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -143,7 +144,9 @@ public class WorldPanel extends JPanel {
 			}	
 	  }
 
-	  public void flagForCountry(Land land,Graphics g) {
+	  public void flagForCountry(ArrayList<Land> laender,Graphics g) {
+		  laender= wM.getLaender();
+		  for(Land land:laender) {
 		  switch(land.getBesitzer().getFarbe()) {
 		  case "rot":
 			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
@@ -163,7 +166,7 @@ public class WorldPanel extends JPanel {
 			  g.drawString("1", land.getxE(), land.getyE());
 		default:
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
-			  
+		  }  
 		  }
 	  }
 	    @Override
@@ -174,6 +177,8 @@ public class WorldPanel extends JPanel {
 	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
 	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
 	    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
+	    		//flagForCountry(wM.getLaender(), g);
+
 
 	    	}
 	    	
