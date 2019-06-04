@@ -32,6 +32,13 @@ public class InfoPanel extends JPanel {
 	public void setupUI() {
 		layOutSetUp();
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		
+		
+		this.add(name);
+		this.add(farbe);
+		this.add(mission);
+		System.out.println(risiko.gibAktivenPlayer());
+//		System.out.println(risiko.gibAktivenPlayer().getEinheitenkarten());
 
 	}
 

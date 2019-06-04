@@ -19,7 +19,7 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.Turn;
 
-public class Spiellogik implements Serializable {
+public class Spiellogik {
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;
@@ -290,12 +290,20 @@ public class Spiellogik implements Serializable {
 	public boolean moveFromLandGueltig(Land move) {
 		try {
 			if(move.getBesitzer().equals(turn.gibAktivenPlayer()) &&
+					move.getEinheiten() > 1 &&
 					getEigeneNachbarn(move).size() > 0) {
 				return true;
 			}
 		} catch (LandExistiertNichtException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean moveToLandGueltig(Land from, Land to) {
+		if(from.getBesitzer().equals(to.getBesitzer()) && worldMg.isBenachbart(from, to)) {
+			return true;
 		}
 		return false;
 	}
@@ -498,7 +506,6 @@ public class Spiellogik implements Serializable {
 		for (int i = 0; i < attUnit; i++) {
 			aList.add((int) (Math.random() * 6) + 1);
 		}
-		
 		return aList;
 	}
 
@@ -617,7 +624,7 @@ public class Spiellogik implements Serializable {
 	 * der attacker mehr als eine Einheit auf seinem Land hat 
 	 * und ihm nicht beide Länder gehören
 	 */
-	boolean angriffMoeglich(Land def, Land att, int countUnits) {
+	public boolean angriffMoeglich(Land def, Land att, int countUnits) {
 		if (worldMg.nachbarn[def.getNummer()][att.getNummer()] == true 
 				&& att.getEinheiten() - countUnits > 0 
 				&& !(def.getBesitzer().equals(att.getBesitzer()))) {
@@ -626,6 +633,22 @@ public class Spiellogik implements Serializable {
 			return false;
 		}
 	}
+	
+	
+	//wird aufgerufen, bevor der Spieler in die Attack-Phase kommt
+	public boolean kannAngreifen(Player player) {
+		for(Land land: player.getBesitz()) {
+			try {
+				if(attackLandGueltig(land)) {
+					return true;
+				}
+			} catch (LandExistiertNichtException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} return false;
+	}
+	
 
 //	public ArrayList<Integer> verteileEinheiten(){}
 
@@ -650,20 +673,20 @@ public class Spiellogik implements Serializable {
 //		return null;
 //	}
 
-//	public void moveUnits() { // TODO
-	public boolean movePossible(Land start, Land ziel, int menge) {
-		boolean einheiten = true;
-		if (start.getEinheiten() - menge < 1) {
-			einheiten = false;
+	public boolean moveUnitsGueltig(Land from, Land to, int units) {
+		if (from.getEinheiten() - units > 0 && worldMg.isBenachbart(from, to)) {
+			return true;
 		}
-//		Player x = isOwner(start);
-//		ArrayList<Land> z= x.getBesitz();
-		ArrayList<Land> connected;
-		boolean nachbar = false;
-		if (worldMg.isBenachbart(start, ziel)) {
-			nachbar = true;
+		return false;
+	}
+	
+	public boolean kannVerschieben(Player player) {
+		for(Land land: player.getBesitz()) {
+			if(land.getEinheiten() > 1 && worldMg.getEigeneNachbarn(land).size() > 0) {
+				return true;
+			}
 		}
-		return (nachbar && einheiten);
+		return false;
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge)

@@ -9,8 +9,8 @@ public class Attack {
 	private Land defense;
 	private Player winner;
 	private Player loser;
-	private ArrayList<Integer> attUnits;
-	private ArrayList<Integer> defUnits;
+	private int[] attUnits;
+	private int[] defUnits;
 	private ArrayList<Integer> result;
 
 	
@@ -21,12 +21,18 @@ public class Attack {
 		this.defense = defense;
 	}
 	
-	public void setAttUnits(ArrayList<Integer> attUnits) {
-		this.attUnits = attUnits;
+	public void setAttUnits(ArrayList<Integer> attList) {
+		this.attUnits = new int[attList.size()];
+		for(int i = 0; i < attList.size(); i++) {
+			this.attUnits[i] = attList.get(i);
+		}
 	}
 	
-	public void setDefUnits(ArrayList<Integer> defUnits) {
-		this.defUnits = defUnits;
+	public void setDefUnits(ArrayList<Integer> defList) {
+		this.defUnits = new int[defList.size()];
+				for(int i = 0; i < defList.size(); i++) {
+					this.defUnits[i] = defList.get(i);
+				}
 	}
 	
 	public void setResult(ArrayList<Integer> result) {
@@ -49,11 +55,11 @@ public class Attack {
 		return loser;
 	}
 	
-	public ArrayList getAttUnits() {
+	public int[] getAttUnits() {
 		return attUnits;
 	}
 	
-	public ArrayList getDefUnits() {
+	public int[] getDefUnits() {
 		return defUnits;
 	}
 
@@ -63,5 +69,13 @@ public class Attack {
 
 	public Player getDefender() {
 		return defender;
+	}
+	
+	public Land getAttLand() {
+		return attack;
+	}
+	
+	public Land getDefLand() {
+		return defense;
 	}
 }
