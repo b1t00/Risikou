@@ -30,7 +30,6 @@ import ris.local.ui.gui.swing.panels.QuestionPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel.QuestionListener;
 import ris.local.ui.gui.swing.panels.RequestPanel;
 import ris.local.ui.gui.swing.panels.RequestPanel.CountryRequest;
-import ris.local.ui.gui.swing.panels.RequestPanel.RequestListener;
 import ris.local.ui.gui.swing.panels.RisikokartenPanel;
 import ris.local.ui.gui.swing.panels.RisikokartenPanel.RisikoKartenListener;
 import ris.local.ui.gui.swing.panels.SetUnitsPanel;
@@ -46,7 +45,7 @@ import ris.local.valueobjects.Land;
 //	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
-		implements QuestionListener, WorldListener, RequestListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener{
+		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener{
 
 	private Risiko risiko;
 
@@ -158,16 +157,16 @@ public class RisikoClientGUI extends JFrame
 		this.add(gamePl);
 
 		// ab hier werden die einzelnen Panels erstellt und mit einem key versehen
-		attackFromPl = new RequestPanel(this, CountryRequest.ATTACKCOUNTRY, risiko);
+		attackFromPl = new RequestPanel(CountryRequest.ATTACKCOUNTRY, risiko);
 		container.add(attackFromPl, "attackFrom");
 
-		attackToPl = new RequestPanel(this, CountryRequest.DEFENSECOUNTRY, risiko);
+		attackToPl = new RequestPanel(CountryRequest.DEFENSECOUNTRY, risiko);
 		container.add(attackToPl, "attackTo");
 
-		moveFromPl = new RequestPanel(this, CountryRequest.MOVEFROMCOUNTRY, risiko);
+		moveFromPl = new RequestPanel(CountryRequest.MOVEFROMCOUNTRY, risiko);
 		container.add(moveFromPl, "moveFrom");
 
-		moveToPl = new RequestPanel(this, CountryRequest.MOVETOCOUNTRY, risiko);
+		moveToPl = new RequestPanel(CountryRequest.MOVETOCOUNTRY, risiko);
 		container.add(moveToPl, "moveTo");
 
 		moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE);
@@ -223,7 +222,8 @@ public class RisikoClientGUI extends JFrame
 				JOptionPane.showMessageDialog(null, "Du kannst leider keine Einheiten verschieben.");
 				risiko.setNextState();
 				risiko.setNextPlayer();
-//				playerPanel.update();
+				infoPl.update();
+				risikoKartenTPl.setUp();
 				showSetUnits();
 			}
 			break;
@@ -447,6 +447,12 @@ public class RisikoClientGUI extends JFrame
 				RisikoClientGUI gui = new RisikoClientGUI();
 			}
 		});
+	}
+
+	@Override
+	public boolean pruefenObDreiRichtig() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

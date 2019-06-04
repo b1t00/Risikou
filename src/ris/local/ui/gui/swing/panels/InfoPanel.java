@@ -52,4 +52,8 @@ public class InfoPanel extends JPanel {
 		return this.getHeight();
 	}
 	
+	public void update() {
+		spielerDetailsPl.update();
+		//allespeilerpl update
+	}
 }

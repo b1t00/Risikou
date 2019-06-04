@@ -25,7 +25,7 @@ public class SpielerDetailsPanel extends JPanel {
 		this.risiko = ris;
 //		farbAuswahl = risiko.gibAktivenPlayer().getFarbe());
 		name = new JLabel("Name: " + risiko.gibAktivenPlayer());
-		farbe = new JLabel("Fabre: " + farbAuswahl); //TODO: Farbe als Enums
+		farbe = new JLabel("Farbe: " + farbAuswahl); //TODO: Farbe als Enums
 		mission = new JLabel("<html><center>" +"Deine Mission: <br>" +  risiko.gibAktivenPlayer().getMission()+"</center></html>");
 		setupUI();
 	}
@@ -34,8 +34,14 @@ public class SpielerDetailsPanel extends JPanel {
 		layOutSetUp();
 
 		this.setBorder(BorderFactory.createEtchedBorder());
-		this.setBackground(Color.blue); //TODO: Farbuebergabe
+		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
 
+	}
+	
+	public void update() {
+		name.setText("Name: " + risiko.gibAktivenPlayer());
+		farbe.setText("Farbe: " + farbAuswahl); //TODO: Farbe als Enums
+		mission.setText("<html><center>" +"Deine Mission: <br>" +  risiko.gibAktivenPlayer().getMission()+"</center></html>");
 	}
 
 	public void layOutSetUp() {

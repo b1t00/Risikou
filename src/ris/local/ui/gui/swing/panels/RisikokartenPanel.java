@@ -124,7 +124,7 @@ public class RisikokartenPanel extends JPanel {
 //						System.out.println("hier danach " + risiko.gibAktivenPlayer().getLandById(l.getNummer()));
 						// TODO: karte aus dejm Array Loeschen
 						// TODO: generell anzahl zu setztenden Einheiten erhöhen!
-						risiko.gibAktivenPlayer().
+						risiko.gibAktivenPlayer();
 					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
