@@ -51,10 +51,8 @@ public class RisikokartenPanel extends JPanel {
 	public void setUp() {
 		
 		if(!(spielerKarten.size() == 0)) {
-//		for(int i = 0 ; i < 5 ; i++ ) {
 			spielerKarten.removeAll(spielerKarten);
 			this.removeAll();
-//		}
 		}
 		
 		for (int i = 0; i < 5; i++) {
@@ -145,7 +143,7 @@ public class RisikokartenPanel extends JPanel {
 
 //			risiko.gibAktivenPlayer().auswahlPruefen(Arr); // gucken ob das array geht..
 //			listener.combiAusgewaehlt();
-			if (!dreiKartenAusgewaehlt()) {
+			if (!dreiKartenAusgewaehlt() && risiko.getTauschzeit()) {
 				KartenButton b = (KartenButton) e.getSource();
 				b.setAusgewaehlt();
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
