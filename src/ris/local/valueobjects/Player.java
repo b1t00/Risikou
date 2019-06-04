@@ -182,6 +182,7 @@ public class Player implements Serializable {
 		} else if (arry.get(0).getSymbol() != arry.get(1).getSymbol() && arry.get(0).getSymbol() != arry.get(2).getSymbol() && arry.get(1).getSymbol() != arry.get(2).getSymbol()) { // alle sind unterschiedlich
 			return true;
 		} else {
+			kartenWurdenEntfernt = false;
 			return false;
 		}
 	}
