@@ -147,11 +147,9 @@ public class RisikoClientGUI extends JFrame
 
 //		dicePl = new DicePanel(risiko,this);
 
-
-//		gamePl.add(worldPl, BorderLayout.CENTER);
-
+		gamePl.add(westPanel, BorderLayout.WEST);
 		gamePl.add(infoPl, BorderLayout.SOUTH);
-		gamePl.add(worldPl, BorderLayout.CENTER);
+//		gamePl.add(worldPl, BorderLayout.CENTER);
 
 //		infoPl.add(risikoKartenTPl);
 //		
@@ -182,18 +180,15 @@ public class RisikoClientGUI extends JFrame
 		dicePl = new DicePanel();
 		container.add(dicePl, "dice");
 		
-	
 		this.setVisible(true);
 
 	}
 
 	public void showGamePl() {
 		this.add(gamePl);
-		// WEST
-//				container = new JPanel();
 
 		// CENTER
-//		worldPl = new WorldPanel(this, risiko);
+		worldPl = new WorldPanel(this, risiko);
 
 		// SOUTH
 //				infoPl = new InfoPanel();
@@ -202,8 +197,8 @@ public class RisikoClientGUI extends JFrame
 //		container.setSize(50,100);
 //		container.setBorder(BorderFactory.createLineBorder(Color.black));
 
-		gamePl.add(container, BorderLayout.CENTER);
-//		gamePl.add(worldPl, BorderLayout.CENTER);
+//		gamePl.add(container, BorderLayout.CENTER);
+		gamePl.add(worldPl, BorderLayout.CENTER);
 		gamePl.add(infoPl, BorderLayout.SOUTH);
 
 		this.add(gamePl);
