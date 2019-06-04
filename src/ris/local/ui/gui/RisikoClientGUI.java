@@ -310,7 +310,6 @@ public class RisikoClientGUI extends JFrame
 		System.out.println("Status un: " + un);
 		switch (un) {
 		case ATTACK:
-
 			if((number > (worldPl.getAttackLand1().getEinheiten()-1)) || number > 3 || number < 1) {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
 			} else {
@@ -338,6 +337,7 @@ public class RisikoClientGUI extends JFrame
 					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf verloren!");
 				}
 				updateWorld();
+				//mission complete check
 				showQuestion();
 			} else {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
@@ -347,6 +347,7 @@ public class RisikoClientGUI extends JFrame
 			if(risiko.moveUnitsGueltig(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number)) {
 				try {
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
+					//mission complete check
 					updateWorld();
 					dialogPl.update(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
 				} catch (LandExistiertNichtException | ZuWenigEinheitenException
@@ -368,6 +369,7 @@ public class RisikoClientGUI extends JFrame
 		case SETUNITS:
 			try {
 				land.setEinheiten(1);
+				//mission complete check
 				updateWorld();
 			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 				// TODO Auto-generated catch block
