@@ -115,30 +115,6 @@ public class RisikokartenPanel extends JPanel {
 
 	}
 
-	public void loeseRisikoKartenEin(ArrayList<Risikokarte> ausgeWahlteKarten) {
-		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {
-			for (Risikokarte k : ausgeWahlteKarten) {
-				if (l.getName().equals(k.getLand().getName())) { // falls der spieler das Land von der Risikokarte beim
-																	// eintauschen besitzt..
-					try {
-						System.out.println("hier gucken" + risiko.gibAktivenPlayer().getBesitz());
-						risiko.getLandById(l.getNummer()).setEinheiten(2); // .. wird auf das
-																									// land zwei
-																									// einheiten gesetzt
-//						System.out.println("hier danach " + risiko.gibAktivenPlayer().getLandById(l.getNummer()));
-						// TODO: karte aus dejm Array Loeschen
-						// TODO: generell anzahl zu setztenden Einheiten erhöhen!
-						risiko.gibAktivenPlayer();
-					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					;
-				}
-			}
-		}
-	}
-
 	// muss in gleich klasse
 	class KartenListener implements ActionListener {
 
@@ -150,11 +126,16 @@ public class RisikokartenPanel extends JPanel {
 			if (!dreiKartenAusgewaehlt() && risiko.getTauschZeit()) {
 				KartenButton b = (KartenButton) e.getSource();
 				b.setAusgewaehlt();
+				
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
+
 				if(dreiKartenAusgewaehlt()) {
 					listener.combiAusgewaehlt();
 				}
 			}
+
+			} 
+
 		}
 
 	}
