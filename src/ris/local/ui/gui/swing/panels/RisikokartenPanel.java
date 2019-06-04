@@ -128,11 +128,11 @@ public class RisikokartenPanel extends JPanel {
 //					if(//abfrage nach gültigkeit)
 //							listener.tauscheRisikokarten(ausgewahelte kartenarray);
 				}
+
 				
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
 			} 
-		}
-
+}
 	}
 
 }
