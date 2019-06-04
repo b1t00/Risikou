@@ -40,11 +40,6 @@ public class Spiellogik {
 
 	// ***********************************Spiel_Anfang********************************************
 
-	// Methode um Alle "LaenderKarten" durchzumischen
-//	public ArrayList<Land> shuffleLaender() {
-//		return shuffle;
-//	}
-
 	// Methode um Laender am Anfang zuf�llig zu verteilen;
 	public void verteileEinheiten() {
 		ArrayList<Land> alleLaender = worldMg.getLaender();

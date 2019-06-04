@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.local.valueobjects.Risikokarte;
+import ris.local.valueobjects.Risikokarte.Symbol;
 
 public class RisikokartenManagement implements Serializable {
 
@@ -16,11 +17,11 @@ public class RisikokartenManagement implements Serializable {
 		worldMg = new WorldManagement();
 		for (int i = 0; i < worldMg.getLaender().size(); i++) {
 			if (i % 3 == 0) {
-				einheitenkarten.add(new Risikokarte("Kanone", worldMg.getLandById(i)));
+				einheitenkarten.add(new Risikokarte(Symbol.KANONE, worldMg.getLandById(i)));
 			} else if (i % 3 == 1) {
-				einheitenkarten.add(new Risikokarte("Soldat", worldMg.getLandById(i)));
+				einheitenkarten.add(new Risikokarte(Symbol.SOLDAT, worldMg.getLandById(i)));
 			} else if (i % 3 == 2) {
-				einheitenkarten.add(new Risikokarte("Reiter", worldMg.getLandById(i)));
+				einheitenkarten.add(new Risikokarte(Symbol.REITER, worldMg.getLandById(i)));
 			}
 		}
 		Collections.shuffle(einheitenkarten);
@@ -28,7 +29,6 @@ public class RisikokartenManagement implements Serializable {
 	}
 
 	public ArrayList<Risikokarte> getEinheitenkarten() {
-//		Collections.shuffle(einheitenkarten);
 		return einheitenkarten;
 	}
 

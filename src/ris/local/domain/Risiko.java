@@ -75,7 +75,7 @@ public class Risiko {
 		return player;
 	}
 
-	//TODO: diese methode kann wahrschienich weg, nochmal überprüfen!
+	// TODO: diese methode kann wahrschienich weg, nochmal überprüfen!
 	public void setzeAktivenPlayer() {
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
@@ -122,7 +122,7 @@ public class Risiko {
 	public Player getGewinner() {
 		return logik.getGewinner();
 	}
-	
+
 //	****************************RISIKOKARTEN************************************
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
@@ -137,18 +137,22 @@ public class Risiko {
 		return false;
 	}
 
-	//gibt zurück, ob ein Player Risikokarten gegen Einheiten eintauschen kann
+	// gibt zurück, ob ein Player Risikokarten gegen Einheiten eintauschen kann
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
 	}
-	
+
 	public boolean isGueltigeTauschkombi(Symbol s1, Symbol s2, Symbol s3) {
 		return logik.isGueltigeTauschkombi(s1, s2, s3);
 	}
-	
+
+	public ArrayList<Risikokarte> getRisikoKarten() {
+		return einheitenkartenStapel;
+	};
+
 //	****************************RISIKOKARTEN************************************
 
-	//ALTE METHODE, KANN GELÖSCHT WERDEN
+	// ALTE METHODE, KANN GELÖSCHT WERDEN
 //	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 //		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 //	}
@@ -193,25 +197,28 @@ public class Risiko {
 	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 	
 	public boolean kannAngreifen(Player player) {
 		return logik.kannAngreifen(player);
 	}
 	
 	//TODO: exception behandeln
+
 	public boolean attackLandGueltig(Land att) {
 		try {
 			return logik.attackLandGueltig(att);
 		} catch (LandExistiertNichtException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} return false;
+		}
+		return false;
 	}
-	
+
 	public boolean defenseLandGueltig(Land att, Land def) {
 		return logik.defenseLandGueltig(att, def);
 	}
-	
+
 	public boolean moveFromLandGueltig(Land move) {
 		return logik.moveFromLandGueltig(move);
 	}
@@ -234,7 +241,6 @@ public class Risiko {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
-
 
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
