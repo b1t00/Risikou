@@ -99,7 +99,7 @@ public class WorldManagement implements Serializable{
 		laender.add(quebec);
 		Land ontario = new Land("Ontario", 38, 1,118,133,208,131);
 		laender.add(ontario);
-		Land alberta = new Land("Alberta", 39, 1,144,171,138,137);
+		Land alberta = new Land("Alberta", 39, 1,144,171,207,161);
 		laender.add(alberta);
 		Land alaska = new Land("Alaska", 40, 1,52,71,69,74);
 		laender.add(alaska);
