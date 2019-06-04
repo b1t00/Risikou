@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -40,6 +41,7 @@ import ris.local.ui.gui.swing.panels.WorldPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Land;
+import ris.local.valueobjects.Risikokarte;
 //	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
@@ -245,6 +247,15 @@ public class RisikoClientGUI extends JFrame
 		container.add(setUnitsPl, "setUnits");
 		cl.show(container, "setUnits");
 	}
+	
+	public void showSetUnits(int plus) {
+		dialogPl.update("setUnits");
+		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer()) + plus;
+		System.out.println("Verfügbare Einheiten: " + units);
+		setUnitsPl = new SetUnitsPanel(units, risiko);
+		container.add(setUnitsPl, "setUnits");
+		cl.show(container, "setUnits");
+	}
 
 	@Override
 	// antwortListener vom Question Panel
@@ -435,6 +446,27 @@ public class RisikoClientGUI extends JFrame
 		showPanel(gamePl);
 		showQuestion();
 	}
+	
+	public void combiAusgewaehlt() {
+		ArrayList<Risikokarte> kicked = risikoKartenTPl.getCombi();
+		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {
+			for (Risikokarte k : kicked) {
+				//falls der spieler das Land von der Risikokarte beim eintauschen besitzt..
+				if (l.getName().equals(k.getLand().getName())) { 
+					// .. wird auf das land zwei einheiten gesetzt
+						try {
+							risiko.getLandById(l.getNummer()).setEinheiten(2);
+							updateWorld();
+						} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+				}
+			}
+		}
+		showSetUnits(5);
+		infoPl.update();
+	}
 
 //TODO: uberflüssig?
 	public int getSpielerAnzahl() {
@@ -461,5 +493,6 @@ public class RisikoClientGUI extends JFrame
 		// TODO Auto-generated method stub
 		return false;
 	}
+
 
 }
