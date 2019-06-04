@@ -132,9 +132,9 @@ public class RisikoClientGUI extends JFrame
 		dialogPl = new DialogPanel(risiko);
 		westPanel.add(container);
 		westPanel.add(dialogPl);
-//		
+		
 //		//CENTER
-//		worldPl = new WorldPanel(this, risiko);
+//		worldPl -> wird später erstelle
 		
 //		//SOUTH
 		infoPl = new InfoPanel(risiko);
@@ -149,7 +149,6 @@ public class RisikoClientGUI extends JFrame
 
 		gamePl.add(westPanel, BorderLayout.WEST);
 		gamePl.add(infoPl, BorderLayout.SOUTH);
-//		gamePl.add(worldPl, BorderLayout.CENTER);
 
 //		infoPl.add(risikoKartenTPl);
 //		
@@ -186,21 +185,9 @@ public class RisikoClientGUI extends JFrame
 
 	public void showGamePl() {
 		this.add(gamePl);
-
 		// CENTER
 		worldPl = new WorldPanel(this, risiko);
-
-		// SOUTH
-//				infoPl = new InfoPanel();
-
-//		container.setLayout(cl);
-//		container.setSize(50,100);
-//		container.setBorder(BorderFactory.createLineBorder(Color.black));
-
-//		gamePl.add(container, BorderLayout.CENTER);
 		gamePl.add(worldPl, BorderLayout.CENTER);
-		gamePl.add(infoPl, BorderLayout.SOUTH);
-
 		this.add(gamePl);
 	}
 
