@@ -125,7 +125,7 @@ public class RisikokartenPanel extends JPanel {
 				b.setAusgewaehlt();
 				
 				if (dreiKartenAusgewaehlt()) {
-					if(//abfrage nach gültigkeit)
+//					if(//abfrage nach gültigkeit)
 //							listener.tauscheRisikokarten(ausgewahelte kartenarray);
 				}
 				
