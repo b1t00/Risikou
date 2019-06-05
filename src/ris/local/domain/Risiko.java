@@ -298,7 +298,16 @@ public class Risiko {
 				//und die Risikokarten
 				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
-//					TODO: was ist mit in Einheiten auf Ländern
+				}
+				//und für jedes Land werden die Einheiten neu gesetzt
+				for(Land loadedLand: loadedPlayer.getBesitz()) {
+					Land land = worldMg.getLandById(loadedLand.getNummer());
+					try {
+						land.setEinheiten(loadedLand.getEinheiten());
+					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
