@@ -291,8 +291,12 @@ public class RisikoClientGUI extends JFrame
 //				zurück, ob ein Land eingenommen wurde 
 //				TODO: eventuell vorher abfrage, ob land eingenommen wurde
 				if (risiko.zieheEinheitenkarte(risiko.gibAktivenPlayer())) {
-					//update das Karten Panel
-					//dialogausgabe, dass eine einheitenkarte gezogen wurde
+					updateKartenpanel2();
+					for(Risikokarte karte: risiko.gibAktivenPlayer().getEinheitenkarten()) {
+						System.out.println(karte);						
+					}
+					//info, welche risikokarte gezogen wurde
+					JOptionPane.showMessageDialog(null, "Du hast ein Land erobert und bekommst eine Risikokarte \n" + risiko.gibAktivenPlayer().getEinheitenkarten().get(risiko.gibAktivenPlayer().getEinheitenkarten().size() - 1));
 				}
 				risiko.setNextState();
 				risiko.setNextPlayer();
@@ -381,6 +385,7 @@ public class RisikoClientGUI extends JFrame
 			try {
 				land.setEinheiten(1);
 				updateWorld();
+				dialogPl.update(land);
 				//Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
 				if(risiko.allMissionsComplete()) {
 					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");

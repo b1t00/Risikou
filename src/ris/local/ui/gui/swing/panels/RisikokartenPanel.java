@@ -132,17 +132,7 @@ public class RisikokartenPanel extends JPanel {
 //					spielerKartenBtn.removeAll(spielerKartenBtn)
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
 					ausgeWahlteKarten.removeAll(ausgeWahlteKarten);
-//					this.removeAll();
-//					this.revalidate();
-//					this.repaint();
-//					for(KartenButton kb : spielerKartenBtn) { 
-//						kb.setAusgewaehlt(false);
-//						kb.removeAll();
-//						kb.revalidate();
-//						kb.repaint();
-//						}
 
-//					spielerKartenBtn.remove(ausgeWahlteKarten);
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
 					for(Risikokarte karte: ausgeWahlteKarten) {
 						for(KartenButton button: spielerKartenBtn) {

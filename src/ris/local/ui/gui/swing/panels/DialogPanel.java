@@ -66,4 +66,8 @@ public class DialogPanel extends JPanel {
 	public void update(Land land1, Land land2, int number) {
 		info.setText(ris.gibAktivenPlayer() + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + ".");
 	}
+	
+	public void update(Land land) {
+		info.setText(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land);
+	}
 }

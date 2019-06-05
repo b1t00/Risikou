@@ -10,11 +10,9 @@ public class Player implements Serializable {
 	private String name;
 	private String farbe;
 	private int nummer;
-	private Mission mission; //
+	private Mission mission; 
 	private ArrayList<Risikokarte> gezogeneRisikokarten;
-	// private int besatzerNr;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
-	// private int einheiten;
 	int[] uBlock = new int[42];
 	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
 	private boolean gutschriftEinheitenkarte = false;
