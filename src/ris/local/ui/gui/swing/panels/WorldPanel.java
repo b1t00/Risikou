@@ -15,7 +15,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
-import ris.local.domain.WorldManagement;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
@@ -28,6 +27,7 @@ public class WorldPanel extends JPanel {
 	private Land moveLand2;
 	private int attackState;
 	private int moveState;
+	
 	private BufferedImage karte = null;
 	private BufferedImage karte2 = null;
 	private BufferedImage flagr = null;
@@ -36,8 +36,6 @@ public class WorldPanel extends JPanel {
 	private BufferedImage flagw = null;
 	private BufferedImage flagbc = null;
 	private BufferedImage flagp = null;
-
-//	private ImageIcon karte = null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
@@ -51,8 +49,7 @@ public class WorldPanel extends JPanel {
 		listener = wl;
 		ris = risiko;
 
-		// states werden zu Beginn auf 1 gesetzt und dann je nach Spielstand auf 2
-		// gewechselt
+		// states werden zu Beginn auf 1 gesetzt und dann je nach Spielstand auf 2 gewechselt
 		this.attackState = 1;
 		this.moveState = 1;
 
@@ -70,7 +67,6 @@ public class WorldPanel extends JPanel {
 			Color color = new Color(karte.getRGB(x,y));
 			int b = color.getBlue();
 			System.out.println("Land: " + risiko.getLandById(b));
-//			System.out.println("x: "+ x+"  y: "+y);
 			Land land = null;
 //			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 				land = ris.getLandById(b);
@@ -80,18 +76,19 @@ public class WorldPanel extends JPanel {
 						listener.countryClicked(land);
 						return;
 					} else {
-						JOptionPane.showMessageDialog(null, "Das Land geh�rt dir nicht");
+						JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht");
 					}
 					break;
 				case ATTACK:
 					if (attackState == 1) {
-						// es wird �berpr�ft, ob das angeklickte Land g�ltig ist
+						// es wird ueberprueft, ob das angeklickte Land gueltig ist
 						if (ris.attackLandGueltig(land)) {
 							attackLand1 = land;
 							attackState = 2;
+							System.out.println("attackstate: " + attackState);
 							listener.countryClicked(land);
 						} else {
-							JOptionPane.showMessageDialog(null, "Das Land geh�rt dir nicht.");
+							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht oder du kannst nicht mit dem Land angreifen.");
 						}
 					} else {
 						if (ris.defenseLandGueltig(attackLand1, land)) {
@@ -100,11 +97,12 @@ public class WorldPanel extends JPanel {
 							listener.countryClicked(land);
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Das Land geh�rt dir selber oder ist nicht mit dem Angriffsland benachbart!");
+									"Das Land gehoert dir selber oder ist nicht mit dem Angriffsland benachbart!");
 						}
 					}
 					break;
 				case CHANGEUNITS:
+					//wenn moveState auf 1 steht, wird nach dem Land gefragt, von dem aus Einheiten verschoben werden sollen
 					if (moveState == 1) {
 						if (ris.moveFromLandGueltig(land)) {
 							moveLand1 = land;
@@ -112,16 +110,16 @@ public class WorldPanel extends JPanel {
 							listener.countryClicked(land);
 						} else {
 							JOptionPane.showMessageDialog(null,
-									"Das Land geh�rt dir nicht oder du kannst von hier keine Einheiten verschieben.");
+									"Das Land gehoert dir nicht oder du kannst von hier keine Einheiten verschieben.");
 						}
+						//wenn moveState nicht auf 1 steht, wird nach dem Land, zu dem verschoben werden soll, gefragt
 					} else {
-						// TODO: und l�nder sind benachbart!
-						if (land.getBesitzer().equals(ris.gibAktivenPlayer())) {
+						if (ris.moveToLandGueltig(moveLand1, land)) {
 							moveLand2 = land;
 							moveState = 1;
 							listener.countryClicked(land);
 						} else {
-							JOptionPane.showMessageDialog(null, "Das Land geh�rt dir nicht.");
+							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht.");
 						}
 					}
 					break;
@@ -147,6 +145,20 @@ public class WorldPanel extends JPanel {
 			}	
 	  }
 
+	    @Override
+	    public void paintComponent(Graphics g) {
+	    	g.drawImage(karte,0,0,null);
+	    	g.drawImage(karte2,0,0,null);
+	    	ArrayList<Player> playerArray = ris.getPlayerArray();
+	    	for(Player player: playerArray) {
+	    		for (Land land: player.getBesitz()) {
+	    			drawFlag(land, player.getFarbe(), g);
+		    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
+	    		}
+	    	}
+//	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
+	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
+	    	}
 
 	  public void drawFlag(Land land, String farbe, Graphics g) {
 		  switch(farbe) {
@@ -165,11 +177,9 @@ public class WorldPanel extends JPanel {
 			  g.drawImage(flagp,land.getXf(),land.getYf(),null);
 		  case "schwarz":
 			  g.drawImage(flagbc,land.getXf(),land.getYf(),null);
-			  g.drawString("1", land.getxE(), land.getyE());
+			  g.drawString(Integer.toString(land.getEinheiten()), land.getxE(), land.getyE());
 		default:
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
-
-
 		  }
 	  }
 	    @Override
@@ -186,6 +196,11 @@ public class WorldPanel extends JPanel {
 	    	}
 	    	}
 
+	  
+	  public void redrawFlag(Land land) {
+		  
+		  drawFlag(land, land.getBesitzer().getFarbe(), getGraphics());
+	  }
 
 	// Getter Methoden
 	public int getAttackState() {

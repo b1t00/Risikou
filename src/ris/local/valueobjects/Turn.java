@@ -14,6 +14,7 @@ public class Turn implements Serializable{
 	private int spielrunden;
 	private ArrayList<Player> playerList;
 	private PlayerManagement playerMg;
+	boolean tauschZeit = false;
 	
 	public Turn(PlayerManagement playerMg) {
 		this.state = State.SETUNITS;
@@ -52,6 +53,14 @@ public class Turn implements Serializable{
 	public void naechsteSpielrunde() {
 		this.spielrunden++;
 		aktiverPlayer = playerList.get((aktiverPlayer.getNummer() + 1) % playerList.size());
+	}
+	
+	public boolean getTauschZeit() {
+		return tauschZeit;
+	}
+	
+	public void setTauschZeit(boolean tauschZeit) {
+		this.tauschZeit = tauschZeit;
 	}
 	
 //	public static void main(String[] args) {

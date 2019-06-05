@@ -9,7 +9,7 @@ import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 
-public class WorldManagement implements Serializable{
+public class WorldManagement {
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
 	private transient ArrayList<Land> shuffle = new ArrayList<Land>();

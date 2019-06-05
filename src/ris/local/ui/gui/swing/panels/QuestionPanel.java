@@ -9,7 +9,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 
 import ris.local.domain.Risiko;
 
@@ -24,8 +26,8 @@ public class QuestionPanel extends JPanel{
 	
 
 	private JLabel titel = new JLabel("Attack");
-	private JLabel abfrage;
-//	abfrage.setHorizontalAlignment(JLabel.Left);
+	//vorher statt JTextArea: JLabel, dann aber kein Zeilenumbruch
+	private JTextArea abfrage;
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	
@@ -34,7 +36,6 @@ public class QuestionPanel extends JPanel{
 		this.listener = listener;
 		
 		setupUI();
-		
 		setupEvents();
 	}
 	
@@ -43,27 +44,33 @@ public class QuestionPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.setSize(100,400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
+		
+		//ermöglicht automatischen Zeilenumbruch
+		abfrage = new JTextArea();
+		abfrage.setLineWrap(true);
+		abfrage.setWrapStyleWord(true);
+		abfrage.setEditable(false);
 		
 		switch (ris.getCurrentState()) {
 		case SETUNITS:
-//			if(ris.changePossible(ris.gibAktivenPlayer())) {
-//				abfrage = new JLabel("Möchtest du Risiko-Karten eintauschen?");
-//			}
-			abfrage = new JLabel("Hier kommt noch eine Abfrage hin");
+			titel.setText("CardCombi");
+			abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 			break;
 		case ATTACK: 
-			 abfrage = new JLabel("Möchtest du angreifen?");
+			titel.setText("Attack");
+			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du angreifen?");
 			 break;
 		case CHANGEUNITS:
-			 abfrage = new JLabel("Möchtest du Einheiten verschieben?");
+			titel.setText("Move units");
+			 abfrage.setText(ris.gibAktivenPlayer() + ": Möchtest du Einheiten verschieben?");
 			 break;
 		}
 		
 		this.add(abfrage);
 		this.add(yesButton);
 		this.add(noButton);
-		this.setBackground(Color.GREEN);
 	}
 	
 	public void setupEvents() {

@@ -16,12 +16,13 @@ public class DicePanel extends JPanel {
 	
 	public void showResult() {
 		String ergebnis = attObj.getAttacker() + " würfelt ";
-		ArrayList<Integer> attack = attObj.getAttUnits();
+		System.out.println("dice attack anzahl: " + attObj.getAttUnits().length);
+		int[] attack = attObj.getAttUnits();
 		for (Integer i : attack) {
 			ergebnis = ergebnis + i + ", ";
 		}
 		ergebnis = ergebnis + ". " + attObj.getDefender() + " würfelt ";
-		ArrayList<Integer> defense = attObj.getDefUnits();
+		int[] defense = attObj.getDefUnits();
 		for (Integer i : defense) {
 			ergebnis = ergebnis + i + ", ";
 		}
