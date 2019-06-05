@@ -24,11 +24,14 @@ public class RisikokartenPanel extends JPanel {
 	private RisikoKartenListener listener;
 
 	private ArrayList<KartenButton> spielerKartenBtn = new ArrayList<KartenButton>();
+	private ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
 
 	public interface RisikoKartenListener {
 		public void updateKartenpanel();
 
 		public void updateKartenpanel2();
+		
+		public void combiAusgewaehlt();
 
 //		public void updateKartenpanelZwo();
 	}
@@ -88,10 +91,13 @@ public class RisikokartenPanel extends JPanel {
 		}
 		return true;
 	}
+	
+	public ArrayList<Risikokarte> getCombi(){
+		return ausgeWahlteKarten;
+	}
 
 	// check ob spieler Drei karten
 	public boolean dreiKartenAusgewaehlt() {
-		ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
 		for (Risikokarte k : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 			if (k.getAusgewaehl()) {
 				ausgeWahlteKarten.add(k);
@@ -101,6 +107,7 @@ public class RisikokartenPanel extends JPanel {
 					System.out.println("einlösen wäre schonmal richtig");
 
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
+					listener.combiAusgewaehlt();
 //					
 //					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 //						r.setAusgewaehl(false);

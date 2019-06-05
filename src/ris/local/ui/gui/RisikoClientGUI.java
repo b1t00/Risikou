@@ -7,6 +7,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -42,7 +43,8 @@ import ris.local.ui.gui.swing.panels.WorldPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Land;
-//	MapImage Größe 120 / 711
+import ris.local.valueobjects.Risikokarte;
+//	MapImage GrÃ¶ÃŸe 120 / 711
 
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener{
@@ -65,7 +67,7 @@ public class RisikoClientGUI extends JFrame
 
 	private DicePanel dicePl;
 
-	// Das RequestPanel wird benötigt, wenn auf ein Land geklickt werden muss
+	// Das RequestPanel wird benÃ¶tigt, wenn auf ein Land geklickt werden muss
 	private RequestPanel attackFromPl;
 	private RequestPanel attackToPl;
 	private RequestPanel moveFromPl;
@@ -87,7 +89,7 @@ public class RisikoClientGUI extends JFrame
 	
 	
 	public RisikoClientGUI() {
-//		zweitausendaLook();
+		zweitausendaLook();
 		risiko = new Risiko();
 //		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
@@ -101,7 +103,7 @@ public class RisikoClientGUI extends JFrame
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
-		setSize(new Dimension(340, 340)); // größe vom Loginpanel
+		setSize(new Dimension(340, 340)); // grÃ¶ÃŸe vom Loginpanel
 //		pack();
 		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
@@ -245,7 +247,7 @@ public class RisikoClientGUI extends JFrame
 	public void showSetUnits() {
 		dialogPl.update("setUnits");
 		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer());
-		System.out.println("Verfügbare Einheiten: " + units);
+		System.out.println("VerfÃ¼gbare Einheiten: " + units);
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
 		cl.show(container, "setUnits");
@@ -288,7 +290,7 @@ public class RisikoClientGUI extends JFrame
 				infoPl.update();
 				risikoKartenTPl.setUp();
 				showQuestion();
-				System.out.println("Nächste Spielphase");
+				System.out.println("NÃ¤chste Spielphase");
 				break;
 			default:
 				// TODO
@@ -304,13 +306,13 @@ public class RisikoClientGUI extends JFrame
 		switch (un) {
 		case ATTACK:
 			if((number > (worldPl.getAttackLand1().getEinheiten()-1)) || number > 3 || number < 1) {
-				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
+				JOptionPane.showMessageDialog(null, "UngÃ¼ltige Anzahl Einheiten.");
 			} else {
 				cl.show(container, "defenseNumber");
 			}
 			break;
 		case DEFENSE:
-			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
+			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgefÃ¼hrt
 			if (number <= worldPl.getAttackLand2().getEinheiten() && number < 3) {
 				Attack attackObjekt = null;
 				try {
@@ -336,7 +338,7 @@ public class RisikoClientGUI extends JFrame
 					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
+				JOptionPane.showMessageDialog(null, "UngÃ¼ltige Anzahl an Einheiten!");
 			}
 			
 			break;
@@ -346,7 +348,7 @@ public class RisikoClientGUI extends JFrame
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
 					dialogPl.update(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
-					//Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
+					//Check, ob durch das verschieben von einheiten eine Mission erfÃ¼llt wurde
 					if(risiko.allMissionsComplete()) {
 						JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
 					}
@@ -357,7 +359,7 @@ public class RisikoClientGUI extends JFrame
 				}
 				showQuestion();
 			} else {
-				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten!");
+				JOptionPane.showMessageDialog(null, "UngÃ¼ltige Anzahl Einheiten!");
 			}
 			
 		}
@@ -370,7 +372,7 @@ public class RisikoClientGUI extends JFrame
 			try {
 				land.setEinheiten(1);
 				updateWorld();
-				//Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
+				//Check, ob durch das Setzen einer Unit die Mission erfÃ¼llt wurde
 				if(risiko.allMissionsComplete()) {
 					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
 				}
@@ -449,14 +451,14 @@ public class RisikoClientGUI extends JFrame
 	public void showGamePanel() {
 		initializeGamePl();
 		System.out.println("aktiver Player: " + risiko.gibAktivenPlayer());
-		System.out.println("aktive player länder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
+		System.out.println("aktive player lÃ¤nder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
 		worldPl = new WorldPanel(this, risiko);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
 		showQuestion();
 	}
 
-//TODO: uberflüssig?
+//TODO: uberflÃ¼ssig?
 	public int getSpielerAnzahl() {
 		return wieVielePl.getAnzahlSpieler();
 	}
@@ -475,7 +477,37 @@ public class RisikoClientGUI extends JFrame
 			}
 		});
 	}
+	
+	public void showSetUnits(int plus) {
+		dialogPl.update("setUnits");
+		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer()) + plus;
+		System.out.println("Verfï¿½gbare Einheiten: " + units);
+		setUnitsPl = new SetUnitsPanel(units, risiko);
+		container.add(setUnitsPl, "setUnits");
+		cl.show(container, "setUnits");
+	}
 
+	public void combiAusgewaehlt() {
+		ArrayList<Risikokarte> kicked = risikoKartenTPl.getCombi();
+		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {
+			for (Risikokarte k : kicked) {
+				//falls der spieler das Land von der Risikokarte beim eintauschen besitzt..
+				if (l.getName().equals(k.getLand().getName())) { 
+					// .. wird auf das land zwei einheiten gesetzt
+						try {
+							risiko.getLandById(l.getNummer()).setEinheiten(2);
+							updateWorld();
+						} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} 
+				}
+			}
+		}
+		showSetUnits(5);
+		infoPl.update();
+	}
+	
 	@Override
 	public boolean pruefenObDreiRichtig() {
 		// TODO Auto-generated method stub
