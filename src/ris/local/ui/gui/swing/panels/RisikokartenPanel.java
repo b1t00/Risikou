@@ -107,7 +107,7 @@ public class RisikokartenPanel extends JPanel {
 					System.out.println("einlösen wäre schonmal richtig");
 
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
-					listener.combiAusgewaehlt();
+//					listener.combiAusgewaehlt();
 //					
 //					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 //						r.setAusgewaehl(false);
