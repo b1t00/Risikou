@@ -132,9 +132,9 @@ public class RisikokartenPanel extends JPanel {
 //					spielerKartenBtn.removeAll(spielerKartenBtn)
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
 					ausgeWahlteKarten.removeAll(ausgeWahlteKarten);
-					this.removeAll();
-					this.revalidate();
-					this.repaint();
+//					this.removeAll();
+//					this.revalidate();
+//					this.repaint();
 //					for(KartenButton kb : spielerKartenBtn) { 
 //						kb.setAusgewaehlt(false);
 //						kb.removeAll();
@@ -153,6 +153,7 @@ public class RisikokartenPanel extends JPanel {
 							}
 						}
 					}
+					listener.updateKartenpanel2();
 					
 					// hier könnte listener noch eine Methode machen, damit state gesetzt wird
 
