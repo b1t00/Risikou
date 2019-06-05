@@ -24,14 +24,13 @@ public class RisikokartenPanel extends JPanel {
 	private RisikoKartenListener listener;
 
 	private ArrayList<KartenButton> spielerKartenBtn = new ArrayList<KartenButton>();
-	private ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
 
 	public interface RisikoKartenListener {
 		public void updateKartenpanel();
 
 		public void updateKartenpanel2();
 		
-		public void combiAusgewaehlt();
+		public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl);
 
 //		public void updateKartenpanelZwo();
 	}
@@ -92,12 +91,13 @@ public class RisikokartenPanel extends JPanel {
 		return true;
 	}
 	
-	public ArrayList<Risikokarte> getCombi(){
-		return ausgeWahlteKarten;
-	}
+//	public ArrayList<Risikokarte> getCombi(){
+//		return ausgeWahlteKarten;
+//	}
 
 	// check ob spieler Drei karten
 	public boolean dreiKartenAusgewaehlt() {
+	ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
 		for (Risikokarte k : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 			if (k.getAusgewaehl()) {
 				ausgeWahlteKarten.add(k);
@@ -107,7 +107,7 @@ public class RisikokartenPanel extends JPanel {
 					System.out.println("einlösen wäre schonmal richtig");
 
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
-					listener.combiAusgewaehlt();
+					listener.combiAusgewaehlt(ausgeWahlteKarten);
 //					
 //					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 //						r.setAusgewaehl(false);
@@ -117,19 +117,17 @@ public class RisikokartenPanel extends JPanel {
 //						}
 					spielerKartenBtn.remove(ausgeWahlteKarten);
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
-					this.removeAll();
+//					this.removeAll();
 //					this.revalidate();
-					this.repaint();
-					listener.updateKartenpanel2(); // geht nicht
+//					this.repaint();
+//					listener.updateKartenpanel2(); // geht nicht
 					// hier könnte listener noch eine Methode machen, damit state gesetzt wird
-
-//					loeseRisikoKartenEin(ausgeWahlteKarten); // wenn drei
 					return true;
 				} else {
 					// es wurden nicht die richtigen Karten eingelöst
-					JOptionPane.showInternalMessageDialog(null,
-							"Diese Kombination geht leider nicht \nVersuch es nochmal",
-							"es wurden nicht die richtigen Karten eingeloest", JOptionPane.INFORMATION_MESSAGE);
+//					JOptionPane.showInternalMessageDialog(null,
+//							"Diese Kombination geht leider nicht \nVersuch es nochmal",
+//							"es wurden nicht die richtigen Karten eingeloest", JOptionPane.INFORMATION_MESSAGE);
 
 					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 						r.setAusgewaehl(false);
@@ -155,7 +153,6 @@ public class RisikokartenPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 
 //			risiko.gibAktivenPlayer().auswahlPruefen(Arr); // gucken ob das array geht..
-//			listener.combiAusgewaehlt();
 			if (!dreiKartenAusgewaehlt() && risiko.getTauschZeit()) {
 
 				KartenButton b = (KartenButton) e.getSource();

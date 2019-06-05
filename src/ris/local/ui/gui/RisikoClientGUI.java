@@ -487,8 +487,8 @@ public class RisikoClientGUI extends JFrame
 		cl.show(container, "setUnits");
 	}
 
-	public void combiAusgewaehlt() {
-		ArrayList<Risikokarte> kicked = risikoKartenTPl.getCombi();
+	public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl) {
+		ArrayList<Risikokarte> kicked = auswahl;
 		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {
 			for (Risikokarte k : kicked) {
 				//falls der spieler das Land von der Risikokarte beim eintauschen besitzt..
@@ -506,6 +506,7 @@ public class RisikoClientGUI extends JFrame
 		}
 		showSetUnits(5);
 		infoPl.update();
+		risikoKartenTPl.setUp();
 	}
 	
 	@Override
