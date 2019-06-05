@@ -32,7 +32,7 @@ public class InfoPanel extends JPanel {
 
 	public void setupUI() {
 		layOutSetUp();
-		this.setBorder(BorderFactory.createLineBorder(Color.black));
+		this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,3));
 	}
 
 	public void layOutSetUp() {
@@ -63,6 +63,8 @@ public class InfoPanel extends JPanel {
 	
 	public void update() {
 		spielerDetailsPl.update();
+		spielerUebersichtsPl.update();
 		//allespeilerpl update
 	}
+	
 }

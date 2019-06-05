@@ -8,7 +8,7 @@ public class MissionKontinent extends Mission implements Serializable {
 
 	// evtl. noch eine Alternative mit Kontinent einer Wahl
 	public MissionKontinent(Kontinent kontinent1, Kontinent kontinent2) {
-		super("mission 1: Erobere "+ kontinent1 + " und " + kontinent2);
+		super("mission 1: Erobere die Kontinente "+ kontinent1.toString() + " und " + kontinent2.toString());
 		this.kontinent1 = kontinent1;
 		this.kontinent2 = kontinent2;
 	}

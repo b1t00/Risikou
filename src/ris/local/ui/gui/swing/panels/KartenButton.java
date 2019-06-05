@@ -16,7 +16,7 @@ public class KartenButton extends JButton {
 	private String titel;
 	private Risikokarte risikoKarte;
 	private boolean ausgewaehlt = false;
-	
+
 	public interface kartenAuswahlListener {
 		public boolean pruefenObDreiRichtig();
 	}
@@ -26,10 +26,12 @@ public class KartenButton extends JButton {
 		this.risikoKarte = karte;
 		this.setPreferredSize(new Dimension(130, 140));
 //		System.out.println("ging nicht" + ip.getHeight()); // mal gucken
-		this.setBackground(Color.GRAY);
+
 		if (risikoKarte == null) {
+			this.setBackground(Color.GRAY);
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
+			this.setBackground(Color.GREEN);
 			setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		}
 //		addActionListener();
@@ -39,28 +41,27 @@ public class KartenButton extends JButton {
 	public void setTitel(String neuerTitel) {
 		this.setText(neuerTitel);
 	}
-	
+
 	public Risikokarte getKarte() {
 		return risikoKarte;
 	}
 
-//	public void addActionListener() {
-//		super.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(risikoKarte != null && !ausgewaehlt) {
-//				System.out.println(risikoKarte.getSymbol());
-//				ausgewaehlt = ausgewaehlt();
-//				}
-//			}
-//		});
-//	}
-	public boolean setAusgewaehlt() {
-		this.setBackground(Color.CYAN);
-		risikoKarte.setAusgewaehl(true);
+
+	public boolean setAusgewaehlt(boolean istAusgewaehl) {
+
+		if (risikoKarte == null) {
+			this.setBackground(Color.GRAY);
+		} else {
+			risikoKarte.setAusgewaehl(istAusgewaehl);
+			if (istAusgewaehl) {
+				this.setBackground(Color.CYAN);
+			} else {
+				this.setBackground(Color.GREEN);
+			}
+		}
 		return true;
 	}
+
 	public boolean getAusgewaehlt() {
 		return risikoKarte.getAusgewaehl();
 	}

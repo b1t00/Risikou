@@ -149,7 +149,7 @@ public class Player implements Serializable {
 			for (Risikokarte karte : gezogeneRisikokarten) {
 				if (karte.getSymbol() == Symbol.KANONE) {
 					symbolAnzahlArray[0]++;
-				} else if (karte.getSymbol().equals(Symbol.KANONE)) {
+				} else if (karte.getSymbol().equals(Symbol.REITER)) {
 					symbolAnzahlArray[1]++;
 				} else {
 					symbolAnzahlArray[2]++;
@@ -227,10 +227,11 @@ public class Player implements Serializable {
 //	}
 	
 	public void removeKarten(ArrayList<Risikokarte> kicked) {
+		System.out.println("---------");
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
 			for(Risikokarte kick: kicked) {
 				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
-					this.gezogeneRisikokarten.remove(i);
+					this.gezogeneRisikokarten.remove(kicked);
 				}
 			}
 			kartenWurdenEntfernt = true;

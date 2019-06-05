@@ -39,7 +39,16 @@ public class LoginPanel extends JPanel {
 		});
 		this.add(spielStartenBtn);
 		spielLadenBtn = new JButton("Spiel laden");
+		spielLadenBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				client.zweitausendaLook();
+				
+			}
+		});
 		this.add(spielLadenBtn);
+		
 //		setLocation(null);
 	}
 }

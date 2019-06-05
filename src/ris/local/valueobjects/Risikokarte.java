@@ -33,4 +33,11 @@ public class Risikokarte implements Serializable {
 		this.ausgewaehl = ausgewaehl;
 	}
 
+	@Override
+	public String toString() {
+		return symbol.toString() + " - " + land.getName();
+	}
+	
+	
+
 }
