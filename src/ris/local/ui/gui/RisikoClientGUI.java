@@ -207,8 +207,6 @@ public class RisikoClientGUI extends JFrame
 				changeCardsPl = new QuestionPanel(this, risiko);
 				container.add(changeCardsPl, "changeCards");
 				cl.show(container, "changeCards");
-				
-				
 			} else {
 				showSetUnits();
 			}
@@ -305,7 +303,6 @@ public class RisikoClientGUI extends JFrame
 		System.out.println("Status un: " + un);
 		switch (un) {
 		case ATTACK:
-
 			if((number > (worldPl.getAttackLand1().getEinheiten()-1)) || number > 3 || number < 1) {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
 			} else {
@@ -334,9 +331,14 @@ public class RisikoClientGUI extends JFrame
 				}
 				updateWorld();
 				showQuestion();
+				//check, ob jemand gewonnen hat und 
+				if(risiko.allMissionsComplete()) {
+					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
+				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
 			}
+			
 			break;
 		case MOVE:
 			if(risiko.moveUnitsGueltig(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number)) {
@@ -344,6 +346,10 @@ public class RisikoClientGUI extends JFrame
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
 					dialogPl.update(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+					//Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
+					if(risiko.allMissionsComplete()) {
+						JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
+					}
 				} catch (LandExistiertNichtException | ZuWenigEinheitenException
 						| ZuWenigEinheitenNichtMoeglichExeption e) {
 					// TODO Auto-generated catch block
@@ -364,6 +370,10 @@ public class RisikoClientGUI extends JFrame
 			try {
 				land.setEinheiten(1);
 				updateWorld();
+				//Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
+				if(risiko.allMissionsComplete()) {
+					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
+				}
 			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
