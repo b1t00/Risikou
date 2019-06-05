@@ -285,6 +285,15 @@ public class RisikoClientGUI extends JFrame
 				break;
 			case CHANGEUNITS:
 				// dialog-fenster: dein zug ist beendet
+//				wenn keine Einheiten mehr getauscht werden sollen, wird der Zug beendet, dazu wird vorerst überprüft, ob ein Land
+//				eingenommen wurde, dann wird eine Einheitenkarte gezogen
+//				die Methode zieheEinheitenkarte prüft, ob ein Land eingenommen wurde, zieht automatisch eine Risikokarte und gibt als boolean
+//				zurück, ob ein Land eingenommen wurde 
+//				TODO: eventuell vorher abfrage, ob land eingenommen wurde
+				if (risiko.zieheEinheitenkarte(risiko.gibAktivenPlayer())) {
+					//update das Karten Panel
+					//dialogausgabe, dass eine einheitenkarte gezogen wurde
+				}
 				risiko.setNextState();
 				risiko.setNextPlayer();
 				infoPl.update();

@@ -57,8 +57,7 @@ public class RisikokartenPanel extends JPanel {
 //			 this.removeAll();
 		}
 
-		for (int i = 0; i < 5; i++) { // TODO: kann man schoener machen. nur karte uebergeben und dann text im JButton
-										// aendern
+		for (int i = 0; i < 5; i++) { // TODO: kann man schoener machen. nur karte uebergeben und dann text im JButton aendern
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
 				spielerKartenBtn.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
 
@@ -119,10 +118,16 @@ public class RisikokartenPanel extends JPanel {
 //						}
 //					spielerKartenBtn.remove(ausgeWahlteKarten);
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
-//					this.removeAll();
-//					this.revalidate();
-//					this.repaint();
-//					listener.updateKartenpanel2(); // geht nicht
+					for(Risikokarte karte: ausgeWahlteKarten) {
+						for(KartenButton button: spielerKartenBtn) {
+							if(button.getKarte().equals(karte)) {
+								this.remove(button);
+								button.repaint();
+								break;
+							}
+						}
+					}
+					
 					// hier könnte listener noch eine Methode machen, damit state gesetzt wird
 					return true;
 				} else {

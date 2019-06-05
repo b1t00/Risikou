@@ -231,7 +231,7 @@ public class Player implements Serializable {
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
 			for(Risikokarte kick: kicked) {
 				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
-					this.gezogeneRisikokarten.remove(kicked);
+					this.gezogeneRisikokarten.remove(kick);
 				}
 			}
 			kartenWurdenEntfernt = true;

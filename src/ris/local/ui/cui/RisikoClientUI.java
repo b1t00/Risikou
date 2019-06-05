@@ -521,7 +521,7 @@ public class RisikoClientUI {
 			laenderAusgabe(landAusgabe);
 			break;
 		case "z":
-			risiko.setNaechsterPlayer();
+			risiko.setNextPlayer();
 			if (risiko.zieheEinheitenkarte(aktiverPlayer)) {
 				// gibt die neueste Einheitenkarte aus, die sich an der letzten Stelle des
 				// Einheitenkarten-Arrays befindet
