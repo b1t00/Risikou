@@ -12,6 +12,7 @@ public class SpielerUebersichtsPanel extends JPanel {
 
 	private Risiko risiko;
 	private ArrayList<JLabel> players;
+	private JLabel player1;
 
 	public SpielerUebersichtsPanel(Risiko risiko) {
 		this.risiko = risiko;
