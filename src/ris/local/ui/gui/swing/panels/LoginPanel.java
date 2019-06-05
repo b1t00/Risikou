@@ -48,7 +48,5 @@ public class LoginPanel extends JPanel {
 			}
 		});
 		this.add(spielLadenBtn);
-		
-//		setLocation(null);
 	}
 }

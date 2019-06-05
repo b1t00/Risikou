@@ -26,7 +26,15 @@ public class KartenButton extends JButton {
 		this.risikoKarte = karte;
 		this.setPreferredSize(new Dimension(130, 140));
 //		System.out.println("ging nicht" + ip.getHeight()); // mal gucken
+		setUp();
+		
+	}
 
+	public void setTitel(String neuerTitel) {
+		this.setText(neuerTitel);
+	}
+	
+	public void setUp() {
 		if (risikoKarte == null) {
 			this.setBackground(Color.GRAY);
 			setBorder(BorderFactory.createLoweredBevelBorder());
@@ -34,32 +42,26 @@ public class KartenButton extends JButton {
 			this.setBackground(Color.GREEN);
 			setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		}
-//		addActionListener();
 		setVerticalTextPosition(SwingConstants.BOTTOM);
-	}
-
-	public void setTitel(String neuerTitel) {
-		this.setText(neuerTitel);
 	}
 
 	public Risikokarte getKarte() {
 		return risikoKarte;
 	}
 
-
-	public boolean setAusgewaehlt(boolean istAusgewaehl) {
-
+	public void setAusgewaehlt(boolean istAusgewaehlt) {
 		if (risikoKarte == null) {
 			this.setBackground(Color.GRAY);
+			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
-			risikoKarte.setAusgewaehl(istAusgewaehl);
-			if (istAusgewaehl) {
+			risikoKarte.setAusgewaehl(istAusgewaehlt);
+			if (istAusgewaehlt) {
 				this.setBackground(Color.CYAN);
 			} else {
 				this.setBackground(Color.GREEN);
 			}
 		}
-		return true;
+//		return true;
 	}
 
 	public boolean getAusgewaehlt() {

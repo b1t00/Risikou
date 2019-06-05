@@ -29,7 +29,7 @@ public class RisikokartenPanel extends JPanel {
 		public void updateKartenpanel();
 
 		public void updateKartenpanel2();
-		
+
 		public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl);
 
 //		public void updateKartenpanelZwo();
@@ -38,9 +38,7 @@ public class RisikokartenPanel extends JPanel {
 	public RisikokartenPanel(Risiko risk, RisikoKartenListener listener) {
 		this.risiko = risk;
 		this.listener = listener;
-//		this.ip = ip;
 		setUp();
-//		System.out.println("muss man?" + manMussTauschen());
 
 	}
 
@@ -50,16 +48,19 @@ public class RisikokartenPanel extends JPanel {
 
 	public void setUp() {
 
-		if (!(spielerKartenBtn.size() == 0)) {
+		if (spielerKartenBtn.size() != 0) {
 			for (KartenButton kb : spielerKartenBtn)
 				this.remove(kb);
-			spielerKartenBtn.removeAll(spielerKartenBtn);
-//			 this.removeAll();
+			this.removeAll();
 		}
 
+		spielerKartenBtn.removeAll(spielerKartenBtn);
+		
 		for (int i = 0; i < 5; i++) { // TODO: kann man schoener machen. nur karte uebergeben und dann text im JButton
 										// aendern
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
+				System.out.println(spielerKartenBtn);
+	
 				spielerKartenBtn.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
 
 				spielerKartenBtn.get(i).setTitel("<html><center>"
@@ -90,17 +91,24 @@ public class RisikokartenPanel extends JPanel {
 		}
 		return true;
 	}
-	
+
 //	public ArrayList<Risikokarte> getCombi(){
 //		return ausgeWahlteKarten;
 //	}
-
 	// check ob spieler Drei karten
 	public boolean dreiKartenAusgewaehlt() {
-	ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
+		ArrayList<Risikokarte> ausgeWahlteKarten = new ArrayList<Risikokarte>();
+		System.out.println("hier : ak" + ausgeWahlteKarten);
 		for (Risikokarte k : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 			if (k.getAusgewaehl()) {
 				ausgeWahlteKarten.add(k);
+				
+//				for(Risikokarte rk : ausgeWahlteKarten) {
+				for( int i = 0 ; i < ausgeWahlteKarten.size() ;i++) {
+					System.out.println("hier : ak2" + ausgeWahlteKarten.get(i));
+					
+				}
+//				k.setAusgewaehl(false);
 			}
 			if ((ausgeWahlteKarten.size() > 2)) { // wenn drei Karten ausgewahlt wurden, wird diese Methode ausgeführt.
 				if (risiko.gibAktivenPlayer().auswahlPruefen(ausgeWahlteKarten)) {
@@ -111,17 +119,26 @@ public class RisikokartenPanel extends JPanel {
 					listener.combiAusgewaehlt(ausgeWahlteKarten);
 
 //					
-//					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
-//						r.setAusgewaehl(false);
-//					}
+					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
+						r.setAusgewaehl(false);
+						
+					}
+					for(KartenButton kb : spielerKartenBtn) { 
+						kb.setAusgewaehlt(false);
+						kb.setUp();
+						}
+//					spielerKartenBtn.removeAll(spielerKartenBtn)
+					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
+					ausgeWahlteKarten.removeAll(ausgeWahlteKarten);
+					this.removeAll();
+					this.revalidate();
+					this.repaint();
 //					for(KartenButton kb : spielerKartenBtn) { 
 //						kb.setAusgewaehlt(false);
+//						kb.removeAll();
+//						kb.revalidate();
+//						kb.repaint();
 //						}
-//					spielerKartenBtn.remove(ausgeWahlteKarten);
-					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
-//					this.removeAll();
-//					this.revalidate();
-//					this.repaint();
 //					listener.updateKartenpanel2(); // geht nicht
 					// hier könnte listener noch eine Methode machen, damit state gesetzt wird
 					return true;
@@ -130,6 +147,10 @@ public class RisikokartenPanel extends JPanel {
 //					JOptionPane.showInternalMessageDialog(null,
 //							"Diese Kombination geht leider nicht \nVersuch es nochmal",
 //							"es wurden nicht die richtigen Karten eingeloest", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null,
+						    "Diese Kombination geht leider nicht \nVersuch es nochmal",
+						    "es wurden nicht die richtigen Karten eingeloest",
+						    JOptionPane.WARNING_MESSAGE);
 
 					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 						r.setAusgewaehl(false);
@@ -145,7 +166,7 @@ public class RisikokartenPanel extends JPanel {
 		return false;
 
 	}
-	
+
 //	zaehler für Easteregg
 	int easterE = 0;
 
