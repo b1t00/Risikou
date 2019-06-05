@@ -107,7 +107,9 @@ public class RisikokartenPanel extends JPanel {
 					System.out.println("einlösen wäre schonmal richtig");
 
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
+
 					listener.combiAusgewaehlt(ausgeWahlteKarten);
+
 //					
 //					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 //						r.setAusgewaehl(false);
@@ -115,7 +117,7 @@ public class RisikokartenPanel extends JPanel {
 //					for(KartenButton kb : spielerKartenBtn) { 
 //						kb.setAusgewaehlt(false);
 //						}
-					spielerKartenBtn.remove(ausgeWahlteKarten);
+//					spielerKartenBtn.remove(ausgeWahlteKarten);
 					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
 //					this.removeAll();
 //					this.revalidate();
@@ -143,8 +145,9 @@ public class RisikokartenPanel extends JPanel {
 		return false;
 
 	}
-
-	int z = 0;
+	
+//	zaehler für Easteregg
+	int easterE = 0;
 
 	// muss in gleich klasse
 	class KartenListener implements ActionListener {
@@ -164,12 +167,12 @@ public class RisikokartenPanel extends JPanel {
 				}
 
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
-				z = 0;
+				easterE = 0;
 			}
-			if (z++ > 3) {
+			if (easterE++ > 3) {
 				JOptionPane.showInternalMessageDialog(null, "Sorry, aber grad kannst du keine Karten eintauschen",
 						"Du kannst grad nichts einloesen", JOptionPane.INFORMATION_MESSAGE);
-				z = 0;
+				easterE = 0;
 			}
 
 		}

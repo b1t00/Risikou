@@ -175,7 +175,7 @@ public class Player implements Serializable {
 		}
 		return reihe;
 	}
-
+// wird nicht benutzt die methode
 	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
 		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { //alle sind gleich 
 			return true;
