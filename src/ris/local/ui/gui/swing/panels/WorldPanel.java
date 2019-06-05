@@ -181,13 +181,9 @@ public class WorldPanel extends JPanel {
 	    		for (Land land: player.getBesitz()) {
 	    			drawFlag(land, player.getFarbe(), g);
 		    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
+		    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
 	    		}
 	    	}
-//	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
-	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
-
-//	    		flagForCountry(land, g);
-	    		//flagForCountry(wM.getLaender(), g);
 	    	}
 
 
