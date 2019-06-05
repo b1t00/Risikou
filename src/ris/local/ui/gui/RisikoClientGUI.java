@@ -7,13 +7,14 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import ris.local.domain.Risiko;
@@ -86,6 +87,7 @@ public class RisikoClientGUI extends JFrame
 	
 	
 	public RisikoClientGUI() {
+//		zweitausendaLook();
 		risiko = new Risiko();
 //		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
@@ -138,7 +140,7 @@ public class RisikoClientGUI extends JFrame
 
 //		//SOUTH
 		infoPl = new InfoPanel(risiko);
-		infoPl.setPreferredSize(new Dimension(1400, (int) (ySize * 0.17)));
+		infoPl.setPreferredSize(new Dimension(1400, (int) (ySize * 0.17))); //TODO: tutorium
 		risikoKartenTPl = new RisikokartenPanel(risiko, this);
 		risikoKartenTPl.setPreferredSize(new Dimension(500, infoPl.getHeight()));
 		infoPl.add(risikoKartenTPl, BorderLayout.CENTER);
@@ -475,5 +477,18 @@ public class RisikoClientGUI extends JFrame
 		risikoKartenTPl.invalidate();
 		risikoKartenTPl.repaint();
 	}
-
+	public void updateKartenpanel2() {
+		risikoKartenTPl.setUp();
+	}
+	public void zweitausendaLook() {
+		try {
+			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

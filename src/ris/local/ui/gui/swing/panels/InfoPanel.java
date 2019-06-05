@@ -63,6 +63,7 @@ public class InfoPanel extends JPanel {
 	
 	public void update() {
 		spielerDetailsPl.update();
+		spielerUebersichtsPl.update();
 		//allespeilerpl update
 	}
 	

@@ -23,10 +23,14 @@ public class RisikokartenPanel extends JPanel {
 	private InfoPanel ip;
 	private RisikoKartenListener listener;
 
-	private ArrayList<KartenButton> spielerKarten = new ArrayList<KartenButton>();
+	private ArrayList<KartenButton> spielerKartenBtn = new ArrayList<KartenButton>();
 
 	public interface RisikoKartenListener {
 		public void updateKartenpanel();
+
+		public void updateKartenpanel2();
+
+//		public void updateKartenpanelZwo();
 	}
 
 	public RisikokartenPanel(Risiko risk, RisikoKartenListener listener) {
@@ -44,29 +48,30 @@ public class RisikokartenPanel extends JPanel {
 
 	public void setUp() {
 
-		if (!(spielerKarten.size() == 0)) {
-			for (KartenButton kb : spielerKarten)
+		if (!(spielerKartenBtn.size() == 0)) {
+			for (KartenButton kb : spielerKartenBtn)
 				this.remove(kb);
-			spielerKarten.removeAll(spielerKarten);
-			// this.removeAll();
+			spielerKartenBtn.removeAll(spielerKartenBtn);
+//			 this.removeAll();
 		}
 
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; i++) { // TODO: kann man schoener machen. nur karte uebergeben und dann text im JButton
+										// aendern
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
-				spielerKarten.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
+				spielerKartenBtn.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
 
-				spielerKarten.get(i).setTitel("<html><center>"
+				spielerKartenBtn.get(i).setTitel("<html><center>"
 						+ risiko.gibAktivenPlayer().getEinheitenkarten().get(i).getSymbol().toString() + "<br><br>"
 						+ risiko.gibAktivenPlayer().getEinheitenkarten().get(i).getLand() + "</center></html>");
-				spielerKarten.get(i).setBackground(Color.green); // TODO farbe von Spieler einbauen
+				spielerKartenBtn.get(i).setBackground(Color.green); // TODO farbe von Spieler einbauen
 			} else {
-				spielerKarten.add(new KartenButton(null));
+				spielerKartenBtn.add(new KartenButton(null));
 			}
 		}
 
 		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 50, 5); // Abstand zwischen Buttens
 		setLayout(fl);
-		for (KartenButton k : spielerKarten) {
+		for (KartenButton k : spielerKartenBtn) {
 			add(k);
 			k.setVisible(true);
 			k.addActionListener(new KartenListener());
@@ -76,7 +81,7 @@ public class RisikokartenPanel extends JPanel {
 
 	// Wenn 5 Karten vorhanden sind! TODO: in runden implementieren
 	public boolean manMussTauschen() {
-		for (KartenButton k : spielerKarten) {
+		for (KartenButton k : spielerKartenBtn) {
 			if (k.getKarte() == null) {
 				return false;
 			}
@@ -94,19 +99,37 @@ public class RisikokartenPanel extends JPanel {
 			if ((ausgeWahlteKarten.size() > 2)) { // wenn drei Karten ausgewahlt wurden, wird diese Methode ausgeführt.
 				if (risiko.gibAktivenPlayer().auswahlPruefen(ausgeWahlteKarten)) {
 					System.out.println("einlösen wäre schonmal richtig");
+
+					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
+//					
+//					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
+//						r.setAusgewaehl(false);
+//					}
+//					for(KartenButton kb : spielerKartenBtn) { 
+//						kb.setAusgewaehlt(false);
+//						}
+					spielerKartenBtn.remove(ausgeWahlteKarten);
+					risiko.gibAktivenPlayer().removeKarten(ausgeWahlteKarten);
+					this.removeAll();
+//					this.revalidate();
+					this.repaint();
+					listener.updateKartenpanel2(); // geht nicht
+					// hier könnte listener noch eine Methode machen, damit state gesetzt wird
+
 //					loeseRisikoKartenEin(ausgeWahlteKarten); // wenn drei
 					return true;
 				} else {
 					// es wurden nicht die richtigen Karten eingelöst
-					JOptionPane.showInternalMessageDialog(null, "es wurden nicht die richtigen Karten eingeloest",
-					        "Diese Kombination geht leider nicht VER", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showInternalMessageDialog(null,
+							"Diese Kombination geht leider nicht \nVersuch es nochmal",
+							"es wurden nicht die richtigen Karten eingeloest", JOptionPane.INFORMATION_MESSAGE);
 
 					for (Risikokarte r : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 						r.setAusgewaehl(false);
 					}
-					for(KartenButton kb : spielerKarten) { 
+					for (KartenButton kb : spielerKartenBtn) {
 						kb.setAusgewaehlt(false);
-						}
+					}
 					listener.updateKartenpanel();
 					return false;
 				}
@@ -115,6 +138,8 @@ public class RisikokartenPanel extends JPanel {
 		return false;
 
 	}
+
+	int z = 0;
 
 	// muss in gleich klasse
 	class KartenListener implements ActionListener {
@@ -135,6 +160,12 @@ public class RisikokartenPanel extends JPanel {
 				}
 
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
+				z = 0;
+			}
+			if (z++ > 3) {
+				JOptionPane.showInternalMessageDialog(null, "Sorry, aber grad kannst du keine Karten eintauschen",
+						"Du kannst grad nichts einloesen", JOptionPane.INFORMATION_MESSAGE);
+				z = 0;
 			}
 
 		}

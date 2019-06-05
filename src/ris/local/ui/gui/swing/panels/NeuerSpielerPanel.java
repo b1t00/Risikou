@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
 import ris.local.ui.gui.RisikoClientGUI;

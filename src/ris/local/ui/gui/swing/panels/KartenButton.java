@@ -46,18 +46,6 @@ public class KartenButton extends JButton {
 		return risikoKarte;
 	}
 
-//	public void addActionListener() {
-//		super.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(risikoKarte != null && !ausgewaehlt) {
-//				System.out.println(risikoKarte.getSymbol());
-//				ausgewaehlt = ausgewaehlt();
-//				}
-//			}
-//		});
-//	}
 
 	public boolean setAusgewaehlt(boolean istAusgewaehl) {
 

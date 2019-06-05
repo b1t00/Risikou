@@ -227,10 +227,11 @@ public class Player implements Serializable {
 //	}
 	
 	public void removeKarten(ArrayList<Risikokarte> kicked) {
+		System.out.println("---------");
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
 			for(Risikokarte kick: kicked) {
 				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
-					this.gezogeneRisikokarten.remove(i);
+					this.gezogeneRisikokarten.remove(kicked);
 				}
 			}
 			kartenWurdenEntfernt = true;
