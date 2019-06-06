@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -22,6 +23,7 @@ public class RisikokartenPanel extends JPanel {
 	private Risiko risiko;
 	private InfoPanel ip;
 	private RisikoKartenListener listener;
+	//ImageIcon image = new ImageIcon(getClass().getResource("../assets/img/button.png"));
 
 	private ArrayList<KartenButton> spielerKartenBtn = new ArrayList<KartenButton>();
 
@@ -54,16 +56,16 @@ public class RisikokartenPanel extends JPanel {
 			spielerKartenBtn.removeAll(spielerKartenBtn);
 //			 this.removeAll();
 		}
-
 		for (int i = 0; i < 5; i++) { // TODO: kann man schoener machen. nur karte uebergeben und dann text im JButton
 										// aendern
+			
 			if (i < risiko.gibAktivenPlayer().getEinheitenkarten().size()) {
 				spielerKartenBtn.add(new KartenButton(risiko.gibAktivenPlayer().getEinheitenkarten().get(i)));
-
 				spielerKartenBtn.get(i).setTitel("<html><center>"
 						+ risiko.gibAktivenPlayer().getEinheitenkarten().get(i).getSymbol().toString() + "<br><br>"
 						+ risiko.gibAktivenPlayer().getEinheitenkarten().get(i).getLand() + "</center></html>");
-				spielerKartenBtn.get(i).setBackground(Color.green); // TODO farbe von Spieler einbauen
+				//spielerKartenBtn.get(i).setBackground(Color.green); // TODO farbe von Spieler einbauen
+
 			} else {
 				spielerKartenBtn.add(new KartenButton(null));
 			}

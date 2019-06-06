@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
@@ -16,6 +18,7 @@ public class KartenButton extends JButton {
 	private String titel;
 	private Risikokarte risikoKarte;
 	private boolean ausgewaehlt = false;
+	private ImageIcon icon;
 
 	public interface kartenAuswahlListener {
 		public boolean pruefenObDreiRichtig();
@@ -32,6 +35,7 @@ public class KartenButton extends JButton {
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
 			this.setBackground(Color.GREEN);
+			
 			setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		}
 //		addActionListener();

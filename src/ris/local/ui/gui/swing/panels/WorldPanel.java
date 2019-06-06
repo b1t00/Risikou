@@ -145,20 +145,7 @@ public class WorldPanel extends JPanel {
 			}	
 	  }
 
-	    @Override
-	    public void paintComponent(Graphics g) {
-	    	g.drawImage(karte,0,0,null);
-	    	g.drawImage(karte2,0,0,null);
-	    	ArrayList<Player> playerArray = ris.getPlayerArray();
-	    	for(Player player: playerArray) {
-	    		for (Land land: player.getBesitz()) {
-	    			drawFlag(land, player.getFarbe(), g);
-		    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
-	    		}
-	    	}
-//	    		g.drawImage(flagp,land.getXf(),land.getYf(),null);
-	    		g.setFont(new Font("TimesRoman", Font.BOLD, 24));
-	    	}
+
 
 	  public void drawFlag(Land land, String farbe, Graphics g) {
 		  switch(farbe) {
