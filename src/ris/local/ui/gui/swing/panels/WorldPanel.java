@@ -60,70 +60,74 @@ public class WorldPanel extends JPanel {
         //Kann die Methode ausgelagert werden?
         addMouseListener(new MouseAdapter() { 
             public void mousePressed(MouseEvent me) { 
+            	
+            //der MouseClick wird nur ausgewertet, wenn die gui den boolean landClickZeit auf true gesetzt hat, sonst passiert nichts	
+            if(risiko.getLandClickZeit()) {
 
-			int x = me.getX();
-			int y = me.getY();
-
-			Color color = new Color(karte.getRGB(x,y));
-			int b = color.getBlue();
-			System.out.println("Land: " + risiko.getLandById(b));
-			Land land = null;
-//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
-				land = ris.getLandById(b);
-				switch (ris.getCurrentState()) {
-				case SETUNITS:
-					if (land.getBesitzer().equals(ris.gibAktivenPlayer())) {
-						listener.countryClicked(land);
-						return;
-					} else {
-						JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht");
+				int x = me.getX();
+				int y = me.getY();
+	
+				Color color = new Color(karte.getRGB(x,y));
+				int b = color.getBlue();
+				System.out.println("Land: " + risiko.getLandById(b));
+				Land land = null;
+	//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
+					land = ris.getLandById(b);
+					switch (ris.getCurrentState()) {
+					case SETUNITS:
+						if (land.getBesitzer().equals(ris.gibAktivenPlayer())) {
+							listener.countryClicked(land);
+							return;
+						} else {
+							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht");
+						}
+						break;
+					case ATTACK:
+						if (attackState == 1) {
+							// es wird ueberprueft, ob das angeklickte Land gueltig ist
+							if (ris.attackLandGueltig(land)) {
+								attackLand1 = land;
+								attackState = 2;
+								System.out.println("attackstate: " + attackState);
+								listener.countryClicked(land);
+							} else {
+								JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht oder du kannst nicht mit dem Land angreifen.");
+							}
+						} else {
+							if (ris.defenseLandGueltig(attackLand1, land)) {
+								attackLand2 = land;
+								attackState = 1;
+								listener.countryClicked(land);
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Das Land gehoert dir selber oder ist nicht mit dem Angriffsland benachbart!");
+							}
+						}
+						break;
+					case CHANGEUNITS:
+						//wenn moveState auf 1 steht, wird nach dem Land gefragt, von dem aus Einheiten verschoben werden sollen
+						if (moveState == 1) {
+							if (ris.moveFromLandGueltig(land)) {
+								moveLand1 = land;
+								moveState = 2;
+								listener.countryClicked(land);
+							} else {
+								JOptionPane.showMessageDialog(null,
+										"Das Land gehoert dir nicht oder du kannst von hier keine Einheiten verschieben.");
+							}
+							//wenn moveState nicht auf 1 steht, wird nach dem Land, zu dem verschoben werden soll, gefragt
+						} else {
+							if (ris.moveToLandGueltig(moveLand1, land)) {
+								moveLand2 = land;
+								moveState = 1;
+								listener.countryClicked(land);
+							} else {
+								JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht.");
+							}
+						}
+						break;
 					}
-					break;
-				case ATTACK:
-					if (attackState == 1) {
-						// es wird ueberprueft, ob das angeklickte Land gueltig ist
-						if (ris.attackLandGueltig(land)) {
-							attackLand1 = land;
-							attackState = 2;
-							System.out.println("attackstate: " + attackState);
-							listener.countryClicked(land);
-						} else {
-							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht oder du kannst nicht mit dem Land angreifen.");
-						}
-					} else {
-						if (ris.defenseLandGueltig(attackLand1, land)) {
-							attackLand2 = land;
-							attackState = 1;
-							listener.countryClicked(land);
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"Das Land gehoert dir selber oder ist nicht mit dem Angriffsland benachbart!");
-						}
-					}
-					break;
-				case CHANGEUNITS:
-					//wenn moveState auf 1 steht, wird nach dem Land gefragt, von dem aus Einheiten verschoben werden sollen
-					if (moveState == 1) {
-						if (ris.moveFromLandGueltig(land)) {
-							moveLand1 = land;
-							moveState = 2;
-							listener.countryClicked(land);
-						} else {
-							JOptionPane.showMessageDialog(null,
-									"Das Land gehoert dir nicht oder du kannst von hier keine Einheiten verschieben.");
-						}
-						//wenn moveState nicht auf 1 steht, wird nach dem Land, zu dem verschoben werden soll, gefragt
-					} else {
-						if (ris.moveToLandGueltig(moveLand1, land)) {
-							moveLand2 = land;
-							moveState = 1;
-							listener.countryClicked(land);
-						} else {
-							JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht.");
-						}
-					}
-					break;
-				}
+            	}
 			}
 //_________________ENDE Methode bei MouseClic___________________________
 

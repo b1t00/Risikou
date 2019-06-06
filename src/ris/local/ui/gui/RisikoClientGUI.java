@@ -261,6 +261,7 @@ public class RisikoClientGUI extends JFrame
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
 		cl.show(container, "setUnits");
+		risiko.setLandClickZeit(true);
 	}
 	
 	@Override
@@ -303,21 +304,22 @@ public class RisikoClientGUI extends JFrame
 				attackFromPl = new RequestPanel(CountryRequest.ATTACKCOUNTRY, risiko);
 				container.add(attackFromPl, "attackFrom");
 				cl.show(container, "attackFrom");
-				System.out.println("Der Angriff beginnt");
+				risiko.setLandClickZeit(true);
 				break;
 			case CHANGEUNITS:
 				dialogPl.update("moveUnits");
 				moveFromPl = new RequestPanel(CountryRequest.MOVEFROMCOUNTRY, risiko);
 				container.add(moveFromPl, "moveFrom");
 				cl.show(container, "moveFrom");
+				risiko.setLandClickZeit(true);
 				break;
 			// wenn mit nein geantwortet wird:
 			} 
 		} else {
 			switch (risiko.getCurrentState()) {
 			case SETUNITS:
-				showSetUnits();
-				break;
+//				showSetUnits();
+//				break;
 			case ATTACK:
 				risiko.setNextState();
 				showQuestion();
@@ -394,7 +396,8 @@ public class RisikoClientGUI extends JFrame
 					e.printStackTrace();
 				}
 				//hier eher dice panel aufrufen
-				if(attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+				JOptionPane.showMessageDialog(null, attackObjekt.getAttacker() + " verliert " + attackObjekt.getResult().get(0) + " Einheiten, " + attackObjekt.getDefender() + " verliert " + attackObjekt.getResult().get(1) + " Einheiten."); 
+				if(attackObjekt.getWinner().equals(risiko.gibAktivenPlayer()) && worldPl.getAttackLand2().getBesitzer().equals(risiko.gibAktivenPlayer())) {
 					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt " + worldPl.getAttackLand2() + " ein.");
 					updateWorld();
 					//check, ob jemand gewonnen hat
@@ -410,6 +413,10 @@ public class RisikoClientGUI extends JFrame
 					} else {
 						showQuestion();
 					}
+				} else if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf gewonnen.");
+					updateWorld();
+					showQuestion();
 				} else {
 					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf verloren!");
 					updateWorld();
@@ -467,6 +474,7 @@ public class RisikoClientGUI extends JFrame
 			if(setUnitsPl.getVerfuegbareEinheiten() > 0) {
 				setUnitsPl.update();
 			} else {
+				risiko.setLandClickZeit(false);
 				risiko.setNextState();
 				showQuestion();
 			}
@@ -476,12 +484,15 @@ public class RisikoClientGUI extends JFrame
 			if (worldPl.getAttackState() == 2) {
 				attackToPl = new RequestPanel(CountryRequest.DEFENSECOUNTRY, risiko);
 				container.add(attackToPl, "attackTo");
+				risiko.setLandClickZeit(true);
 				cl.show(container, "attackTo");
 			} else {
 				//wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele Einheiten angreifen sollen
 				attackNumberPl = new UnitNumberPanel(this, UnitNumber.ATTACK, risiko);
 				container.add(attackNumberPl, "attackNumber");
 				cl.show(container, "attackNumber");
+				// & es kann nicht mehr auf ein Land geklickt werden
+				risiko.setLandClickZeit(false);
 			}
 			break;
 		case CHANGEUNITS:
@@ -489,11 +500,13 @@ public class RisikoClientGUI extends JFrame
 			if (worldPl.getMoveState() == 2) {
 				moveToPl = new RequestPanel(CountryRequest.MOVETOCOUNTRY, risiko);
 				container.add(moveToPl, "moveTo");
+				risiko.setLandClickZeit(true);
 				cl.show(container, "moveTo");
 			} else if (worldPl.getMoveState() == 1) {
 				moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE, risiko);
 				container.add(moveNumberPl, "moveNumber");
 				cl.show(container, "moveNumber");
+				risiko.setLandClickZeit(false);
 			}
 		}
 	}
@@ -543,8 +556,6 @@ public class RisikoClientGUI extends JFrame
 
 	public void showGamePanel() {
 		initializeGamePl();
-		System.out.println("aktiver Player: " + risiko.gibAktivenPlayer());
-		System.out.println("aktive player länder: " + risiko.getEigeneLaender(risiko.gibAktivenPlayer()));
 		worldPl = new WorldPanel(this, risiko);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
@@ -574,10 +585,11 @@ public class RisikoClientGUI extends JFrame
 	public void showSetUnits(int plus) {
 		dialogPl.update("setUnits");
 		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer()) + plus;
-		System.out.println("Verf�gbare Einheiten: " + units);
+		System.out.println("Verfuegbare Einheiten: " + units);
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
 		cl.show(container, "setUnits");
+		risiko.setLandClickZeit(true);
 	}
 
 	public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl) {

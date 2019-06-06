@@ -55,6 +55,14 @@ public class Risiko {
 	public void setTauschZeit(boolean tauschZeit) {
 		turn.setTauschZeit(tauschZeit);
 	}
+	
+	public boolean getLandClickZeit() {
+		return turn.getLandClickZeit();
+	}
+	
+	public void setLandClickZeit(boolean landClickZeit) {
+		turn.setLandClickZeit(landClickZeit);
+	}
 
 	// @to: Methode um Laender am Anfang zufaellig zu verteilen;
 	public void verteileEinheiten() {
@@ -146,8 +154,13 @@ public class Risiko {
 	}
 
 	// gibt zurück, ob ein Player Risikokarten gegen Einheiten eintauschen kann
+	//TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder aendern! 
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
+	}
+	
+	public boolean mussTauschen(Player aktiverPlayer) {
+		return aktiverPlayer.mussTauschen();
 	}
 
 	public boolean isGueltigeTauschkombi(Symbol s1, Symbol s2, Symbol s3) {

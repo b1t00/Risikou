@@ -43,6 +43,12 @@ public class EintauschPanel extends JPanel{
 			tauschButton.setEnabled(false);
 		}
 		
+		if(ris.gibAktivenPlayer().mussTauschen()) {
+			setzButton.setEnabled(false);
+		} else {
+			setzButton.setEnabled(true);
+		}
+		
 		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
 	}
 	

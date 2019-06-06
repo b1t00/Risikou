@@ -47,6 +47,10 @@ public class Attack {
 		loser = player;
 	}
 	
+	public ArrayList<Integer> getResult(){
+		return result;
+	}
+	
 	public Player getWinner() {
 		return winner;
 	}

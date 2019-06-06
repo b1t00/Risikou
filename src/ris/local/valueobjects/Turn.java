@@ -14,7 +14,9 @@ public class Turn implements Serializable{
 	private int spielrunden;
 	private ArrayList<Player> playerList;
 	private PlayerManagement playerMg;
-	boolean tauschZeit = false;
+//	tauschzeit und landclickzeit sind werte fuer die gui, stehen diese auf true werden clicks ausgewertet, bei false werden sie ignoriert
+	private boolean tauschZeit = false;
+	private boolean landClickZeit = false;
 	
 	public Turn(PlayerManagement playerMg) {
 		this.state = State.SETUNITS;
@@ -62,12 +64,14 @@ public class Turn implements Serializable{
 	public void setTauschZeit(boolean tauschZeit) {
 		this.tauschZeit = tauschZeit;
 	}
+
+	public boolean getLandClickZeit() {
+		return landClickZeit;
+	}
 	
-//	public static void main(String[] args) {
-//		Turn turn = new Turn();
-//		turn.state = State.ATTACK;
-//		System.out.println(turn.state);
-//		turn.setNextState();
-//		System.out.println(turn.state);
-//	}
+	public void setLandClickZeit(boolean landClickZeit) {
+		this.landClickZeit = landClickZeit;
+	}
+
+
 }
