@@ -7,6 +7,7 @@ public class GameObject implements Serializable{
 
 	private ArrayList<Player> allePlayer;
 	private Turn spielstand;
+	//risikokartenstapel
 	
 	public GameObject(ArrayList<Player> allePlayer, Turn spielstand) {
 		this.allePlayer = allePlayer;

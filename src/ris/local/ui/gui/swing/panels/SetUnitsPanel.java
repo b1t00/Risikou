@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
 
@@ -38,6 +39,8 @@ public class SetUnitsPanel extends JPanel {
 		info.setText(ris.gibAktivenPlayer() + ": Setze insgesamt: " + units + " Einheiten. (entsprechendes Land anklicken)");
 		this.add(titel);
 		this.add(info);
+		
+		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
 	}
 	
 	//eventuell überflüssig, die GUI kann jedes Mal ein neues Panel mit neuer Units Zahl erstellen.

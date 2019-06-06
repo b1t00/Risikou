@@ -2,9 +2,11 @@ package ris.local.ui.gui.swing.panels;
 
 import java.awt.GridLayout;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
 
@@ -69,6 +71,8 @@ public class RequestPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.add(titel);
 		this.add(abfrage);
+		
+		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
 	}
 	
 	public CountryRequest getCountryRequest() {
