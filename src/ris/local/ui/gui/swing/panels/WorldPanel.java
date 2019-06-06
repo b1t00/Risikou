@@ -146,7 +146,6 @@ public class WorldPanel extends JPanel {
 	  }
 
 
-
 	  public void drawFlag(Land land, String farbe, Graphics g) {
 		  switch(farbe) {
 		  case "rot":
@@ -160,11 +159,14 @@ public class WorldPanel extends JPanel {
 			  break;
 		  case "weiss":
 			  g.drawImage(flagw,land.getXf(),land.getYf(),null);
+			  break;
 		  case "pink":
 			  g.drawImage(flagp,land.getXf(),land.getYf(),null);
+			  break;
 		  case "schwarz":
 			  g.drawImage(flagbc,land.getXf(),land.getYf(),null);
-			  g.drawString(Integer.toString(land.getEinheiten()), land.getxE(), land.getyE());
+			  break;
+	
 		default:
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
 		  }

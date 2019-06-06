@@ -71,6 +71,11 @@ public class QuestionPanel extends JPanel{
 		this.add(abfrage);
 		this.add(yesButton);
 		this.add(noButton);
+		
+		switch(ris.gibAktivenPlayer().getFarbe()) {
+		case "rot":
+			this.setBackground(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()));
+		}
 	}
 	
 	public void setupEvents() {
