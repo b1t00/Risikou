@@ -112,7 +112,7 @@ public class Risiko {
 		return playerMg.getAnzahlPlayer();
 	}
 
-	public Land getLandById(int zahl) {
+	public Land getLandById(int zahl) throws LandExistiertNichtException {
 		Land land = worldMg.getLandById(zahl);
 		return land;
 	}
@@ -296,7 +296,7 @@ public class Risiko {
 		fileMg.speichern(game, datei);
 	}
 
-	public void spielLaden(String datei) {
+	public void spielLaden(String datei){
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {
@@ -314,7 +314,14 @@ public class Risiko {
 				}
 				//und für jedes Land werden die Einheiten neu gesetzt
 				for(Land loadedLand: loadedPlayer.getBesitz()) {
-					Land land = worldMg.getLandById(loadedLand.getNummer());
+					Land land = null;
+					//TODO: das catchen an andere Stelle!
+					try {
+						land = worldMg.getLandById(loadedLand.getNummer());
+					} catch (LandExistiertNichtException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					try {
 						land.setEinheiten(loadedLand.getEinheiten());
 					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {

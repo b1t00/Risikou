@@ -5,6 +5,7 @@ import java.util.*;
 
 
 import ris.local.valueobjects.Land;
+import ris.local.exception.LandExistiertNichtException;
 import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
@@ -239,12 +240,17 @@ public class WorldManagement {
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
 	
-	public Land getLandById(int zahl) {
+	public Land getLandById(int zahl) throws LandExistiertNichtException{
+		Land landMitID = null;
 		for(Land land: laender) {
-			if(land.getNummer()==zahl)
-				return land;
+			if(land.getNummer()==zahl) {
+				landMitID = land;
+			}
 		}
-		return null;
+		if(landMitID == null) {
+			throw new LandExistiertNichtException(landMitID);
+		}
+		return landMitID;
 	}
 	
 	public ArrayList<Kontinent> getKontinente(){

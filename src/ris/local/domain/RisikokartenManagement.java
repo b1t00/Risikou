@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ris.local.exception.LandExistiertNichtException;
 import ris.local.valueobjects.Risikokarte;
 import ris.local.valueobjects.Risikokarte.Symbol;
 
@@ -17,11 +18,26 @@ public class RisikokartenManagement implements Serializable {
 		worldMg = new WorldManagement();
 		for (int i = 0; i < worldMg.getLaender().size(); i++) {
 			if (i % 3 == 0) {
-				einheitenkarten.add(new Risikokarte(Symbol.KANONE, worldMg.getLandById(i)));
+				try {
+					einheitenkarten.add(new Risikokarte(Symbol.KANONE, worldMg.getLandById(i)));
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (i % 3 == 1) {
-				einheitenkarten.add(new Risikokarte(Symbol.SOLDAT, worldMg.getLandById(i)));
+				try {
+					einheitenkarten.add(new Risikokarte(Symbol.SOLDAT, worldMg.getLandById(i)));
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			} else if (i % 3 == 2) {
-				einheitenkarten.add(new Risikokarte(Symbol.REITER, worldMg.getLandById(i)));
+				try {
+					einheitenkarten.add(new Risikokarte(Symbol.REITER, worldMg.getLandById(i)));
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		Collections.shuffle(einheitenkarten);

@@ -600,7 +600,12 @@ public class RisikoClientGUI extends JFrame
 				if (l.getName().equals(k.getLand().getName())) { 
 					// .. wird auf das land zwei einheiten gesetzt
 						try {
-							risiko.getLandById(l.getNummer()).setEinheiten(2);
+							try {
+								risiko.getLandById(l.getNummer()).setEinheiten(2);
+							} catch (LandExistiertNichtException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
 							updateWorld();
 						} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
 							// TODO Auto-generated catch block

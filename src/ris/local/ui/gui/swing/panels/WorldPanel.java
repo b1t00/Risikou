@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
+import ris.local.exception.LandExistiertNichtException;
 import ris.local.valueobjects.Land;
 import ris.local.valueobjects.Player;
 
@@ -69,10 +70,19 @@ public class WorldPanel extends JPanel {
 	
 				Color color = new Color(karte.getRGB(x,y));
 				int b = color.getBlue();
-				System.out.println("Land: " + risiko.getLandById(b));
+				try {
+					System.out.println("Land: " + risiko.getLandById(b));
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				Land land = null;
 	//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
-					land = ris.getLandById(b);
+					try {
+						land = ris.getLandById(b);
+					} catch (LandExistiertNichtException | NullPointerException e) {
+						JOptionPane.showMessageDialog(null, "Du hast ins Meer geklickt... So gewinnst du nie!");
+					}
 					switch (ris.getCurrentState()) {
 					case SETUNITS:
 						if (land.getBesitzer().equals(ris.gibAktivenPlayer())) {
