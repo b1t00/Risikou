@@ -18,9 +18,7 @@ import ris.local.ui.gui.RisikoClientGUI;
 public class LoginPanel extends JPanel {
 
 	private JButton spielStartenBtn;
-
 	private JButton spielLadenBtn;
-
 	private RisikoClientGUI client;
 
 	public LoginPanel(RisikoClientGUI client) {
@@ -43,10 +41,23 @@ public class LoginPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				client.spielLaden("neu");
 				client.zweitausendaLook();
-				
+				client.showLadePanel();
 			}
 		});
 		this.add(spielLadenBtn);
+//		setupEvents();
 	}
+	
+//	public void setupEvents(){
+//		spielLadenBtn.addActionListener(new ButtonListener());
+//	}
+//	
+//	class ButtonListener implements ActionListener {
+//		@Override
+//		public void actionPerformed(ActionEvent aE) {
+//			listener.laden();
+//		}
+//	}
 }

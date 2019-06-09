@@ -1,11 +1,12 @@
 package ris.local.domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import ris.local.valueobjects.Player;
 
-public class PlayerManagement {
+public class PlayerManagement implements Serializable {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();

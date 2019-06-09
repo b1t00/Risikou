@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
@@ -19,7 +20,7 @@ public class EintauschPanel extends JPanel{
 	
 	private EintauschListener listener;
 	private Risiko ris;
-	private JLabel titel = new JLabel("Set Units");
+	private JLabel titel = new JLabel("Set Units", SwingConstants.CENTER);
 	private JButton setzButton = new JButton("Einheiten setzen");
 	private JButton tauschButton = new JButton("Risikokarten eintauschen");
 	

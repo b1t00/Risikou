@@ -1,6 +1,7 @@
 package ris.local.domain;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -19,7 +20,7 @@ import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.State;
 import ris.local.valueobjects.Turn;
 
-public class Risiko {
+public class Risiko implements Serializable {
 
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
@@ -302,7 +303,7 @@ public class Risiko {
 		if (gameSpeicher != null) {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			game.setSpielstand(gameSpeicher.getSpielstand());
-			//Jeder geladene Spieler muss erst dem Playermanagement hinzugefügt werden
+//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefügt werden
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
@@ -330,6 +331,9 @@ public class Risiko {
 					}
 				}
 			}
+			System.out.println("eigentlich fertig geladen");
+		} else {
+			System.out.println("datei wohl = null");
 		}
 	}
 

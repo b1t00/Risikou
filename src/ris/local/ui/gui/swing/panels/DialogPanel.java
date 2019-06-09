@@ -2,41 +2,57 @@ package ris.local.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.border.LineBorder;
+import javax.swing.SwingConstants;
 
 import ris.local.domain.Risiko;
+import ris.local.ui.gui.swing.panels.QuestionPanel.AntwortListener;
 import ris.local.valueobjects.Attack;
 import ris.local.valueobjects.Land;
 
 public class DialogPanel extends JPanel {
+	
+	public interface SpeichernListener {
+		public void speichern();
+	}
 
+	private SpeichernListener listener;
 	private JLabel titel;
 	private JTextArea info;
 	private Risiko ris;
 	private String aktion;
+	private JButton speicherButton;
 	
-	public DialogPanel(Risiko risiko) {
+	public DialogPanel(Risiko risiko, SpeichernListener listener) {
 		ris = risiko;	
+		this.listener = listener;
+		
 		setupUI();
+		setupEvents();
 	}
 	
 	public void setupUI() {
-		titel = new JLabel("Info");
+		titel = new JLabel("INFO", SwingConstants.CENTER);
 		info = new JTextArea();
 		info.setLineWrap(true);
 		info.setWrapStyleWord(true);
 		info.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(info);
+		JScrollPane scrollPane = new JScrollPane(info);	
+		speicherButton = new JButton("Spiel speichern");
 		info.setText("Herzlich Willkommen zu Risiko! \n");
-		this.setLayout(new GridLayout(2,1));
+		
+		this.setLayout(new GridLayout(3,1));
 		this.add(titel);
 		this.add(scrollPane);
+		this.add(speicherButton);
 		
 		this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,3));
 	}
@@ -84,5 +100,18 @@ public class DialogPanel extends JPanel {
 	//text anhaengen bei set units
 	public void update(Land land) {
 		info.append(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n");
+	}
+	
+	//ab hier eventuell auslagern -> wohin?
+	public void setupEvents() {
+		speicherButton.addActionListener(new AntwortListener());
+	}
+
+	
+	class AntwortListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent aE) {
+			listener.speichern();
+		}
 	}
 }

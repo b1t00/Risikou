@@ -16,12 +16,14 @@ import java.io.Serializable;
 
 import ris.local.valueobjects.GameObject;
 
-public class FilePersistenceManager {
+public class FilePersistenceManager implements Serializable {
 	
 	public void speichern(Serializable gameObject, String datei) {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
+			//System.getProperty für die Angabe der Pfade in verschiedenen Betriebssystemen (\\ bzw /)
+//			fos = new FileOutputStream("files" + System.getProperty("file.separator") + datei + ".ser");
 			fos = new FileOutputStream(datei + ".ser");
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(gameObject);
@@ -38,6 +40,7 @@ public class FilePersistenceManager {
 				new FileInputStream(datei + ".ser"))){
 			game = (GameObject) ois.readObject();
 			ois.close();
+			System.out.println("datei ist geladen");
 		} catch (IOException e) {
 			System.err.println("fehler");
 		} catch (ClassNotFoundException e) {

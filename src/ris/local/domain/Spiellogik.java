@@ -19,7 +19,7 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.Turn;
 
-public class Spiellogik {
+public class Spiellogik implements Serializable{
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;

@@ -29,7 +29,7 @@ public class QuestionPanel extends JPanel{
 	private String phase = "";
 	
 
-	private JLabel titel = new JLabel("Attack");
+	private JLabel titel = new JLabel("Attack", SwingConstants.CENTER);
 	private JTextArea abfrage;
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
@@ -48,7 +48,7 @@ public class QuestionPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.setSize(100,400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-		titel.setHorizontalTextPosition(SwingConstants.CENTER);
+//		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
 		
 		//ermöglicht automatischen Zeilenumbruch

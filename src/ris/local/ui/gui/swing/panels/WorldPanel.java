@@ -185,6 +185,7 @@ public class WorldPanel extends JPanel {
 			g.drawImage(flagp,land.getXf(),land.getYf(),null);
 		  }
 	  }
+	  
 	    @Override
 	    public void paintComponent(Graphics g) {
 	    	g.drawImage(karte,0,0,null);
@@ -197,13 +198,7 @@ public class WorldPanel extends JPanel {
 		    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
 	    		}
 	    	}
-	    	}
-
-	  
-	  public void redrawFlag(Land land) {
-		  
-		  drawFlag(land, land.getBesitzer().getFarbe(), getGraphics());
-	  }
+	    }
 
 	// Getter Methoden
 	public int getAttackState() {

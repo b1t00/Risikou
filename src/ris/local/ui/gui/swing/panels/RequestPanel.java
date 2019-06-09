@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
@@ -46,24 +47,24 @@ public class RequestPanel extends JPanel{
 	public void setupUI() {
 		switch(countryR) {
 		case CARDREQUEST:
-			titel = new JLabel("CardCombi");
+			titel = new JLabel("CardCombi", SwingConstants.CENTER);
 			abfrage.setText("Klicke auf drei deiner Risikokarten. Mögliche Kombinationen: drei gleiche Symbole oder drei unterschiedliche. \n Eine Karte mit einem Land, das du besitzt, bringt eine extra Einheit.");
 		case SETUNITS:
 			break;
 		case ATTACKCOUNTRY:
-			titel = new JLabel("Attack");
+			titel = new JLabel("Attack", SwingConstants.CENTER);
 			abfrage.setText("Mit welchem Land soll angegriffen werden? (direkt anklicken)");
 			break;
 		case DEFENSECOUNTRY:
-			titel = new JLabel("Attack");
+			titel = new JLabel("Attack", SwingConstants.CENTER);
 			abfrage.setText("Welches Land soll angegriffen werden? (direkt anklicken)");
 			break;
 		case MOVEFROMCOUNTRY:
-			titel = new JLabel("Move units");
+			titel = new JLabel("Move units", SwingConstants.CENTER);
 			abfrage.setText("Von welchem Land soll eine Einheit verschoben werden? (direkt anklicken)");
 			break;
 		case MOVETOCOUNTRY:
-			titel = new JLabel("Move units");
+			titel = new JLabel("Move units", SwingConstants.CENTER);
 			abfrage.setText("Zu welchem Land soll eine Einheit verschoben werden? (direkt anklicken)");
 			break;
 		}

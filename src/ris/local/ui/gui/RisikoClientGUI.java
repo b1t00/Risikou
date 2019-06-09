@@ -7,6 +7,11 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.IOException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -23,11 +28,14 @@ import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DialogPanel;
+import ris.local.ui.gui.swing.panels.DialogPanel.SpeichernListener;
 import ris.local.ui.gui.swing.panels.DicePanel;
 import ris.local.ui.gui.swing.panels.EintauschPanel;
 import ris.local.ui.gui.swing.panels.EintauschPanel.EintauschListener;
 import ris.local.ui.gui.swing.panels.InfoPanel;
 import ris.local.ui.gui.swing.panels.KartenButton.kartenAuswahlListener;
+import ris.local.ui.gui.swing.panels.LadePanel;
+import ris.local.ui.gui.swing.panels.LadePanel.LadeListener;
 import ris.local.ui.gui.swing.panels.LoginPanel;
 import ris.local.ui.gui.swing.panels.NeuerSpielerPanel;
 import ris.local.ui.gui.swing.panels.QuestionPanel;
@@ -49,12 +57,13 @@ import ris.local.valueobjects.Risikokarte;
 //	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
-		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener{
+		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener{
 
 	private Risiko risiko;
 
 	// LOGIN //
 	private LoginPanel loginPl;
+	private LadePanel ladePl;
 	private WieVieleSpielerPanel wieVielePl;
 	private NeuerSpielerPanel neuerSpielerPl;
 	private RisikokartenPanel risikoKartenTPl;
@@ -96,9 +105,9 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI() {
 		zweitausendaLook();
 		risiko = new Risiko();
-//		initializeLoginPl();
-		testSetUp(); // legt drei spieler an. zum testen
-		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
+		initializeLoginPl();
+//		testSetUp(); // legt drei spieler an. zum testen
+//		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
@@ -106,6 +115,8 @@ public class RisikoClientGUI extends JFrame
 		loginPl = new LoginPanel(this);
 		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
+		ladePl = new LadePanel(this);
+//		ladePl = new LadePanel();
 		Container c = this.getContentPane();
 		c.add(loginPl);
 		setSize(new Dimension(340, 340)); // größe vom Loginpanel
@@ -140,7 +151,7 @@ public class RisikoClientGUI extends JFrame
 		JPanel westPanel = new JPanel();
 		westPanel.setLayout(new GridLayout(2, 1));
 		container = new JPanel();
-		dialogPl = new DialogPanel(risiko);
+		dialogPl = new DialogPanel(risiko, this);
 		westPanel.add(container);
 		westPanel.add(dialogPl);
 
@@ -549,6 +560,10 @@ public class RisikoClientGUI extends JFrame
 		this.pack();
 		showPanel(loginPl);
 	}
+	
+	public void showLadePanel() {
+		showPanel(ladePl);
+	}
 
 	public void showNeuerSpielerPanel() {
 		showPanel(neuerSpielerPl);
@@ -662,6 +677,19 @@ public class RisikoClientGUI extends JFrame
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public void speichern() {
+		String dateiname = JOptionPane.showInputDialog("Name der Datei: ");
+		System.out.println(dateiname);
+		risiko.spielSpeichern(dateiname);
+	}
+	
+	@Override
+	public void spielLaden(String dateiname) {
+		risiko.spielLaden(dateiname);
+		showGamePanel();
 	}
 	
 }
