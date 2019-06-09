@@ -302,11 +302,35 @@ public class Risiko implements Serializable {
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
-			game.setSpielstand(gameSpeicher.getSpielstand());
+			turn = gameSpeicher.getSpielstand();
 //			Jeder geladene Spieler muss erst dem Playermanagement hinzugefügt werden
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
+//				die farbe muss dem colorarray hinzugefügt werden
+				
+				//Diese methode am besten noch auslagern, die identische methode befindet sihc auch im neue spieler panel
+					switch (game.getAllePlayer().get(i).getFarbe()) {
+					case "rot":
+						setColorArray(new Color(226, 19, 43));
+						break;
+					case "gruen":
+						setColorArray(new Color(23, 119, 50));
+						break;
+					case "blau":
+						setColorArray(new Color(30, 53, 214));
+						break;
+					case "pink":
+						setColorArray(new Color(255, 51, 245));
+						break;
+					case "weiss":
+						setColorArray(new Color(255, 255, 255));
+						break;
+					case "schwarz":
+						setColorArray(new Color(0, 0, 0));
+						break;
+					}
+
 				//im anschluss werden die Länder entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				//und die Risikokarten

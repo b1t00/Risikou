@@ -36,7 +36,6 @@ public class SpielerUebersichtsPanel extends JPanel {
 		ArrayList<JLabel> playersLbl = new ArrayList<JLabel>();
 		for (Player player : alleSpieler) {
 			if (risiko.gibAktivenPlayer().getName().equals(player.getName())) {
-
 				playersLbl.add(new JLabel("<html><center><i>" + player.getName() + "<i><center></html>"));
 				playersLbl.get(player.getNummer())
 						.setBorder(BorderFactory.createLineBorder(risiko.getColorArray().get(player.getNummer()), 3));

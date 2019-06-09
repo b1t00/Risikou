@@ -23,8 +23,7 @@ public class FilePersistenceManager implements Serializable {
 		ObjectOutputStream oos = null;
 		try {
 			//System.getProperty für die Angabe der Pfade in verschiedenen Betriebssystemen (\\ bzw /)
-//			fos = new FileOutputStream("files" + System.getProperty("file.separator") + datei + ".ser");
-			fos = new FileOutputStream(datei + ".ser");
+			fos = new FileOutputStream("files" + System.getProperty("file.separator") + datei + ".ser");
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(gameObject);
 		}catch (IOException e) {}
@@ -37,7 +36,7 @@ public class FilePersistenceManager implements Serializable {
 	public GameObject laden(String datei) {
 		GameObject game = null;
 		try (ObjectInputStream ois = new ObjectInputStream(
-				new FileInputStream(datei + ".ser"))){
+				new FileInputStream("files" + System.getProperty("file.separator") + datei))){
 			game = (GameObject) ois.readObject();
 			ois.close();
 			System.out.println("datei ist geladen");

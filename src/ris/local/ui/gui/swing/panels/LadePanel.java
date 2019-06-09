@@ -63,8 +63,7 @@ public class LadePanel extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			System.out.println(alleDateien.getSelectedValue());
 			listener.spielLaden(alleDateien.getSelectedValue());			
-		}
-		
+		}	
 	}
 	
 }

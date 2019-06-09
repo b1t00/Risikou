@@ -7,6 +7,7 @@ import java.util.List;
 import ris.local.domain.PlayerManagement;
 
 public class Turn implements Serializable{
+	
 	private Player aktiverPlayer;
 	//state steht für Spielphase
 	//TODO: muss noch private gemacht werdem
