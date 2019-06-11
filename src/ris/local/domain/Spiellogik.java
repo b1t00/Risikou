@@ -19,7 +19,7 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.Turn;
 
-public class Spiellogik {
+public class Spiellogik implements Serializable{
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;
@@ -400,8 +400,14 @@ public class Spiellogik {
 			} else {
 				attacker.setBlock(att.getNummer(), 0);
 			}
-			attackObjekt.setWinner(defender);
-			attackObjekt.setLoser(attacker);
+			//wer weniger einheiten verloren hat, gewinnt den kampf
+			if(result.get(0) > result.get(1)) {
+				attackObjekt.setWinner(attacker);
+				attackObjekt.setLoser(defender);
+			} else {
+				attackObjekt.setWinner(defender);
+				attackObjekt.setLoser(attacker);
+			}
 		}
 
 		// wenn das Land erobert wurde (def-einheiten sind auf 0), werden die Angriffs-Einheiten verschoben

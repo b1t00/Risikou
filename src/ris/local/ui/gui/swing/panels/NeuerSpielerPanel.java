@@ -148,6 +148,7 @@ public class NeuerSpielerPanel extends JPanel {
 		this.add(hinzufuegen, gc);
 	}
 
+//	diese methode am besten in risiko auslagern, wird auch dort beim laden benötigt
 	public void colorArraySetzten(String farbe) {
 		switch (farbe) {
 		case "rot":
@@ -171,5 +172,4 @@ public class NeuerSpielerPanel extends JPanel {
 		}
 
 	}
-
 }

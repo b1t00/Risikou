@@ -173,6 +173,14 @@ public class Player implements Serializable {
 		}
 		return reihe;
 	}
+	
+	public boolean mussTauschen() {
+		if(gezogeneRisikokarten.size() > 4) {
+			return true;
+		}
+		return false;
+	}
+	
 // wird nicht benutzt die methode
 	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
 		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { //alle sind gleich 

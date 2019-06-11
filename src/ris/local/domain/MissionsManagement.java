@@ -11,7 +11,7 @@ import ris.local.valueobjects.MissionLaenderanzahl;
 import ris.local.valueobjects.Mission;
 import ris.local.valueobjects.Player;
 
-public class MissionsManagement {
+public class MissionsManagement implements Serializable{
 	private ArrayList<Mission> missionen;
 	private PlayerManagement playerMg;
 	private WorldManagement worldMg;

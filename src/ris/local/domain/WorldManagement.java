@@ -5,11 +5,12 @@ import java.util.*;
 
 
 import ris.local.valueobjects.Land;
+import ris.local.exception.LandExistiertNichtException;
 import ris.local.ui.cui.RisikoClientUI;
 import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Kontinent;
 
-public class WorldManagement {
+public class WorldManagement implements Serializable {
 	
 	private ArrayList<Land> laender = new ArrayList<Land>(); 
 	private transient ArrayList<Land> shuffle = new ArrayList<Land>();
@@ -193,10 +194,10 @@ public class WorldManagement {
 	//hier noch kommentar zu der Matrix
 	boolean[][] nachbarn = {{false, true,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, true, true, false, false, true,},		//groenland			
 							{true, false,true, false, false, false, true, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//island
-							{true, true,false, true, false, false, true, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//brexit
-							{false, false,true, false, true, true, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, true, false, false,false, false, false, false, false, false, false, false, false, false,},			//westeuropa						
-							{false, false,false, true, false, true, false, true, false, false, false, false,false, false, false, false, false, true, false, false, false, false,false, false, false, false, false, false, true, true, false, false,false, false, false, false, false, false, false, false, false, false,},		//suedeuropa
-							{false, false,true, true, true, false, true, true, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//nordeuropa
+							{true, true, false, true, false, true, true, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//brexit
+							{false, false, true, false, true, true, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, true, false, false,false, false, false, false, false, false, false, false, false, false,},			//westeuropa						
+							{false, false, false, true, false, true, false, true, false, false, false, false,false, false, false, false, false, true, false, false, false, false,false, false, false, false, false, false, true, true, false, false,false, false, false, false, false, false, false, false, false, false,},		//suedeuropa
+							{false, false, true, true, true, false, true, true, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//nordeuropa
 							{false, true,false, false, false, true, false, true, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//skandinavien
 							{false, false,false, false, true, true, true, false, true, false, false, false,false, false, false, false, true, true, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//ukraine
 							{false, false,false, false, false, false, false, true, false, true, false, false,false, false, false, true, true, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,false, false, false, false, false, false, false, false, false, false,},			//ural					
@@ -239,12 +240,17 @@ public class WorldManagement {
 		return (nachbarn[land1.getNummer()][land2.getNummer()]);
 	}
 	
-	public Land getLandById(int zahl) {
+	public Land getLandById(int zahl) throws LandExistiertNichtException{
+		Land landMitID = null;
 		for(Land land: laender) {
-			if(land.getNummer()==zahl)
-				return land;
+			if(land.getNummer()==zahl) {
+				landMitID = land;
+			}
 		}
-		return null;
+		if(landMitID == null) {
+			throw new LandExistiertNichtException(landMitID);
+		}
+		return landMitID;
 	}
 	
 	public ArrayList<Kontinent> getKontinente(){

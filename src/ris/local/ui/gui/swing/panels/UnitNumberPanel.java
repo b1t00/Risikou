@@ -5,10 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -22,6 +23,7 @@ public class UnitNumberPanel extends JPanel {
 	//besser: in turn implementieren
 	public enum UnitNumber{
 		ATTACK,
+		MOVEATTACK,
 		DEFENSE,
 		MOVE
 	}
@@ -29,17 +31,23 @@ public class UnitNumberPanel extends JPanel {
 	private Risiko ris;
 	private UnitNumberListener listener;
 	private JLabel titel;
-	private JLabel frage;
+	private JTextArea frage = new JTextArea();
 	private JTextField numberTextField = new JTextField();
 	private UnitNumber unitNumber;
 	private JButton logButton;
 	private int safedNumber;
 //	private JComboBox <Integer> anzahl;
 	
-	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un) {
+	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, Risiko risiko) {		
 		listener = unl;
 		unitNumber = un;
-//		ris = risiko;
+		ris = risiko;
+		
+		//ermöglicht automatischen Zeilenumbruch
+		frage = new JTextArea();
+		frage.setLineWrap(true);
+		frage.setWrapStyleWord(true);
+		frage.setEditable(false);
 		
 		setupUI();
 		setupEvents();
@@ -49,18 +57,23 @@ public class UnitNumberPanel extends JPanel {
 		switch(unitNumber) {
 		case ATTACK:
 			titel = new JLabel("Attack");
-			frage = new JLabel("Mit vielen Einheiten soll angegriffen werden?");
+			frage.setText("Mit vielen Einheiten soll angegriffen werden?");
 			logButton = new JButton("Angreifen!");
+			break;
+		case MOVEATTACK:
+			titel = new JLabel("Einheiten nachruecken");
+			frage.setText("Wieviele Einheiten sollen nachruecken?");
+			logButton = new JButton("Verschieben");
 			break;
 		case DEFENSE:
 			titel = new JLabel("Attack");
 			//muss hier die info übermittelt werden, wie viele Einheiten angreifen?
-			frage = new JLabel("Mit wie vielen Einheiten soll verteidigt werden?");
+			frage.setText("Mit wie vielen Einheiten soll verteidigt werden?");
 			logButton = new JButton("Verteidigen!");
 			break;
 		case MOVE:
 			titel = new JLabel("Move units");
-			frage = new JLabel("Wie viele Einheiten sollen verschoben werden?");
+			frage.setText("Wie viele Einheiten sollen verschoben werden?");
 //			Integer[] zahlen = getMöglicheZahlen;
 //			anzahl = new JComboBox<>(zahlen);
 			logButton = new JButton("Verschieben!");
@@ -73,6 +86,8 @@ public class UnitNumberPanel extends JPanel {
 		this.add(frage);
 		this.add(numberTextField);
 		this.add(logButton);
+		
+		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
 	}
 	
 	public int getNumber() {
