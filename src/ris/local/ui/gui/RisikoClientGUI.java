@@ -20,6 +20,7 @@ import javax.swing.WindowConstants;
 
 import ris.local.domain.Risiko;
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.SpielerNameExistiertBereitsException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DialogPanel;
@@ -390,9 +391,8 @@ public class RisikoClientGUI extends JFrame
 				if(risiko.allMissionsComplete()) {
 					JOptionPane.showMessageDialog(null, "Jemand hat gewonnen! Spiel ist vorbei!");
 				}
-			} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			} catch (ZuWenigEinheitenException e) {
+				System.out.println(e.getLocalizedMessage());
 			}
 			setUnitsPl.decrementUnits();
 			if(setUnitsPl.getVerfuegbareEinheiten() > 0) {
@@ -423,9 +423,13 @@ public class RisikoClientGUI extends JFrame
 
 	//// TestSpielstart ohne login \\\\
 	public void testSetUp() {
-		risiko.playerAnlegen("Annie", "rot", 0);
-		risiko.playerAnlegen("Tobi", "gruen", 1);
-		risiko.playerAnlegen("Hannes", "blau", 2);
+		try {
+			risiko.playerAnlegen("Annie", "rot", 0);
+			risiko.playerAnlegen("Tobi", "gruen", 1);
+			risiko.playerAnlegen("Hannes", "blau", 2);
+		} catch (SpielerNameExistiertBereitsException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
 		risiko.setColorArray(new Color(226, 19, 43));
 		risiko.setColorArray(new Color(23, 119, 50));
 		risiko.setColorArray(new Color(30, 53, 214));
@@ -511,9 +515,9 @@ public class RisikoClientGUI extends JFrame
 						try {
 							risiko.getLandById(l.getNummer()).setEinheiten(2);
 							updateWorld();
-						} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+						} catch (ZuWenigEinheitenException e) {
 							// TODO Auto-generated catch block
-							e.printStackTrace();
+							e.getLocalizedMessage();
 						} 
 				}
 			}

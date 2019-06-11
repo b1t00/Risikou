@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.SpielerNameExistiertBereitsException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -78,7 +79,7 @@ public class Risiko {
 		turn.setPlayerList(playerMg.getPlayers());
 	}
 
-	public Player playerAnlegen(String name, String farbe, int nummer) {
+	public Player playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 		return player;
 	}
@@ -253,7 +254,7 @@ public class Risiko {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
-			throws ZuWenigEinheitenNichtMoeglichExeption {
+			throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
 		return logik.attack(att, def, attEinheiten, defEinheiten);
 	}
 
@@ -283,7 +284,7 @@ public class Risiko {
 		fileMg.speichern(game, datei);
 	}
 
-	public void spielLaden(String datei) {
+	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {
@@ -304,7 +305,7 @@ public class Risiko {
 					Land land = worldMg.getLandById(loadedLand.getNummer());
 					try {
 						land.setEinheiten(loadedLand.getEinheiten());
-					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+					} catch (ZuWenigEinheitenException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

@@ -3,6 +3,7 @@ package ris.local.domain;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import ris.local.exception.SpielerNameExistiertBereitsException;
 import ris.local.valueobjects.Player;
 
 public class PlayerManagement {
@@ -74,8 +75,13 @@ public class PlayerManagement {
 		return gamerListe.size();
 	}
 
-	public Player addPlayer(String name, String farbe, int nummer) { 
+	public Player addPlayer(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException { 
 		Player player = new Player(name, farbe, nummer);
+		for(Player p: gamerListe) {
+			if(p.getName().equals(name)) {
+				throw new SpielerNameExistiertBereitsException(name);
+			}
+		}
 		gamerListe.add(player);
 		return player;
 	}
