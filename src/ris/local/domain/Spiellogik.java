@@ -19,7 +19,7 @@ import ris.local.valueobjects.Player;
 import ris.local.valueobjects.Risikokarte.Symbol;
 import ris.local.valueobjects.Turn;
 
-public class Spiellogik {
+public class Spiellogik implements Serializable{
 
 	PlayerManagement gamerVW;
 	private WorldManagement worldMg;
@@ -335,7 +335,7 @@ public class Spiellogik {
 //		Player attacker = att.getBesitzer();
 	
 
-	public Attack attack(Land att, Land def, int attUnits, int defUnits) throws ZuWenigEinheitenNichtMoeglichExeption {
+	public Attack attack(Land att, Land def, int attUnits, int defUnits) throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
 		Player attacker = att.getBesitzer();
 		Player defender = def.getBesitzer();
 		
@@ -400,8 +400,14 @@ public class Spiellogik {
 			} else {
 				attacker.setBlock(att.getNummer(), 0);
 			}
-			attackObjekt.setWinner(defender);
-			attackObjekt.setLoser(attacker);
+			//wer weniger einheiten verloren hat, gewinnt den kampf
+			if(result.get(0) > result.get(1)) {
+				attackObjekt.setWinner(attacker);
+				attackObjekt.setLoser(defender);
+			} else {
+				attackObjekt.setWinner(defender);
+				attackObjekt.setLoser(attacker);
+			}
 		}
 
 		// wenn das Land erobert wurde (def-einheiten sind auf 0), werden die Angriffs-Einheiten verschoben
@@ -690,9 +696,9 @@ public class Spiellogik {
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge)
-			throws ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption, LandExistiertNichtException {
+			throws ZuWenigEinheitenException, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
-			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
+			throw new ZuWenigEinheitenException(start.getEinheiten()-1);
 		}
 		if (!worldMg.getLaender().contains(start)) {
 			throw new LandExistiertNichtException(start);

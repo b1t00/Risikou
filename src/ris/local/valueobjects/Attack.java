@@ -1,8 +1,10 @@
 package ris.local.valueobjects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Attack {
+//serializable weg?
+public class Attack implements Serializable {
 	private Player attacker;
 	private Player defender;
 	private Land attack;
@@ -45,6 +47,10 @@ public class Attack {
 	
 	public void setLoser(Player player) {
 		loser = player;
+	}
+	
+	public ArrayList<Integer> getResult(){
+		return result;
 	}
 	
 	public Player getWinner() {

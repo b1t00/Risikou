@@ -1,6 +1,8 @@
 package ris.local.valueobjects;
 
-public enum State {
+import java.io.Serializable;
+
+public enum State implements Serializable{
 	SETUNITS,
 	ATTACK,
 	CHANGEUNITS;
