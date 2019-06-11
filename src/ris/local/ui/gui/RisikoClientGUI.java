@@ -91,9 +91,9 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI() {
 		zweitausendaLook();
 		risiko = new Risiko();
-//		initializeLoginPl();
-		testSetUp(); // legt drei spieler an. zum testen
-		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
+		initializeLoginPl();
+//		testSetUp(); // legt drei spieler an. zum testen
+//		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
