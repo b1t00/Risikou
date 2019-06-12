@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import ris.local.domain.Risiko;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 
 public class UnitNumberPanel extends JPanel {
 

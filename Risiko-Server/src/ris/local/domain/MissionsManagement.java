@@ -4,12 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ris.local.valueobjects.MissionGegner;
-import ris.local.valueobjects.Kontinent;
-import ris.local.valueobjects.MissionKontinent;
-import ris.local.valueobjects.MissionLaenderanzahl;
-import ris.local.valueobjects.Mission;
-import ris.local.valueobjects.Player;
+import ris.common.valueobjects.MissionGegner;
+import ris.common.valueobjects.Kontinent;
+import ris.common.valueobjects.MissionKontinent;
+import ris.common.valueobjects.MissionLaenderanzahl;
+import ris.common.valueobjects.Mission;
+import ris.common.valueobjects.Player;
 
 public class MissionsManagement implements Serializable{
 	private ArrayList<Mission> missionen;

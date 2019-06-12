@@ -1,4 +1,4 @@
-package ris.local.ui.gui;
+﻿package ris.local.ui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
@@ -27,6 +27,10 @@ import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Risikokarte;
 //	MapImage Größe 120 / 711
 import ris.local.domain.Risiko;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DialogPanel;
 import ris.local.ui.gui.swing.panels.DialogPanel.SpeichernListener;
 import ris.local.ui.gui.swing.panels.DicePanel;
@@ -74,7 +78,7 @@ public class RisikoClientGUI extends JFrame
 
 	private DicePanel dicePl;
 
-	// Das RequestPanel wird benötigt, wenn auf ein Land geklickt werden muss
+	// Das RequestPanel wird benoetigt, wenn auf ein Land geklickt werden muss
 	private RequestPanel attackFromPl;
 	private RequestPanel attackToPl;
 	private RequestPanel moveFromPl;
@@ -101,7 +105,7 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI() {
 		zweitausendaLook();
 		risiko = new Risiko();
-//		initializeLoginPl();
+		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
 		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
@@ -588,7 +592,7 @@ public class RisikoClientGUI extends JFrame
 		showQuestion();
 	}
 
-//TODO: uberflüssig?
+//TODO: ueberfluessig?
 	public int getSpielerAnzahl() {
 		return wieVielePl.getAnzahlSpieler();
 	}
@@ -607,6 +611,7 @@ public class RisikoClientGUI extends JFrame
 			}
 		});
 	}
+
 	
 	public void showSetUnits(int plus) {
 		dialogPl.update("setUnits");

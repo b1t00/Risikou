@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import ris.local.exception.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.valueobjects.Player;
 
 public class PlayerManagement implements Serializable {
