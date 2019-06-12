@@ -47,7 +47,7 @@ public class WorldPanel extends JPanel {
 		return this.listener;
 	}
 
-	public WorldPanel(WorldListener wl, Risiko risiko) {
+	public WorldPanel(WorldListener wl, RisikoInterface risiko) {
 		listener = wl;
 		ris = risiko;
 

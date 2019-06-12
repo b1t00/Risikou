@@ -25,7 +25,7 @@ public class InfoPanel extends JPanel {
 	private SpielerDetailsPanel spielerDetailsPl;
 	private SpielerUebersichtsPanel spielerUebersichtsPl;
 	
-	public InfoPanel(Risiko ris) {
+	public InfoPanel(RisikoInterface ris) {
 		this.risiko = ris;
 		setupUI();
 	}
