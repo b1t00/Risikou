@@ -6,11 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Risikokarte;
 
 public class RisikokartenPanel extends JPanel {
@@ -20,7 +19,7 @@ public class RisikokartenPanel extends JPanel {
 	}
 
 	private Risikokarte karte;
-	private Risiko risiko;
+	private RisikoInterface risiko;
 	private InfoPanel ip;
 	private RisikoKartenListener listener;
 	//ImageIcon image = new ImageIcon(getClass().getResource("../assets/img/button.png"));
@@ -37,16 +36,16 @@ public class RisikokartenPanel extends JPanel {
 //		public void updateKartenpanelZwo();
 	}
 
-	public RisikokartenPanel(Risiko risk, RisikoKartenListener listener) {
+	public RisikokartenPanel(RisikoInterface risk, RisikoKartenListener listener) {
 		this.risiko = risk;
 		this.listener = listener;
 		setUp();
 
 	}
 
-	public RisikokartenPanel(Risiko risk, Risikokarte karte) {
-
-	}
+//	public RisikokartenPanel(Risiko risk, Risikokarte karte) {
+//
+//	}
 
 	public void setUp() {
 

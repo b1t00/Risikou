@@ -9,12 +9,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 
 public class QuestionPanel extends JPanel{
 	
@@ -24,7 +23,7 @@ public class QuestionPanel extends JPanel{
 		public void answerSelected(boolean answer);
 	}
 	
-	private Risiko ris = null;
+	private RisikoInterface ris = null;
 	private QuestionListener listener = null;
 	private String phase = "";
 	
@@ -34,7 +33,7 @@ public class QuestionPanel extends JPanel{
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	
-	public QuestionPanel(QuestionListener listener, Risiko risiko, String phase) {
+	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase) {
 		ris = risiko;
 		this.listener = listener;
 		this.phase = phase;

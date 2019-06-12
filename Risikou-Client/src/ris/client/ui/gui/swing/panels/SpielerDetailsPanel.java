@@ -1,21 +1,16 @@
 package ris.client.ui.gui.swing.panels;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 
 public class SpielerDetailsPanel extends JPanel {
-	private Risiko risiko;
+	private RisikoInterface risiko;
 
 	private JLabel name;
 	private JLabel farbe;
@@ -24,7 +19,7 @@ public class SpielerDetailsPanel extends JPanel {
 	private RisikokartenPanel risikoKartenTPl;
 	
 
-	public SpielerDetailsPanel(Risiko ris) {
+	public SpielerDetailsPanel(RisikoInterface ris) {
 		this.risiko = ris;
 //		farbAuswahl = risiko.gibAktivenPlayer().getFarbe());
 		name = new JLabel("Name: " + risiko.gibAktivenPlayer());

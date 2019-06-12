@@ -2,14 +2,13 @@ package ris.client.ui.gui.swing.panels;
 
 import java.awt.GridLayout;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 
 public class RequestPanel extends JPanel{
 	
@@ -24,13 +23,13 @@ public class RequestPanel extends JPanel{
 		MOVETOCOUNTRY
 	}
 
-	private Risiko ris = null;
+	private RisikoInterface ris = null;
 	private JLabel titel;
 	private JTextArea abfrage;
 	private CountryRequest countryR;
 
 	
-	public RequestPanel (CountryRequest cr, Risiko risiko) {
+	public RequestPanel (CountryRequest cr, RisikoInterface risiko) {
 		countryR = cr;
 		ris = risiko;
 		

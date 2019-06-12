@@ -3,19 +3,11 @@ package ris.client.ui.gui.swing.panels;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ris.common.domain.RisikoInterface;
-import ris.client.ui.gui.RisikoClientGUI;
+import ris.common.interfaces.RisikoInterface;
 
 public class InfoPanel extends JPanel {
 

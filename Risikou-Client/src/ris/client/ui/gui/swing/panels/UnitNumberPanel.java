@@ -11,8 +11,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.interfaces.RisikoInterface;
 
 public class UnitNumberPanel extends JPanel {
 
@@ -28,7 +28,7 @@ public class UnitNumberPanel extends JPanel {
 		MOVE
 	}
 	
-	private Risiko ris;
+	private RisikoInterface ris;
 	private UnitNumberListener listener;
 	private JLabel titel;
 	private JTextArea frage = new JTextArea();
@@ -38,7 +38,7 @@ public class UnitNumberPanel extends JPanel {
 	private int safedNumber;
 //	private JComboBox <Integer> anzahl;
 	
-	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, Risiko risiko) {		
+	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko) {		
 		listener = unl;
 		unitNumber = un;
 		ris = risiko;
