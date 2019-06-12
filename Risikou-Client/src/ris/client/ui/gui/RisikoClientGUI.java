@@ -1,4 +1,4 @@
-﻿package ris.local.ui.gui;
+﻿package ris.client.ui.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
