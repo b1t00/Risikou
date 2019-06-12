@@ -10,16 +10,16 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
-import ris.local.persistence.FilePersistenceManager;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
-import ris.common.valueobjects.State;
 import ris.common.valueobjects.Risikokarte.Symbol;
+import ris.common.valueobjects.State;
 import ris.common.valueobjects.Turn;
+import ris.local.persistence.FilePersistenceManager;
 
 public class Risiko implements Serializable {
 
