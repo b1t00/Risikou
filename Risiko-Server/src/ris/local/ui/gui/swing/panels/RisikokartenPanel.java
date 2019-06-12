@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
-import ris.local.valueobjects.Risikokarte;
+import ris.common.valueobjects.Risikokarte;
 
 public class RisikokartenPanel extends JPanel {
 

@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ris.local.domain.Risiko;
-import ris.local.exception.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.local.ui.gui.RisikoClientGUI;
 
 public class NeuerSpielerPanel extends JPanel {

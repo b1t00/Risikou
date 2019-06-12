@@ -712,30 +712,4 @@ public class RisikoClientGUI extends JFrame
 		}
 		showGamePanel();
 	}
-
-	@Override
-	public void combiAusgewaehlt(ArrayList<ris.local.ui.gui.swing.panels.Risikokarte> auswahl) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void countryClicked(ris.local.ui.gui.swing.panels.Land land) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void combiAusgewaehlt(ArrayList<ris.local.ui.gui.swing.panels.Risikokarte> auswahl) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void countryClicked(Land land) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 }
