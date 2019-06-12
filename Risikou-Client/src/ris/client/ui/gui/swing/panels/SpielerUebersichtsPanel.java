@@ -9,7 +9,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 import ris.common.valueobjects.Player;
 
 public class SpielerUebersichtsPanel extends JPanel {

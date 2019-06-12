@@ -14,13 +14,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-//import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 
 public class WorldPanel extends JPanel {
-	private Risiko ris;
+	private RisikoInterface ris;
 	private WorldListener listener;
 	private Land attackLand1;
 	private Land attackLand2;

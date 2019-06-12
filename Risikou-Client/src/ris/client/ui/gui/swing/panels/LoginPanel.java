@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import ris.local.ui.gui.RisikoClientGUI;
+import ris.client.ui.gui.RisikoClientGUI;
 
 public class LoginPanel extends JPanel {
 

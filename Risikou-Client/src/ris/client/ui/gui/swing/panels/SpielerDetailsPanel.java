@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 
 public class SpielerDetailsPanel extends JPanel {
 	private Risiko risiko;

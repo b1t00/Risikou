@@ -1,4 +1,4 @@
-package ris.local.ui.gui.swing.panels;
+package ris.client.ui.gui.swing.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import ris.local.ui.gui.swing.panels.LadePanel.LadeListener;
+import ris.client.ui.gui.swing.panels.LadePanel.LadeListener;
 
 public class LadePanel extends JPanel {
 

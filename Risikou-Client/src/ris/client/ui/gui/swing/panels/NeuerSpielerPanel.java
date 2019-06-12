@@ -1,4 +1,3 @@
-
 package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
@@ -14,9 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
-import ris.local.ui.gui.RisikoClientGUI;
+import ris.client.ui.gui.RisikoClientGUI;
 
 public class NeuerSpielerPanel extends JPanel {
 	private JLabel nameLabel;

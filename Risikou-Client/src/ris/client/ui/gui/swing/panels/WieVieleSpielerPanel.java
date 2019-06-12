@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ris.local.ui.gui.RisikoClientGUI;
+import ris.client.ui.gui.RisikoClientGUI;
 
 public class WieVieleSpielerPanel extends JPanel {
 

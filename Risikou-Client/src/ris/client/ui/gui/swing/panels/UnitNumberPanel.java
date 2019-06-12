@@ -11,7 +11,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 
 public class UnitNumberPanel extends JPanel {

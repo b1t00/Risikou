@@ -14,7 +14,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 
 public class QuestionPanel extends JPanel{
 	

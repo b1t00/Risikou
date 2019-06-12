@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 import ris.common.valueobjects.Risikokarte;
 
 public class RisikokartenPanel extends JPanel {

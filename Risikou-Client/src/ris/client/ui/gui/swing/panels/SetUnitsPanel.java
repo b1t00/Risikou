@@ -1,4 +1,4 @@
-package ris.clients.ui.gui.swing.panels;
+package ris.client.ui.gui.swing.panels;
 
 import java.awt.GridLayout;
 
@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
-import ris.local.domain.Risiko;
+import ris.common.domain.RisikoInterface;
 
 public class SetUnitsPanel extends JPanel {
 	

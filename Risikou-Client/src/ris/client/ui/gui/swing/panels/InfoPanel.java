@@ -1,4 +1,4 @@
-package ris.local.ui.gui.swing.panels;
+package ris.client.ui.gui.swing.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,12 +14,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ris.local.domain.Risiko;
-import ris.local.ui.gui.RisikoClientGUI;
+import ris.common.domain.RisikoInterface;
+import ris.client.ui.gui.RisikoClientGUI;
 
 public class InfoPanel extends JPanel {
 
-	private Risiko risiko;
+	private RisikoInterface risiko;
 
 	private RisikokartenPanel risikoKartenTPl;
 	private SpielerDetailsPanel spielerDetailsPl;
