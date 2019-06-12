@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ris.local.exception.LandExistiertNichtException;
-import ris.local.valueobjects.Risikokarte;
-import ris.local.valueobjects.Risikokarte.Symbol;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.valueobjects.Risikokarte;
+import ris.common.valueobjects.Risikokarte.Symbol;
 
 public class RisikokartenManagement implements Serializable {
 

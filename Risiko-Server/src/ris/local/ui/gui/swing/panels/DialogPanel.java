@@ -15,8 +15,8 @@ import javax.swing.SwingConstants;
 
 import ris.local.domain.Risiko;
 import ris.local.ui.gui.swing.panels.QuestionPanel.AntwortListener;
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.Land;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Land;
 
 public class DialogPanel extends JPanel {
 	

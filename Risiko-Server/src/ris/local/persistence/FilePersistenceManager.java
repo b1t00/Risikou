@@ -14,7 +14,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-import ris.local.valueobjects.GameObject;
+import ris.common.valueobjects.GameObject;
 
 public class FilePersistenceManager implements Serializable {
 	
