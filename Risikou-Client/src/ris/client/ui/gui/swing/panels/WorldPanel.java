@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import ris.common.domain.RisikoInterface;
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 

@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ris.common.domain.RisikoInterface;
-import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.client.ui.gui.RisikoClientGUI;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.interfaces.RisikoInterface;
 
 public class NeuerSpielerPanel extends JPanel {
 	private JLabel nameLabel;
@@ -25,11 +25,11 @@ public class NeuerSpielerPanel extends JPanel {
 	private RisikoClientGUI client;
 	private int x;
 
-	private Risiko risiko;
+	private RisikoInterface risiko;
 
 	String test;
 
-	public NeuerSpielerPanel(Risiko risiko, RisikoClientGUI client) {
+	public NeuerSpielerPanel(RisikoInterface risiko, RisikoClientGUI client) {
 		this.risiko = risiko;
 		this.client = client;
 

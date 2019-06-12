@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 
 public class EintauschPanel extends JPanel{
 	

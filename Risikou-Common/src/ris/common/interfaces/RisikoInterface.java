@@ -25,7 +25,11 @@ public interface RisikoInterface {
 	
 	public int errechneVerfuegbareEinheiten(Player play);
 	
+	public boolean getLandClickZeit();
+	
 	public void setLandClickZeit(boolean obLandClickbar);
+	
+	public boolean getTauschZeit();
 	
 	public void setTauschZeit(boolean obTauschbar);
 	
@@ -33,15 +37,29 @@ public interface RisikoInterface {
 	
 	public void moveUnits(Land von, Land zu, int units);
 	
+	public boolean attackLandGueltig(Land attacker);
+
+	public boolean defenseLandGueltig(Land attacker, Land defender);
+	
 	public Attack attack(Land angriff, Land defence, int unitsAngriff, int unitsDefend);
 	
 	public Player getGewinner();
+	
+	public boolean moveFromLandGueltig(Land von);
+
+	public boolean moveToLandGueltig(Land von, Land zu);
 	
 	public boolean moveUnitsGueltig(Land von, Land zu, int units);
 	
 	public Player playerAnlegen(String name, String farbe, int iD);
 	
 	public void setColorArray(Color color); //TODO: kann wahrscheinlich auch in PlayerAnlegen
+	
+	public ArrayList<Color> getColorArray();
+	
+	public ArrayList<String> getFarbauswahl();
+	
+	public String setFarbeAuswaehlen(String farbe);
 	
 	public void verteileEinheiten();
 	

@@ -1,7 +1,6 @@
 package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
-import java.awt.color.ColorSpace;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -9,17 +8,17 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Player;
 
 public class SpielerUebersichtsPanel extends JPanel {
 
-	private Risiko risiko;
+	private RisikoInterface risiko;
 	private JLabel anzeigeUeberschrift;
 	private ArrayList<JLabel> playersLbl;
 	ArrayList<Player> alleSpieler;
 
-	public SpielerUebersichtsPanel(Risiko risiko) {
+	public SpielerUebersichtsPanel(RisikoInterface risiko) {
 		anzeigeUeberschrift = new JLabel("<html>" + "Spielerübersicht" + "</html>");
 		anzeigeUeberschrift.setBackground(new Color(216, 135, 47));
 		anzeigeUeberschrift.setOpaque(true);

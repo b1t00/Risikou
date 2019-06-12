@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
-import ris.common.domain.RisikoInterface;
+import ris.common.interfaces.RisikoInterface;
 
 public class SetUnitsPanel extends JPanel {
 	
@@ -17,11 +17,11 @@ public class SetUnitsPanel extends JPanel {
 	
 	private SetUnitsListener listener;
 	private int units;
-	private Risiko ris;
+	private RisikoInterface ris;
 	private JLabel titel = new JLabel("Set units");
 	private JTextArea info;
 	
-	public SetUnitsPanel (int einheiten, Risiko risiko) {
+	public SetUnitsPanel (int einheiten, RisikoInterface risiko) {
 //		listener = sul;
 		this.units = einheiten;
 		ris = risiko;
