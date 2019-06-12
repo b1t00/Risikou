@@ -1,10 +1,10 @@
-package ris.local.valueobjects;
+package ris.common.valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import ris.local.domain.PlayerManagement;
+//import ris.local.domain.PlayerManagement;
 
 public class Turn implements Serializable{
 	
@@ -14,17 +14,18 @@ public class Turn implements Serializable{
 	public State state;
 	private int spielrunden;
 	private ArrayList<Player> playerList;
-	private PlayerManagement playerMg;
+//	private PlayerManagement playerMg;
 //	tauschzeit und landclickzeit sind werte fuer die gui, stehen diese auf true werden clicks ausgewertet, bei false werden sie ignoriert
 	private boolean tauschZeit = false;
 	private boolean landClickZeit = false;
 	
-	public Turn(PlayerManagement playerMg) {
-		this.state = State.SETUNITS;
-		this.playerMg = playerMg;
-		playerList = playerMg.getPlayers();
-		spielrunden = 0;
-	}
+	//TODO:einkommentieren
+//	public Turn(PlayerManagement playerMg) {
+//		this.state = State.SETUNITS;
+//		this.playerMg = playerMg;
+//		playerList = playerMg.getPlayers();
+//		spielrunden = 0;
+//	}
 
 	public void setNextState() {
 		this.state = this.state.setNextState();

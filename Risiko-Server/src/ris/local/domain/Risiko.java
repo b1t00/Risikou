@@ -7,19 +7,19 @@ import java.util.Collections;
 
 import ris.local.exception.LandExistiertNichtException;
 import ris.local.exception.SpielerNameExistiertBereitsException;
-import ris.local.exception.UngueltigeAnzahlEinheitenException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.GameObject;
-import ris.local.valueobjects.Kontinent;
-import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Player;
-import ris.local.valueobjects.Risikokarte;
-import ris.local.valueobjects.Risikokarte.Symbol;
-import ris.local.valueobjects.State;
-import ris.local.valueobjects.Turn;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.GameObject;
+import ris.common.valueobjects.Kontinent;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Player;
+import ris.common.valueobjects.Risikokarte;
+import ris.common.valueobjects.State;
+import ris.common.valueobjects.Risikokarte.Symbol;
+import ris.common.valueobjects.Turn;
 
 public class Risiko implements Serializable {
 

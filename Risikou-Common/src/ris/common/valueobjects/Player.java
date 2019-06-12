@@ -1,10 +1,10 @@
-package ris.local.valueobjects;
+package ris.common.valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ris.local.valueobjects.Risikokarte.Symbol;
+import ris.common.valueobjects.Risikokarte.Symbol;
 
 public class Player implements Serializable {
 	private String name;

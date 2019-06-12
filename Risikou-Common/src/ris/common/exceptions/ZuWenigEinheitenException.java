@@ -1,4 +1,4 @@
-package ris.local.exception;
+package ris.common.exceptions;
 
 public class ZuWenigEinheitenException extends Exception {
 	public ZuWenigEinheitenException(int anzahl) {

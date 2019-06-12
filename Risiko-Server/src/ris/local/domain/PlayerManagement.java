@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ris.local.exception.SpielerNameExistiertBereitsException;
-import ris.local.valueobjects.Player;
+import ris.common.valueobjects.Player;
 
 public class PlayerManagement implements Serializable {
 

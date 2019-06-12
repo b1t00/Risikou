@@ -1,4 +1,4 @@
-package ris.local.valueobjects;
+package ris.common.valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;

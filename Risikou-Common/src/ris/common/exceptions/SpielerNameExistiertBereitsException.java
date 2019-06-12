@@ -1,4 +1,4 @@
-package ris.local.exception;
+package ris.common.exceptions;
 
 public class SpielerNameExistiertBereitsException extends Exception{
 	public SpielerNameExistiertBereitsException(String name) {

@@ -1,6 +1,6 @@
-package ris.local.exception;
+package ris.common.exceptions;
 
-import ris.local.valueobjects.Land;
+import ris.common.valueobjects.Land;
 
 public class LandExistiertNichtException extends Exception {
 	

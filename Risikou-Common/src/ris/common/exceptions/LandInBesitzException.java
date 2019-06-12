@@ -1,4 +1,4 @@
-package ris.local.exception;
+package ris.common.exceptions;
 
 public class LandInBesitzException extends Exception {
 	public LandInBesitzException(String message) {

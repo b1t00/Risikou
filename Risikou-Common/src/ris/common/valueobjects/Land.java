@@ -1,9 +1,8 @@
-package ris.local.valueobjects;
+package ris.common.valueobjects;
 
 import java.io.Serializable;
 
-import ris.local.exception.ZuWenigEinheitenException;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.exceptions.ZuWenigEinheitenException;
 
 public class Land implements Comparable, Serializable{
 	private int einheiten;

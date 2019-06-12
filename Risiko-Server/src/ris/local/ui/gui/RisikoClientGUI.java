@@ -52,9 +52,9 @@ import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.local.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Risikokarte;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Risikokarte;
 //	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
@@ -712,5 +712,6 @@ public class RisikoClientGUI extends JFrame
 		}
 		showGamePanel();
 	}
+
 	
 }

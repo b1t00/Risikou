@@ -1,4 +1,4 @@
-package ris.local.exception;
+package ris.common.exceptions;
 //gab es einfach nicht
 
 public class LandNichtInBesitzException extends Exception {
