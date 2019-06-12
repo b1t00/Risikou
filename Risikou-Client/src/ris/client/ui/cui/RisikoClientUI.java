@@ -10,14 +10,14 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
 import ris.common.valueobjects.Risikokarte.Symbol;
-import ris.local.domain.Risiko;
 
-public class RisikoClientUI {
+public class RisikoClientUI implements RisikoInterface{
 
 	private Risiko risiko;
 	private BufferedReader in;
@@ -232,7 +232,11 @@ public class RisikoClientUI {
 					land = -1;
 				}
 				if (pruefArray.contains(land)) {
+					try {
 					aktuellesLand = risiko.getLandById(land);
+					} catch (LandExistiertNichtException e) {
+						//TODO: achtung neu
+					}
 					ungueltig = false;
 				} else {
 					System.out.println("ungueltige Eingabe, bitte wiederholen!");
@@ -398,7 +402,11 @@ public class RisikoClientUI {
 					System.out.println("ungueltige Eingabe, bitte wiederholen!");
 				}
 			}
+			try {
 			Land landMitNeuerEinheit = risiko.getLandById(landWahl);
+			} catch (LandExistiertNichtException e) {
+				
+			}
 			int anzahl = 0; // @tobi darf man hier auch 0 hinschreiben??
 			ungueltig = true;
 			while (ungueltig) {
@@ -600,6 +608,8 @@ public class RisikoClientUI {
 				att = risiko.getLandById(start);
 			} catch (IOException | NumberFormatException | IndexOutOfBoundsException e) {
 				start = -1;
+			} catch (LandExistiertNichtException e2) {
+				
 			}
 			if (pruefArray.contains(start)) {
 				ungueltig = false;

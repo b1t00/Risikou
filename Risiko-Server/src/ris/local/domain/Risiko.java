@@ -10,6 +10,7 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Kontinent;
@@ -21,7 +22,7 @@ import ris.common.valueobjects.State;
 import ris.common.valueobjects.Turn;
 import ris.local.persistence.FilePersistenceManager;
 
-public class Risiko implements Serializable {
+public class Risiko implements RisikoInterface, Serializable {
 
 	private WorldManagement worldMg;
 	private PlayerManagement playerMg;
@@ -49,19 +50,19 @@ public class Risiko implements Serializable {
 	public void setNextState() {
 		turn.setNextState();
 	}
-	
+
 	public boolean getTauschZeit() {
 		return turn.getTauschZeit();
 	}
-	
+
 	public void setTauschZeit(boolean tauschZeit) {
 		turn.setTauschZeit(tauschZeit);
 	}
-	
+
 	public boolean getLandClickZeit() {
 		return turn.getLandClickZeit();
 	}
-	
+
 	public void setLandClickZeit(boolean landClickZeit) {
 		turn.setLandClickZeit(landClickZeit);
 	}
@@ -156,11 +157,12 @@ public class Risiko implements Serializable {
 	}
 
 	// gibt zur�ck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
-	//TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder aendern! 
+	// TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder
+	// aendern!
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
 	}
-	
+
 	public boolean mussTauschen(Player aktiverPlayer) {
 		return aktiverPlayer.mussTauschen();
 	}
@@ -221,12 +223,11 @@ public class Risiko implements Serializable {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	
 	public boolean kannAngreifen(Player player) {
 		return logik.kannAngreifen(player);
 	}
-	
-	//TODO: exception behandeln
+
+	// TODO: exception behandeln
 
 	public boolean attackLandGueltig(Land att) {
 		try {
@@ -245,11 +246,11 @@ public class Risiko implements Serializable {
 	public boolean moveFromLandGueltig(Land move) {
 		return logik.moveFromLandGueltig(move);
 	}
-	
+
 	public boolean moveToLandGueltig(Land from, Land to) {
 		return logik.moveToLandGueltig(from, to);
 	}
-	
+
 	public boolean moveUnitsGueltig(Land from, Land to, int units) {
 		return logik.moveUnitsGueltig(from, to, units);
 	}
@@ -287,10 +288,14 @@ public class Risiko implements Serializable {
 	public boolean kannVerschieben(Player player) {
 		return logik.kannVerschieben(player);
 	}
-	
-	public void moveUnits(Land start, Land ziel, int menge)
-			throws LandExistiertNichtException, ZuWenigEinheitenException, ZuWenigEinheitenNichtMoeglichExeption {
-		logik.moveUnits(start, ziel, menge);
+
+	public void moveUnits(Land start, Land ziel, int menge) {
+		try {
+			logik.moveUnits(start, ziel, menge);
+		} catch (ZuWenigEinheitenException | LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void spielSpeichern(String datei) {
@@ -305,43 +310,44 @@ public class Risiko implements Serializable {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			turn = gameSpeicher.getSpielstand();
 //			Jeder geladene Spieler muss erst dem Playermanagement hinzugef�gt werden
-			for(int i = 0; i < game.getAllePlayer().size(); i++) {
+			for (int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
 //				die farbe muss dem colorarray hinzugef�gt werden
-				
-				//Diese methode am besten noch auslagern, die identische methode befindet sihc auch im neue spieler panel
-					switch (game.getAllePlayer().get(i).getFarbe()) {
-					case "rot":
-						setColorArray(new Color(226, 19, 43));
-						break;
-					case "gruen":
-						setColorArray(new Color(23, 119, 50));
-						break;
-					case "blau":
-						setColorArray(new Color(30, 53, 214));
-						break;
-					case "pink":
-						setColorArray(new Color(255, 51, 245));
-						break;
-					case "weiss":
-						setColorArray(new Color(255, 255, 255));
-						break;
-					case "schwarz":
-						setColorArray(new Color(0, 0, 0));
-						break;
-					}
 
-				//im anschluss werden die L�nder entsprechend verteilt
+				// Diese methode am besten noch auslagern, die identische methode befindet sihc
+				// auch im neue spieler panel
+				switch (game.getAllePlayer().get(i).getFarbe()) {
+				case "rot":
+					setColorArray(new Color(226, 19, 43));
+					break;
+				case "gruen":
+					setColorArray(new Color(23, 119, 50));
+					break;
+				case "blau":
+					setColorArray(new Color(30, 53, 214));
+					break;
+				case "pink":
+					setColorArray(new Color(255, 51, 245));
+					break;
+				case "weiss":
+					setColorArray(new Color(255, 255, 255));
+					break;
+				case "schwarz":
+					setColorArray(new Color(0, 0, 0));
+					break;
+				}
+
+				// im anschluss werden die L�nder entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
-				//und die Risikokarten
-				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
+				// und die Risikokarten
+				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				//und f�r jedes Land werden die Einheiten neu gesetzt
-				for(Land loadedLand: loadedPlayer.getBesitz()) {
+				// und f�r jedes Land werden die Einheiten neu gesetzt
+				for (Land loadedLand : loadedPlayer.getBesitz()) {
 					Land land = null;
-					//TODO: das catchen an andere Stelle!
+					// TODO: das catchen an andere Stelle!
 					try {
 						land = worldMg.getLandById(loadedLand.getNummer());
 					} catch (LandExistiertNichtException e1) {
@@ -370,8 +376,10 @@ public class Risiko implements Serializable {
 	public String setFarbeAuswaehlen(String farbe) { // hier string
 		return playerMg.menuFarbeAuswaehlen(farbe);
 	}
-	
-	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom gew�nschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
+
+	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer
+	// vom gew�nschten spieler eintragen), damit die entsprechende Spielerfarbe
+	// erscheint.
 	public ArrayList<Color> getColorArray() {
 		return playerMg.getColorArray();
 	}
@@ -397,4 +405,5 @@ public class Risiko implements Serializable {
 	public boolean isPlayerDead(Player play) {
 		return play.isDead();
 	}
+
 }
