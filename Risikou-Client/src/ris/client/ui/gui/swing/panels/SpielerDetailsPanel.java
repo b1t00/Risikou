@@ -1,4 +1,4 @@
-package ris.local.ui.gui.swing.panels;
+package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;

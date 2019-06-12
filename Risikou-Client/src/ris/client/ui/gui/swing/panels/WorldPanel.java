@@ -1,4 +1,4 @@
-﻿package ris.local.ui.gui.swing.panels;
+﻿package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import ris.local.domain.Risiko;
+//import ris.local.domain.Risiko;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
