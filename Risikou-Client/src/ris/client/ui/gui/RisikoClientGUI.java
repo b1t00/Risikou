@@ -55,7 +55,7 @@ import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener{
 
-	private Risiko risiko;
+	private RisikoInterface risiko;
 
 	// LOGIN //
 	private LoginPanel loginPl;
@@ -100,7 +100,7 @@ public class RisikoClientGUI extends JFrame
 	
 	public RisikoClientGUI() {
 		zweitausendaLook();
-		risiko = new Risiko();
+		risiko = new RisikoFassade();
 		initializeLoginPl();
 		testSetUp(); // legt drei spieler an. zum testen
 		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
