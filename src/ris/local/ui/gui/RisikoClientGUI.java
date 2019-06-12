@@ -692,7 +692,12 @@ public class RisikoClientGUI extends JFrame
 	
 	@Override
 	public void spielLaden(String dateiname) {
-		risiko.spielLaden(dateiname);
+		try {
+			risiko.spielLaden(dateiname);
+		} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		showGamePanel();
 	}
 	
