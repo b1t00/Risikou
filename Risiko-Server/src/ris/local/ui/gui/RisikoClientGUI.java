@@ -27,10 +27,6 @@ import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Risikokarte;
 //	MapImage Größe 120 / 711
 import ris.local.domain.Risiko;
-import ris.common.exceptions.LandExistiertNichtException;
-import ris.common.exceptions.SpielerNameExistiertBereitsException;
-import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DialogPanel;
 import ris.local.ui.gui.swing.panels.DialogPanel.SpeichernListener;
 import ris.local.ui.gui.swing.panels.DicePanel;
