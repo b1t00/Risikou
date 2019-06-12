@@ -2,17 +2,13 @@ package ris.local.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
-import ris.local.ui.gui.swing.panels.RisikokartenPanel.RisikoKartenListener;
-import ris.local.valueobjects.Risikokarte;
+import ris.common.valueobjects.Risikokarte;	
 
 public class KartenButton extends JButton {
 	private String titel;

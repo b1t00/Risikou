@@ -2,7 +2,6 @@ package ris.common.valueobjects;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 //import ris.local.domain.PlayerManagement;
 
