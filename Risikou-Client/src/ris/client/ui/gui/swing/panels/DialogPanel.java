@@ -31,7 +31,7 @@ public class DialogPanel extends JPanel {
 	private String aktion;
 	private JButton speicherButton;
 	
-	public DialogPanel(Risiko risiko, SpeichernListener listener) {
+	public DialogPanel(RisikoInterface risiko, SpeichernListener listener) {
 		ris = risiko;	
 		this.listener = listener;
 		

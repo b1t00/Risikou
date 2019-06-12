@@ -24,7 +24,7 @@ public class EintauschPanel extends JPanel{
 	private JButton setzButton = new JButton("Einheiten setzen");
 	private JButton tauschButton = new JButton("Risikokarten eintauschen");
 	
-	public EintauschPanel(EintauschListener listener, Risiko risiko) {
+	public EintauschPanel(EintauschListener listener, RisikoInterface risiko) {
 		this.listener = listener;
 		ris = risiko;
 		setupUI();

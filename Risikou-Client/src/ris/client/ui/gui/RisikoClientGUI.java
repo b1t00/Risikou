@@ -18,15 +18,10 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
-import ris.common.exceptions.LandExistiertNichtException;
-import ris.common.exceptions.SpielerNameExistiertBereitsException;
-import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
-import ris.common.valueobjects.Attack;
-import ris.common.valueobjects.Land;
-import ris.common.valueobjects.Risikokarte;
+import ris.client.net.RisikoFassade;
+
 //	MapImage Größe 120 / 711
-//import ris.client.domain.Risiko;
+
 import ris.client.ui.gui.swing.panels.DialogPanel;
 import ris.client.ui.gui.swing.panels.DialogPanel.SpeichernListener;
 import ris.client.ui.gui.swing.panels.DicePanel;
@@ -51,6 +46,14 @@ import ris.client.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.client.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.client.ui.gui.swing.panels.WorldPanel;
 import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.interfaces.RisikoInterface;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Risikokarte;
 
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener{
@@ -157,51 +160,17 @@ public class RisikoClientGUI extends JFrame
 		risikoKartenTPl.setPreferredSize(new Dimension(500, infoPl.getHeight()));
 		infoPl.add(risikoKartenTPl, BorderLayout.CENTER);
 
-		// Layout = CardLayout
+		// Layout = CardLayout cl
 		container.setLayout(cl);
 		container.setPreferredSize(new Dimension(200, 60));
 		container.setBorder(BorderFactory.createLineBorder(Color.black));
 
-//		dicePl = new DicePanel(risiko,this);
-
 		gamePl.add(westPanel, BorderLayout.WEST);
 		gamePl.add(infoPl, BorderLayout.SOUTH);
 
-//		infoPl.add(risikoKartenTPl);
-//		
 		this.add(gamePl);
-
-		// ab hier werden die einzelnen Panels erstellt und mit einem key versehen
-//		attackFromPl = new RequestPanel(CountryRequest.ATTACKCOUNTRY, risiko);
-//		container.add(attackFromPl, "attackFrom");
-
-//		attackToPl = new RequestPanel(CountryRequest.DEFENSECOUNTRY, risiko);
-//		container.add(attackToPl, "attackTo");
-
-//		moveFromPl = new RequestPanel(CountryRequest.MOVEFROMCOUNTRY, risiko);
-//		container.add(moveFromPl, "moveFrom");
-//
-//		moveToPl = new RequestPanel(CountryRequest.MOVETOCOUNTRY, risiko);
-//		container.add(moveToPl, "moveTo");
-		
-//		cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
-//		container.add(cardRequestPl, "cardRequest");
-
-//		moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE, risiko);
-//		container.add(moveNumberPl, "moveNumber");
-		
-//		moveAttackNumberPl = new UnitNumberPanel(this, UnitNumber.MOVEATTACK, risiko);
-//		container.add(moveAttackNumberPl, "moveAttack");
-
-//		attackNumberPl = new UnitNumberPanel(this, UnitNumber.ATTACK, risiko);
-//		container.add(attackNumberPl, "attackNumber");
-
-//		defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko);
-//		container.add(defenseNumberPl, "defenseNumber");
-
 		dicePl = new DicePanel();
 		container.add(dicePl, "dice");
-		
 		this.setVisible(true);
 
 	}
