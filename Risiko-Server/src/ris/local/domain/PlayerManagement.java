@@ -80,7 +80,7 @@ public class PlayerManagement implements Serializable {
 		Player player = new Player(name, farbe, nummer);
 		for(Player p: gamerListe) {
 			if(p.getName().equals(name)) {
-				throw new SpielerNameExistiertBereitsException(name);
+				throw new SpielerNameExistiertBereitsException(name, farbe, nummer);
 			}
 		}
 		gamerListe.add(player);
