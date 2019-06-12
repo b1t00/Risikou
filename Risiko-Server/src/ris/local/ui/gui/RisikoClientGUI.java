@@ -7,11 +7,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.io.IOException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -23,11 +18,15 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Risikokarte;
+//	MapImage Größe 120 / 711
 import ris.local.domain.Risiko;
-import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.SpielerNameExistiertBereitsException;
-import ris.local.exception.ZuWenigEinheitenException;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.ui.gui.swing.panels.DialogPanel;
 import ris.local.ui.gui.swing.panels.DialogPanel.SpeichernListener;
 import ris.local.ui.gui.swing.panels.DicePanel;
@@ -52,10 +51,6 @@ import ris.local.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.local.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel;
 import ris.local.ui.gui.swing.panels.WorldPanel.WorldListener;
-import ris.common.valueobjects.Attack;
-import ris.common.valueobjects.Land;
-import ris.common.valueobjects.Risikokarte;
-//	MapImage Größe 120 / 711
 
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener{
@@ -711,6 +706,30 @@ public class RisikoClientGUI extends JFrame
 			e.printStackTrace();
 		}
 		showGamePanel();
+	}
+
+	@Override
+	public void combiAusgewaehlt(ArrayList<ris.local.ui.gui.swing.panels.Risikokarte> auswahl) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void countryClicked(ris.local.ui.gui.swing.panels.Land land) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void combiAusgewaehlt(ArrayList<ris.local.ui.gui.swing.panels.Risikokarte> auswahl) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void countryClicked(Land land) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

@@ -1,19 +1,15 @@
 package ris.local.ui.gui.swing.panels;
 
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Player;
+import ris.common.valueobjects.Attack;
 
 public class DicePanel extends JPanel {
 	private Attack attObj;

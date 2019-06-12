@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
            
 public class WorldManagement implements Serializable {

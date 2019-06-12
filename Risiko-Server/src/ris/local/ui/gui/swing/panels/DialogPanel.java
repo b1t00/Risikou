@@ -13,10 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Land;
 import ris.local.domain.Risiko;
-import ris.local.ui.gui.swing.panels.QuestionPanel.AntwortListener;
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.Land;
 
 public class DialogPanel extends JPanel {
 	
