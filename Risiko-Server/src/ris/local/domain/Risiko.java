@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.local.exception.ZuWenigEinheitenException;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.local.persistence.FilePersistenceManager;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
@@ -34,7 +34,7 @@ public class Risiko implements Serializable {
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
-		turn = new Turn(playerMg);
+		turn = new Turn();
 		logik = new Spiellogik(worldMg, playerMg, turn);
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();

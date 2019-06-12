@@ -15,9 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ris.local.domain.Risiko;
-import ris.local.exception.LandExistiertNichtException;
-import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Player;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Player;
 
 public class WorldPanel extends JPanel {
 	private Risiko ris;

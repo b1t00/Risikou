@@ -6,18 +6,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import ris.local.exception.LandExistiertNichtException;
-import ris.local.exception.UngueltigeAnzahlEinheitenException;
-import ris.local.exception.ZuWenigEinheitenException;
-import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
-import ris.local.valueobjects.Attack;
-import ris.local.valueobjects.Kontinent;
-import ris.local.valueobjects.Land;
-import ris.local.valueobjects.Mission;
-import ris.local.valueobjects.MissionGegner;
-import ris.local.valueobjects.Player;
-import ris.local.valueobjects.Risikokarte.Symbol;
-import ris.local.valueobjects.Turn;
+import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
+import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.Kontinent;
+import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Mission;
+import ris.common.valueobjects.MissionGegner;
+import ris.common.valueobjects.Player;
+import ris.common.valueobjects.Risikokarte.Symbol;
+import ris.common.valueobjects.Turn;
 
 public class Spiellogik implements Serializable{
 
