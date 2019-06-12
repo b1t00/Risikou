@@ -106,9 +106,9 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI() {
 		zweitausendaLook();
 		risiko = new Risiko();
-		initializeLoginPl();
-//		testSetUp(); // legt drei spieler an. zum testen
-//		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
+//		initializeLoginPl();
+		testSetUp(); // legt drei spieler an. zum testen
+		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
@@ -117,7 +117,6 @@ public class RisikoClientGUI extends JFrame
 		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		ladePl = new LadePanel(this);
-//		ladePl = new LadePanel();
 		Container c = this.getContentPane();
 		c.add(loginPl);
 		setSize(new Dimension(340, 340)); // größe vom Loginpanel
