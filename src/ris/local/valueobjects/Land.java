@@ -2,6 +2,7 @@ package ris.local.valueobjects;
 
 import java.io.Serializable;
 
+import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
 
 public class Land implements Comparable, Serializable{
@@ -28,9 +29,9 @@ public class Land implements Comparable, Serializable{
 	
 	// Methode um Einheiten zu setzten 
 	// abfrage, ob noch genug einheiten auf dem land stehen findet in der spiellogik||risiko||cui statt
-	public void setEinheiten(int einheit) throws ZuWenigEinheitenNichtMoeglichExeption {
-			if(this.einheiten < 0) {
-				throw new ZuWenigEinheitenNichtMoeglichExeption("Das Land hat wenig Einheiten !! ACHTUNG FEHLER!");
+	public void setEinheiten(int einheit) throws ZuWenigEinheitenException {
+			if(this.einheiten+einheit < 0)  {
+				throw new ZuWenigEinheitenException(einheit);
 			} else {
 				this.einheiten += einheit;
 			}

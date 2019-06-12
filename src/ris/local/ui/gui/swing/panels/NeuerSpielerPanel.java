@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ris.local.domain.Risiko;
+import ris.local.exception.SpielerNameExistiertBereitsException;
 import ris.local.ui.gui.RisikoClientGUI;
 
 public class NeuerSpielerPanel extends JPanel {
@@ -68,7 +69,11 @@ public class NeuerSpielerPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswahlen");
 				} else if (x < client.getSpielerAnzahl()) {
 
-					risiko.playerAnlegen(name, farbe, x);
+					try {
+						risiko.playerAnlegen(name, farbe, x);
+					} catch (SpielerNameExistiertBereitsException e1) {
+						JOptionPane.showMessageDialog(null, "Der Name existiert bereits");
+					}
 
 					nameField.setText("");
 					x++;

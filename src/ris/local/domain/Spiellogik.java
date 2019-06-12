@@ -335,7 +335,7 @@ public class Spiellogik implements Serializable{
 //		Player attacker = att.getBesitzer();
 	
 
-	public Attack attack(Land att, Land def, int attUnits, int defUnits) throws ZuWenigEinheitenNichtMoeglichExeption {
+	public Attack attack(Land att, Land def, int attUnits, int defUnits) throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
 		Player attacker = att.getBesitzer();
 		Player defender = def.getBesitzer();
 		
@@ -696,9 +696,9 @@ public class Spiellogik implements Serializable{
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge)
-			throws ZuWenigEinheitenException,ZuWenigEinheitenNichtMoeglichExeption, LandExistiertNichtException {
+			throws ZuWenigEinheitenException, LandExistiertNichtException {
 		if ((start.getEinheiten() - menge) < 1) {
-			throw new ZuWenigEinheitenException("Zu wenige Einheiten");
+			throw new ZuWenigEinheitenException(start.getEinheiten()-1);
 		}
 		if (!worldMg.getLaender().contains(start)) {
 			throw new LandExistiertNichtException(start);

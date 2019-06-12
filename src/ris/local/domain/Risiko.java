@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.local.exception.LandExistiertNichtException;
+import ris.local.exception.SpielerNameExistiertBereitsException;
 import ris.local.exception.UngueltigeAnzahlEinheitenException;
 import ris.local.exception.ZuWenigEinheitenException;
 import ris.local.exception.ZuWenigEinheitenNichtMoeglichExeption;
@@ -87,12 +88,12 @@ public class Risiko implements Serializable {
 		turn.setPlayerList(playerMg.getPlayers());
 	}
 
-	public Player playerAnlegen(String name, String farbe, int nummer) {
+	public Player playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 		return player;
 	}
 
-	// TODO: diese methode kann wahrschienich weg, nochmal überprüfen!
+	// TODO: diese methode kann wahrschienich weg, nochmal ï¿½berprï¿½fen!
 	public void setzeAktivenPlayer() {
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
@@ -154,7 +155,7 @@ public class Risiko implements Serializable {
 		return false;
 	}
 
-	// gibt zurück, ob ein Player Risikokarten gegen Einheiten eintauschen kann
+	// gibt zurï¿½ck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
 	//TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder aendern! 
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
@@ -174,7 +175,7 @@ public class Risiko implements Serializable {
 
 //	****************************RISIKOKARTEN************************************
 
-	// ALTE METHODE, KANN GELÖSCHT WERDEN
+	// ALTE METHODE, KANN GELï¿½SCHT WERDEN
 //	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 //		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 //	}
@@ -267,7 +268,7 @@ public class Risiko implements Serializable {
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
 	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
-			throws ZuWenigEinheitenNichtMoeglichExeption {
+			throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
 		return logik.attack(att, def, attEinheiten, defEinheiten);
 	}
 
@@ -297,17 +298,17 @@ public class Risiko implements Serializable {
 		fileMg.speichern(game, datei);
 	}
 
-	public void spielLaden(String datei){
+	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			turn = gameSpeicher.getSpielstand();
-//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefügt werden
+//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefï¿½gt werden
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
-//				die farbe muss dem colorarray hinzugefügt werden
+//				die farbe muss dem colorarray hinzugefï¿½gt werden
 				
 				//Diese methode am besten noch auslagern, die identische methode befindet sihc auch im neue spieler panel
 					switch (game.getAllePlayer().get(i).getFarbe()) {
@@ -331,13 +332,13 @@ public class Risiko implements Serializable {
 						break;
 					}
 
-				//im anschluss werden die Länder entsprechend verteilt
+				//im anschluss werden die Lï¿½nder entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				//und die Risikokarten
 				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				//und für jedes Land werden die Einheiten neu gesetzt
+				//und fï¿½r jedes Land werden die Einheiten neu gesetzt
 				for(Land loadedLand: loadedPlayer.getBesitz()) {
 					Land land = null;
 					//TODO: das catchen an andere Stelle!
@@ -349,7 +350,7 @@ public class Risiko implements Serializable {
 					}
 					try {
 						land.setEinheiten(loadedLand.getEinheiten());
-					} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
+					} catch (ZuWenigEinheitenException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -370,7 +371,7 @@ public class Risiko implements Serializable {
 		return playerMg.menuFarbeAuswaehlen(farbe);
 	}
 	
-	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom gewünschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
+	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom gewï¿½nschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
 	public ArrayList<Color> getColorArray() {
 		return playerMg.getColorArray();
 	}
