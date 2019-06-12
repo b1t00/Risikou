@@ -251,7 +251,7 @@ public class RisikoClientGUI extends JFrame
 		}
 	}
 	
-	@Override
+	@Override  // question panel
 	public void answerSelected(boolean answer, String phase) {
 		if(answer) {
 			moveAttackNumberPl = new UnitNumberPanel(this, UnitNumber.MOVEATTACK, risiko);
@@ -262,7 +262,7 @@ public class RisikoClientGUI extends JFrame
 		}
 	}
 
-	@Override
+	@Override  // question panel
 	// antwortListener vom Question Panel
 	public void answerSelected(boolean answer) {
 		if (answer) {
@@ -328,7 +328,7 @@ public class RisikoClientGUI extends JFrame
 		}
 	}
 
-	@Override
+	@Override  // unit number panel
 	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir unsbefinden (attack, defense, move)
 	public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption {
 		System.out.println("Status un: " + un);
@@ -429,8 +429,7 @@ public class RisikoClientGUI extends JFrame
 					if(win()) {
 						JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 					}
-				} catch (LandExistiertNichtException | ZuWenigEinheitenException
-						| ZuWenigEinheitenNichtMoeglichExeption e) {
+				} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -438,7 +437,6 @@ public class RisikoClientGUI extends JFrame
 			} else {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten!");
 			}
-			
 		}
 	}
 
@@ -641,7 +639,7 @@ public class RisikoClientGUI extends JFrame
 		return false;
 	}
 
-	@Override
+	@Override // risikokartenpanel
 	public void updateKartenpanel() {
 		risikoKartenTPl.invalidate();
 		risikoKartenTPl.repaint();

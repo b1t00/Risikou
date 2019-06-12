@@ -705,12 +705,6 @@ public class Spiellogik implements Serializable{
 		}
 		start.setEinheiten(-menge);
 		ziel.setEinheiten(menge);
-
-//		if(movePossible(start,ziel,menge)&&start.getBesitzer()==gibAktivenPlayer()
-//				&&ziel.getBesitzer() == gibAktivenPlayer()) {
-//			start.setEinheiten(-menge);
-//			ziel.setEinheiten(menge);
-//		}
 	}
 
 	public int[] initBlockedUnits(int[] uBlock) {

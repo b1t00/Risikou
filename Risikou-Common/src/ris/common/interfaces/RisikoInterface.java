@@ -39,7 +39,7 @@ public interface RisikoInterface {
 	
 	public boolean zieheEinheitenkarte(Player playerHatGezogen);
 	
-	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException, ZuWenigEinheitenNichtMoeglichExeption;
+	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException;
 	
 	public boolean attackLandGueltig(Land attacker);
 
