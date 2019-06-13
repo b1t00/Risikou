@@ -1,6 +1,13 @@
 package ris.client.net;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import ris.common.interfaces.RisikoInterface;
@@ -11,6 +18,43 @@ import ris.common.valueobjects.Risikokarte;
 import ris.common.valueobjects.State;
 
 public class RisikoFassade implements RisikoInterface {
+	private Socket socket = null;
+	private BufferedReader sin;
+	private PrintStream sout;
+
+	public RisikoFassade(String host, int port) {
+		try {
+			socket = new Socket(host, port);
+			InputStream is = socket.getInputStream();
+			sin = new BufferedReader(new InputStreamReader(is));
+			sout = new PrintStream(socket.getOutputStream());
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Fehler beim SocketStream oeffnen : " + e);
+			if(socket != null) {
+				try {
+					socket.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			System.err.println("Socket geschlossen");
+			System.exit(0);
+		}
+		
+		System.err.println("Verbunden: " + socket.getInetAddress() + " : " + socket.getPort());
+		try {
+			String message = sin.readLine();
+			System.out.println(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 	@Override
 	public State getCurrentState() {
@@ -33,7 +77,7 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void setNextState() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -45,7 +89,7 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void setNextPlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -57,13 +101,13 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void setLandClickZeit(boolean obLandClickbar) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setTauschZeit(boolean obTauschbar) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -75,7 +119,7 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void moveUnits(Land von, Land zu, int units) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -105,25 +149,25 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void setColorArray(Color color) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void verteileEinheiten() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void verteileMissionen() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setzeAktivenPlayer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -159,13 +203,13 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void spielSpeichern(String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void spielLaden(String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

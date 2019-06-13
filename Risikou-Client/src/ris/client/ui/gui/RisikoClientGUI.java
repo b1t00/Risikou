@@ -7,6 +7,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -58,6 +60,8 @@ import ris.common.valueobjects.Risikokarte;
 public class RisikoClientGUI extends JFrame
 		implements QuestionListener, WorldListener, UnitNumberListener, kartenAuswahlListener,  RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener{
 
+	public static final int DEFAULT_PORT = 6789;
+	
 	private RisikoInterface risiko;
 
 	// LOGIN //
@@ -101,12 +105,13 @@ public class RisikoClientGUI extends JFrame
 
 	
 	
-	public RisikoClientGUI() {
+	public RisikoClientGUI(String host, int port) {
+		
 		zweitausendaLook();
-		risiko = new RisikoFassade();
+		risiko = new RisikoFassade(host ,port);
 		initializeLoginPl();
-		testSetUp(); // legt drei spieler an. zum testen
-		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
+//		testSetUp(); // legt drei spieler an. zum testen
+//		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
@@ -114,7 +119,7 @@ public class RisikoClientGUI extends JFrame
 		loginPl = new LoginPanel(this);
 		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
-		ladePl = new LadePanel(this);
+//		ladePl = new LadePanel(this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
 		setSize(new Dimension(340, 340)); // größe vom Loginpanel
@@ -567,10 +572,45 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public static void main(String[] args) {
+		int portArg = 0;
+		String hostArg = null;
+		InetAddress ia = null;
+		
+		switch(args.length) {
+		case 0 :
+			try {
+				ia = InetAddress.getLocalHost();
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				System.out.println("XXX InetAddress Fehler : " + e);
+				System.exit(0);
+				e.printStackTrace();
+			}
+			hostArg = ia.getHostName();
+			portArg = DEFAULT_PORT;
+			break;
+		case 1 :
+			portArg = DEFAULT_PORT;
+			hostArg = args[0];
+			break;
+		case 2:
+			hostArg = args[0];
+			try {
+				portArg = Integer.parseInt(args[1]);
+			} catch (NumberFormatException e) {
+				System.out.println("TODO");
+				System.exit(0);
+			}
+		}
+		
+
+		final String host = hostArg;
+		final int port = portArg;
+		
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				RisikoClientGUI gui = new RisikoClientGUI();
+				RisikoClientGUI gui = new RisikoClientGUI(host,port);
 			}
 		});
 	}
