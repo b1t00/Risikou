@@ -55,9 +55,7 @@ public class MiniRisServer {
 
 		if (args.length == 1) {
 			try {
-
 				port = Integer.parseInt(args[0]);
-
 			} catch (NumberFormatException e) {
 				// TODO: Numberformat etc
 				port = 0;
@@ -67,7 +65,7 @@ public class MiniRisServer {
 		MiniRisServer server = new MiniRisServer(port);
 		server.acceptClientConnectRequests();
 //		} catch (IOException e) {
-		// TODO:
+//		 TODO:
 //		}
 	}
 }
