@@ -64,7 +64,7 @@ public class NeuerSpielerPanel extends JPanel {
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
 				farbe = risiko.setFarbeAuswaehlen(farbe);
-				colorArraySetzten(farbe);
+//				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
 				System.out.println("name : " + name);
 				System.out.println(risiko.getFarbauswahl() + " funktioniert leider nicht"); // TODO: geht leider net
@@ -89,9 +89,7 @@ public class NeuerSpielerPanel extends JPanel {
 				}
 				if (x == client.getSpielerAnzahl()) {
 					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
-//					risiko.verteileEinheiten(); // Einheiten werden verteilt
-//					risiko.verteileMissionen(); // missionen werden verteilt
-//					risiko.setzeAktivenPlayer(); // der erste Spieler wird berechnet
+//					im Spielaufbau werden Einheiten und Missionen verteilt sowie der erste Spieler bestimmt
 					risiko.spielAufbau();
 					client.showGamePanel();
 				}
@@ -153,26 +151,26 @@ public class NeuerSpielerPanel extends JPanel {
 	}
 
 //	diese methode am besten in risiko auslagern, wird auch dort beim laden benötigt
-	public void colorArraySetzten(String farbe) {
-		switch (farbe) {
-		case "rot":
-			risiko.setColorArray(new Color(226, 19, 43));
-			break;
-		case "gruen":
-			risiko.setColorArray(new Color(23, 119, 50));
-			break;
-		case "blau":
-			risiko.setColorArray(new Color(30, 53, 214));
-			break;
-		case "pink":
-			risiko.setColorArray(new Color(255, 51, 245));
-			break;
-		case "weiss":
-			risiko.setColorArray(new Color(255, 255, 255));
-			break;
-		case "schwarz":
-			risiko.setColorArray(new Color(0, 0, 0));
-			break;
-		}
-	}
+//	public void colorArraySetzten(String farbe) {
+//		switch (farbe) {
+//		case "rot":
+//			risiko.setColorArray(new Color(226, 19, 43));
+//			break;
+//		case "gruen":
+//			risiko.setColorArray(new Color(23, 119, 50));
+//			break;
+//		case "blau":
+//			risiko.setColorArray(new Color(30, 53, 214));
+//			break;
+//		case "pink":
+//			risiko.setColorArray(new Color(255, 51, 245));
+//			break;
+//		case "weiss":
+//			risiko.setColorArray(new Color(255, 255, 255));
+//			break;
+//		case "schwarz":
+//			risiko.setColorArray(new Color(0, 0, 0));
+//			break;
+//		}
+//	}
 }
