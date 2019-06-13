@@ -315,35 +315,17 @@ public class Risiko implements RisikoInterface, Serializable {
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
 //				die farbe muss dem colorarray hinzugef�gt werden
 				
-				//Diese methode am besten noch auslagern, die identische methode befindet sihc auch im neue spieler panel
-					switch (game.getAllePlayer().get(i).getFarbe()) {
-					case "rot":
-						setColorArray(new Color(226, 19, 43));
-						break;
-					case "gruen":
-						setColorArray(new Color(23, 119, 50));
-						break;
-					case "blau":
-						setColorArray(new Color(30, 53, 214));
-						break;
-					case "pink":
-						setColorArray(new Color(255, 51, 245));
-						break;
-					case "weiss":
-						setColorArray(new Color(255, 255, 255));
-						break;
-					case "schwarz":
-						setColorArray(new Color(0, 0, 0));
-						break;
-					}
+				//Diese methode am besten noch auslagern, die identische methode befindet sich auch im neue spieler panel
+				addColor(game.getAllePlayer().get(i).getFarbe());
+				
 
-				//im anschluss werden die L�nder entsprechend verteilt
+				//im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				//und die Risikokarten
 				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				//und f�r jedes Land werden die Einheiten neu gesetzt
+				//und fuer jedes Land werden die Einheiten neu gesetzt
 				for(Land loadedLand: loadedPlayer.getBesitz()) {
 					Land land = null;
 					//TODO: das catchen an andere Stelle!
@@ -364,6 +346,29 @@ public class Risiko implements RisikoInterface, Serializable {
 			System.out.println("eigentlich fertig geladen");
 		} else {
 			System.out.println("datei wohl = null");
+		}
+	}
+	
+	public void addColor (String farbe) {
+		switch (farbe) {
+		case "rot":
+			setColorArray(new Color(226, 19, 43));
+			break;
+		case "gruen":
+			setColorArray(new Color(23, 119, 50));
+			break;
+		case "blau":
+			setColorArray(new Color(30, 53, 214));
+			break;
+		case "pink":
+			setColorArray(new Color(255, 51, 245));
+			break;
+		case "weiss":
+			setColorArray(new Color(255, 255, 255));
+			break;
+		case "schwarz":
+			setColorArray(new Color(0, 0, 0));
+			break;
 		}
 	}
 

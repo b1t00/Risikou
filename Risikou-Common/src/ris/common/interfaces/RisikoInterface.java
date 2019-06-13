@@ -65,12 +65,6 @@ public interface RisikoInterface {
 	
 	public String setFarbeAuswaehlen(String farbe);
 	
-//	public void verteileEinheiten();
-//	
-//	public void verteileMissionen();
-//	
-//	public void setzeAktivenPlayer();
-	
 	public ArrayList<Player> getPlayerArray();
 	
 	public ArrayList<Risikokarte> getRisikoKarten();
