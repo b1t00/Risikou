@@ -41,7 +41,11 @@ public class NeuerSpielerPanel extends JPanel {
 
 		test = "test";
 		nameField = new JTextField(10);
-
+		
+		System.out.println(risiko.getFarbauswahl().size());
+		for(String farbe : risiko.getFarbauswahl()) {
+			System.out.println(farbe);
+		}
 		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); // moeglichkeit
 																											// ArrayList<String>
 																											// zu einem
