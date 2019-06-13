@@ -68,12 +68,18 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	// @to: Methode um Laender am Anfang zufaellig zu verteilen;
-	public void verteileEinheiten() {
+//	public void verteileEinheiten() {
+//		logik.verteileEinheiten();
+//	}
+//
+//	public void verteileMissionen() {
+//		logik.verteileMissionen();
+//	}
+	
+	public void spielAufbau() {
 		logik.verteileEinheiten();
-	}
-
-	public void verteileMissionen() {
 		logik.verteileMissionen();
+		setzeAktivenPlayer();
 	}
 
 	// @to: Methode die sagt wer anfaengt
@@ -88,7 +94,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!
-	public void setzeAktivenPlayer() {
+	public void setzeAktivenPlayer() { //TODO: evtl 
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
 

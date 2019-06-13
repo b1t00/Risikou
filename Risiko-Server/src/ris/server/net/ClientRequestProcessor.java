@@ -7,6 +7,7 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.interfaces.RisikoInterface;
 
 public class ClientRequestProcessor implements Runnable {
@@ -57,19 +58,35 @@ public class ClientRequestProcessor implements Runnable {
 				System.out.println(e.getMessage());
 				continue;
 			}
-			if (input == null) {
-				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
-				// Einfach behandeln wie ein "quit"
-				input = "q";
-			} else if (input.equals("fa")) {
-				// Aktion "Bücher _a_usgeben" gewählt
-				getFarben();
+			switch(input) {
+//			case null : 
+//				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
+//				// Einfach behandeln wie ein "quit"
+//				input = "q";
+//				break;
+			case "getFarbauswahl" :
+				getFarbauswahl();
+				break;
+			case "playerAnlegen": 
+				playerAnlegen();
+				break;
+			case "spielAufbau":
+				spielAufbau();
+				break;
 			}
+//			if (input == null) {
+//				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
+//				// Einfach behandeln wie ein "quit"
+//				input = "q";
+//			} else if (input.equals("fa")) {
+//				// Aktion "Bücher _a_usgeben" gewählt
+//				getFarben();
+//			}
 
 		} while (!(input.equals("q")));
 	}
 
-	public void getFarben() {
+	public void getFarbauswahl() {
 		ArrayList<String> farben;
 		farben = risiko.getFarbauswahl();
 		out.println(farben.size());
@@ -79,6 +96,27 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 	
+	public void playerAnlegen() {
+		String name;
+		try {
+			name = in.readLine();
+			String farbe = in.readLine();
+			int iD = Integer.parseInt(in.readLine());
+			try {
+				risiko.playerAnlegen(name, farbe, iD);
+			} catch (SpielerNameExistiertBereitsException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void spielAufbau() {
+		risiko.spielAufbau();
+	}
 	public void schickeArrayList(Object o, ArrayList<Object> aL){
 		
 		System.out.println(aL.size());
