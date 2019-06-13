@@ -144,9 +144,12 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public Player playerAnlegen(String name, String farbe, int iD) {
-		// TODO Auto-generated method stub
-		return null;
+	public void playerAnlegen(String name, String farbe, int iD) {
+		Integer ID = iD;
+		sout.println("playerAnlegen");
+		sout.println(name);
+		sout.println(farbe);
+		sout.println(ID.toString());
 	}
 
 	@Override
@@ -155,22 +158,8 @@ public class RisikoFassade implements RisikoInterface {
 
 	}
 
-	@Override
-	public void verteileEinheiten() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void verteileMissionen() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setzeAktivenPlayer() {
-		// TODO Auto-generated method stub
-
+	public void spielAufbau() {
+		sout.println("spielAufbau");
 	}
 
 	@Override
@@ -261,7 +250,7 @@ public class RisikoFassade implements RisikoInterface {
 	public ArrayList<String> getFarbauswahl() {
 		ArrayList<String> farbauswahl = new ArrayList<String>();
 		
-		sout.println("fa");
+		sout.println("getFarbauswahl");
 		System.out.println("hier angekommen");
 		
 		String antwort = "";

@@ -82,9 +82,9 @@ public class Risiko implements RisikoInterface, Serializable {
 		turn.setPlayerList(playerMg.getPlayers());
 	}
 
-	public Player playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
+	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
-		return player;
+//		return player;
 	}
 
 	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!
