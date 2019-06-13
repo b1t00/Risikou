@@ -262,6 +262,7 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<String> farbauswahl = new ArrayList<String>();
 		
 		sout.println("fa");
+		System.out.println("hier angekommen");
 		
 		String antwort = "";
 		try {
@@ -277,7 +278,6 @@ public class RisikoFassade implements RisikoInterface {
 			System.err.println(e.getMessage());
 			return null;
 		}
-		
 		return farbauswahl;
 	}
 
