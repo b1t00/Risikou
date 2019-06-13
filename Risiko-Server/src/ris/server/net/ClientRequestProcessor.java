@@ -101,6 +101,7 @@ public class ClientRequestProcessor implements Runnable {
 		try {
 			name = in.readLine();
 			String farbe = in.readLine();
+			
 			int iD = Integer.parseInt(in.readLine());
 			try {
 				risiko.playerAnlegen(name, farbe, iD);

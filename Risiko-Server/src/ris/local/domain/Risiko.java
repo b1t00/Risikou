@@ -89,6 +89,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
+
 		Player player = playerMg.addPlayer(name, farbe, nummer);
 //		return player;
 	}

@@ -65,8 +65,6 @@ public interface RisikoInterface {
 	
 	public String setFarbeAuswaehlen(String farbe);
 	
-	public void spielAufbau();
-	
 //	public void verteileEinheiten();
 //	
 //	public void verteileMissionen();
