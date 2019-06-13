@@ -72,7 +72,7 @@ public class RisikoFassade implements RisikoInterface {
 	public Player gibAktivenPlayer() {
 		Player aktiverPlayer;
 		
-		sout.println("aP");
+		sout.println("gibAktivenPlayer");
 		
 		return null;
 	}
