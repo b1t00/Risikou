@@ -72,7 +72,7 @@ public class NeuerSpielerPanel extends JPanel {
 					try {
 						risiko.playerAnlegen(name, farbe, x);
 					} catch (SpielerNameExistiertBereitsException e1) {
-						JOptionPane.showMessageDialog(null, "Der Name existiert bereits");
+						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
 					}
 
 					nameField.setText("");

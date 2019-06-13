@@ -407,7 +407,20 @@ public class RisikoClientGUI extends JFrame
 					e.printStackTrace();
 				}
 				//hier eher dice panel aufrufen
-				JOptionPane.showMessageDialog(null, attackObjekt.getAttacker() + " verliert " + attackObjekt.getResult().get(0) + " Einheiten, " + attackObjekt.getDefender() + " verliert " + attackObjekt.getResult().get(1) + " Einheiten."); 
+				String ergebnis="";
+				if(attackObjekt.getResult().get(0)==-1) {
+					ergebnis+= attackObjekt.getAttacker() + " verliert " + -attackObjekt.getResult().get(0) + " Einheit, ";
+				}
+				else {
+					ergebnis+=attackObjekt.getAttacker() + " verliert " + -attackObjekt.getResult().get(0) + " Einheiten, ";
+				}
+				if(attackObjekt.getResult().get(1)==-1) {
+					ergebnis+=attackObjekt.getDefender() + " verliert " + -attackObjekt.getResult().get(1) + " Einheit.";
+				}
+				else {
+					ergebnis+=attackObjekt.getDefender() + " verliert " + -attackObjekt.getResult().get(1) + " Einheiten.";
+				}
+				JOptionPane.showMessageDialog(null, ergebnis); 
 				if(attackObjekt.getWinner().equals(risiko.gibAktivenPlayer()) && worldPl.getAttackLand2().getBesitzer().equals(risiko.gibAktivenPlayer())) {
 					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt " + worldPl.getAttackLand2() + " ein.");
 					updateWorld();

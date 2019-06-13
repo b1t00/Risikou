@@ -37,6 +37,7 @@ public class WorldPanel extends JPanel {
 	private BufferedImage flagw = null;
 	private BufferedImage flagbc = null;
 	private BufferedImage flagp = null;
+	private BufferedImage kontinente= null;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
@@ -61,7 +62,7 @@ public class WorldPanel extends JPanel {
         //Kann die Methode ausgelagert werden?
         addMouseListener(new MouseAdapter() { 
             public void mousePressed(MouseEvent me) { 
-            	
+            System.out.println("x: "+me.getX()+" y: "+me.getY());	
             //der MouseClick wird nur ausgewertet, wenn die gui den boolean landClickZeit auf true gesetzt hat, sonst passiert nichts	
             if(risiko.getLandClickZeit()) {
 
@@ -154,6 +155,7 @@ public class WorldPanel extends JPanel {
 				flagw=ImageIO.read(new File("assets/img/flag_weiss.png"));
 				flagp=ImageIO.read(new File("assets/img/flag_pink.png"));
 				flagbc=ImageIO.read(new File("assets/img/flag_schwarz.png"));
+				kontinente= ImageIO.read(new File("assets/img/kontinente.png"));
 			}
 			catch(IOException e){System.out.println("HIER IST EIN FEHLER.");
 			}	
@@ -190,6 +192,7 @@ public class WorldPanel extends JPanel {
 	    public void paintComponent(Graphics g) {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
+	    	g.drawImage(kontinente.getScaledInstance(kontinente.getWidth()/20*11, kontinente.getHeight()/20*11,0),-35,517,null);
 	    	ArrayList<Player> playerArray = ris.getPlayerArray();
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {
