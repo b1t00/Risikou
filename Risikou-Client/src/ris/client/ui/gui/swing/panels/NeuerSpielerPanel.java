@@ -89,9 +89,10 @@ public class NeuerSpielerPanel extends JPanel {
 				}
 				if (x == client.getSpielerAnzahl()) {
 					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
-					risiko.verteileEinheiten(); // Einheiten werden verteilt
-					risiko.verteileMissionen(); // missionen werden verteilt
-					risiko.setzeAktivenPlayer(); // der erste Spieler wird berechnet
+//					risiko.verteileEinheiten(); // Einheiten werden verteilt
+//					risiko.verteileMissionen(); // missionen werden verteilt
+//					risiko.setzeAktivenPlayer(); // der erste Spieler wird berechnet
+					risiko.spielAufbau();
 					client.showGamePanel();
 				}
 				// TODO: Sysos sind nur zum testen. koennen weg

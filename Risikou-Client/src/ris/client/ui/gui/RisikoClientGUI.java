@@ -515,9 +515,7 @@ public class RisikoClientGUI extends JFrame
 		risiko.setColorArray(new Color(226, 19, 43));
 		risiko.setColorArray(new Color(23, 119, 50));
 		risiko.setColorArray(new Color(30, 53, 214));
-		risiko.verteileEinheiten();
-		risiko.verteileMissionen();
-		risiko.setzeAktivenPlayer();
+		risiko.spielAufbau();
 		for (int x = 0; x < 10; x++) {
 			System.out.println("hier :" + x % 3);
 			risiko.getPlayerArray().get(x % 3).setEinheitenkarte(risiko.getRisikoKarten().get(x));

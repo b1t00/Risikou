@@ -55,7 +55,7 @@ public interface RisikoInterface {
 	
 	public boolean moveUnitsGueltig(Land von, Land zu, int units);
 	
-	public Player playerAnlegen(String name, String farbe, int iD) throws SpielerNameExistiertBereitsException;
+	public void playerAnlegen(String name, String farbe, int iD) throws SpielerNameExistiertBereitsException;
 	
 	public void setColorArray(Color color); //TODO: kann wahrscheinlich auch in PlayerAnlegen
 	
@@ -65,11 +65,13 @@ public interface RisikoInterface {
 	
 	public String setFarbeAuswaehlen(String farbe);
 	
-	public void verteileEinheiten();
+	public void spielAufbau();
 	
-	public void verteileMissionen();
-	
-	public void setzeAktivenPlayer();
+//	public void verteileEinheiten();
+//	
+//	public void verteileMissionen();
+//	
+//	public void setzeAktivenPlayer();
 	
 	public ArrayList<Player> getPlayerArray();
 	
