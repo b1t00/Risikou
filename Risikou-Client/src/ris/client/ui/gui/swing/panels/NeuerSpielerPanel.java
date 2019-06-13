@@ -63,7 +63,7 @@ public class NeuerSpielerPanel extends JPanel {
 
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
-				farbe = risiko.setFarbeAuswaehlen(farbe);
+//				farbe = risiko.setFarbeAuswaehlen(farbe);
 //				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
 				System.out.println("name : " + name);
