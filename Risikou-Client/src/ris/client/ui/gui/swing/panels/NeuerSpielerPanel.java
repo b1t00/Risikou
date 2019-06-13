@@ -169,6 +169,5 @@ public class NeuerSpielerPanel extends JPanel {
 			risiko.setColorArray(new Color(0, 0, 0));
 			break;
 		}
-
 	}
 }

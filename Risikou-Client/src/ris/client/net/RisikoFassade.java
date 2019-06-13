@@ -70,7 +70,10 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Player gibAktivenPlayer() {
-		// TODO Auto-generated method stub
+		Player aktiverPlayer;
+		
+		sout.println("aP");
+		
 		return null;
 	}
 
@@ -256,8 +259,26 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public ArrayList<String> getFarbauswahl() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<String> farbauswahl = new ArrayList<String>();
+		
+		sout.println("fa");
+		
+		String antwort = "";
+		try {
+			antwort = sin.readLine();
+			int anzahl = Integer.parseInt(antwort);
+			for(int i=0; i<anzahl; i++) {
+				String farbe;
+				String antwort2 = "";
+				antwort = sin.readLine();
+				farbauswahl.add(antwort);
+			}
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+			return null;
+		}
+		
+		return farbauswahl;
 	}
 
 	@Override

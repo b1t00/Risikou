@@ -35,11 +35,11 @@ public class Risiko implements RisikoInterface, Serializable {
 	public Risiko() {
 		worldMg = new WorldManagement();
 		playerMg = new PlayerManagement();
-		turn = new Turn();
+		turn = new Turn(playerMg.getPlayers());
 		logik = new Spiellogik(worldMg, playerMg, turn);
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
-		turn.state = State.SETUNITS;
+//		turn.state = State.SETUNITS;
 		game = new GameObject(playerMg.getPlayers(), turn);
 	}
 
@@ -76,14 +76,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		logik.verteileMissionen();
 	}
 
-	// @to: Methode die sagt wer anf�ngt ... #to generelle frage: die methoden
-	// werden hier einfach nur stumpf weitergeleitet, damit man von der cui drauf
-	// zugreifen kann.
-	// wei� ncht ob das richtig ist, in der bibliothek wirds �hnlich gemacht.
-	// #losch
-	// @annie: ich glaub das ist richtig so
-	// beachte.. verteileEinheiten sollte vor dieser Methode implementiert werden..
-	// ansonsten machts ja auch kein sinn
+	// @to: Methode die sagt wer anfaengt
 	public void whoBegins() {
 		turn.setAktivenPlayer(logik.whoBegins());
 		turn.setPlayerList(playerMg.getPlayers());
@@ -94,7 +87,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return player;
 	}
 
-	// TODO: diese methode kann wahrschienich weg, nochmal �berpr�fen!
+	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!
 	public void setzeAktivenPlayer() {
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
@@ -176,7 +169,7 @@ public class Risiko implements RisikoInterface, Serializable {
 
 //	****************************RISIKOKARTEN************************************
 
-	// ALTE METHODE, KANN GEL�SCHT WERDEN
+	// ALTE METHODE, KANN GELOESCHT WERDEN
 //	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
 //		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
 //	}

@@ -9,22 +9,18 @@ public class Turn implements Serializable{
 	
 	private Player aktiverPlayer;
 	//state steht für Spielphase
-	//TODO: muss noch private gemacht werdem
-	public State state;
+	private State state;
 	private int spielrunden;
 	private ArrayList<Player> playerList;
-//	private PlayerManagement playerMg;
 //	tauschzeit und landclickzeit sind werte fuer die gui, stehen diese auf true werden clicks ausgewertet, bei false werden sie ignoriert
 	private boolean tauschZeit = false;
 	private boolean landClickZeit = false;
 	
-	//TODO:einkommentieren
-//	public Turn(PlayerManagement playerMg) {
-//		this.state = State.SETUNITS;
-//		this.playerMg = playerMg;
-//		playerList = playerMg.getPlayers();
-//		spielrunden = 0;
-//	}
+	public Turn(ArrayList<Player> playerList) {
+		this.state = State.SETUNITS;
+		this.playerList = playerList;
+		spielrunden = 0;
+	}
 
 	public void setNextState() {
 		this.state = this.state.setNextState();
