@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import ris.common.interfaces.RisikoInterface;
@@ -115,21 +117,17 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public int errechneVerfuegbareEinheiten(Player play) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setLandClickZeit(boolean obLandClickbar) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setTauschZeit(boolean obTauschbar) {
-		// TODO Auto-generated method stub
-
+	public int errechneVerfuegbareEinheiten() {
+		sout.println("errechneVerfuegbareEinheiten");
+		
+		int units = 0;
+		try {
+			units = (Integer) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return units;
 	}
 
 	@Override
@@ -214,26 +212,71 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void spielSpeichern(String name) {
-		// TODO Auto-generated method stub
-
+		sout.println("spielSpeichern");
+		//muss hier noch darauf gewartet werden, dass der server sein ok gibt?
+		sout.println(name);
+	}
+	
+	@Override
+	public String[] getSpielladeDateien() {
+		String[] verzeichnis = new String[10];
+		
+		sout.println("getSpielladeDateien");
+		try {
+			verzeichnis = (String[]) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return verzeichnis;
 	}
 
 	@Override
 	public void spielLaden(String name) {
-		// TODO Auto-generated method stub
-
+		sout.println("spielLaden");
+		sout.println(name);
 	}
 
 	@Override
 	public boolean getLandClickZeit() {
-		// TODO Auto-generated method stub
-		return false;
+		boolean landClickZeit = false;
+		
+		sout.println("getLandClickZeit");
+		try {
+			landClickZeit = (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return landClickZeit;
 	}
 
 	@Override
 	public boolean getTauschZeit() {
+		boolean tauschZeit = false;
+		
+		sout.println("getTauschZeit");
+		try {
+			tauschZeit = (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return tauschZeit;
+	}
+	
+	@Override
+	public void setLandClickZeit(boolean obLandClickbar) {
+		sout.println("setLandClickZeit");
+		sout.println(obLandClickbar);
+	}
+
+	@Override
+	public void setTauschZeit(boolean obTauschbar) {
 		// TODO Auto-generated method stub
-		return false;
+
 	}
 
 	@Override
@@ -303,6 +346,14 @@ public class RisikoFassade implements RisikoInterface {
 	public String setFarbeAuswaehlen(String farbe) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public void setEinheiten(Land land, int units) {
+		sout.println("setEinheiten");
+//		die ID vom Land wird verschickt -> Methode getLandByID
+		sout.println(land.getNummer());
+		sout.println(units);
 	}
 
 }

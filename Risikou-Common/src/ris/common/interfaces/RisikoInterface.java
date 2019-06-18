@@ -1,6 +1,8 @@
 package ris.common.interfaces;
 
 import java.awt.Color;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
@@ -27,7 +29,7 @@ public interface RisikoInterface {
 	
 	public void setNextPlayer();
 	
-	public int errechneVerfuegbareEinheiten(Player play);
+	public int errechneVerfuegbareEinheiten();
 	
 	public boolean getLandClickZeit();
 	
@@ -75,9 +77,13 @@ public interface RisikoInterface {
 	
 	public void spielSpeichern(String name);
 	
+	public String[] getSpielladeDateien();
+	
 	public void spielLaden(String name) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException;
 	
 	public void spielAufbau();
+	
+	public void setEinheiten(Land land, int units);
 	
 	
 }

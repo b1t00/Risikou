@@ -8,21 +8,19 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
+import ris.common.valueobjects.Land;
 
 public class ClientRequestProcessor implements Runnable {
 
-	private ArrayList<Object> aL;
-	
+	private ArrayList<Object> aL;	
 	private RisikoInterface risiko;
-
 	private Socket clientSocket;
-
 	private BufferedReader in;
-
 	private PrintStream out;
-	
 	private ObjectOutputStream oos;
 
 	public ClientRequestProcessor(Socket socket, RisikoInterface risiko) {
@@ -52,7 +50,7 @@ public class ClientRequestProcessor implements Runnable {
 
 		String input = "";
 
-		out.println("Server an Client: Bin Bereit für den Kampf");
+		out.println("Server an Client: Bin bereit fuer den Kampf");
 
 		do {
 			// Beginn der Benutzerinteraktion:
@@ -111,6 +109,106 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "spielSpeichern":
+				String name = null;
+				try {
+					name = in.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				risiko.spielSpeichern(name);
+				break;
+			case "getSpielladeDateien":
+				try {
+					oos.writeObject(risiko.getSpielladeDateien());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
+			case "spielLaden":
+				String datei = null;
+				try {
+					datei = in.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					risiko.spielLaden(datei);
+				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			case "getLandClickZeit":
+				try {
+					oos.writeObject(risiko.getLandClickZeit());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "setLandClickZeit":
+				boolean obLandClickBar = false;
+				String clickBar = ""; 
+				try {
+					clickBar = in.readLine();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (clickBar.equals(true))
+					obLandClickBar = true;
+				risiko.setLandClickZeit(obLandClickBar);
+				break;
+			case "getTauschZeit":
+				try {
+					oos.writeObject(risiko.getTauschZeit());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "setTauschZeit":
+				boolean obTauschBar = false;
+				String tauschBar = ""; 
+				try {
+					tauschBar = in.readLine();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				if (tauschBar.equals(true))
+					obLandClickBar = true;
+				risiko.setLandClickZeit(obTauschBar);
+				break;
+			case "errechneVerfuegbareEinheiten":
+				try {
+					oos.writeObject(risiko.errechneVerfuegbareEinheiten());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case "setEinheiten":
+				int landID = 0;
+				int units = 0;
+				Land land = null;
+				try {
+					landID = Integer.parseInt(in.readLine());
+					units = Integer.parseInt(in.readLine());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					land = risiko.getLandById(landID);
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				risiko.setEinheiten(land, units);	
 			}
 //			if (input == null) {
 //				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht

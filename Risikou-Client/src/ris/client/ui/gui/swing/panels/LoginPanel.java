@@ -41,7 +41,6 @@ public class LoginPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				client.spielLaden("neu");
 				client.zweitausendaLook();
 				client.showLadePanel();
 			}

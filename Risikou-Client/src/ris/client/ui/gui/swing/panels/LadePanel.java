@@ -7,13 +7,12 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 
-import ris.client.ui.gui.swing.panels.LadePanel.LadeListener;
+import ris.common.interfaces.RisikoInterface;
 
 public class LadePanel extends JPanel {
 
@@ -24,31 +23,21 @@ public class LadePanel extends JPanel {
 	private LadeListener listener;
 	private JButton ladeButton = new JButton("Laden");
 	private JList<String> alleDateien; 
+	private RisikoInterface risiko;
 	
 	
-	public LadePanel(LadeListener listener) {
+	public LadePanel(LadeListener listener, RisikoInterface risiko) {
 		this.listener = listener;
+		this.risiko = risiko;
 		setupUI();
 		setupEvents();
 	}
 	
 	public void setupUI() {
-		String[] verzeichnis = new String[10];
-		//System.getProperty("file.separator") macht es möglich, mit unterschiedlichen Betriebssystemen den Pfad zu laden
-		Path dir = Paths.get("files" + System.getProperty("file.separator"));
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
-			int i = 0;
-		      for (Path entry: stream) {
-		    	  verzeichnis[i] = entry.getFileName().toString();
-		    	  i++;
-		         System.out.println("Datei: " + entry.getFileName());
-		      }
-		} catch (IOException e) {
-				e.printStackTrace();
-		}
+		System.out.println("Fehler1");
+
+		String[] verzeichnis = risiko.getSpielladeDateien();
 		alleDateien = new JList<String>(verzeichnis);
-		
-		
 		this.add(ladeButton);
 		this.add(alleDateien);
 	}

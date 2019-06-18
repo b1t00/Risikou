@@ -11,18 +11,12 @@ import ris.common.interfaces.RisikoInterface;
 
 public class SetUnitsPanel extends JPanel {
 	
-	public interface SetUnitsListener {
-		//methods
-	}
-	
-	private SetUnitsListener listener;
 	private int units;
 	private RisikoInterface ris;
 	private JLabel titel = new JLabel("Set units");
 	private JTextArea info;
 	
 	public SetUnitsPanel (int einheiten, RisikoInterface risiko) {
-//		listener = sul;
 		this.units = einheiten;
 		ris = risiko;
 		

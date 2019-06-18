@@ -45,8 +45,7 @@ public class MiniRisServer {
 				Thread t = new Thread(c);
 				t.start();
 			}
-		} catch (IOException e) {
-		}
+		} catch (IOException e) {}
 	}
 
 	public static void main(String[] args) {

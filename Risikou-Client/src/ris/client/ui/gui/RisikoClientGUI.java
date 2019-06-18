@@ -108,7 +108,7 @@ public class RisikoClientGUI extends JFrame
 	public RisikoClientGUI(String host, int port) {
 		
 		zweitausendaLook();
-		risiko = new RisikoFassade(host ,port);
+		risiko = new RisikoFassade(host, port);
 		initializeLoginPl();
 //		testSetUp(); // legt drei spieler an. zum testen
 //		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
@@ -119,7 +119,6 @@ public class RisikoClientGUI extends JFrame
 		loginPl = new LoginPanel(this);
 		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
-//		ladePl = new LadePanel(this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
 		setSize(new Dimension(340, 340)); // größe vom Loginpanel
@@ -128,7 +127,6 @@ public class RisikoClientGUI extends JFrame
 		setVisible(true);
 	}
 
-	
 	private void initializeGamePl() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
@@ -229,7 +227,7 @@ public class RisikoClientGUI extends JFrame
 
 	public void showSetUnits() {
 		dialogPl.update("setUnits");
-		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer());
+		int units = risiko.errechneVerfuegbareEinheiten();
 		System.out.println("Verfügbare Einheiten: " + units);
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
@@ -443,6 +441,7 @@ public class RisikoClientGUI extends JFrame
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			try {
+				risiko.setEinheiten(land, 1);
 				land.setEinheiten(1);
 				updateWorld();
 				dialogPl.update(land);
@@ -536,6 +535,7 @@ public class RisikoClientGUI extends JFrame
 	}
 	
 	public void showLadePanel() {
+		ladePl = new LadePanel(this, risiko);
 		showPanel(ladePl);
 	}
 
@@ -609,7 +609,7 @@ public class RisikoClientGUI extends JFrame
 	
 	public void showSetUnits(int plus) {
 		dialogPl.update("setUnits");
-		int units = risiko.errechneVerfuegbareEinheiten(risiko.gibAktivenPlayer()) + plus;
+		int units = risiko.errechneVerfuegbareEinheiten() + plus;
 		System.out.println("Verfuegbare Einheiten: " + units);
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
@@ -704,6 +704,7 @@ public class RisikoClientGUI extends JFrame
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println("hier gehts weiter");
 		showGamePanel();
 	}
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import ris.client.net.RisikoFassade;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -17,14 +18,14 @@ import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
 import ris.common.valueobjects.Risikokarte.Symbol;
 
-public class RisikoClientUI implements RisikoInterface{
+public class RisikoClientUI {
 
-	private Risiko risiko;
+	private RisikoInterface risiko;
 	private BufferedReader in;
 
 	// Konstruktor
 	private RisikoClientUI() {
-		risiko = new Risiko();
+		risiko = new RisikoFassade();
 		in = new BufferedReader(new InputStreamReader(System.in));
 	}
 

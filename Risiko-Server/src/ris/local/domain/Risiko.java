@@ -1,7 +1,12 @@
 package ris.local.domain;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.DirectoryStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -157,7 +162,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return false;
 	}
 
-	// gibt zurï¿½ck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
+	// gibt zurueck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
 	//TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder aendern! 
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
@@ -215,8 +220,8 @@ public class Risiko implements RisikoInterface, Serializable {
 	// WELT AUSGABE <-
 
 	// ----------------------------------------einheiten-------------------------------------------------
-	public int errechneVerfuegbareEinheiten(Player aktiverPlayer) {
-		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(aktiverPlayer);
+	public int errechneVerfuegbareEinheiten() {
+		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(turn.gibAktivenPlayer());
 		return verfuegbareEinheiten;
 	}
 	// ----------------------------------------einheiten-------------------------------------------------
@@ -302,6 +307,29 @@ public class Risiko implements RisikoInterface, Serializable {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		fileMg.speichern(game, datei);
 	}
+	
+	public String[] getSpielladeDateien(){
+//		in verzeichnis werden die dateien als string gespeichert 
+		String[] verzeichnis = new String[10];
+		
+//		dann werden die dateien ausgelesen
+		//System.getProperty("file.separator") macht es möglich, mit unterschiedlichen Betriebssystemen den Pfad zu laden
+		Path dir = Paths.get("files" + System.getProperty("file.separator"));
+		DirectoryStream<Path> stream = null;
+		try {
+			stream = Files.newDirectoryStream(dir);
+//			dann werden die dateien in den array geschrieben
+			int i = 0;
+		      for (Path entry: stream) {
+		    	  verzeichnis[i] = entry.getFileName().toString();
+		    	  i++;
+		      }
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return verzeichnis;
+	}
 
 	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
@@ -341,6 +369,15 @@ public class Risiko implements RisikoInterface, Serializable {
 			System.out.println("eigentlich fertig geladen");
 		} else {
 			System.out.println("datei wohl = null");
+		}
+	}
+	
+	public void setEinheiten(Land land, int units) {
+		try {
+			land.setEinheiten(units);
+		} catch (ZuWenigEinheitenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
