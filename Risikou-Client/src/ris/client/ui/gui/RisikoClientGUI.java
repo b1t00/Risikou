@@ -195,13 +195,6 @@ public class RisikoClientGUI extends JFrame
 			eintauschPl = new EintauschPanel(this, risiko);
 			container.add(eintauschPl, "eintausch");
 			cl.show(container, "eintausch");
-//			if(risiko.gibAktivenPlayer().changePossible()) {
-//				changeCardsPl = new QuestionPanel(this, risiko, "state");
-//				container.add(changeCardsPl, "changeCards");
-//				cl.show(container, "changeCards");
-//			} else {
-//				showSetUnits();
-//			}
 			break;
 		case ATTACK:
 			if(risiko.kannAngreifen(risiko.gibAktivenPlayer())) {
@@ -512,9 +505,9 @@ public class RisikoClientGUI extends JFrame
 		} catch (SpielerNameExistiertBereitsException e) {
 			System.out.println(e.getLocalizedMessage());
 		}
-		risiko.setColorArray(new Color(226, 19, 43));
-		risiko.setColorArray(new Color(23, 119, 50));
-		risiko.setColorArray(new Color(30, 53, 214));
+//		risiko.set(new Color(226, 19, 43));
+//		risiko.setColorArray(new Color(23, 119, 50));
+//		risiko.setColorArray(new Color(30, 53, 214));
 		risiko.spielAufbau();
 		for (int x = 0; x < 10; x++) {
 			System.out.println("hier :" + x % 3);

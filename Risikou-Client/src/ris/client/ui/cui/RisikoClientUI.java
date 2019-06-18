@@ -1,4 +1,4 @@
-package ris.local.ui.cui;
+package ris.client.ui.cui;
 
 import java.io.BufferedReader;
 import java.io.IOException;

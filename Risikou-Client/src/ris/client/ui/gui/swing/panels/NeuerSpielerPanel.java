@@ -91,6 +91,7 @@ public class NeuerSpielerPanel extends JPanel {
 					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
 //					im Spielaufbau werden Einheiten und Missionen verteilt sowie der erste Spieler bestimmt
 					risiko.spielAufbau();
+					System.out.println("Nummer: " + risiko.gibAktivenPlayer().getNummer());
 					client.showGamePanel();
 				}
 				// TODO: Sysos sind nur zum testen. koennen weg
@@ -149,28 +150,4 @@ public class NeuerSpielerPanel extends JPanel {
 
 		this.add(hinzufuegen, gc);
 	}
-
-//	diese methode am besten in risiko auslagern, wird auch dort beim laden benötigt
-//	public void colorArraySetzten(String farbe) {
-//		switch (farbe) {
-//		case "rot":
-//			risiko.setColorArray(new Color(226, 19, 43));
-//			break;
-//		case "gruen":
-//			risiko.setColorArray(new Color(23, 119, 50));
-//			break;
-//		case "blau":
-//			risiko.setColorArray(new Color(30, 53, 214));
-//			break;
-//		case "pink":
-//			risiko.setColorArray(new Color(255, 51, 245));
-//			break;
-//		case "weiss":
-//			risiko.setColorArray(new Color(255, 255, 255));
-//			break;
-//		case "schwarz":
-//			risiko.setColorArray(new Color(0, 0, 0));
-//			break;
-//		}
-//	}
 }

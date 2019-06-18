@@ -1,4 +1,4 @@
-package ris.local.ui.gui.swing.models;
+package ris.client.ui.gui.swing.models;
 
 public class models {
 

@@ -90,6 +90,8 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
 		Player player = playerMg.addPlayer(name, farbe, nummer);
+		//Farbe wird dem Colorarray hn
+		setColorArray(farbe);
 //		return player;
 	}
 
@@ -281,8 +283,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
-	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public boolean kannVerschieben(Player player) {
 		return logik.kannVerschieben(player);
@@ -312,37 +313,14 @@ public class Risiko implements RisikoInterface, Serializable {
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
-//				die farbe muss dem colorarray hinzugef�gt werden
-				
-				//Diese methode am besten noch auslagern, die identische methode befindet sihc auch im neue spieler panel
-					switch (game.getAllePlayer().get(i).getFarbe()) {
-					case "rot":
-						setColorArray(new Color(226, 19, 43));
-						break;
-					case "gruen":
-						setColorArray(new Color(23, 119, 50));
-						break;
-					case "blau":
-						setColorArray(new Color(30, 53, 214));
-						break;
-					case "pink":
-						setColorArray(new Color(255, 51, 245));
-						break;
-					case "weiss":
-						setColorArray(new Color(255, 255, 255));
-						break;
-					case "schwarz":
-						setColorArray(new Color(0, 0, 0));
-						break;
-					}
 
-				//im anschluss werden die L�nder entsprechend verteilt
+				//im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				//und die Risikokarten
 				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				//und f�r jedes Land werden die Einheiten neu gesetzt
+				//und fuer jedes Land werden die Einheiten neu gesetzt
 				for(Land loadedLand: loadedPlayer.getBesitz()) {
 					Land land = null;
 					//TODO: das catchen an andere Stelle!
@@ -380,8 +358,8 @@ public class Risiko implements RisikoInterface, Serializable {
 		return playerMg.getColorArray();
 	}
 
-	public void setColorArray(Color color) {
-		playerMg.setColorArray(color);
+	public void setColorArray(String farbe) {
+		playerMg.setColorArray(farbe);
 	}
 
 	public boolean getRichtigeEingabe() {

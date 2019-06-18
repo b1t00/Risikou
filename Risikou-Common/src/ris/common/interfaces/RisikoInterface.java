@@ -57,8 +57,6 @@ public interface RisikoInterface {
 	
 	public void playerAnlegen(String name, String farbe, int iD) throws SpielerNameExistiertBereitsException;
 	
-	public void setColorArray(Color color); //TODO: kann wahrscheinlich auch in PlayerAnlegen
-	
 	public ArrayList<Color> getColorArray();
 	
 	public ArrayList<String> getFarbauswahl();

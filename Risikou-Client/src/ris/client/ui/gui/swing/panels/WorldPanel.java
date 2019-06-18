@@ -202,6 +202,8 @@ public class WorldPanel extends JPanel {
 	    		}
 	    	}
 	    }
+	    
+	    
 
 	// Getter Methoden
 	public int getAttackState() {

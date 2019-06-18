@@ -83,14 +83,40 @@ public class PlayerManagement implements Serializable {
 				throw new SpielerNameExistiertBereitsException(name, farbe, nummer);
 			}
 		}
+		setColorArray(farbe);
 		gamerListe.add(player);
 		return player;
 	}
+	
 	public ArrayList<Color> getColorArray() {
 		return colorArray;
 	}
+	
+	public void setColorArray(String farbe) {
+		switch (farbe) {
+		case "rot":
+			addColor(new Color(226, 19, 43));
+			break;
+		case "gruen":
+			addColor(new Color(23, 119, 50));
+			break;
+		case "blau":
+			addColor(new Color(30, 53, 214));
+			break;
+		case "pink":
+			addColor(new Color(255, 51, 245));
+			break;
+		case "weiss":
+			addColor(new Color(255, 255, 255));
+			break;
+		case "schwarz":
+			addColor(new Color(0, 0, 0));
+			break;
+			}
+	}
 
-	public void setColorArray(Color color) {
+
+	public void addColor(Color color) {
 		this.colorArray.add(color);
 	}
 }

@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -21,11 +22,13 @@ public class RisikoFassade implements RisikoInterface {
 	private Socket socket = null;
 	private BufferedReader sin;
 	private PrintStream sout;
+	private ObjectInputStream ois;
 
 	public RisikoFassade(String host, int port) {
 		try {
 			socket = new Socket(host, port);
 			InputStream is = socket.getInputStream();
+			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
 		} catch (UnknownHostException e) {
@@ -58,8 +61,16 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public State getCurrentState() {
-		// TODO Auto-generated method stub
-		return null;
+		State currentState = null;
+		sout.println("getCurrentState");
+		
+		try {
+			currentState = (State) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return currentState;
 	}
 
 	@Override
@@ -70,11 +81,19 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Player gibAktivenPlayer() {
-		Player aktiverPlayer;
+		Player aktiverPlayer = null;
 		
 		sout.println("gibAktivenPlayer");
-		
-		return null;
+		try {
+			aktiverPlayer = (Player) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return aktiverPlayer;
 	}
 
 	@Override
@@ -152,20 +171,21 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(ID.toString());
 	}
 
-	@Override
-	public void setColorArray(Color color) {
-		// TODO Auto-generated method stub
-
-	}
-
 	public void spielAufbau() {
 		sout.println("spielAufbau");
 	}
 
 	@Override
 	public ArrayList<Player> getPlayerArray() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Player> allePlayer = new ArrayList<Player>();
+		sout.println("getPlayerArray");	
+		try {
+			allePlayer = (ArrayList<Player>) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return allePlayer;
 	}
 
 	@Override
@@ -242,8 +262,18 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public ArrayList<Color> getColorArray() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Color> ColorArray = new ArrayList<Color>();
+		sout.println("getColorArray");
+		try {
+			ColorArray = (ArrayList<Color>) ois.readObject();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ColorArray;
 	}
 
 	@Override
@@ -251,7 +281,6 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<String> farbauswahl = new ArrayList<String>();
 		
 		sout.println("getFarbauswahl");
-		System.out.println("hier angekommen");
 		
 		String antwort = "";
 		try {
