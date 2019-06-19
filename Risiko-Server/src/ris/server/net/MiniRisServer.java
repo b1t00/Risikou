@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import ris.common.interfaces.RisikoInterface;
+import ris.common.interfaces.ServerInterface;
 import ris.local.domain.Risiko;
 
 public class MiniRisServer {
@@ -15,9 +16,11 @@ public class MiniRisServer {
 	protected int port;
 	protected ServerSocket serverSocket;
 	private RisikoInterface risiko;
+	private ServerInterface serverFassade;
 
 	public MiniRisServer(int port) {
 		risiko = new Risiko();
+		serverFassade = new ServerFassade();
 
 		if (port == 0) {
 			port = DEFAULT_PORT;
