@@ -194,8 +194,17 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Land getLandById(int landId) {
-		// TODO Auto-generated method stub
-		return null;
+		sout.println("getLandById");
+		sout.println(landId);
+		
+		Land land = null;
+		try {
+			land = (Land) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return land;
 	}
 
 	@Override
@@ -239,7 +248,7 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean getLandClickZeit() {
-		boolean landClickZeit = false;
+		boolean landClickZeit = true;
 		
 		sout.println("getLandClickZeit");
 		try {
@@ -248,7 +257,7 @@ public class RisikoFassade implements RisikoInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println("clickzeit: " + landClickZeit);
 		return landClickZeit;
 	}
 

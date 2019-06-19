@@ -150,7 +150,6 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				break;
 			case "setLandClickZeit":
-				boolean obLandClickBar = false;
 				String clickBar = ""; 
 				try {
 					clickBar = in.readLine();
@@ -158,8 +157,7 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if (clickBar.equals(true))
-					obLandClickBar = true;
+				boolean obLandClickBar = Boolean.parseBoolean(clickBar);
 				risiko.setLandClickZeit(obLandClickBar);
 				break;
 			case "getTauschZeit":
@@ -208,7 +206,16 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				risiko.setEinheiten(land, units);	
+				risiko.setEinheiten(land, units);
+				break;
+			case "getLandById":
+				try {
+					int landById = Integer.parseInt(in.readLine());
+				} catch (NumberFormatException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 			}
 //			if (input == null) {
 //				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht

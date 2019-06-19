@@ -440,6 +440,7 @@ public class RisikoClientGUI extends JFrame
 	public void countryClicked(Land land) {
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
+			System.out.println("wurde verarbeitet");
 			try {
 				risiko.setEinheiten(land, 1);
 				land.setEinheiten(1);
