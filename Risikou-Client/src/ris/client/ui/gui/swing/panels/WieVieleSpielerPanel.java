@@ -1,10 +1,7 @@
 package ris.client.ui.gui.swing.panels;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Panel;
-import java.awt.TexturePaint;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ris.client.ui.gui.RisikoClientGUI;
+import ris.common.interfaces.RisikoInterface;
 
 public class WieVieleSpielerPanel extends JPanel {
 
@@ -23,11 +21,13 @@ public class WieVieleSpielerPanel extends JPanel {
 	private JButton starteSpiel;
 	private JButton zurueck;
 	private RisikoClientGUI client;
+	private RisikoInterface risiko;
 
 	int anzahlSpieler = 0;
 
-	public WieVieleSpielerPanel(RisikoClientGUI client) {
+	public WieVieleSpielerPanel(RisikoClientGUI client, RisikoInterface risiko) {
 		this.client = client;
+		this.risiko = risiko;
 		setup();
 
 	}
@@ -49,7 +49,7 @@ public class WieVieleSpielerPanel extends JPanel {
 							JOptionPane.ERROR_MESSAGE);
 				}
 				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
-
+					risiko.setSpielerAnzahl(anzahlSpieler);
 					client.showNeuerSpielerPanel();
 				} else {
 					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");

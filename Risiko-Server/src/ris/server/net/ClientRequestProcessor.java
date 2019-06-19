@@ -95,6 +95,17 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "setSpielerAnzahl":
+				int spielerAnzahl = 0;
+				try {
+					spielerAnzahl = Integer.parseInt(in.readLine());
+				} catch (NumberFormatException | IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				risiko.setSpielerAnzahl(spielerAnzahl);
+			case "getSpielerAnzahl":
+				out.println(risiko.getSpielerAnzahl());
 			case "getPlayerArray":
 				try {
 					oos.writeObject(risiko.getPlayerArray());

@@ -13,6 +13,7 @@ public class PlayerManagement implements Serializable {
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
 	private boolean falscheEingabe;
 	private ArrayList<Color> colorArray;
+	private int spielerAnzahl;
 
 	public PlayerManagement() {
 		farbenAuswahl.add("rot"); // 0
@@ -71,6 +72,14 @@ public class PlayerManagement implements Serializable {
 		return gamerListe;
 	}
 
+	public void setSpielerAnzahl(int spielerAnzahl) {
+		this.spielerAnzahl = spielerAnzahl;
+	}
+	
+	public int getSpielerAnzahl() {
+		return spielerAnzahl;
+	}
+	
 //	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen ^^
 	public int getAnzahlPlayer() {
 		return gamerListe.size();
@@ -114,7 +123,6 @@ public class PlayerManagement implements Serializable {
 			break;
 			}
 	}
-
 
 	public void addColor(Color color) {
 		this.colorArray.add(color);

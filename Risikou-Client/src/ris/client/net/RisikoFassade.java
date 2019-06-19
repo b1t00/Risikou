@@ -169,8 +169,28 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(ID.toString());
 	}
 
+	@Override
 	public void spielAufbau() {
 		sout.println("spielAufbau");
+	}
+	
+	@Override
+	public void setSpielerAnzahl(int spielerAnzahl) {
+		sout.println("setSpielerAnzahl");
+		sout.println(spielerAnzahl);
+	}
+	
+	@Override
+	public int getSpielerAnzahl() {
+		sout.println("getSpielerAnzahl");
+		int spielerAnzahl = 0;
+		try {
+			spielerAnzahl = Integer.parseInt(sin.readLine());
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return spielerAnzahl;
 	}
 
 	@Override

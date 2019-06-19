@@ -114,7 +114,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
-		wieVielePl = new WieVieleSpielerPanel(this);
+		wieVielePl = new WieVieleSpielerPanel(this, risiko);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
@@ -125,6 +125,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	private void initializeGamePl() {
+		risiko.spielAufbau();
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
 		System.out.println(xSize);
@@ -172,7 +173,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dicePl = new DicePanel();
 		container.add(dicePl, "dice");
 		this.setVisible(true);
-
 	}
 
 	public void showGamePl() {
@@ -543,14 +543,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		// synchronised
 //		showNeuerSpielerPanel();
 //	}
-
-	public void showLoginPanel() {
-//		loginPl.setPreferredSize(new Dimension(50, 50));
-		this.pack();
-		showPanel(loginPl);
-	}
-
-
+	
 	public void showNeuesSpielPanel() {
 		if (risiko.getPlayerArray().size() == 0) {
 			showPanel(wieVielePl);
@@ -558,7 +551,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			showNeuerSpielerPanel();
 		}
 	}
-	
+
+	public void showLoginPanel() {
+//		loginPl.setPreferredSize(new Dimension(50, 50));
+		this.pack();
+		showPanel(loginPl);
+	}
 
 	public void showLadePanel() {
 		ladePl = new LadePanel(this, risiko);

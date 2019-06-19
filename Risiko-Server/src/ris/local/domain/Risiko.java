@@ -71,17 +71,9 @@ public class Risiko implements RisikoInterface, Serializable {
 	public void setLandClickZeit(boolean landClickZeit) {
 		turn.setLandClickZeit(landClickZeit);
 	}
-
-	// @to: Methode um Laender am Anfang zufaellig zu verteilen;
-//	public void verteileEinheiten() {
-//		logik.verteileEinheiten();
-//	}
-//
-//	public void verteileMissionen() {
-//		logik.verteileMissionen();
-//	}
 	
 	public void spielAufbau() {
+		System.out.println("spiel wird aufgebaut!");
 		logik.verteileEinheiten();
 		logik.verteileMissionen();
 		setzeAktivenPlayer();
@@ -91,6 +83,14 @@ public class Risiko implements RisikoInterface, Serializable {
 	public void whoBegins() {
 		turn.setAktivenPlayer(logik.whoBegins());
 		turn.setPlayerList(playerMg.getPlayers());
+	}
+	
+	public void setSpielerAnzahl(int spielerAnzahl) {
+		playerMg.setSpielerAnzahl(spielerAnzahl);
+	}
+	
+	public int getSpielerAnzahl() {
+		return playerMg.getSpielerAnzahl();
 	}
 
 	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {

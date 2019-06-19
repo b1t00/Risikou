@@ -46,6 +46,7 @@ public class NeuerSpielerPanel extends JPanel {
 		for(String farbe : risiko.getFarbauswahl()) {
 			System.out.println(farbe);
 		}
+		
 		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); // moeglichkeit
 																											// ArrayList<String>
 																											// zu einem
@@ -69,9 +70,9 @@ public class NeuerSpielerPanel extends JPanel {
 				System.out.println("name : " + name);
 				System.out.println(risiko.getFarbauswahl() + " funktioniert leider nicht"); // TODO: geht leider net
 				if (name.equals("")) {
-					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswahlen");
-				} else if (x < client.getSpielerAnzahl()) {
-
+					//TODO: falls name schon vergeben ist
+					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswaehlen");
+				} else {
 					try {
 						risiko.playerAnlegen(name, farbe, x);
 					} catch (SpielerNameExistiertBereitsException e1) {
@@ -86,19 +87,21 @@ public class NeuerSpielerPanel extends JPanel {
 					farbauswahlCB.removeItemAt(farbIndex);
 //					client.showNeuerSpielerPanel();
 //					warten-panel
+					System.out.println("wartet auf nächsten spieler");
 					while(true) {
-					if(risiko.getPlayerArray().size() == 2)
+						//TODO: wait() methode? statt while schleife
+					if(risiko.getPlayerArray().size() == risiko.getSpielerAnzahl())
 						client.showGamePanel();
 					}
+				}
 
-				}
-				if (x == client.getSpielerAnzahl()) {
-					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
-//					im Spielaufbau werden Einheiten und Missionen verteilt sowie der erste Spieler bestimmt
-					risiko.spielAufbau();
-					System.out.println("Nummer: " + risiko.gibAktivenPlayer().getNummer());
-					client.showGamePanel();
-				}
+				//				if (x == client.getSpielerAnzahl()) {
+//					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
+////					im Spielaufbau werden Einheiten und Missionen verteilt sowie der erste Spieler bestimmt
+//					risiko.spielAufbau();
+//					System.out.println("Nummer: " + risiko.gibAktivenPlayer().getNummer());
+//					client.showGamePanel();
+//				}
 				// TODO: Sysos sind nur zum testen. koennen weg
 //				System.out.println(risiko.getPlayerArray());
 //				for (int i = 0; i < risiko.getPlayerArray().size(); i++) {

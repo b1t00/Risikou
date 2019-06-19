@@ -85,5 +85,9 @@ public interface RisikoInterface {
 	
 	public void setEinheiten(Land land, int units);
 	
+	public void setSpielerAnzahl(int spielerAnzahl);
+	
+	public int getSpielerAnzahl();
+	
 	
 }
