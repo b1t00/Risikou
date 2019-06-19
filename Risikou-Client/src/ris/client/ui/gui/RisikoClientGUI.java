@@ -117,7 +117,6 @@ public class RisikoClientGUI extends JFrame
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
-		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
@@ -526,7 +525,10 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public void showNeuesSpielPanel() {
-		showPanel(wieVielePl);
+		if (risiko.getPlayerArray().size() == 0) 
+			wieVielePl = new WieVieleSpielerPanel(this);			
+			showPanel(wieVielePl);
+		showNeuerSpielerPanel();
 	}
 
 	public void showLoginPanel() {
