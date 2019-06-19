@@ -117,6 +117,7 @@ public class RisikoClientGUI extends JFrame
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
+		wieVielePl = new WieVieleSpielerPanel(this);
 		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
@@ -523,18 +524,19 @@ public class RisikoClientGUI extends JFrame
 		c.revalidate();
 		c.repaint();
 	}
-
-	public void showNeuesSpielPanel() {
-		if (risiko.getPlayerArray().size() == 0) 
-			wieVielePl = new WieVieleSpielerPanel(this);			
-			showPanel(wieVielePl);
-		showNeuerSpielerPanel();
-	}
-
+	
 	public void showLoginPanel() {
 //		loginPl.setPreferredSize(new Dimension(50, 50));
 		this.pack();
 		showPanel(loginPl);
+	}
+
+	public void showNeuesSpielPanel() {
+		if (risiko.getPlayerArray().size() == 0) {
+			showPanel(wieVielePl);
+		} else {
+			showNeuerSpielerPanel();
+		}
 	}
 	
 	public void showLadePanel() {

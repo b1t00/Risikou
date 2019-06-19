@@ -84,7 +84,10 @@ public class NeuerSpielerPanel extends JPanel {
 //					nameLabel.revalidate();
 //					nameLabel.repaint();
 					farbauswahlCB.removeItemAt(farbIndex);
-					client.showNeuerSpielerPanel();
+//					client.showNeuerSpielerPanel();
+//					warten-panel
+					if(risiko.getPlayerArray().size() == 2)
+						client.showGamePanel();
 
 				}
 				if (x == client.getSpielerAnzahl()) {
