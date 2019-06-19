@@ -43,7 +43,7 @@ public class MiniRisServer {
 				Socket clientSocket = serverSocket.accept();
 				ClientRequestProcessor c = new ClientRequestProcessor(clientSocket, risiko);
 				Thread t = new Thread(c);
-				t.start();
+				t.start(); // startet die run Methode vom ClientRequestprozessor
 			}
 		} catch (IOException e) {}
 	}
