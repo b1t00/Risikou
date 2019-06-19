@@ -534,15 +534,15 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		c.repaint();
 	}
 
-	public void showNeuesSpielPanel() {
-		synchronized (this) { //oder mit key aber denke muss man nicht
-			if (risiko.getPlayerArray().size() == 0) {
-				showPanel(wieVielePl);
-			}
-		}
-		// synchronised
-		showNeuerSpielerPanel();
-	}
+//	public void showNeuesSpielPanel() {
+//		synchronized (this) { //oder mit key aber denke muss man nicht
+//			if (risiko.getPlayerArray().size() == 0) {
+//				showPanel(wieVielePl);
+//			}
+//		}
+//		// synchronised
+//		showNeuerSpielerPanel();
+//	}
 
 	public void showLoginPanel() {
 //		loginPl.setPreferredSize(new Dimension(50, 50));
