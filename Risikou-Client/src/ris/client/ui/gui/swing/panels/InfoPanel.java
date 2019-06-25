@@ -16,9 +16,12 @@ public class InfoPanel extends JPanel {
 	private RisikokartenPanel risikoKartenTPl;
 	private SpielerDetailsPanel spielerDetailsPl;
 	private SpielerUebersichtsPanel spielerUebersichtsPl;
+	private String name;
 	
-	public InfoPanel(RisikoInterface ris) {
+	public InfoPanel(RisikoInterface ris, String name) {
 		this.risiko = ris;
+		this.name = name;
+		System.out.println("im infopanel " + name);
 		setupUI();
 	}
 
@@ -30,7 +33,7 @@ public class InfoPanel extends JPanel {
 	public void layOutSetUp() {
 
 		setLayout(new BorderLayout());
-		spielerDetailsPl = new SpielerDetailsPanel(risiko);
+		spielerDetailsPl = new SpielerDetailsPanel(risiko, name);
 		spielerDetailsPl.setPreferredSize(new Dimension(400, this.getHeight()));
 		spielerDetailsPl.setBackground(Color.lightGray);
 		add(spielerDetailsPl, BorderLayout.WEST);
@@ -54,7 +57,7 @@ public class InfoPanel extends JPanel {
 	}
 	
 	public void update() {
-		spielerDetailsPl.update();
+//		spielerDetailsPl.update();
 		spielerUebersichtsPl.update();
 	}
 	

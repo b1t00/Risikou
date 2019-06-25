@@ -2,12 +2,14 @@ package ris.client.ui.gui.swing.panels;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
+import ris.common.valueobjects.Player;
 
 public class SpielerDetailsPanel extends JPanel {
 	private RisikoInterface risiko;
@@ -17,34 +19,54 @@ public class SpielerDetailsPanel extends JPanel {
 	private String farbAuswahl;
 	private JLabel mission;
 	private RisikokartenPanel risikoKartenTPl;
+	private String spielername;
 	
 
-	public SpielerDetailsPanel(RisikoInterface ris) {
+	public SpielerDetailsPanel(RisikoInterface ris, String spielername) {
 		this.risiko = ris;
+		this.spielername = spielername;
+		System.out.println("im spielerdetailspanel " + spielername);
 //		farbAuswahl = risiko.gibAktivenPlayer().getFarbe());
-		name = new JLabel("Name: " + risiko.gibAktivenPlayer());
-		farbe = new JLabel("Farbe: " + farbAuswahl); // TODO: Farbe als Enums?
-		mission = new JLabel(
-				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
+		//diese sachen sind jetzt in der setupui methode
+//		name = new JLabel("Name: " + spielername);
+//		farbe = new JLabel("Farbe: " + farbAuswahl); // TODO: Farbe als Enums?
+//		mission = new JLabel(
+//				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
 		setupUI();
 	}
 
 	public void setupUI() {
-		layOutSetUp();
+		Player dieserPlayer = null;
+		ArrayList<Player> allePlayer = risiko.getPlayerArray();
+		for(Player player: allePlayer) {
+			System.out.println("lokaler string: " + spielername);
+			System.out.println("name arrayspieler: " + player.getName());
+			if (player.getName().equals(spielername)){
+				System.out.println("player wurde erfolgreich gespeichert");
+				dieserPlayer = player;
+			}
+		}
+		name = new JLabel("Name: " + dieserPlayer.getName());
+		farbe = new JLabel("Farbe: " + dieserPlayer.getFarbe()); // TODO: Farbe als Enums?
+		mission = new JLabel(
+				"<html><center>" + "Deine Mission: <br>" + dieserPlayer.getMission() + "</center></html>");
 		
+		layOutSetUp();
+		setBorder(new LineBorder(risiko.getColorArray().get(dieserPlayer.getNummer()), 5));
 //		this.setBorder(BorderFactory.createEtchedBorder());
 		
-		//		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
-		 update();
+//		//		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
+//		 update();
 	}
 
-	public void update() {
-		name.setText("Name: " + risiko.gibAktivenPlayer());
-		farbe.setText("Farbe: " + risiko.gibAktivenPlayer().getFarbe());
-		mission.setText(
-				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
-		setBorder(new LineBorder(risiko.getColorArray().get(risiko.gibAktivenPlayer().getNummer()), 5));
-	}
+//	wird nicht mehr benötigt, da es die ganze zeit gleich bleibt
+//	public void update() {
+//		name.setText("Name: " + risiko.gibAktivenPlayer());
+//		farbe.setText("Farbe: " + risiko.gibAktivenPlayer().getFarbe());
+//		mission.setText(
+//				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
+//		setBorder(new LineBorder(risiko.getColorArray().get(risiko.gibAktivenPlayer().getNummer()), 5));
+//	}
 
 	public void layOutSetUp() {
 		setLayout(new GridBagLayout());

@@ -94,10 +94,9 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
-		Player player = playerMg.addPlayer(name, farbe, nummer);
-		//Farbe wird dem Colorarray hn
+		playerMg.addPlayer(name, farbe, nummer);
+		//Farbe wird dem Colorarray hinzugefügt
 		setColorArray(farbe);
-//		return player;
 	}
 
 	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!

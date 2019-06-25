@@ -85,16 +85,14 @@ public class PlayerManagement implements Serializable {
 		return gamerListe.size();
 	}
 
-	public Player addPlayer(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException { 
+	public void addPlayer(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException { 
 		Player player = new Player(name, farbe, nummer);
 		for(Player p: gamerListe) {
 			if(p.getName().equals(name)) {
 				throw new SpielerNameExistiertBereitsException(name, farbe, nummer);
 			}
 		}
-		setColorArray(farbe);
 		gamerListe.add(player);
-		return player;
 	}
 	
 	public ArrayList<Color> getColorArray() {

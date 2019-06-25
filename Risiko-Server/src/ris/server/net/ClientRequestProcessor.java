@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -12,7 +13,9 @@ import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
+import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Land;
+import ris.common.valueobjects.State;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -22,17 +25,17 @@ public class ClientRequestProcessor implements Runnable {
 	private BufferedReader in;
 	private PrintStream out;
 	private ObjectOutputStream oos;
+	private ArrayList<ServerListener> allServerListeners;
 
-	public ClientRequestProcessor(Socket socket, RisikoInterface risiko) {
-		this.clientSocket = socket;
+	public ClientRequestProcessor(OutputStream outClient, Socket clientSocket, RisikoInterface risiko, ArrayList<ServerListener> allServerListeners) {
+		this.clientSocket = clientSocket;
+		this.out = new PrintStream(outClient);
 		this.risiko = risiko;
+		this.allServerListeners = allServerListeners;
 
 		try {
-//			versuch
-			oos = new ObjectOutputStream(clientSocket.getOutputStream());
-			
+			oos = new ObjectOutputStream(out);
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			out = new PrintStream(clientSocket.getOutputStream());
 
 		} catch (IOException e) {
 			try {
@@ -45,15 +48,10 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 	
-	
-
 	@Override
 	public void run() {
-
 		String input = "";
-
 		out.println("Server an Client: Bin bereit fuer den Kampf");
-
 		do {
 			// Beginn der Benutzerinteraktion:
 			// Aktion vom Client einlesen [dann ggf. weitere Daten einlesen ...]
@@ -76,12 +74,11 @@ public class ClientRequestProcessor implements Runnable {
 			case "playerAnlegen": 
 				playerAnlegen();
 				break;
-			case "spielAufbau":
-				spielAufbau();
-				break;
 			case "gibAktivenPlayer":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.gibAktivenPlayer());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -89,7 +86,9 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getColorArray":
 				try {
+//					oos.reset();
 					oos.writeObject(risiko.getColorArray());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -104,11 +103,26 @@ public class ClientRequestProcessor implements Runnable {
 					e2.printStackTrace();
 				}
 				risiko.setSpielerAnzahl(spielerAnzahl);
+/*				
+				for (ServerListener sl : allServerListeners) {
+					sl.handleEvent(e);
+				}
+				*/
+				break;
 			case "getSpielerAnzahl":
-				out.println(risiko.getSpielerAnzahl());
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getSpielerAnzahl());
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
 			case "getPlayerArray":
 				try {
-					oos.writeObject(risiko.getPlayerArray());
+					oos.reset();
+					oos.writeObject(risiko.getPlayerArray());					
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -116,7 +130,9 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getCurrentState":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.getCurrentState());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -134,6 +150,7 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getSpielladeDateien":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.getSpielladeDateien());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
@@ -156,7 +173,9 @@ public class ClientRequestProcessor implements Runnable {
 				}
 			case "getLandClickZeit":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.getLandClickZeit());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -175,7 +194,9 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getTauschZeit":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.getTauschZeit());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -196,6 +217,7 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "errechneVerfuegbareEinheiten":
 				try {
+					oos.reset();
 					oos.writeObject(risiko.errechneVerfuegbareEinheiten());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -228,7 +250,20 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+			case "allUpdate":
+				String updateState = null;
+//				bekommt von der gui den befehl, allen clients zu sagen, dass sie sich updaten sollen
+				try {
+//					durch den state wird das update ermöglicht
+					updateState = (String) in.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				for(ServerListener sl: allServerListeners) {
+					sl.handleEvent("updateDialog");
+					sl.handleEvent(updateState);
+				}
 			}
 //			if (input == null) {
 //				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
@@ -243,12 +278,11 @@ public class ClientRequestProcessor implements Runnable {
 	}
 
 	public void getFarbauswahl() {
-		ArrayList<String> farben;
-		farben = risiko.getFarbauswahl();
-		out.println(farben.size());
-
-		for (String farbe : farben) {
-			out.println(farbe);
+		try {
+			oos.writeObject(risiko.getFarbauswahl());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -269,14 +303,16 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		if(risiko.getPlayerArray().size() == risiko.getSpielerAnzahl()) {
+			risiko.spielAufbau();
+			for(ServerListener sl: allServerListeners) {
+				sl.handleEvent("initializeGamePanel");
+			}
+		}
 	}
 	
-	public void spielAufbau() {
-		risiko.spielAufbau();
-	}
-	public void schickeArrayList(Object o, ArrayList<Object> aL){
-		
-		System.out.println(aL.size());
-	}
+//	public void schickeArrayList(Object o, ArrayList<Object> aL){
+//		System.out.println(aL.size());
+//	}
 		
 }

@@ -9,10 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
+import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
@@ -26,13 +25,17 @@ public class RisikoFassade implements RisikoInterface {
 	private PrintStream sout;
 	private ObjectInputStream ois;
 
-	public RisikoFassade(String host, int port) {
+	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
 		try {
 			socket = new Socket(host, port);
 			InputStream is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
+			
+			ServerRequestProcessor serverListener = new ServerRequestProcessor(ois, gui);
+			Thread t = new Thread(serverListener);
+			t.start(); 
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -67,7 +70,9 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getCurrentState");
 		
 		try {
+			synchronized(ois) {
 			currentState = (State) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -84,10 +89,11 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public Player gibAktivenPlayer() {
 		Player aktiverPlayer = null;
-		
 		sout.println("gibAktivenPlayer");
 		try {
+			synchronized(ois) {
 			aktiverPlayer = (Player) ois.readObject();
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -122,7 +128,9 @@ public class RisikoFassade implements RisikoInterface {
 		
 		int units = 0;
 		try {
+			synchronized(ois) {
 			units = (Integer) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -169,6 +177,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(ID.toString());
 	}
 
+	//TODO: kann glaube ich weg
 	@Override
 	public void spielAufbau() {
 		sout.println("spielAufbau");
@@ -185,11 +194,13 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getSpielerAnzahl");
 		int spielerAnzahl = 0;
 		try {
-			spielerAnzahl = Integer.parseInt(sin.readLine());
-		} catch (NumberFormatException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			synchronized(ois) {
+				spielerAnzahl = (Integer) ois.readObject();
+			}
+			} catch (ClassNotFoundException | NumberFormatException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return spielerAnzahl;
 	}
 
@@ -198,7 +209,11 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
 		sout.println("getPlayerArray");	
 		try {
+//			if(!ois.ct().equals("leer")){
+			synchronized(ois) {
 			allePlayer = (ArrayList<Player>) ois.readObject();
+			}
+//			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -219,7 +234,9 @@ public class RisikoFassade implements RisikoInterface {
 		
 		Land land = null;
 		try {
+			synchronized(ois) {
 			land = (Land) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -252,7 +269,9 @@ public class RisikoFassade implements RisikoInterface {
 		
 		sout.println("getSpielladeDateien");
 		try {
+			synchronized(ois) {
 			verzeichnis = (String[]) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -272,7 +291,9 @@ public class RisikoFassade implements RisikoInterface {
 		
 		sout.println("getLandClickZeit");
 		try {
+			synchronized(ois) {
 			landClickZeit = (boolean) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -287,7 +308,9 @@ public class RisikoFassade implements RisikoInterface {
 		
 		sout.println("getTauschZeit");
 		try {
+			synchronized(ois) {
 			tauschZeit = (boolean) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -337,7 +360,9 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<Color> ColorArray = new ArrayList<Color>();
 		sout.println("getColorArray");
 		try {
+			synchronized(ois) {
 			ColorArray = (ArrayList<Color>) ois.readObject();
+			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -354,16 +379,20 @@ public class RisikoFassade implements RisikoInterface {
 		
 		sout.println("getFarbauswahl");
 		
-		String antwort = "";
+//		String antwort = "";
 		try {
-			antwort = sin.readLine();
-			int anzahl = Integer.parseInt(antwort);
-			for(int i=0; i<anzahl; i++) {
-				String farbe;
-				String antwort2 = "";
-				antwort = sin.readLine();
-				farbauswahl.add(antwort);
+			synchronized(ois) {
+			farbauswahl = (ArrayList<String>) ois.readObject();
 			}
+//			int anzahl = Integer.parseInt(antwort);
+//			for(int i=0; i<anzahl; i++) {
+//				String farbe;
+//				String antwort2 = "";
+//				synchronized(ois) {
+//				antwort = sin.readLine();
+//				}
+//				farbauswahl.add(antwort);
+//			}
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return null;
@@ -384,5 +413,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(land.getNummer());
 		sout.println(units);
 	}
-
+	
+	public void allUpdate(String ereignis) {
+		sout.println("allUpdate");
+		sout.println(ereignis);
+	}
+	
 }

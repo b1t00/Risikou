@@ -89,5 +89,6 @@ public interface RisikoInterface {
 	
 	public int getSpielerAnzahl();
 	
+	public void allUpdate(String ereignis);
 	
 }

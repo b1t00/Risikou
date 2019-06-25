@@ -34,18 +34,17 @@ public class NeuerSpielerPanel extends JPanel {
 		this.client = client;
 
 		this.setIgnoreRepaint(false);
-
-		x = 0;
-
-		nameLabel = new JLabel("Name von Spieler " + (x + 1));
+		x = risiko.getPlayerArray().size() + 1;
+		
+		nameLabel = new JLabel("Name von Spieler " + x);
 
 		test = "test";
 		nameField = new JTextField(10);
 		
-		System.out.println(risiko.getFarbauswahl().size());
-		for(String farbe : risiko.getFarbauswahl()) {
-			System.out.println(farbe);
-		}
+//		System.out.println(risiko.getFarbauswahl().size());
+//		for(String farbe : risiko.getFarbauswahl()) {
+//			System.out.println(farbe);
+//		}
 		
 		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); // moeglichkeit
 																											// ArrayList<String>
@@ -68,31 +67,21 @@ public class NeuerSpielerPanel extends JPanel {
 //				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
 				System.out.println("name : " + name);
-				System.out.println(risiko.getFarbauswahl() + " funktioniert leider nicht"); // TODO: geht leider net
 				if (name.equals("")) {
 					//TODO: falls name schon vergeben ist
 					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswaehlen");
 				} else {
 					try {
-						risiko.playerAnlegen(name, farbe, x);
+						risiko.playerAnlegen(name, farbe, (x-1));
+						client.setSpieler(name, (x-1));
+						System.out.println("player angelegt!");
 					} catch (SpielerNameExistiertBereitsException e1) {
 						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
 					}
 
-					nameField.setText("");
-					x++;
-					nameLabel.setText("Name von Spieler " + (x + 1));
-//					nameLabel.revalidate();
-//					nameLabel.repaint();
 					farbauswahlCB.removeItemAt(farbIndex);
-//					client.showNeuerSpielerPanel();
-//					warten-panel
-					System.out.println("wartet auf nächsten spieler");
-					while(true) {
-						//TODO: wait() methode? statt while schleife
-					if(risiko.getPlayerArray().size() == risiko.getSpielerAnzahl())
-						client.showGamePanel();
-					}
+					System.out.println("wartet auf nächsten spieler");					
+
 				}
 
 				//				if (x == client.getSpielerAnzahl()) {

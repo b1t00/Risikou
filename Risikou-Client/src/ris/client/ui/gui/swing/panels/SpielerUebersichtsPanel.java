@@ -32,6 +32,7 @@ public class SpielerUebersichtsPanel extends JPanel {
 
 	public void setupUI() {
 		alleSpieler = risiko.getPlayerArray();
+		System.out.println("size playerarray: " + alleSpieler.size());
 		ArrayList<JLabel> playersLbl = new ArrayList<JLabel>();
 		for (Player player : alleSpieler) {
 			if (risiko.gibAktivenPlayer().getName().equals(player.getName())) {
