@@ -68,13 +68,19 @@ public class RisikoFassade implements RisikoInterface {
 	public State getCurrentState() {
 		State currentState = null;
 		sout.println("getCurrentState");
+		while(currentState == null) {
 		try {
 			synchronized(ois) {
-				currentState = (State) ois.readObject();
+				Object o = new Object();
+				o = ois.readObject(); 
+				System.out.println("objectState " + o);
+				currentState = (State) o;
+//				currentState = (State) ois.readObject(); // Was passiert mit UTF??
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 		return currentState;
 	}
@@ -85,7 +91,11 @@ public class RisikoFassade implements RisikoInterface {
 		boolean angriff = false;
 		synchronized(ois) {
 			try {
-				angriff = (boolean) ois.readObject();
+				Object o = new Object();
+				o = ois.readObject();
+				System.out.println("kann Angreifen ? : " + o.toString());
+				angriff = (boolean) o;
+//				angriff = (boolean) ois.readObject();
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -356,6 +366,9 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public boolean attackLandGueltig(Land attacker) {
 		// TODO Auto-generated method stub
+		System.out.println("Land : " + attacker.getNummer());
+		sout.println("attackLandGueltig");
+		sout.println(attacker);
 		return false;
 	}
 

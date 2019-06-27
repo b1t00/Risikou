@@ -38,6 +38,7 @@ public class ClientRequestProcessor implements Runnable {
 			in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 		} catch (IOException e) {
+			System.out.println("hab ich nicht");
 			try {
 				clientSocket.close();
 			} catch (IOException e1) {
@@ -108,6 +109,17 @@ public class ClientRequestProcessor implements Runnable {
 					sl.handleEvent(e);
 				}
 				*/
+				break;
+			case "kannAngreifen":
+				System.out.println("bin im crp kann angreifen");
+				try {
+					oos.reset();
+					oos.writeObject(risiko.kannAngreifen());
+					oos.reset();
+				} catch (IOException e3) {
+					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				}
 				break;
 			case "getSpielerAnzahl":
 				try {

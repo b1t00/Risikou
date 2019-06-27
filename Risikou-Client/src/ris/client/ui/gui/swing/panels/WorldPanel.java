@@ -93,7 +93,7 @@ public class WorldPanel extends JPanel {
 					case ATTACK:
 						if (attackState == 1) {
 							// es wird ueberprueft, ob das angeklickte Land gueltig ist
-							if (ris.attackLandGueltig(land)) {
+							if (ris.attackLandGueltig(land)) { //TODO: know
 								attackLand1 = land;
 								attackState = 2;
 								System.out.println("attackstate: " + attackState);

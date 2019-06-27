@@ -68,7 +68,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private RisikoInterface risiko;
 	private ServerRequestProcessor serverListener;
 
-//	name ist notwendig, damit die gui weiß, was sie anzeigen soll
+//	name ist notwendig, damit die gui weiß, was sie anzeigen soll // gleicht mit crp ab
 	private String name;
 	private int spielerNummer;
 
@@ -201,18 +201,23 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
-		switch (risiko.getCurrentState()) {
+		System.out.println("show Question ");
+		switch ((State)risiko.getCurrentState()) {
 		case SETUNITS:
 			eintauschPl = new EintauschPanel(this, risiko);
+			System.out.println("??");
 			container.add(eintauschPl, "eintausch");
 			cl.show(container, "eintausch");
 			break;
 		case ATTACK:
+			System.out.println("aaaaaaaataaaaaaaaaack");
 			if (risiko.kannAngreifen()) {
+				System.out.println("kann angreien");
 				attackQuestionPl = new QuestionPanel(this, risiko, "state");
 				container.add(attackQuestionPl, "attackQuestion");
 				cl.show(container, "attackQuestion");
 			} else {
+				System.out.println("kann niemanden angreifen");
 				JOptionPane.showMessageDialog(null, "Du kannst leider niemanden angreifen.");
 				risiko.setNextState();
 				showQuestion();
@@ -362,9 +367,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			if ((number > (worldPl.getAttackLand1().getEinheiten() - 1)) || number > 3 || number < 1) {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
 			} else {
-				defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko);
-				container.add(defenseNumberPl, "defenseNumber");
-				cl.show(container, "defenseNumber");
+				// aufruf für server mit info: beide länder att def , und unit vom angreifer
+				// verteidiger client muss bescheid kriegen
+				defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko); //1
+				container.add(defenseNumberPl, "defenseNumber"); //2..
+				cl.show(container, "defenseNumber"); //3.. muss beim verteidiger angezeigt werden 
 			}
 			break;
 		case MOVEATTACK:
@@ -381,12 +388,17 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				showQuestion();
 			}
 			break;
-		case DEFENSE:
+		case DEFENSE: // hier wird verteigigt
 			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
 			if (number <= worldPl.getAttackLand2().getEinheiten() && number < 3) {
+				// ganzer block noch nicht korrekt bis
+				//sagt dem server die anzahl an verteidiger units
+				// der server muss angriff dann durchführen und über listener infos ruasgeben
+				//dazu erstellt er ein attackobjekt, das beinhaten muss: beide länder und beide unit-angabaen
+				//länder und att-unit hat er vorhre schon vom angreifer bekommen, jetzt auch die def unit
 				Attack attackObjekt = null;
 				try {
-					attackObjekt = risiko.attack(worldPl.getAttackLand1(), worldPl.getAttackLand2(),
+					attackObjekt = risiko.attack(worldPl.getAttackLand1(), worldPl.getAttackLand2(),// diese methode über server und verteilt werden
 							attackNumberPl.getNumber(), defenseNumberPl.getNumber());
 					dialogPl.update(attackObjekt);
 					dicePl.setAttack(attackObjekt);
@@ -445,6 +457,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					}
 					showQuestion();
 				}
+				// TODO: bis hier
 				// wenn defense ungültige anzahl einheiten angegeben hat:
 			} else {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
@@ -502,6 +515,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				setUnitsPl.update();
 			} else {
 				risiko.setLandClickZeit(false);
+				System.out.println("bis setNextState()");
 				risiko.setNextState();
 				showQuestion();
 			}
