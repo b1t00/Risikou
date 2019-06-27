@@ -25,7 +25,6 @@ public class SpielerDetailsPanel extends JPanel {
 	public SpielerDetailsPanel(RisikoInterface ris, String spielername) {
 		this.risiko = ris;
 		this.spielername = spielername;
-		System.out.println("im spielerdetailspanel " + spielername);
 //		farbAuswahl = risiko.gibAktivenPlayer().getFarbe());
 		//diese sachen sind jetzt in der setupui methode
 //		name = new JLabel("Name: " + spielername);
@@ -39,10 +38,7 @@ public class SpielerDetailsPanel extends JPanel {
 		Player dieserPlayer = null;
 		ArrayList<Player> allePlayer = risiko.getPlayerArray();
 		for(Player player: allePlayer) {
-			System.out.println("lokaler string: " + spielername);
-			System.out.println("name arrayspieler: " + player.getName());
 			if (player.getName().equals(spielername)){
-				System.out.println("player wurde erfolgreich gespeichert");
 				dieserPlayer = player;
 			}
 		}

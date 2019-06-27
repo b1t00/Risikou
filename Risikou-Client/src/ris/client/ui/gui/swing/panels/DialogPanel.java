@@ -97,7 +97,7 @@ public class DialogPanel extends JPanel {
 	}
 	
 	//text anhaengen bei set units
-	public void update(Land land) {
+	public void updateSetUnit(String land) {
 		info.append(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n");
 	}
 	

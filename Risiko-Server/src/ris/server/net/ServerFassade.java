@@ -9,6 +9,7 @@ import java.net.Socket;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 
+//ist nicht wirklich ein listener
 public class ServerFassade implements ServerListener {
 	
 	private RisikoInterface risiko;

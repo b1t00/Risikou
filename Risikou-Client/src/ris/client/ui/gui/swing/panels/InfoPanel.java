@@ -21,7 +21,6 @@ public class InfoPanel extends JPanel {
 	public InfoPanel(RisikoInterface ris, String name) {
 		this.risiko = ris;
 		this.name = name;
-		System.out.println("im infopanel " + name);
 		setupUI();
 	}
 

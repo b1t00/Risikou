@@ -68,10 +68,9 @@ public class RisikoFassade implements RisikoInterface {
 	public State getCurrentState() {
 		State currentState = null;
 		sout.println("getCurrentState");
-		
 		try {
 			synchronized(ois) {
-			currentState = (State) ois.readObject();
+				currentState = (State) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -81,9 +80,18 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public boolean kannAngreifen(Player play) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean kannAngreifen() {
+		sout.println("kannAngreifen");
+		boolean angriff = false;
+		synchronized(ois) {
+			try {
+				angriff = (boolean) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return angriff;
 	}
 
 	@Override
@@ -92,22 +100,18 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("gibAktivenPlayer");
 		try {
 			synchronized(ois) {
-			aktiverPlayer = (Player) ois.readObject();
+				aktiverPlayer = (Player) ois.readObject();
 			}
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		return aktiverPlayer;
 	}
 
 	@Override
 	public void setNextState() {
-		// TODO Auto-generated method stub
-
+		sout.println("setNextState");
 	}
 
 	@Override
@@ -246,14 +250,32 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean allMissionsComplete() {
-		// TODO Auto-generated method stub
-		return false;
+		sout.println("allMisionsComplete");
+		boolean win = false;
+		synchronized(ois) {
+			try {
+				win = (boolean) ois.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return win;
 	}
 
 	@Override
-	public boolean rundeMissionComplete(Player play) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean rundeMissionComplete() {
+		sout.println("rundeMissionComplete");
+		boolean win = false;
+		synchronized(ois) {
+			try {
+				win = (boolean) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return win;
 	}
 
 	@Override
@@ -417,6 +439,12 @@ public class RisikoFassade implements RisikoInterface {
 	public void allUpdate(String ereignis) {
 		sout.println("allUpdate");
 		sout.println(ereignis);
+	}
+
+	@Override
+	public Player getPlayerById(int iD) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

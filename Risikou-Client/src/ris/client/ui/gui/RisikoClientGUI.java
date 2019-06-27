@@ -70,7 +70,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 //	name ist notwendig, damit die gui weiß, was sie anzeigen soll
 	private String name;
-	private int iD;
+	private int spielerNummer;
 
 	// LOGIN //
 	private LoginPanel loginPl;
@@ -137,7 +137,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	
 	public void setSpieler(String name, int iD) {
 		this.name = name;
-		this.iD = iD;
+		this.spielerNummer = iD;
 	}
 
 	public void initializeGamePl() {
@@ -194,7 +194,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void showGamePl() {
 		this.add(gamePl);
 		// CENTER
-		worldPl = new WorldPanel(this, risiko);
+		worldPl = new WorldPanel(this, risiko, spielerNummer);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		this.add(gamePl);
 	}
@@ -208,7 +208,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			cl.show(container, "eintausch");
 			break;
 		case ATTACK:
-			if (risiko.kannAngreifen(risiko.gibAktivenPlayer())) {
+			if (risiko.kannAngreifen()) {
 				attackQuestionPl = new QuestionPanel(this, risiko, "state");
 				container.add(attackQuestionPl, "attackQuestion");
 				cl.show(container, "attackQuestion");
@@ -252,8 +252,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 	
 	public void updateDialog(String ereignis) {
-		System.out.println("bei updatedialog in gui angekommen");
 		dialogPl.update(ereignis);
+	}
+	
+	public void updateDialogSetUnit(String info) {
+		System.out.println("bei updatedialog in gui angekommen");
+		dialogPl.updateSetUnit(info);
 	}
 
 	public void showSetUnits() {
@@ -467,25 +471,33 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			}
 		}
 	}
+	
+	public void continueSetUnits() {
+		if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
+		if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
+			setUnitsPl.update();
+		} else {
+			risiko.setLandClickZeit(false);
+			risiko.setNextState();
+			showQuestion();
+		}
+		}
+	}
 
 	@Override // worldlistener
 	public void countryClicked(Land land) {
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			System.out.println("wurde verarbeitet");
-			try {
-				risiko.setEinheiten(land, 1);
-				land.setEinheiten(1);
-				updateWorld();
-				dialogPl.update(land);
-				// Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
-				if (win()) {
-					JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
-				}
-			} catch (ZuWenigEinheitenException e) {
-				System.out.println(e.getLocalizedMessage());
-			}
+			System.out.println("in gui richtig angekommen");
+			risiko.setEinheiten(land, 1);
+			// TODO: hat bisher probleme mit dem server gegeben.. denke, das liegt daran, dass es in einem zweiten thread liegt und parallel läuft
+//			Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
+//			if (win()) {
+//				JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
+//			}
 			setUnitsPl.decrementUnits();
+			//folgender Block wurde ausgelagert, da es an dieser stelle immer probleme mit den threads gab, während des serverrequestprocessor noch gearbeitet hat, wurden hier neue befehle eingelesen
 			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
 				setUnitsPl.update();
 			} else {
@@ -591,7 +603,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	public void showGamePanel() {
 		initializeGamePl();
-		worldPl = new WorldPanel(this, risiko);
+		worldPl = new WorldPanel(this, risiko, spielerNummer);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
 		showIndividuellesPanel();
@@ -603,7 +615,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		if(risiko.gibAktivenPlayer().getName().equals(this.name)) {
 			showQuestion();
 		} else {
-			pausePl = new PausePanel(this.iD);
+			pausePl = new PausePanel(this.spielerNummer);
 			container.add(pausePl, "pausePl");
 			cl.show(container, "pausePl");
 		}
@@ -720,7 +732,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	// Methode schaut ob aktueller Spieler gewonnen hat
 	public boolean aktuellerPlayerWin() {
-		if (risiko.rundeMissionComplete(risiko.gibAktivenPlayer())) {
+		//fragt ob der aktuellePlayer gewonnen hat
+		if (risiko.rundeMissionComplete()) {
 			return true;
 		}
 		return false;

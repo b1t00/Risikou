@@ -61,8 +61,24 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				}
 				client.updateDialog(ereignis);
 				break;
+			case "updateDialog(Land)":
+				String land = null;
+				synchronized(sin) {
+					try {
+						land = sin.readUTF();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				client.updateDialogSetUnit(land);
+				client.updateWorld();
+				//folgende methode sagt dem client, dass er mit dem weiteren SetUnits weitermachen kann, ansonsten gibt es probleme mit den Threads
+				//es kann sein, dass die updateDialog(Land) methode noch in anderen Situationen genutzt wird, dann muss noch eine alternative Loesung gefunden werden.
+//				client.continueSetUnits();
+				break;
 			default:
-				System.out.println("etwas wurde eingelesen");
+				System.out.println("etwas wurde eingelesen: " + input);
 				break;
 			}
 		

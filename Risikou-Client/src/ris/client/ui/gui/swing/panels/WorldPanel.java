@@ -38,6 +38,8 @@ public class WorldPanel extends JPanel {
 	private BufferedImage flagbc = null;
 	private BufferedImage flagp = null;
 	private BufferedImage kontinente= null;
+	
+	int spielerNummer;
 
 	public interface WorldListener {
 		public void countryClicked(Land land);
@@ -47,9 +49,10 @@ public class WorldPanel extends JPanel {
 		return this.listener;
 	}
 
-	public WorldPanel(WorldListener wl, RisikoInterface risiko) {
+	public WorldPanel(WorldListener wl, RisikoInterface risiko, int spielerNummer) {
 		listener = wl;
 		ris = risiko;
+		this.spielerNummer = spielerNummer;
 
 		// states werden zu Beginn auf 1 gesetzt und dann je nach Spielstand auf 2 gewechselt
 		this.attackState = 1;
@@ -71,12 +74,6 @@ public class WorldPanel extends JPanel {
 	
 				Color color = new Color(karte.getRGB(x,y));
 				int b = color.getBlue();
-				try {
-					System.out.println("Land: " + risiko.getLandById(b));
-				} catch (LandExistiertNichtException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				Land land = null;
 	//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
 					try {
@@ -86,7 +83,7 @@ public class WorldPanel extends JPanel {
 					}
 					switch (ris.getCurrentState()) {
 					case SETUNITS:
-						if (land.getBesitzer().equals(ris.gibAktivenPlayer())) {
+						if (land.getBesitzer().getNummer() == spielerNummer){
 							listener.countryClicked(land);
 							return;
 						} else {

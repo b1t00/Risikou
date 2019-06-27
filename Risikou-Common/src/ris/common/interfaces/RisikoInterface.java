@@ -19,7 +19,7 @@ public interface RisikoInterface {
 	
 	public State getCurrentState ();
 	
-	public boolean kannAngreifen(Player play);
+	public boolean kannAngreifen();
 	
 	public Player gibAktivenPlayer();
 	
@@ -73,7 +73,7 @@ public interface RisikoInterface {
 	
 	public boolean allMissionsComplete();
 	
-	public boolean rundeMissionComplete(Player play);
+	public boolean rundeMissionComplete();
 	
 	public void spielSpeichern(String name);
 	
@@ -91,4 +91,5 @@ public interface RisikoInterface {
 	
 	public void allUpdate(String ereignis);
 	
+	public Player getPlayerById(int iD);
 }

@@ -86,7 +86,7 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getColorArray":
 				try {
-//					oos.reset();
+					oos.reset();
 					oos.writeObject(risiko.getColorArray());
 					oos.reset();
 				} catch (IOException e) {
@@ -113,6 +113,7 @@ public class ClientRequestProcessor implements Runnable {
 				try {
 					oos.reset();
 					oos.writeObject(risiko.getSpielerAnzahl());
+					oos.reset();
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
@@ -137,6 +138,9 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
+			case "setNextState":
+				risiko.setNextState();
 				break;
 			case "spielSpeichern":
 				String name = null;
@@ -171,6 +175,7 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
 			case "getLandClickZeit":
 				try {
 					oos.reset();
@@ -203,17 +208,7 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				break;
 			case "setTauschZeit":
-				boolean obTauschBar = false;
-				String tauschBar = ""; 
-				try {
-					tauschBar = in.readLine();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				if (tauschBar.equals(true))
-					obLandClickBar = true;
-				risiko.setLandClickZeit(obTauschBar);
+				setTauschZeit();
 				break;
 			case "errechneVerfuegbareEinheiten":
 				try {
@@ -225,45 +220,33 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				break;
 			case "setEinheiten":
-				int landID = 0;
-				int units = 0;
-				Land land = null;
-				try {
-					landID = Integer.parseInt(in.readLine());
-					units = Integer.parseInt(in.readLine());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-					land = risiko.getLandById(landID);
-				} catch (LandExistiertNichtException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				risiko.setEinheiten(land, units);
+				setEinheiten();
 				break;
 			case "getLandById":
+				getLandById();
+				break;
+			case "rundeMissionComplete":
 				try {
-					int landById = Integer.parseInt(in.readLine());
-				} catch (NumberFormatException | IOException e) {
+					oos.reset();
+					oos.writeObject(risiko.rundeMissionComplete());
+					oos.reset();
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					e1.printStackTrace();
 				}
+				break;
+			case "allMissionsComplete":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.allMissionsComplete());
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				break;
 			case "allUpdate":
-				String updateState = null;
-//				bekommt von der gui den befehl, allen clients zu sagen, dass sie sich updaten sollen
-				try {
-//					durch den state wird das update ermöglicht
-					updateState = (String) in.readLine();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				for(ServerListener sl: allServerListeners) {
-					sl.handleEvent("updateDialog");
-					sl.handleEvent(updateState);
-				}
+				allUpdate();
+				break;
 			}
 //			if (input == null) {
 //				// input wird von readLine() auf null gesetzt, wenn Client Verbindung abbricht
@@ -311,8 +294,76 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 	
-//	public void schickeArrayList(Object o, ArrayList<Object> aL){
-//		System.out.println(aL.size());
-//	}
+	public void setEinheiten() {
+		int landID = 0;
+		int units = 0;
+		Land land = null;
+		try {
+			landID = Integer.parseInt(in.readLine());
+			units = Integer.parseInt(in.readLine());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			land = risiko.getLandById(landID);
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		risiko.setEinheiten(land, units);
+		for(ServerListener sl: allServerListeners) {
+			sl.handleEvent("updateDialog(Land)");
+			sl.handleEvent(land.getName());
+		}
+	}
+	
+	public void setTauschZeit() {
+		boolean obTauschBar = false;
+		String tauschBar = ""; 
+		try {
+			tauschBar = in.readLine();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		if (tauschBar.equals(true))
+			obTauschBar = true;
+		risiko.setLandClickZeit(obTauschBar);
+	}
+	
+	public void getLandById() {
+		int iD = 0;
+		try {
+			iD = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			oos.reset();
+			oos.writeObject(risiko.getLandById(iD));
+			oos.reset();
+		} catch (IOException | LandExistiertNichtException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
+	public void allUpdate() {
+		String updateState = null;
+//		bekommt von der gui den befehl, allen clients zu sagen, dass sie sich updaten sollen
+		try {
+//			durch den state wird das update ermöglicht
+			updateState = (String) in.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(ServerListener sl: allServerListeners) {
+			sl.handleEvent("updateDialog");
+			sl.handleEvent(updateState);
+		}
+	}
 		
 }

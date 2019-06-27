@@ -63,6 +63,16 @@ public class PlayerManagement implements Serializable {
 	public boolean getRichtigeEingabe() {
 		return falscheEingabe;
 	}
+	
+	public Player getPlayerById(int iD) {
+		Player spieler = null;
+		for(Player player: gamerListe) {
+			if(player.getNummer() == iD) {
+				return player;
+			}
+		}
+		return spieler;
+	}
 
 	public ArrayList<String> getFarbauswahl() {
 		return farbenAuswahl;

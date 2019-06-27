@@ -121,8 +121,11 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public Land getLandById(int zahl) throws LandExistiertNichtException {
-		Land land = worldMg.getLandById(zahl);
-		return land;
+		return worldMg.getLandById(zahl);
+	}
+	
+	public Player getPlayerById(int zahl) {
+		return playerMg.getPlayerById(zahl);
 	}
 
 	public Player gibAktivenPlayer() {
@@ -139,8 +142,8 @@ public class Risiko implements RisikoInterface, Serializable {
 		return logik.allMissionsComplete();
 	}
 
-	public boolean rundeMissionComplete(Player play) {
-		return logik.rundeMissionComplete(play);
+	public boolean rundeMissionComplete() {
+		return logik.rundeMissionComplete(gibAktivenPlayer());
 	}
 
 	public Player getGewinner() {
@@ -228,8 +231,8 @@ public class Risiko implements RisikoInterface, Serializable {
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	
-	public boolean kannAngreifen(Player player) {
-		return logik.kannAngreifen(player);
+	public boolean kannAngreifen() {
+		return logik.kannAngreifen(gibAktivenPlayer());
 	}
 	
 	//TODO: exception behandeln
@@ -414,6 +417,12 @@ public class Risiko implements RisikoInterface, Serializable {
 	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array l�schen
 	public boolean isPlayerDead(Player play) {
 		return play.isDead();
+	}
+
+	@Override
+	public void allUpdate(String ereignis) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
