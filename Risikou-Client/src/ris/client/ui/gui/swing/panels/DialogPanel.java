@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
 
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
@@ -29,6 +30,7 @@ public class DialogPanel extends JPanel {
 	private RisikoInterface ris;
 	private String aktion;
 	private JButton speicherButton;
+	private int runde = 1; // TO DO: hier könnte man die runden aus risiko Abfragen ansonsten wär das nicht aktuell mit Speicherstand
 	
 	public DialogPanel(RisikoInterface risiko, SpeichernListener listener) {
 		ris = risiko;	
@@ -61,10 +63,22 @@ public class DialogPanel extends JPanel {
 		this.aktion = aktion;
 		switch(aktion) {
 		case "nextPlayer":
-			info.append(ris.gibAktivenPlayer() + " ist am Zug. \n");
+			try {
+				info.getDocument().insertString(0, "Runde : " + runde++ + ris.gibAktivenPlayer() + " ist am Zug. \n", null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			info.append(ris.gibAktivenPlayer() + " ist am Zug. \n");
 			break;
 		case "setUnits":
-			info.append(ris.gibAktivenPlayer() + " setzt neue Einheiten \n");
+			try {
+				info.getDocument().insertString(0, ris.gibAktivenPlayer() + " setzt neue Einheiten \n", null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			info.append(ris.gibAktivenPlayer() + " setzt neue Einheiten \n");
 			break;
 		case "attack":
 			info.append(ris.gibAktivenPlayer() + " greift an. \n");
@@ -98,7 +112,21 @@ public class DialogPanel extends JPanel {
 	
 	//text anhaengen bei set units
 	public void updateSetUnit(String land) {
-		info.append(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n");
+		try {
+			info.getDocument().insertString(0, ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n", null);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		info.append(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n");
+	}
+	public void beginAttack(String attacker, String defender) {
+		try {
+			info.getDocument().insertString(0, attacker + "greift " + defender + " an\n", null);
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	//ab hier eventuell auslagern -> wohin?

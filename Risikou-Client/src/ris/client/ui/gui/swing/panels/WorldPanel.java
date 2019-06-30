@@ -67,7 +67,7 @@ public class WorldPanel extends JPanel {
             public void mousePressed(MouseEvent me) { 
             System.out.println("x: "+me.getX()+" y: "+me.getY());	
             //der MouseClick wird nur ausgewertet, wenn die gui den boolean landClickZeit auf true gesetzt hat, sonst passiert nichts	
-            if(risiko.getLandClickZeit()) {
+            if(ris.getLandClickZeit()) {
 
 				int x = me.getX();
 				int y = me.getY();
@@ -94,9 +94,10 @@ public class WorldPanel extends JPanel {
 						if (attackState == 1) {
 							// es wird ueberprueft, ob das angeklickte Land gueltig ist
 							if (ris.attackLandGueltig(land)) { //TODO: know
+//								System.out.println("ja das land das geklickt wurde ist gueltig");
 								attackLand1 = land;
 								attackState = 2;
-								System.out.println("attackstate: " + attackState);
+								System.out.println("attack state: " + attackState);
 								listener.countryClicked(land);
 							} else {
 								JOptionPane.showMessageDialog(null, "Das Land gehoert dir nicht oder du kannst nicht mit dem Land angreifen.");

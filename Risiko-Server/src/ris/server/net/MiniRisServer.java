@@ -1,7 +1,9 @@
 package ris.server.net;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,11 +22,13 @@ public class MiniRisServer {
 	private RisikoInterface risiko;
 	private ArrayList<ServerListener> allServerListeners;
 
+	private ObjectOutputStream theoneobjectstream;
+	
 	public MiniRisServer(int port) {
 		risiko = new Risiko();
 
-		allServerListeners = new ArrayList<ServerListener>();
-
+		allServerListeners = new ArrayList<ServerListener>(); 
+		
 		if (port == 0) {
 			port = DEFAULT_PORT;
 		}
@@ -34,7 +38,7 @@ public class MiniRisServer {
 			serverSocket = new ServerSocket(port);
 			InetAddress ia = InetAddress.getLocalHost();
 			System.out.println("Host :" + ia.getHostName());
-			System.out.println("Server *" + ia.getHostAddress() + "* lauscht auf Port");
+			System.out.println("Server *" + ia.getHostAddress() + "* lauscht auf Port - " + serverSocket.getLocalPort());
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,14 +49,18 @@ public class MiniRisServer {
 	public void acceptClientConnectRequests() {
 		try {
 			while (true) {
+				System.out.println("warte auf client");
 				Socket clientSocket = serverSocket.accept();
+				System.out.println("juhuu jemand will mit mir spielen - waiting for connection");
+				
 				// damit der outputstream gut funktioniert muessen die methoden in den interface
 				// synchronized implementieren
 				OutputStream out = clientSocket.getOutputStream();
-				ServerListener listener = new ServerFassade(out, risiko);
+				theoneobjectstream = new ObjectOutputStream(new PrintStream(out));
+				ServerListener listener = new ServerFassade(theoneobjectstream, risiko);
 //				ServerListener listener = new ServerFassade(clientSocket, risiko);
 				allServerListeners.add(listener);
-				ClientRequestProcessor c = new ClientRequestProcessor(out, clientSocket, risiko, allServerListeners);
+				ClientRequestProcessor c = new ClientRequestProcessor(theoneobjectstream, clientSocket, risiko, allServerListeners);
 				Thread t = new Thread(c);
 				//startet die run Methode vom ClientRequestProcessor
 				t.start(); 

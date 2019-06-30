@@ -24,7 +24,7 @@ public class Turn implements Serializable{
 
 	public void setNextState() {
 		this.state = this.state.setNextState();
-		
+		System.out.println("wurde nächster state gesetzte?? " + state);
 		System.out.println("set next state : " + getCurrentState().toString()); //TODO: Test
 	}
 	

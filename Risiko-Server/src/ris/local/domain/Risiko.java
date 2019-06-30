@@ -53,6 +53,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public void setNextState() {
+		System.out.println("risiko, wird state gesetzte? ");
 		turn.setNextState();
 	}
 	
@@ -232,7 +233,6 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	
 	public boolean kannAngreifen() {
-		System.out.println("ich bin im risiko. kann angreifen");
 		return logik.kannAngreifen(gibAktivenPlayer());
 	}
 	

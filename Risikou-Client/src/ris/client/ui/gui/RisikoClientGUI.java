@@ -98,7 +98,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private EintauschPanel eintauschPl;
 
 	private SetUnitsPanel setUnitsPl;
-	
+
 	private PausePanel pausePl;
 
 	private QuestionPanel changeCardsPl;
@@ -116,7 +116,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 		zweitausendaLook();
 		risiko = new RisikoFassade(host, port, this);
-		
+
 		initializeLoginPl();
 //		testSetUp(); // legt drei spieler an. zum testen
 //		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
@@ -134,7 +134,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
 	}
-	
+
 	public void setSpieler(String name, int iD) {
 		this.name = name;
 		this.spielerNummer = iD;
@@ -202,7 +202,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
 		System.out.println("show Question ");
-		switch ((State)risiko.getCurrentState()) {
+		switch ((State) risiko.getCurrentState()) {
 		case SETUNITS:
 			eintauschPl = new EintauschPanel(this, risiko);
 			System.out.println("??");
@@ -242,27 +242,19 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		}
 	}
-	
+
 	@Override
 	public void eintauschButtonClicked(String answer) {
 		if (answer.equals("setzen")) {
+			System.out.println("show set uniiiits");
 			showSetUnits();
-			risiko.allUpdate("setUnits");
+//			risiko.allUpdate("setUnits");
 		} else {
 			cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
 			container.add(cardRequestPl, "cardRequest");
 			cl.show(container, "cardRequest");
 			risiko.setTauschZeit(true);
 		}
-	}
-	
-	public void updateDialog(String ereignis) {
-		dialogPl.update(ereignis);
-	}
-	
-	public void updateDialogSetUnit(String info) {
-		System.out.println("bei updatedialog in gui angekommen");
-		dialogPl.updateSetUnit(info);
 	}
 
 	public void showSetUnits() {
@@ -274,8 +266,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		cl.show(container, "setUnits");
 		risiko.setLandClickZeit(true);
 	}
-
-
 
 	@Override // question panel
 	public void answerSelected(boolean answer, String phase) {
@@ -369,9 +359,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			} else {
 				// aufruf für server mit info: beide länder att def , und unit vom angreifer
 				// verteidiger client muss bescheid kriegen
-				defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko); //1
-				container.add(defenseNumberPl, "defenseNumber"); //2..
-				cl.show(container, "defenseNumber"); //3.. muss beim verteidiger angezeigt werden 
+				defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko); // 1
+				container.add(defenseNumberPl, "defenseNumber"); // 2..
+				cl.show(container, "defenseNumber"); // 3.. muss beim verteidiger angezeigt werden
 			}
 			break;
 		case MOVEATTACK:
@@ -391,14 +381,22 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		case DEFENSE: // hier wird verteigigt
 			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
 			if (number <= worldPl.getAttackLand2().getEinheiten() && number < 3) {
+
 				// ganzer block noch nicht korrekt bis
-				//sagt dem server die anzahl an verteidiger units
+				// -------------------------------------------------------------------------
+				// TODO:
+				// sagt dem server die anzahl an verteidiger units
 				// der server muss angriff dann durchführen und über listener infos ruasgeben
-				//dazu erstellt er ein attackobjekt, das beinhaten muss: beide länder und beide unit-angabaen
-				//länder und att-unit hat er vorhre schon vom angreifer bekommen, jetzt auch die def unit
+				// dazu erstellt er ein attackobjekt, das beinhaten muss: beide länder und beide
+				// unit-angabaen
+				// länder und att-unit hat er vorhre schon vom angreifer bekommen, jetzt auch
+				// die def unit
 				Attack attackObjekt = null;
 				try {
-					attackObjekt = risiko.attack(worldPl.getAttackLand1(), worldPl.getAttackLand2(),// diese methode über server und verteilt werden
+					attackObjekt = risiko.attack(worldPl.getAttackLand1(), worldPl.getAttackLand2(), // diese methode
+																										// über server
+																										// und verteilt
+																										// werden
 							attackNumberPl.getNumber(), defenseNumberPl.getNumber());
 					dialogPl.update(attackObjekt);
 					dicePl.setAttack(attackObjekt);
@@ -484,16 +482,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			}
 		}
 	}
-	
+
 	public void continueSetUnits() {
-		if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
-		if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
-			setUnitsPl.update();
-		} else {
-			risiko.setLandClickZeit(false);
-			risiko.setNextState();
-			showQuestion();
-		}
+		if (risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
+			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
+				setUnitsPl.update();
+			} else {
+				risiko.setLandClickZeit(false);
+				risiko.setNextState();
+				showQuestion();
+			}
 		}
 	}
 
@@ -504,13 +502,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			System.out.println("wurde verarbeitet");
 			System.out.println("in gui richtig angekommen");
 			risiko.setEinheiten(land, 1);
-			// TODO: hat bisher probleme mit dem server gegeben.. denke, das liegt daran, dass es in einem zweiten thread liegt und parallel läuft
+			// TODO: hat bisher probleme mit dem server gegeben.. denke, das liegt daran,
+			// dass es in einem zweiten thread liegt und parallel läuft
 //			Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
 //			if (win()) {
 //				JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 //			}
 			setUnitsPl.decrementUnits();
-			//folgender Block wurde ausgelagert, da es an dieser stelle immer probleme mit den threads gab, während des serverrequestprocessor noch gearbeitet hat, wurden hier neue befehle eingelesen
+			// folgender Block wurde ausgelagert, da es an dieser stelle immer probleme mit
+			// den threads gab, während des serverrequestprocessor noch gearbeitet hat,
+			// wurden hier neue befehle eingelesen
 			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
 				setUnitsPl.update();
 			} else {
@@ -555,24 +556,25 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 	}
 
-	//// TestSpielstart ohne login \\\\
-	public void testSetUp() {
-		try {
-			risiko.playerAnlegen("Annie", "rot", 0);
-			risiko.playerAnlegen("Tobi", "gruen", 1);
-			risiko.playerAnlegen("Hannes", "blau", 2);
-		} catch (SpielerNameExistiertBereitsException e) {
-			System.out.println(e.getLocalizedMessage());
-		}
-		risiko.spielAufbau();
-		for (int x = 0; x < 10; x++) {
-			System.out.println("hier :" + x % 3);
-			risiko.getPlayerArray().get(x % 3).setEinheitenkarte(risiko.getRisikoKarten().get(x));
-			System.out.println(risiko.getPlayerArray().get(x % 3).getEinheitenkarten().get(0).getSymbol());
-		}
+	// ------------------------ UPDATE'S from SRP -------------------------------\\
+
+	public void updateWorld() {
+		worldPl.removeAll();
+		worldPl.revalidate();
+		worldPl.repaint();
+	}
+
+	public void updateDialog(String ereignis) {
+		dialogPl.update(ereignis);
+	}
+
+	public void updateDialogSetUnit(String info) {
+		System.out.println("bei updatedialog in gui angekommen");
+		dialogPl.updateSetUnit(info);
 	}
 
 /////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
+
 	public void showPanel(JPanel panel) {
 		Container c = getContentPane();
 		c.removeAll();
@@ -590,7 +592,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		// synchronised
 //		showNeuerSpielerPanel();
 //	}
-	
+
 	public void showNeuesSpielPanel() {
 		if (risiko.getPlayerArray().size() == 0) {
 			showPanel(wieVielePl);
@@ -623,10 +625,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		showIndividuellesPanel();
 //		showQuestion();
 	}
-	
-	//Diese Methode prüft, wer der Client ist zeigt dementsprechend das "interaktive" Panel an
+
+	// Diese Methode prüft, wer der Client ist zeigt dementsprechend das
+	// "interaktive" Panel an
 	public void showIndividuellesPanel() {
-		if(risiko.gibAktivenPlayer().getName().equals(this.name)) {
+		if (risiko.gibAktivenPlayer().getName().equals(this.name)) {
 			showQuestion();
 		} else {
 			pausePl = new PausePanel(this.spielerNummer);
@@ -638,12 +641,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //TODO: ueberfluessig?
 	public int getSpielerAnzahl() {
 		return wieVielePl.getAnzahlSpieler();
-	}
-
-	public void updateWorld() {
-		worldPl.removeAll();
-		worldPl.revalidate();
-		worldPl.repaint();
 	}
 
 	public static void main(String[] args) {
@@ -746,7 +743,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	// Methode schaut ob aktueller Spieler gewonnen hat
 	public boolean aktuellerPlayerWin() {
-		//fragt ob der aktuellePlayer gewonnen hat
+		// fragt ob der aktuellePlayer gewonnen hat
 		if (risiko.rundeMissionComplete()) {
 			return true;
 		}
@@ -774,6 +771,31 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	}
 
+	public String getNameFromGui() {
+		return name;
+	}
+
+	//// ---------------------- TestSpielstart ohne login
+	//// ----------------------------\\\\ nicht auf Server Erprobt
+	public void testSetUp() {
+		try {
+			risiko.playerAnlegen("Annie", "rot", 0);
+			risiko.playerAnlegen("Tobi", "gruen", 1);
+			risiko.playerAnlegen("Hannes", "blau", 2);
+		} catch (SpielerNameExistiertBereitsException e) {
+			System.out.println(e.getLocalizedMessage());
+		}
+		risiko.spielAufbau();
+		for (int x = 0; x < 10; x++) {
+			System.out.println("hier :" + x % 3);
+			risiko.getPlayerArray().get(x % 3).setEinheitenkarte(risiko.getRisikoKarten().get(x));
+			System.out.println(risiko.getPlayerArray().get(x % 3).getEinheitenkarten().get(0).getSymbol());
+		}
+	}
+
+	// ___________________________ Speichern & Laden
+	// ________________________________________
+
 	@Override
 	public void speichern() {
 		String dateiname = JOptionPane.showInputDialog("Name der Datei: ");
@@ -791,5 +813,23 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 		System.out.println("hier gehts weiter");
 		showGamePanel();
+	}
+
+	public void setAttackPlayer(int att, int def) {
+		String attacker = null;
+		String defender = null;
+		try {
+			attacker = risiko.getLandById(att).getBesitzer().getName();
+			defender = risiko.getLandById(def).getBesitzer().getName();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("gui angreifer : " + attacker + "verteidiger : " + defender);
+		if (getNameFromGui().equals(attacker)) {
+			System.out.println("Ich " + name + " bin angreifer");
+		} else if (getNameFromGui().equals(defender)) {
+			System.out.println("Ich " + name + " bin verteidiger");
+		}
 	}
 }

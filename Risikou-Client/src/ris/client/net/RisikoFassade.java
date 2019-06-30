@@ -24,24 +24,26 @@ public class RisikoFassade implements RisikoInterface {
 	private BufferedReader sin;
 	private PrintStream sout;
 	private ObjectInputStream ois;
+	ServerRequestProcessor serverListener;
 
 	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
 		try {
 			socket = new Socket(host, port);
+//			startServer(socket);<>
 			InputStream is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
-			
-			ServerRequestProcessor serverListener = new ServerRequestProcessor(ois, gui);
+
+			serverListener = new ServerRequestProcessor(ois, sin, gui);
 			Thread t = new Thread(serverListener);
-			t.start(); 
+			t.start();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
 			System.err.println("Fehler beim SocketStream oeffnen : " + e);
-			if(socket != null) {
+			if (socket != null) {
 				try {
 					socket.close();
 				} catch (IOException e1) {
@@ -52,36 +54,40 @@ public class RisikoFassade implements RisikoInterface {
 			System.err.println("Socket geschlossen");
 			System.exit(0);
 		}
-		
+
 		System.err.println("Verbunden: " + socket.getInetAddress() + " : " + socket.getPort());
-		try {
+		/*try {
 			String message = sin.readLine();
 			System.out.println(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		
+		}*/
+
 	}
 
 	@Override
 	public State getCurrentState() {
+		goIntoCommandMode();
 		State currentState = null;
-		sout.println("getCurrentState");
-		while(currentState == null) {
-		try {
-			synchronized(ois) {
-				Object o = new Object();
-				o = ois.readObject(); 
-				System.out.println("objectState " + o);
-				currentState = (State) o;
+//		while (currentState == null) {
+			try {
+				synchronized (ois) {
+					goIntoCommandMode();
+					sout.println("getCurrentState");
+					Object o = new Object();
+					o = ois.readObject();
+					System.out.println("(RF)objectState " + o);
+					currentState = (State) o;
 //				currentState = (State) ois.readObject(); // Was passiert mit UTF??
+				}
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		}
+//		}
+		System.out.println("(RF)cuurent state " + currentState);
+		releaseCommandMode();
 		return currentState;
 	}
 
@@ -89,7 +95,7 @@ public class RisikoFassade implements RisikoInterface {
 	public boolean kannAngreifen() {
 		sout.println("kannAngreifen");
 		boolean angriff = false;
-		synchronized(ois) {
+		synchronized (ois) {
 			try {
 				Object o = new Object();
 				o = ois.readObject();
@@ -106,22 +112,27 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Player gibAktivenPlayer() {
+		goIntoCommandMode();
+		
 		Player aktiverPlayer = null;
 		sout.println("gibAktivenPlayer");
 		try {
-			synchronized(ois) {
+			synchronized (ois) {
 				aktiverPlayer = (Player) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
+		releaseCommandMode();
 		return aktiverPlayer;
 	}
 
 	@Override
 	public void setNextState() {
+		goIntoCommandMode();
 		sout.println("setNextState");
+		releaseCommandMode();
 	}
 
 	@Override
@@ -138,17 +149,19 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public int errechneVerfuegbareEinheiten() {
+		goIntoCommandMode();
 		sout.println("errechneVerfuegbareEinheiten");
-		
+
 		int units = 0;
 		try {
-			synchronized(ois) {
-			units = (Integer) ois.readObject();
+			synchronized (ois) {
+				units = (Integer) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return units;
 	}
 
@@ -184,54 +197,77 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void playerAnlegen(String name, String farbe, int iD) {
+		goIntoCommandMode();
 		Integer ID = iD;
 		sout.println("playerAnlegen");
 		sout.println(name);
 		sout.println(farbe);
 		sout.println(ID.toString());
+		releaseCommandMode();
 	}
 
-	//TODO: kann glaube ich weg
+	// TODO: kann glaube ich weg
 	@Override
 	public void spielAufbau() {
 		sout.println("spielAufbau");
 	}
-	
+
 	@Override
 	public void setSpielerAnzahl(int spielerAnzahl) {
 		sout.println("setSpielerAnzahl");
 		sout.println(spielerAnzahl);
 	}
-	
+
 	@Override
 	public int getSpielerAnzahl() {
 		sout.println("getSpielerAnzahl");
 		int spielerAnzahl = 0;
 		try {
-			synchronized(ois) {
+			synchronized (ois) {
 				spielerAnzahl = (Integer) ois.readObject();
 			}
-			} catch (ClassNotFoundException | NumberFormatException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} catch (ClassNotFoundException | NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return spielerAnzahl;
 	}
 
+	private void goIntoCommandMode(){
+		serverListener.setDoNotListenMode(true);
+		if (serverListener.isWaitingForServer())
+		{
+			sout.println("sentAliveMessage");
+			while (serverListener.isWaitingForServer())
+			{
+				System.out.println("still waiting for server");				
+			}
+			System.out.println("done we can go into command mode");
+		}
+	}
+	
+	private void releaseCommandMode(){
+		serverListener.setDoNotListenMode(false);
+		System.out.println("released command mode");
+	}
+	
 	@Override
 	public ArrayList<Player> getPlayerArray() {
+		goIntoCommandMode();
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
-		sout.println("getPlayerArray");	
+		sout.println("getPlayerArray");
 		try {
 //			if(!ois.ct().equals("leer")){
-			synchronized(ois) {
-			allePlayer = (ArrayList<Player>) ois.readObject();
+			synchronized (ois) {
+				
+				allePlayer = (ArrayList<Player>) ois.readObject();
 			}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return allePlayer;
 	}
 
@@ -243,18 +279,22 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Land getLandById(int landId) {
+		goIntoCommandMode();
+		System.out.println("rf getLandByID");
 		sout.println("getLandById");
+		System.out.println("(rf) landID" + landId);
 		sout.println(landId);
-		
+
 		Land land = null;
 		try {
-			synchronized(ois) {
-			land = (Land) ois.readObject();
+			synchronized (ois) {
+				land = (Land) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return land;
 	}
 
@@ -262,7 +302,7 @@ public class RisikoFassade implements RisikoInterface {
 	public boolean allMissionsComplete() {
 		sout.println("allMisionsComplete");
 		boolean win = false;
-		synchronized(ois) {
+		synchronized (ois) {
 			try {
 				win = (boolean) ois.readObject();
 			} catch (IOException | ClassNotFoundException e) {
@@ -277,7 +317,7 @@ public class RisikoFassade implements RisikoInterface {
 	public boolean rundeMissionComplete() {
 		sout.println("rundeMissionComplete");
 		boolean win = false;
-		synchronized(ois) {
+		synchronized (ois) {
 			try {
 				win = (boolean) ois.readObject();
 			} catch (ClassNotFoundException | IOException e) {
@@ -291,18 +331,18 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void spielSpeichern(String name) {
 		sout.println("spielSpeichern");
-		//muss hier noch darauf gewartet werden, dass der server sein ok gibt?
+		// muss hier noch darauf gewartet werden, dass der server sein ok gibt?
 		sout.println(name);
 	}
-	
+
 	@Override
 	public String[] getSpielladeDateien() {
 		String[] verzeichnis = new String[10];
-		
+
 		sout.println("getSpielladeDateien");
 		try {
-			synchronized(ois) {
-			verzeichnis = (String[]) ois.readObject();
+			synchronized (ois) {
+				verzeichnis = (String[]) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -319,42 +359,46 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean getLandClickZeit() {
+		goIntoCommandMode();
 		boolean landClickZeit = true;
-		
+
 		sout.println("getLandClickZeit");
 		try {
-			synchronized(ois) {
-			landClickZeit = (boolean) ois.readObject();
+			synchronized (ois) {
+				landClickZeit = (boolean) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("clickzeit: " + landClickZeit);
+		releaseCommandMode();
 		return landClickZeit;
 	}
 
 	@Override
 	public boolean getTauschZeit() {
 		boolean tauschZeit = false;
-		
+
 		sout.println("getTauschZeit");
 		try {
-			synchronized(ois) {
-			tauschZeit = (boolean) ois.readObject();
+			synchronized (ois) {
+				tauschZeit = (boolean) ois.readObject();
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return tauschZeit;
 	}
-	
+
 	@Override
 	public void setLandClickZeit(boolean obLandClickbar) {
+		goIntoCommandMode();
 		sout.println("setLandClickZeit");
 		sout.println(obLandClickbar);
+		releaseCommandMode();
 	}
 
 	@Override
@@ -368,14 +412,39 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 		System.out.println("Land : " + attacker.getNummer());
 		sout.println("attackLandGueltig");
-		sout.println(attacker);
+		sout.println(attacker.getNummer());
+		synchronized (ois) {
+			try {
+				return (boolean) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
 	}
 
 	@Override
 	public boolean defenseLandGueltig(Land attacker, Land defender) {
-		// TODO Auto-generated method stub
+		sout.println("defenseLandGueltig");
+		sout.println(attacker.getNummer());
+		sout.println(defender.getNummer());
+		synchronized (ois) {
+			try {
+				boolean b = (boolean) ois.readObject();
+				System.out.println("defenseLandGueltig ist gueltig");
+				return b;
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		return false;
+	}
+
+	private void sout(int nummer) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -392,11 +461,12 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public ArrayList<Color> getColorArray() {
+		goIntoCommandMode();
 		ArrayList<Color> ColorArray = new ArrayList<Color>();
 		sout.println("getColorArray");
 		try {
-			synchronized(ois) {
-			ColorArray = (ArrayList<Color>) ois.readObject();
+			synchronized (ois) {
+				ColorArray = (ArrayList<Color>) ois.readObject();
 			}
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -405,19 +475,21 @@ public class RisikoFassade implements RisikoInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return ColorArray;
 	}
 
 	@Override
 	public ArrayList<String> getFarbauswahl() {
+		goIntoCommandMode();
 		ArrayList<String> farbauswahl = new ArrayList<String>();
-		
+
 		sout.println("getFarbauswahl");
-		
+
 //		String antwort = "";
 		try {
-			synchronized(ois) {
-			farbauswahl = (ArrayList<String>) ois.readObject();
+			synchronized (ois) {
+				farbauswahl = (ArrayList<String>) ois.readObject();
 			}
 //			int anzahl = Integer.parseInt(antwort);
 //			for(int i=0; i<anzahl; i++) {
@@ -432,6 +504,7 @@ public class RisikoFassade implements RisikoInterface {
 			System.err.println(e.getMessage());
 			return null;
 		}
+		releaseCommandMode();
 		return farbauswahl;
 	}
 
@@ -440,16 +513,21 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	public void setEinheiten(Land land, int units) {
+		goIntoCommandMode();
+		System.out.println("ich setzte einheiten <-----------------------");
 		sout.println("setEinheiten");
 //		die ID vom Land wird verschickt -> Methode getLandByID
 		sout.println(land.getNummer());
 		sout.println(units);
+		releaseCommandMode();
+
 	}
-	
+
 	public void allUpdate(String ereignis) {
+		System.out.println("rf geht das update?");
 		sout.println("allUpdate");
 		sout.println(ereignis);
 	}
@@ -459,5 +537,5 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
