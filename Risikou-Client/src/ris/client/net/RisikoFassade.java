@@ -464,7 +464,6 @@ public class RisikoFassade implements RisikoInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
 		releaseCommandMode();
 		return false;
 	}
