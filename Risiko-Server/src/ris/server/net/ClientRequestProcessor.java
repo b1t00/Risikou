@@ -151,6 +151,12 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "attackLandGueltig":																				//attackLandGueltig
+				attackLandGueltig();
+				break;
+			case "defenseLandGueltig":																				//defenseLandGueltig
+				defenseLandGueltig();
+				break;
 			case "setNextState":
 				risiko.setNextState();
 				break;
@@ -361,7 +367,43 @@ public class ClientRequestProcessor implements Runnable {
 			e1.printStackTrace();
 		}
 	}
-
+	public void attackLandGueltig() {
+		try {
+			int att = Integer.parseInt(in.readLine());
+			oos.reset();
+			oos.writeObject(risiko.attackLandGueltig(risiko.getLandById(att)));
+			oos.reset();
+			System.out.println("aatacklandn " + att);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
+	public void defenseLandGueltig() {
+		Integer att = null;
+		Integer def = null;
+		try {
+			att = Integer.parseInt(in.readLine());
+			def = Integer.parseInt(in.readLine());
+			
+			oos.reset();
+			oos.writeObject(risiko.defenseLandGueltig(risiko.getLandById(att),risiko.getLandById(def)));
+			oos.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		clientsUpdaten("beginAttack");
+		clientsUpdaten(att.toString());
+		clientsUpdaten(def.toString());
+	}
+	
 	public void allUpdate() {
 		String updateState = null;
 //		bekommt von der gui den befehl, allen clients zu sagen, dass sie sich updaten sollen
@@ -375,6 +417,12 @@ public class ClientRequestProcessor implements Runnable {
 		for(ServerListener sl: allServerListeners) {
 			sl.handleEvent("updateDialog");
 			sl.handleEvent(updateState);
+		}
+	}
+	
+	public void clientsUpdaten(String welchesUpdate) {
+		for(ServerListener sl: allServerListeners) {
+			sl.handleEvent(welchesUpdate);
 		}
 	}
 		

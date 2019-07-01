@@ -111,6 +111,7 @@ public class RisikoFassade implements RisikoInterface {
 		try {
 			synchronized(ois) {
 				aktiverPlayer = (Player) ois.readObject();
+				System.out.println("aktiver spiieeler" + aktiverPlayer);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block

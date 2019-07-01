@@ -792,4 +792,21 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		System.out.println("hier gehts weiter");
 		showGamePanel();
 	}
+	public void setAttackPlayer(int att, int def) {
+		String attacker = null;
+		String defender = null;
+		try {
+			attacker = risiko.getLandById(att).getBesitzer().getName();
+			defender = risiko.getLandById(def).getBesitzer().getName();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("gui angreifer : " + attacker + "verteidiger : " + defender);
+		if (name.equals(attacker)) {
+			System.out.println("Ich " + name + " bin angreifer");
+		} else if (name.equals(defender)) {
+			System.out.println("Ich " + name + " bin verteidiger");
+		}
+	}
 }

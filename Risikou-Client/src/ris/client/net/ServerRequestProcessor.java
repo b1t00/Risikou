@@ -77,6 +77,25 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				//es kann sein, dass die updateDialog(Land) methode noch in anderen Situationen genutzt wird, dann muss noch eine alternative Loesung gefunden werden.
 //				client.continueSetUnits();
 				break;
+			case "beginAttack":
+				int attacker = 0;
+				int defender = 0;
+				try {
+					try {
+						attacker = Integer.parseInt(sin.readObject().toString());
+						defender = Integer.parseInt(sin.readObject().toString());
+					} catch (NumberFormatException | ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					System.out.println("angreifer : " + attacker + "verteidiger :" + defender);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+//				System.out.println("(SRP) gui name :" + client.getNameFromGui());
+				client.setAttackPlayer(attacker, defender);
+
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);
 				break;
