@@ -227,6 +227,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		case CHANGEUNITS:
 			if (risiko.kannVerschieben(risiko.gibAktivenPlayer())) {
+				
+				System.out.println("kann ich verschieben GUI <-----------------------????????????????????????????ß");
 				moveUnitsQuestionPl = new QuestionPanel(this, risiko, "state");
 				container.add(moveUnitsQuestionPl, "moveUnitsQuestion");
 				cl.show(container, "moveUnitsQuestion");
@@ -460,6 +462,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		case MOVE:
 			if (risiko.moveUnitsGueltig(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number)) {
+				System.out.println("hab ichs geschafft?? ------------------------------------------------------------------------");
 				try {
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
@@ -540,6 +543,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				risiko.setLandClickZeit(true);
 				cl.show(container, "moveTo");
 			} else if (worldPl.getMoveState() == 1) {
+				System.out.println("<----------------------- bin ich hier im moveState2222?? GuiRequest");
 				moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE, risiko);
 				container.add(moveNumberPl, "moveNumber");
 				cl.show(container, "moveNumber");
@@ -804,12 +808,32 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		showGamePanel();
 	}
 
+
 	public void setAttackPlayer(String attLand, String defLand, String attacker, String defender) {
 //		System.out.println("gui angreifer : " + attacker + "verteidiger : " + defender);
 //		if (getNameFromGui().equals(attacker)) {
 //			System.out.println("Ich " + name + " bin angreifer");
 //		} else 
 		if (getNameFromGui().equals(defender)) {
+
+//	public void setAttackPlayer(int att, int def) {
+	//	String attacker = null;
+	//	String defender = null;
+	//	try {
+	//		attacker = risiko.getLandById(att).getBesitzer().getName();
+	//		defender = risiko.getLandById(def).getBesitzer().getName();
+	//	} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+	//		e.printStackTrace();
+	//	}
+	//	System.out.println("gui angreifer : " + attacker + "verteidiger : " + defender);
+	//	if (name.equals(attacker)) {
+	//		System.out.println("Ich " + name + " bin angreifer");
+			//TODO: mit wievielen Angreifen
+	//		serverListener.setDoNotListenMode(false);
+	//	} else 
+//if (name.equals(defender)) {
+			//TODO: mit mwievielen verteidigem
 			System.out.println("Ich " + name + " bin verteidiger");
 			defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko);
 			container.add(defenseNumberPl, "defenseNumber");

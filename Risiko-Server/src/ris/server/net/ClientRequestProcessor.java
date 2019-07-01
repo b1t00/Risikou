@@ -184,13 +184,39 @@ public class ClientRequestProcessor implements Runnable {
 					oos.reset();
 					oos.writeObject(risiko.getDefLandUnits());
 					oos.reset();
+			} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			break;
+		case "attackFinal":
+				attackFinal();
+				break;
+			case "kannVerschieben":
+				int nr = -3; //TODO Achtung: es gibt kein spieler mit dem wert -3
+				try {
+					nr = Integer.parseInt(in.readLine());
+				} catch (NumberFormatException | IOException e3) {
+					// TODO Auto-generated catch block
+					e3.printStackTrace();
+				}
+				try {
+					oos.reset();
+					oos.writeObject(risiko.kannVerschieben(risiko.getPlayerById(nr)));
+					oos.reset();
 				} catch (IOException e2) {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
 				break;
-			case "attackFinal":
-				attackFinal();
+			case "moveFromLandGueltig":																				//attackLandGueltig
+				moveFromLandGueltig();
+				break;
+			case "moveToLandGueltig":																				//attackLandGueltig
+				moveToLandGueltig();
+				break;
+			case "moveUnitsGueltig":
+				moveUnitsGueltig();
 				break;
 			case "setNextState":
 				risiko.setNextState();
@@ -365,6 +391,8 @@ public class ClientRequestProcessor implements Runnable {
 				}
 	}
 	
+
+	
 	public void defenseLandGueltig() {
 		Integer att = null;
 		Integer def = null;
@@ -427,6 +455,64 @@ public class ClientRequestProcessor implements Runnable {
 		allClientsUpdaten("attackFinal");
 		schickeAttackObjekt(attackObjekt);
 	}
+	
+	public void moveFromLandGueltig() {
+		try {
+			int von = Integer.parseInt(in.readLine());
+			
+			oos.reset();
+			oos.writeObject(risiko.moveFromLandGueltig(risiko.getLandById(von)));
+			oos.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+}
+	public void moveToLandGueltig() {
+		Integer von = null;
+		Integer zu = null;
+		try {
+			von = Integer.parseInt(in.readLine());
+			zu = Integer.parseInt(in.readLine());
+			
+			oos.reset();
+			oos.writeObject(risiko.moveToLandGueltig(risiko.getLandById(von),risiko.getLandById(zu)));
+			oos.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void moveUnitsGueltig(){
+		Integer vonGue = null;
+		Integer zuGue = null;
+		Integer unitsGue = null;
+		try {
+			vonGue = Integer.parseInt(in.readLine());
+			zuGue = Integer.parseInt(in.readLine());
+			unitsGue = Integer.parseInt(in.readLine());
+			oos.reset();
+			oos.writeObject(risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue));
+			oos.reset();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	};
 	
 	public void setEinheiten() {
 		int landID = 0;

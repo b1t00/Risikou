@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.nio.ReadOnlyBufferException;
 import java.util.ArrayList;
 
 import ris.client.ui.gui.RisikoClientGUI;
@@ -71,10 +72,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getCurrentState");
 		try {
 //			synchronized (ois) {
-				Object o = new Object();
-				o = ois.readObject();
-				System.out.println("(RF)objectState " + o);
-				currentState = (State) o;
+			Object o = new Object();
+			o = ois.readObject();
+			System.out.println("(RF)objectState " + o);
+			currentState = (State) o;
 //				currentState = (State) ois.readObject(); 
 //			}
 		} catch (ClassNotFoundException | IOException e) {
@@ -93,16 +94,16 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("kannAngreifen");
 		boolean angriff = false;
 //		synchronized (ois) {
-			try {
-				Object o = new Object();
-				o = ois.readObject();
-				System.out.println("kann Angreifen ? : " + o.toString());
-				angriff = (boolean) o;
+		try {
+			Object o = new Object();
+			o = ois.readObject();
+			System.out.println("kann Angreifen ? : " + o.toString());
+			angriff = (boolean) o;
 //				angriff = (boolean) ois.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		}
 		releaseCommandMode();
 		return angriff;
@@ -118,7 +119,7 @@ public class RisikoFassade implements RisikoInterface {
 			synchronized (ois) {
 				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
-				System.out.println("RF aktiver player nachfrage : "  + aktiverPlayer);
+				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -137,7 +138,18 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean kannVerschieben(Player play) {
-		// TODO Auto-generated method stub
+		goIntoCommandMode();
+		sout.println("kannVerschieben");
+		Integer playerNr = play.getNummer();
+		sout.println(playerNr.toString());
+		try {
+			System.out.println("kann verschieben ?? wird zumindest gefragt");
+			return (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
 		return false;
 	}
 
@@ -185,8 +197,23 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean moveUnitsGueltig(Land von, Land zu, int units) {
-		// TODO Auto-generated method stub
-		return false;
+		goIntoCommandMode();
+		Integer vonGue = von.getNummer();
+		Integer zuGue = zu.getNummer();
+		Integer unitsGue = units;
+		boolean gueltigkeit = false;
+		sout.println("moveUnitsGueltig");
+		sout.println(vonGue.toString());
+		sout.println(zuGue.toString());
+		sout.println(unitsGue.toString());
+		try {
+			return gueltigkeit = (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return gueltigkeit;
 	}
 
 	@Override
@@ -216,7 +243,7 @@ public class RisikoFassade implements RisikoInterface {
 	public int getSpielerAnzahl() {
 		goIntoCommandMode();
 		sout.println("getSpielerAnzahl");
-		
+
 		int spielerAnzahl = 0;
 		try {
 			synchronized (ois) {
@@ -437,7 +464,7 @@ public class RisikoFassade implements RisikoInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//		}
+		}
 		releaseCommandMode();
 		return false;
 	}
@@ -488,13 +515,40 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean moveFromLandGueltig(Land von) {
+		goIntoCommandMode();
 		// TODO Auto-generated method stub
-		return false;
+		System.out.println("Land Gueltig : " + von.getNummer());
+		sout.println("moveFromLandGueltig");
+		sout.println(von.getNummer());
+//		synchronized (ois) {
+		try {
+			return (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+//			}
+		}
+		releaseCommandMode();
+		return false; // TODO: Achtung vlt gibt er eine false
 	}
 
 	@Override
 	public boolean moveToLandGueltig(Land von, Land zu) {
-		// TODO Auto-generated method stub
+		goIntoCommandMode();
+		sout.println("moveToLandGueltig");
+		sout.println(von.getNummer());
+		sout.println(zu.getNummer());
+		synchronized (ois) {
+			try {
+				boolean b = (boolean) ois.readObject();
+				System.out.println("moveFromLand ist gueltig RF");
+				return b;
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		releaseCommandMode();
 		return false;
 	}
 
