@@ -139,9 +139,10 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				client.setAttackPlayer(attacker, defender);
-
+				setDoNotListenMode(false);
+				System.out.println("(SRP) gui name :" + client.getNameFromGui());
+				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);
 				break;
