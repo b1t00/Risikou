@@ -488,8 +488,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void countryClicked(Land land) {
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
-			System.out.println("wurde verarbeitet");
-			System.out.println("in gui richtig angekommen");
 			risiko.setEinheiten(land, 1);
 			// TODO: hat bisher probleme mit dem server gegeben.. denke, das liegt daran, dass es in einem zweiten thread liegt und parallel läuft
 //			Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
@@ -503,6 +501,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			} else {
 				risiko.setLandClickZeit(false);
 				risiko.setNextState();
+				System.out.println("show question");
 				showQuestion();
 			}
 			break;

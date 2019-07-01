@@ -67,7 +67,7 @@ public class WorldPanel extends JPanel {
             public void mousePressed(MouseEvent me) { 
             System.out.println("x: "+me.getX()+" y: "+me.getY());	
             //der MouseClick wird nur ausgewertet, wenn die gui den boolean landClickZeit auf true gesetzt hat, sonst passiert nichts	
-            if(risiko.getLandClickZeit()) {
+            if(risiko.getLandClickZeit()) { // && aktiverPlayer bin ich
 
 				int x = me.getX();
 				int y = me.getY();
