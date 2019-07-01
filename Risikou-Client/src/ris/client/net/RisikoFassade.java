@@ -178,12 +178,6 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public Attack attack(Land angriff, Land defence, int unitsAngriff, int unitsDefend) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Player getGewinner() {
 		// TODO Auto-generated method stub
 		return null;
@@ -290,9 +284,9 @@ public class RisikoFassade implements RisikoInterface {
 
 		Land land = null;
 		try {
-			synchronized (ois) {
+//			synchronized (ois) {
 				land = (Land) ois.readObject();
-			}
+//			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -303,31 +297,31 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean allMissionsComplete() {
-		sout.println("allMisionsComplete");
+		goIntoCommandMode();
+		sout.println("allMissionsComplete");
 		boolean win = false;
-		synchronized (ois) {
 			try {
 				win = (boolean) ois.readObject();
 			} catch (IOException | ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		releaseCommandMode();
 		return win;
 	}
 
 	@Override
 	public boolean rundeMissionComplete() {
+		goIntoCommandMode();
 		sout.println("rundeMissionComplete");
 		boolean win = false;
-		synchronized (ois) {
 			try {
 				win = (boolean) ois.readObject();
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		releaseCommandMode();
 		return win;
 	}
 
@@ -344,9 +338,7 @@ public class RisikoFassade implements RisikoInterface {
 
 		sout.println("getSpielladeDateien");
 		try {
-			synchronized (ois) {
-				verzeichnis = (String[]) ois.readObject();
-			}
+			verzeichnis = (String[]) ois.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -413,27 +405,30 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean attackLandGueltig(Land attacker) {
+		goIntoCommandMode();
 		// TODO Auto-generated method stub
 		System.out.println("Land : " + attacker.getNummer());
 		sout.println("attackLandGueltig");
 		sout.println(attacker.getNummer());
-		synchronized (ois) {
+//		synchronized (ois) {
 			try {
 				return (boolean) ois.readObject();
 			} catch (ClassNotFoundException | IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
+		releaseCommandMode();
 		return false;
 	}
 
 	@Override
 	public boolean defenseLandGueltig(Land attacker, Land defender) {
+		goIntoCommandMode();
 		sout.println("defenseLandGueltig");
 		sout.println(attacker.getNummer());
 		sout.println(defender.getNummer());
-		synchronized (ois) {
+//		synchronized (ois) {
 			try {
 				boolean b = (boolean) ois.readObject();
 				System.out.println("defenseLandGueltig ist gueltig");
@@ -442,8 +437,48 @@ public class RisikoFassade implements RisikoInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
+		releaseCommandMode();
 		return false;
+	}
+	
+	public int getDefLandUnits() {
+		goIntoCommandMode();
+		sout.println("getDefLandUnits");
+		int defLandUnits = 0;
+		try {
+		defLandUnits = (Integer) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+	}
+		releaseCommandMode();
+		return defLandUnits;
+	}
+	
+	public void attackStart(Land attLand, Land defLand, int attUnits) {
+		goIntoCommandMode();
+		sout.println("attackStart");
+		sout.println(attLand.getNummer());
+		sout.println(defLand.getNummer());
+		sout.println(attUnits);
+		releaseCommandMode();
+	}
+	
+	@Override
+	public Attack attackFinal(int defUnits) {
+		goIntoCommandMode();
+		sout.println("attackFinal");
+		sout.println(defUnits);
+		Attack attackObjekt = null;
+		try {
+			attackObjekt = (Attack) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return attackObjekt;
 	}
 
 	private void sout(int nummer) {

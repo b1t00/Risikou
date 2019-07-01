@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -14,8 +12,8 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
+import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
-import ris.common.valueobjects.State;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -28,7 +26,6 @@ public class ClientRequestProcessor implements Runnable {
 	private ArrayList<ServerListener> allServerListeners;
 
 	public ClientRequestProcessor(ObjectOutputStream outClient, Socket clientSocket, RisikoInterface risiko, ArrayList<ServerListener> allServerListeners) {
-		System.out.println("client request processor begin");
 		this.clientSocket = clientSocket;
 		//this.out = new PrintStream(outClient);
 		this.risiko = risiko;
@@ -48,13 +45,11 @@ public class ClientRequestProcessor implements Runnable {
 			}
 			e.printStackTrace();
 		}
-		System.out.println("client request processor finished");
 	}
 	
 	@Override
 	public void run() {
 		System.out.println("thread started - ready for battle - waiting a second");
-		System.out.println("sende init message to server");
 		String input = "";
 		//out.println("Server an Client: Bin bereit fuer den Kampf");
 		try {
@@ -181,6 +176,22 @@ public class ClientRequestProcessor implements Runnable {
 			case "defenseLandGueltig":																				//attackLandGueltig
 				defenseLandGueltig();
 				break;
+			case "attackStart":
+				attackStart();
+				break;
+			case "getDefLandUnits":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getDefLandUnits());
+					oos.reset();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
+			case "attackFinal":
+				attackFinal();
+				break;
 			case "setNextState":
 				risiko.setNextState();
 				break;
@@ -281,6 +292,7 @@ public class ClientRequestProcessor implements Runnable {
 				try {
 					oos.reset();
 					oos.writeObject(risiko.allMissionsComplete());
+					oos.reset();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -370,9 +382,50 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clientsUpdaten("beginAttack");
-		clientsUpdaten(att.toString());
-		clientsUpdaten(def.toString());
+	}
+	
+	public void attackStart() {
+		Land attLand = null;
+		Land defLand = null;
+		int attUnits = 0;
+		
+		try {
+			attLand = risiko.getLandById(Integer.parseInt(in.readLine()));
+			defLand = risiko.getLandById(Integer.parseInt(in.readLine()));
+			attUnits = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | LandExistiertNichtException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		risiko.attackStart(attLand, defLand, attUnits);
+		clientsUpdaten("attackStart");
+		clientsUpdaten(attLand.getName()); 
+		clientsUpdaten(defLand.getName());
+		clientsUpdaten(attLand.getBesitzer().getName());
+		clientsUpdaten(defLand.getBesitzer().getName());
+//		clientsUpdaten(String.valueOf(defLand.getNummer()));
+	}
+	
+	public void attackFinal() {
+		int defUnits = 0;
+		try {
+			defUnits = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Attack attackObjekt = risiko.attackFinal(defUnits);
+		try {
+			oos.reset();
+			oos.writeObject(attackObjekt);
+			oos.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Winner: " + attackObjekt.getWinner());
+		allClientsUpdaten("attackFinal");
+		schickeAttackObjekt(attackObjekt);
 	}
 	
 	public void setEinheiten() {
@@ -394,7 +447,6 @@ public class ClientRequestProcessor implements Runnable {
 		}
 		risiko.setEinheiten(land, units);
 		for(int i = 0; i < allServerListeners.size(); i++) {
-//			for(ServerListener sl: allServerListeners) {
 				if(!(i == risiko.gibAktivenPlayer().getNummer())) {
 					allServerListeners.get(i).handleEvent("updateDialog(Land)");
 					allServerListeners.get(i).handleEvent(land.getName());
@@ -440,8 +492,23 @@ public class ClientRequestProcessor implements Runnable {
 	}
 	
 	public void clientsUpdaten(String welchesUpdate) {
+		for(int i = 0; i < allServerListeners.size(); i++) {
+			if(!(i == risiko.gibAktivenPlayer().getNummer())) {
+				allServerListeners.get(i).handleEvent(welchesUpdate);
+			}
+		}
+	}
+	
+	public void allClientsUpdaten(String welchesUpdate) {
 		for(ServerListener sl: allServerListeners) {
-			sl.handleEvent(welchesUpdate);
+				sl.handleEvent(welchesUpdate);
+			}
+	}
+	
+	
+	public void schickeAttackObjekt(Attack aO) {
+		for(ServerListener sl: allServerListeners) {
+			sl.schickeObjekt(aO);
 		}
 	}
 
@@ -456,7 +523,6 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 		for(int i = 0; i < allServerListeners.size(); i++) {
-//		for(ServerListener sl: allServerListeners) {
 			if(!(i == risiko.gibAktivenPlayer().getNummer())) {
 				allServerListeners.get(i).handleEvent("updateDialog");
 				allServerListeners.get(i).handleEvent(updateState);

@@ -47,8 +47,12 @@ public interface RisikoInterface {
 
 	public boolean defenseLandGueltig(Land attacker, Land defender);
 	
-	public Attack attack(Land angriff, Land defence, int unitsAngriff, int unitsDefend) throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException;
-
+	public void attackStart(Land attLand, Land defLand, int attUnits);
+	
+	public int getDefLandUnits();
+	
+	public Attack attackFinal(int defUnits);
+	
 	public Player getGewinner();
 	
 	public boolean moveFromLandGueltig(Land von);

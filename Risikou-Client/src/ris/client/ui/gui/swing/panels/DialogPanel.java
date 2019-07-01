@@ -91,13 +91,23 @@ public class DialogPanel extends JPanel {
 	//text anhaengen bei angriff
 	public void update(Attack attackObj) {
 		if(attackObj.getWinner().equals(attackObj.getAttacker())) {
-			info.append(attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen. \n"
-				+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
-				".\n" + attackObj.getWinner() + " gewinnt und erobert " + attackObj.getDefLand() + " \n");
+			try {
+				info.getDocument().insertString(0, attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen. \n"
+					+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\n Einheiten Defense: " + attackObj.getDefUnits().length +
+					".\n" + attackObj.getWinner() + " gewinnt und erobert " + attackObj.getDefLand() + " \n", null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else {
-			info.append(attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen.\n"
-					+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
-					"\n" + attackObj.getAttacker() + " verliert den Kampf. \n");
+			try {
+				info.getDocument().insertString(0, attackObj.getAttacker() + " hat mit " + attackObj.getAttLand() + " " + attackObj.getDefLand() + " angegriffen.\n"
+						+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
+						"\n" + attackObj.getAttacker() + " verliert den Kampf. \n", null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

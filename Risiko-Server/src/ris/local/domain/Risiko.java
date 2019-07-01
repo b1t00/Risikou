@@ -274,13 +274,25 @@ public class Risiko implements RisikoInterface, Serializable {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
+	
+	public void attackStart(Land attLand, Land defLand, int attUnits) {
+		logik.attackStart(attLand, defLand, attUnits);
+	}
+	
+	public int getDefLandUnits() {
+		return logik.getDefLandUnits();
+	}
+	
+	public Attack attackFinal(int defUnits) {
+		return logik.attackFinal(defUnits);
+	}
 
 //	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
 
-	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
-			throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
-		return logik.attack(att, def, attEinheiten, defEinheiten);
-	}
+//	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
+//			throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
+//		return logik.attack(att, def, attEinheiten);
+//	}
 
 	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
 		return logik.diceDefense(defUnit);

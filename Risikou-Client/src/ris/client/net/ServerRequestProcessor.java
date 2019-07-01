@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.interfaces.ServerListener;
+import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
 
 public class ServerRequestProcessor implements ServerListener, Runnable {
@@ -117,31 +118,42 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				}
 				client.updateDialogSetUnit(land);
 				client.updateWorld();
-				// folgende methode sagt dem client, dass er mit dem weiteren SetUnits
-				// weitermachen kann, ansonsten gibt es probleme mit den Threads
-				// es kann sein, dass die updateDialog(Land) methode noch in anderen Situationen
-				// genutzt wird, dann muss noch eine alternative Loesung gefunden werden.
-//				client.continueSetUnits();
 				break;
-			case "beginAttack":
-				int attacker = 0;
-				int defender = 0;
+			case "attackStart":
+				String attLand = null;
+				String defLand = null;
+				String attacker = null;
+				String defender = null;
+//				int defLandUnits = 0;
 				try {
 					try {
-						attacker = Integer.parseInt(sin.readObject().toString());
-						defender = Integer.parseInt(sin.readObject().toString());
+						attLand = (String) sin.readObject();
+						defLand = (String) sin.readObject();
+						attacker = (String) sin.readObject();
+						defender = (String) sin.readObject();
+//						defLandUnits = Integer.parseInt( (String) sin.readObject());
 					} catch (NumberFormatException | ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					System.out.println("angreifer : " + attacker + "verteidiger :" + defender);
+//					System.out.println("angreifer : " + attacker + "verteidiger :" + defender);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				System.out.println("(SRP) gui name :" + client.getNameFromGui());
-				client.setAttackPlayer(attacker, defender);
-
+				client.setAttackPlayer(attLand, defLand, attacker, defender);
+				break;
+			case "attackFinal":
+				Attack attackObjekt = null;
+				try {
+					attackObjekt = (Attack) sin.readObject();
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				client.updateAttack(attackObjekt);
+				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);
 				break;
@@ -154,6 +166,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 	public void handleEvent(String e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void schickeObjekt(Attack aO) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

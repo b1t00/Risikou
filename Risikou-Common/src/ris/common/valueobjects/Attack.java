@@ -11,16 +11,23 @@ public class Attack implements Serializable {
 	private Land defense;
 	private Player winner;
 	private Player loser;
+	private int anzahlAttUnits;
+	private int anzahlDefUnits;
 	private int[] attUnits;
 	private int[] defUnits;
 	private ArrayList<Integer> result;
 
 	
-	public Attack(Player attacker, Player defender, Land attack, Land defense) {
-		this.attacker = attacker;
-		this.defender = defender;
-		this.attack = attack;
-		this.defense = defense;
+	public Attack(Land attLand, Land defLand, int anzahlAttUnits) {
+		this.attack = attLand;
+		this.defense = defLand;
+		this.attacker = attLand.getBesitzer();
+		this.defender = defLand.getBesitzer();
+		this.anzahlAttUnits = anzahlAttUnits;
+	}
+	
+	public void setAnzahlDefUnits(int anzahlDefUnits) {
+		this.anzahlDefUnits = anzahlDefUnits;
 	}
 	
 	public void setAttUnits(ArrayList<Integer> attList) {
@@ -83,5 +90,9 @@ public class Attack implements Serializable {
 	
 	public Land getDefLand() {
 		return defense;
+	}
+	
+	public int getAnzahlAttUnits() {
+		return anzahlAttUnits;
 	}
 }

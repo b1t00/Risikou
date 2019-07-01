@@ -109,7 +109,7 @@ public class WorldPanel extends JPanel {
 								listener.countryClicked(land);
 							} else {
 								JOptionPane.showMessageDialog(null,
-										"Das Land gehoert dir selber oder ist nicht mit dem Angriffsland benachbart!");
+								"Das Land gehoert dir selber oder ist nicht mit dem Angriffsland benachbart!");
 							}
 						}
 						break;

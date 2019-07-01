@@ -2,12 +2,11 @@ package ris.server.net;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
+import ris.common.valueobjects.Attack;
 
 //ist nicht wirklich ein listener
 public class ServerFassade implements ServerListener {
@@ -43,6 +42,18 @@ public class ServerFassade implements ServerListener {
 		}
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void schickeObjekt(Attack aO) {
+		System.out.println("sending object: ");
+		try {
+			out.reset();
+			out.writeObject(aO);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
