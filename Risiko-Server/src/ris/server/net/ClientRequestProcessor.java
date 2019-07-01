@@ -352,6 +352,7 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 	}
+	
 	public void defenseLandGueltig() {
 		Integer att = null;
 		Integer def = null;
@@ -392,11 +393,18 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 		risiko.setEinheiten(land, units);
-		for(ServerListener sl: allServerListeners) {
-			System.out.println("will er land updaten?? crp");
-			sl.handleEvent("updateDialog(Land)");
-			sl.handleEvent(land.getName());
-		}
+		for(int i = 0; i < allServerListeners.size(); i++) {
+//			for(ServerListener sl: allServerListeners) {
+				if(!(i == risiko.gibAktivenPlayer().getNummer())) {
+					allServerListeners.get(i).handleEvent("updateDialog(Land)");
+					allServerListeners.get(i).handleEvent(land.getName());
+				}
+			}
+//		for(ServerListener sl: allServerListeners) {
+//			System.out.println("will er land updaten?? crp");
+//			sl.handleEvent("updateDialog(Land)");
+//			sl.handleEvent(land.getName());
+//		}
 	}
 	
 	public void setTauschZeit() {
@@ -410,7 +418,7 @@ public class ClientRequestProcessor implements Runnable {
 		}
 		if (tauschBar.equals(true))
 			obTauschBar = true;
-		risiko.setLandClickZeit(obTauschBar);
+		risiko.setTauschZeit(obTauschBar);
 	}
 	
 	public void getLandById() {
@@ -447,10 +455,14 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		for(ServerListener sl: allServerListeners) {
-			sl.handleEvent("updateDialog");
-			sl.handleEvent(updateState);
+		for(int i = 0; i < allServerListeners.size(); i++) {
+//		for(ServerListener sl: allServerListeners) {
+			if(!(i == risiko.gibAktivenPlayer().getNummer())) {
+				allServerListeners.get(i).handleEvent("updateDialog");
+				allServerListeners.get(i).handleEvent(updateState);
+			}
 		}
 	}
+	
 		
 }

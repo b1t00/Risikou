@@ -70,15 +70,15 @@ public class RisikoFassade implements RisikoInterface {
 //		while (currentState == null) {
 		sout.println("getCurrentState");
 		try {
-			synchronized (ois) {
+//			synchronized (ois) {
 				Object o = new Object();
 				o = ois.readObject();
 				System.out.println("(RF)objectState " + o);
 				currentState = (State) o;
 //				currentState = (State) ois.readObject(); 
-			}
+//			}
 		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
+//			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //		}
@@ -89,9 +89,10 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean kannAngreifen() {
+		goIntoCommandMode();
 		sout.println("kannAngreifen");
 		boolean angriff = false;
-		synchronized (ois) {
+//		synchronized (ois) {
 			try {
 				Object o = new Object();
 				o = ois.readObject();
@@ -102,7 +103,8 @@ public class RisikoFassade implements RisikoInterface {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+//		}
+		releaseCommandMode();
 		return angriff;
 	}
 
@@ -128,9 +130,9 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setNextState() {
-//		goIntoCommandMode();
+		goIntoCommandMode();
 		sout.println("setNextState");
-//		releaseCommandMode();
+		releaseCommandMode();
 	}
 
 	@Override
@@ -518,13 +520,13 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setEinheiten(Land land, int units) {
-		goIntoCommandMode();
+//		goIntoCommandMode();
 		System.out.println("ich setzte einheiten <-----------------------");
 		sout.println("setEinheiten");
 //		die ID vom Land wird verschickt -> Methode getLandByID
 		sout.println(land.getNummer());
 		sout.println(units);
-		releaseCommandMode();
+//		releaseCommandMode();
 
 	}
 

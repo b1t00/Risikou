@@ -203,7 +203,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
 		System.out.println("show Question <-------------");
-		switch ((State) risiko.getCurrentState()) {
+		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			System.out.println("set units funktioniert");
 			eintauschPl = new EintauschPanel(this, risiko);
@@ -504,6 +504,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			System.out.println("wurde verarbeitet");
 			System.out.println("in gui richtig angekommen");
 			risiko.setEinheiten(land, 1);
+			updateDialogSetUnit(land.getName());
+			updateWorld();
 			// TODO: hat bisher probleme mit dem server gegeben.. denke, das liegt daran,
 			// dass es in einem zweiten thread liegt und parallel läuft
 //			Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
