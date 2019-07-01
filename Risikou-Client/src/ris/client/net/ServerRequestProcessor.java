@@ -16,8 +16,6 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 //	private Socket socket;
 	private ObjectInputStream sin;
 	private BufferedReader in;
-	private boolean doNotListenMode = false;
-	private boolean waitingForServer = false;
 
 	public ServerRequestProcessor(ObjectInputStream sin, BufferedReader in, RisikoClientGUI client) {
 		this.in = in;
@@ -34,6 +32,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 //		}
 	}
 
+	private boolean doNotListenMode = false;
 
 	public void setDoNotListenMode(boolean mode) {
 		doNotListenMode = mode;
@@ -43,6 +42,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 		return doNotListenMode;
 	}
 
+	private boolean waitingForServer = false;
 
 	public boolean isWaitingForServer() {
 		return waitingForServer;
@@ -127,8 +127,13 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				int attacker = 0;
 				int defender = 0;
 				try {
-					attacker = Integer.parseInt(sin.readUTF());
-					defender = Integer.parseInt(sin.readUTF());
+					try {
+						attacker = Integer.parseInt(sin.readObject().toString());
+						defender = Integer.parseInt(sin.readObject().toString());
+					} catch (NumberFormatException | ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					System.out.println("angreifer : " + attacker + "verteidiger :" + defender);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

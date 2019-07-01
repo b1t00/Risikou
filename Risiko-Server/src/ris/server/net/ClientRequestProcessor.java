@@ -312,8 +312,8 @@ public class ClientRequestProcessor implements Runnable {
 	}
 	
 	public void playerAnlegen() {
-		String name = "narf";
-		String farbe = "narf";
+		String name = null;
+		String farbe = null;
 		try {
 			name = in.readLine();
 			farbe = in.readLine();

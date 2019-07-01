@@ -113,6 +113,7 @@ public class DialogPanel extends JPanel {
 	//text anhaengen bei set units
 	public void updateSetUnit(String land) {
 		try {
+			System.out.println("dialogp probiert ein updateLand");
 			info.getDocument().insertString(0, ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n", null);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block

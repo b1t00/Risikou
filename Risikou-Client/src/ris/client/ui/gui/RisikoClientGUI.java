@@ -197,13 +197,15 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		worldPl = new WorldPanel(this, risiko, spielerNummer);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		this.add(gamePl);
+		updateWorld();
 	}
 
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
-		System.out.println("show Question ");
+		System.out.println("show Question <-------------");
 		switch ((State) risiko.getCurrentState()) {
 		case SETUNITS:
+			System.out.println("set units funktioniert");
 			eintauschPl = new EintauschPanel(this, risiko);
 			System.out.println("??");
 			container.add(eintauschPl, "eintausch");
@@ -496,7 +498,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	@Override // worldlistener
-	public void countryClicked(Land land) {
+	public synchronized void countryClicked(Land land) {
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			System.out.println("wurde verarbeitet");
@@ -508,6 +510,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //			if (win()) {
 //				JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 //			}
+			System.out.println("oder fangen hier die probleme an?--------------");
 			setUnitsPl.decrementUnits();
 			// folgender Block wurde ausgelagert, da es an dieser stelle immer probleme mit
 			// den threads gab, während des serverrequestprocessor noch gearbeitet hat,
@@ -518,6 +521,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				risiko.setLandClickZeit(false);
 				System.out.println("bis setNextState()");
 				risiko.setNextState();
+				System.out.println("guii ab hier kommen die probleme");
 				showQuestion();
 			}
 			break;

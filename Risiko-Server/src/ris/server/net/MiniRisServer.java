@@ -21,7 +21,6 @@ public class MiniRisServer {
 	protected ServerSocket serverSocket;
 	private RisikoInterface risiko;
 	private ArrayList<ServerListener> allServerListeners;
-
 	private ObjectOutputStream theoneobjectstream;
 	
 	public MiniRisServer(int port) {

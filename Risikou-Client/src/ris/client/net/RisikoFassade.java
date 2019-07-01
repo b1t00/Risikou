@@ -56,13 +56,10 @@ public class RisikoFassade implements RisikoInterface {
 		}
 
 		System.err.println("Verbunden: " + socket.getInetAddress() + " : " + socket.getPort());
-		/*try {
-			String message = sin.readLine();
-			System.out.println(message);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
+		/*
+		 * try { String message = sin.readLine(); System.out.println(message); } catch
+		 * (IOException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 */
 
 	}
 
@@ -71,20 +68,19 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		State currentState = null;
 //		while (currentState == null) {
-			try {
-				synchronized (ois) {
-					goIntoCommandMode();
-					sout.println("getCurrentState");
-					Object o = new Object();
-					o = ois.readObject();
-					System.out.println("(RF)objectState " + o);
-					currentState = (State) o;
-//				currentState = (State) ois.readObject(); // Was passiert mit UTF??
-				}
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		sout.println("getCurrentState");
+		try {
+			synchronized (ois) {
+				Object o = new Object();
+				o = ois.readObject();
+				System.out.println("(RF)objectState " + o);
+				currentState = (State) o;
+//				currentState = (State) ois.readObject(); 
 			}
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		}
 		System.out.println("(RF)cuurent state " + currentState);
 		releaseCommandMode();
@@ -113,12 +109,14 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public Player gibAktivenPlayer() {
 		goIntoCommandMode();
-		
+
 		Player aktiverPlayer = null;
 		sout.println("gibAktivenPlayer");
 		try {
 			synchronized (ois) {
+				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
+				System.out.println("RF aktiver player nachfrage : "  + aktiverPlayer);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -130,9 +128,9 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setNextState() {
-		goIntoCommandMode();
+//		goIntoCommandMode();
 		sout.println("setNextState");
-		releaseCommandMode();
+//		releaseCommandMode();
 	}
 
 	@Override
@@ -220,7 +218,9 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public int getSpielerAnzahl() {
+		goIntoCommandMode();
 		sout.println("getSpielerAnzahl");
+		
 		int spielerAnzahl = 0;
 		try {
 			synchronized (ois) {
@@ -230,27 +230,28 @@ public class RisikoFassade implements RisikoInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return spielerAnzahl;
 	}
 
-	private void goIntoCommandMode(){
+	private void goIntoCommandMode() {
 		serverListener.setDoNotListenMode(true);
-		if (serverListener.isWaitingForServer())
-		{
+		if (serverListener.isWaitingForServer()) {
 			sout.println("sentAliveMessage");
-			while (serverListener.isWaitingForServer())
-			{
-				System.out.println("still waiting for server");				
+			synchronized (ois) {
+				while (serverListener.isWaitingForServer()) {
+					System.out.println("still waiting for server");
+				}
+				System.out.println("done we can go into command mode");
 			}
-			System.out.println("done we can go into command mode");
 		}
 	}
-	
-	private void releaseCommandMode(){
+
+	private void releaseCommandMode() {
 		serverListener.setDoNotListenMode(false);
 		System.out.println("released command mode");
 	}
-	
+
 	@Override
 	public ArrayList<Player> getPlayerArray() {
 		goIntoCommandMode();
@@ -259,7 +260,7 @@ public class RisikoFassade implements RisikoInterface {
 		try {
 //			if(!ois.ct().equals("leer")){
 			synchronized (ois) {
-				
+
 				allePlayer = (ArrayList<Player>) ois.readObject();
 			}
 //			}
@@ -378,6 +379,7 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean getTauschZeit() {
+		goIntoCommandMode();
 		boolean tauschZeit = false;
 
 		sout.println("getTauschZeit");
@@ -389,7 +391,7 @@ public class RisikoFassade implements RisikoInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		releaseCommandMode();
 		return tauschZeit;
 	}
 
@@ -444,7 +446,7 @@ public class RisikoFassade implements RisikoInterface {
 
 	private void sout(int nummer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
