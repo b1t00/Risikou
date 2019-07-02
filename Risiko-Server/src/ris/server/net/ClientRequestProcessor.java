@@ -95,9 +95,11 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "gibAktivenPlayer":
 				try {
-//					oos.reset();
-					oos.writeObject(risiko.gibAktivenPlayer());
-					oos.reset();
+//					synchronized(oos) {
+//						oos.reset();
+						oos.writeObject(risiko.gibAktivenPlayer());
+						oos.reset();
+//					}
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -151,7 +153,7 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "getPlayerArray":
 				try {
-					oos.reset();
+//					oos.reset();
 					oos.writeObject(risiko.getPlayerArray());					
 					oos.reset();
 				} catch (IOException e) {
@@ -220,6 +222,10 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "setNextState":
 				risiko.setNextState();
+				break;
+			case "setNextPlayer":
+				risiko.setNextPlayer();
+				allServerListeners.get(risiko.gibAktivenPlayer().getNummer()).handleEvent("anDerReihe");
 				break;
 			case "spielSpeichern":
 				String name = null;
@@ -294,6 +300,7 @@ public class ClientRequestProcessor implements Runnable {
 				try {
 					oos.reset();
 					oos.writeObject(risiko.errechneVerfuegbareEinheiten());
+					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

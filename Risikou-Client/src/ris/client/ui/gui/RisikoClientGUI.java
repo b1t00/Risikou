@@ -212,14 +212,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			cl.show(container, "eintausch");
 			break;
 		case ATTACK:
-			System.out.println("aaaaaaaataaaaaaaaaack");
 			if (risiko.kannAngreifen()) {
-				System.out.println("kann angreien");
 				attackQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
 				container.add(attackQuestionPl, "attackQuestion");
 				cl.show(container, "attackQuestion");
 			} else {
-				System.out.println("kann niemanden angreifen");
 				JOptionPane.showMessageDialog(null, "Du kannst leider niemanden angreifen.");
 				risiko.setNextState();
 				showQuestion();
@@ -227,7 +224,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		case CHANGEUNITS:
 			if (risiko.kannVerschieben(risiko.gibAktivenPlayer())) {
-				
 				System.out.println("kann ich verschieben GUI <-----------------------????????????????????????????ß");
 				moveUnitsQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
 				container.add(moveUnitsQuestionPl, "moveUnitsQuestion");
@@ -238,7 +234,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				risiko.setNextPlayer();
 				infoPl.update();
 				risikoKartenTPl.setUp();
-				showQuestion();
+				pausePl = new PausePanel(this.spielerNummer, risiko);
+				container.add(pausePl, "pausePl");
+				cl.show(container, "pausePl");
+//				showQuestion();
 			}
 			break;
 		default:
@@ -341,7 +340,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				risiko.setNextPlayer();
 				infoPl.update();
 				risikoKartenTPl.setUp();
-				showQuestion();
+				pausePl = new PausePanel(this.spielerNummer, risiko);
+				container.add(pausePl, "pausePl");
+				cl.show(container, "pausePl");
+//				showQuestion();
 				System.out.println("Nächste Spielphase");
 				break;
 			default:

@@ -89,9 +89,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			case "initializeGamePanel":
 				client.showGamePanel();
 				break;
+			case "anDerReihe":
+				client.showQuestion();
+				break;
 			case "updateDialog":
 				String ereignis = null;
-				synchronized (sin) {
+//				synchronized (sin) {
 					try {
 						ereignis = sin.readObject().toString();
 					} catch (IOException e) {
@@ -101,12 +104,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+//				}
 				client.updateDialog(ereignis);
 				break;
 			case "updateDialog(Land)":
 				String land = null;
-				synchronized (sin) {
+//				synchronized (sin) {
 					try {
 						land = sin.readObject().toString();
 					} catch (IOException e) {
@@ -116,7 +119,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
+//				}
 				client.updateDialogSetUnit(land);
 				client.updateWorld();
 				break;
@@ -177,7 +180,6 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				client.updateAttack(attackObjekt);
 				///client.setAttackPlayer(attacker, defender);
 				//setDoNotListenMode(false);
-			//	System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);

@@ -115,8 +115,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("gibAktivenPlayer");
 		try {
 //			synchronized (ois) {
-
-				System.out.println("geb mir den aktiven player Rf");
+				System.out.println("gib mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
 //			}
@@ -154,7 +153,9 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setNextPlayer() {
-		// TODO Auto-generated method stub
+		goIntoCommandMode();
+		sout.println("setNextPlayer");
+		releaseCommandMode();
 	}
 
 	@Override
