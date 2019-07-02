@@ -238,6 +238,12 @@ public class ClientRequestProcessor implements Runnable {
 				System.out.println("CRP ich speicher grad die Datei " + name);
 				risiko.spielSpeichern(name);
 				break;
+			case "aksForServerListenerNr":
+				for(int i = 0 ; i < allServerListeners.size(); i++) {
+					allServerListeners.get(i).schickeNurObject(allServerListeners.size());
+					allServerListeners.get(i).schickeNurObject(i);
+				}
+				break;
 			case "getSpielladeDateien":
 				try {
 					oos.reset();
@@ -623,6 +629,7 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 
+<<<<<<< Updated upstream
 	public void updateExceptAktiverPlayer(String welchesUpdate) {
 		for (int i = 0; i < allServerListeners.size(); i++) {
 			if (!(i == allServerListeners.get(i).getListenerNr())) {
@@ -630,6 +637,8 @@ public class ClientRequestProcessor implements Runnable {
 			}
 		}
 	}
+=======
+>>>>>>> Stashed changes
 
 	public void allUpdate() {
 		String updateState = null;

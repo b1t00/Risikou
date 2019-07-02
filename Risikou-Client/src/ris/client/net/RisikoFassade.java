@@ -26,6 +26,8 @@ public class RisikoFassade implements RisikoInterface {
 	private PrintStream sout;
 	private ObjectInputStream ois;
 	ServerRequestProcessor serverListener;
+	
+	private RisikoClientGUI gui;
 
 	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
 		try {
@@ -35,6 +37,8 @@ public class RisikoFassade implements RisikoInterface {
 			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
+			
+			this.gui = gui;
 
 			serverListener = new ServerRequestProcessor(ois, sin, gui);
 			Thread t = new Thread(serverListener);
@@ -634,6 +638,26 @@ public class RisikoFassade implements RisikoInterface {
 	public Player getPlayerById(int iD) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public void aksForServerListenerNr() {
+		goIntoCommandMode();
+		int serverListenerNr = -99;
+		int serverListenerSize = -99;
+		sout.println("aksForServerListenerNr");
+		try {
+			serverListenerSize = (int) ois.readObject();
+			serverListenerNr = (int) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("serverlistenergoeße und nr " + serverListenerSize + " - " + serverListenerNr);
+		releaseCommandMode();
+		gui.setServerListenerNr(serverListenerNr);
+		if(serverListenerSize > 1) {
+			gui.updateStartButn();
+		}
 	}
 
 	public void buttnUpdate() {

@@ -71,6 +71,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //	name ist notwendig, damit die gui weiß, was sie anzeigen soll // gleicht mit crp ab
 	private String name;
 	private int spielerNummer;
+	private int serverListenerNr;
 
 	// LOGIN //
 	private LoginPanel loginPl;
@@ -133,6 +134,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		pack();
 		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
+		risiko.aksForServerListenerNr();
 	}
 
 	public void setSpieler(String name, int iD) {
@@ -540,6 +542,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	// ------------------------ UPDATE'S from SRP -------------------------------\\
+	public void updateStartButn() {
+		loginPl.updateButn();
+	}
+	
+	public void setServerListenerNr(int serverListenerNumber) {
+		this.serverListenerNr = serverListenerNumber;
+	}
 
 	public void updateWorld() {
 		worldPl.removeAll();

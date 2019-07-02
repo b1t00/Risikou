@@ -97,5 +97,9 @@ public interface RisikoInterface {
 	
 	public Player getPlayerById(int iD);
 
+<<<<<<< Updated upstream
 	public void buttnUpdate();
+=======
+	public void aksForServerListenerNr();
+>>>>>>> Stashed changes
 }

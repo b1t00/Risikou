@@ -49,11 +49,19 @@ public class LoginPanel extends JPanel {
 		this.add(spielLadenBtn);
 //		setupEvents();
 	}
+<<<<<<< Updated upstream
 
 	public void buttonUpdaten(String text) {
 		spielStartenBtn.setText(text);
 	}
 
+=======
+	
+	public void updateButn() {
+		spielStartenBtn.setText("Spiel beitreten");
+	}
+	
+>>>>>>> Stashed changes
 //	public void setupEvents(){
 //		spielLadenBtn.addActionListener(new ButtonListener());
 //	}
