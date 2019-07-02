@@ -559,10 +559,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dicePl.setAttack(attackObjekt);
 		dicePl.showResult();
 		
-		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
-		System.out.println("name gewinner: " + attackObjekt.getWinner());
-		System.out.println("besitzer def land: " +attackObjekt.getDefLand().getBesitzer());
-		
 //		Ausgabe im JOptionPane:
 		//hier kann die wiederholte abfrage, ob es sich um den aktivenSpieler handelt bestimmt verkürzt werden
 		String ergebnis = "";
