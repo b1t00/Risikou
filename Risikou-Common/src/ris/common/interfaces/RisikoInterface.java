@@ -96,6 +96,4 @@ public interface RisikoInterface {
 	public void allUpdate(String ereignis);
 	
 	public Player getPlayerById(int iD);
-
-	public void aksForServerListenerNr();
 }

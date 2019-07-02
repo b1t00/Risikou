@@ -22,7 +22,7 @@ public class DicePanel extends JPanel {
 	
 	
 	public DicePanel() {
-//		loadImage();
+		loadImage();
 	}
 	
 	private void loadImage() {    

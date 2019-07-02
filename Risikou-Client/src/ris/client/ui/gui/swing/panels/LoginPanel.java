@@ -32,14 +32,13 @@ public class LoginPanel extends JPanel {
 		spielStartenBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				client.buttonUpdaten();
 				client.showNeuesSpielPanel();
 			}
 		});
 		this.add(spielStartenBtn);
 		spielLadenBtn = new JButton("Spiel laden");
 		spielLadenBtn.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				client.zweitausendaLook();
@@ -48,11 +47,6 @@ public class LoginPanel extends JPanel {
 		});
 		this.add(spielLadenBtn);
 //		setupEvents();
-	}
-
-	
-	public void updateButn() {
-		spielStartenBtn.setText("Spiel beitreten");
 	}
 	
 //	public void setupEvents(){

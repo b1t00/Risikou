@@ -44,7 +44,6 @@ public class MiniRisServer {
 			e.printStackTrace();
 		}
 	}
-	int x = 0;
 
 	public void acceptClientConnectRequests() {
 		try {
@@ -58,12 +57,12 @@ public class MiniRisServer {
 				OutputStream out = clientSocket.getOutputStream();
 				theoneobjectstream = new ObjectOutputStream(new PrintStream(out));
 				ServerListener listener = new ServerFassade(theoneobjectstream, risiko);
+//				ServerListener listener = new ServerFassade(clientSocket, risiko);
 				allServerListeners.add(listener);
 				ClientRequestProcessor c = new ClientRequestProcessor(theoneobjectstream, clientSocket, risiko, allServerListeners);
 				Thread t = new Thread(c);
 				//startet die run Methode vom ClientRequestProcessor
 				t.start(); 
-				
 			}
 		} catch (IOException e) {
 		}

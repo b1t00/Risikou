@@ -26,19 +26,15 @@ public class RisikoFassade implements RisikoInterface {
 	private PrintStream sout;
 	private ObjectInputStream ois;
 	ServerRequestProcessor serverListener;
-	
-	private RisikoClientGUI gui;
 
 	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
 		try {
 			socket = new Socket(host, port);
 //			startServer(socket);<>
-			InputStream is = socket.getInputStream(); // gegenstück zu accept()
+			InputStream is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
-			
-			this.gui = gui;
 
 			serverListener = new ServerRequestProcessor(ois, sin, gui);
 			Thread t = new Thread(serverListener);
@@ -75,11 +71,13 @@ public class RisikoFassade implements RisikoInterface {
 //		while (currentState == null) {
 		sout.println("getCurrentState");
 		try {
+//			synchronized (ois) {
 			Object o = new Object();
 			o = ois.readObject();
 			System.out.println("(RF)objectState " + o);
 			currentState = (State) o;
 //				currentState = (State) ois.readObject(); 
+//			}
 		} catch (ClassNotFoundException | IOException e) {
 //			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,7 +117,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("gibAktivenPlayer");
 		try {
 //			synchronized (ois) {
-				System.out.println("gib mir den aktiven player Rf");
+				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
 //			}
@@ -157,9 +155,8 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setNextPlayer() {
-		goIntoCommandMode();
-		sout.println("setNextPlayer");
-		releaseCommandMode();
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
@@ -191,14 +188,15 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		Integer vonMov = von.getNummer();
 		Integer zuMov = zu.getNummer();
-		Integer unitsMov = units; // kann es hoer zu problemen kommen, weil parameter namen oefter vergeben
-									// wurden? //TODO: obacht
+		Integer unitsMov = units; //kann es hoer zu problemen kommen, weil parameter namen oefter vergeben wurden? //TODO: obacht
 		sout.println("moveUnits");
 		sout.println(vonMov.toString());
 		sout.println(zuMov.toString());
 		sout.println(unitsMov.toString());
 		releaseCommandMode();
 	}
+	
+	
 
 	@Override
 	public Player getGewinner() {
@@ -273,10 +271,10 @@ public class RisikoFassade implements RisikoInterface {
 		if (serverListener.isWaitingForServer()) {
 			sout.println("sentAliveMessage");
 //			synchronized (ois) {
-			while (serverListener.isWaitingForServer()) {
-				System.out.println("still waiting for server");
-			}
-			System.out.println("done we can go into command mode");
+				while (serverListener.isWaitingForServer()) {
+					System.out.println("still waiting for server");
+				}
+				System.out.println("done we can go into command mode");
 //			}
 		}
 	}
@@ -293,10 +291,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getPlayerArray");
 		try {
 //			if(!ois.ct().equals("leer")){
-//			synchronized (ois) {
+			synchronized (ois) {
 
-				allePlayer =  (ArrayList<Player>) ois.readObject();
-//			}
+				allePlayer = (ArrayList<Player>) ois.readObject();
+			}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -323,7 +321,7 @@ public class RisikoFassade implements RisikoInterface {
 		Land land = null;
 		try {
 //			synchronized (ois) {
-			land = (Land) ois.readObject();
+				land = (Land) ois.readObject();
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -338,12 +336,12 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		sout.println("allMissionsComplete");
 		boolean win = false;
-		try {
-			win = (boolean) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				win = (boolean) ois.readObject();
+			} catch (IOException | ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		releaseCommandMode();
 		return win;
 	}
@@ -353,12 +351,12 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		sout.println("rundeMissionComplete");
 		boolean win = false;
-		try {
-			win = (boolean) ois.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				win = (boolean) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		releaseCommandMode();
 		return win;
 	}
@@ -398,7 +396,9 @@ public class RisikoFassade implements RisikoInterface {
 
 		sout.println("getLandClickZeit");
 		try {
+			synchronized (ois) {
 				landClickZeit = (boolean) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -448,12 +448,12 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("attackLandGueltig");
 		sout.println(attacker.getNummer());
 //		synchronized (ois) {
-		try {
-			return (boolean) ois.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				return (boolean) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 //		}
 		releaseCommandMode();
 		return false;
@@ -466,32 +466,32 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(attacker.getNummer());
 		sout.println(defender.getNummer());
 //		synchronized (ois) {
-		try {
-			boolean b = (boolean) ois.readObject();
-			System.out.println("defenseLandGueltig ist gueltig");
-			return b;
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			try {
+				boolean b = (boolean) ois.readObject();
+				System.out.println("defenseLandGueltig ist gueltig");
+				return b;
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		releaseCommandMode();
 		return false;
 	}
-
+	
 	public int getDefLandUnits() {
 		goIntoCommandMode();
 		sout.println("getDefLandUnits");
 		int defLandUnits = 0;
 		try {
-			defLandUnits = (Integer) ois.readObject();
+		defLandUnits = (Integer) ois.readObject();
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+	}
 		releaseCommandMode();
 		return defLandUnits;
 	}
-
+	
 	public void attackStart(Land attLand, Land defLand, int attUnits) {
 		goIntoCommandMode();
 		sout.println("attackStart");
@@ -500,7 +500,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(attUnits);
 		releaseCommandMode();
 	}
-
+	
 	@Override
 	public Attack attackFinal(int defUnits) {
 		goIntoCommandMode();
@@ -639,26 +639,5 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	public void aksForServerListenerNr() {
-		goIntoCommandMode();
-		int serverListenerNr = -99;
-		int serverListenerSize = -99;
-		sout.println("aksForServerListenerNr");
-		try {
-			serverListenerSize = (int) ois.readObject();
-			serverListenerNr = (int) ois.readObject();
-		} catch (ClassNotFoundException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("serverlistenergoeße und nr " + serverListenerSize + " - " + serverListenerNr);
-		releaseCommandMode();
-		gui.setServerListenerNr(serverListenerNr);
-		if(serverListenerSize > 1) {
-			gui.updateStartButn();
-		}
-	}
-
 
 }

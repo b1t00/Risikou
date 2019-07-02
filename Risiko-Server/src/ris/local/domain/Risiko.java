@@ -129,7 +129,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return playerMg.getPlayerById(zahl);
 	}
 
-	public Player gibAktivenPlayer() {
+	public synchronized Player gibAktivenPlayer() {
 		return turn.gibAktivenPlayer();
 	}
 
@@ -353,7 +353,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		if (gameSpeicher != null) {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			turn = gameSpeicher.getSpielstand();
-//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefuegt werden
+//			Jeder geladene Spieler muss erst dem Playermanagement hinzugef�gt werden
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
@@ -435,12 +435,6 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	@Override
 	public void allUpdate(String ereignis) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void buttnUpdate() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -11,7 +11,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.interfaces.RisikoInterface;
 
@@ -37,15 +36,12 @@ public class UnitNumberPanel extends JPanel {
 	private UnitNumber unitNumber;
 	private JButton logButton;
 	private int safedNumber;
-	private int spielerNummer;
 //	private JComboBox <Integer> anzahl;
 	
-	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko, int spielerNummer) {		
+	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko) {		
 		listener = unl;
 		unitNumber = un;
 		ris = risiko;
-		//benötigt die spielerNummer, um die richtige Rahmenfarbe anzuzeigen
-		this.spielerNummer = spielerNummer;
 		
 		//ermöglicht automatischen Zeilenumbruch
 		frage = new JTextArea();
@@ -91,7 +87,7 @@ public class UnitNumberPanel extends JPanel {
 		this.add(numberTextField);
 		this.add(logButton);
 		
-		setBorder(new LineBorder(ris.getColorArray().get(spielerNummer), 5));
+		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
 	}
 	
 	public int getNumber() {

@@ -2,7 +2,11 @@ package ris.client.net;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.net.Socket;
+
 import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
@@ -55,7 +59,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			e.printStackTrace();
 		}
 		while (true) {
-			while (doNotListenMode) {
+			if (doNotListenMode) {
 				//System.out.println("ich höre nicht zu");
 				try {
 					Thread.sleep(25); // rennt zu schnell dadurch, wenn er nichts zum verarbeiten hat
@@ -63,16 +67,18 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-//				continue;
+				continue;
 			}
 			String input = "";
 			// Aktionen vom Server werden eingelesen und verarbeitet
 			try {
+//				synchronized (sin) {
 					waitingForServer = true;
 					System.out.println("warte auf server");
 					input = sin.readObject().toString();
 					System.out.println("got input " + input);
 					waitingForServer = false;
+//				}
 			} catch (Exception e) {
 				System.out.println("--->Fehler beim Lesen vom Server (Aktion): ");
 				System.out.println(e.toString());
@@ -80,17 +86,17 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				return;
 			}
 			switch (input) {
+//			case "":
+//				System.out.println("etwas wurde eingelesen");
+//				break;
 			case "spielWurdeAngefanen":
 				// TODO:
 			case "initializeGamePanel":
 				client.showGamePanel();
 				break;
-			case "anDerReihe":
-				client.showQuestion();
-				break;
 			case "updateDialog":
 				String ereignis = null;
-//				synchronized (sin) {
+				synchronized (sin) {
 					try {
 						ereignis = sin.readObject().toString();
 					} catch (IOException e) {
@@ -100,12 +106,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//				}
+				}
 				client.updateDialog(ereignis);
 				break;
 			case "updateDialog(Land)":
 				String land = null;
-//				synchronized (sin) {
+				synchronized (sin) {
 					try {
 						land = sin.readObject().toString();
 					} catch (IOException e) {
@@ -115,12 +121,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//				}
+				}
 				client.updateDialogSetUnit(land);
 				client.updateWorld();
-				break;
-			case "buttnUpdate":
-//				client.buttonUpdaten();
 				break;
 			case "updateMoveUnits":
 				Land von = null;
@@ -176,6 +179,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				client.updateAttack(attackObjekt);
 				///client.setAttackPlayer(attacker, defender);
 				//setDoNotListenMode(false);
+			//	System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);
