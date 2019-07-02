@@ -56,4 +56,17 @@ public class ServerFassade implements ServerListener {
 		}
 	}
 
+	@Override
+	public void schickeNurObject(Object o) {
+		try {
+			out.reset();
+			out.writeObject(o);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 }
