@@ -582,8 +582,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 		JOptionPane.showMessageDialog(null, ergebnis);
 		
-		if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())
-				&& attackObjekt.getDefLand().getBesitzer().equals(risiko.gibAktivenPlayer())) {
+		if (attackObjekt.getWinner().getName().equals(risiko.gibAktivenPlayer().getName())
+				&& attackObjekt.getDefLand().getBesitzer().getName().equals(risiko.gibAktivenPlayer().getName())) {
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt "
 					+ attackObjekt.getDefLand() + " ein.");
 			updateWorld();
@@ -592,6 +592,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				JOptionPane.showMessageDialog(null,
 						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
+			//check, ob der client der aktuelle Spieler ist
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
 				if (attackObjekt.getAttLand().getEinheiten() > 1) {
 					System.out.println("einheiten verbleibend: " + worldPl.getAttackLand1().getEinheiten());
@@ -602,9 +603,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					showQuestion();
 				}
 			}
-		} else if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+		} else if (attackObjekt.getWinner().getName().equals(risiko.gibAktivenPlayer())) {
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf gewonnen.");
 			updateWorld();
+			//check, ob der client der aktuelle Spieler ist
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
 				showQuestion();
 			}
@@ -616,6 +618,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				JOptionPane.showMessageDialog(null,
 						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
+			//check, ob der client der aktuelle Spieler ist
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
 				showQuestion();
 			}

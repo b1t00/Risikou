@@ -162,7 +162,7 @@ public class ClientRequestProcessor implements Runnable {
 			case "getCurrentState":
 				try {
 					System.out.println("in crp fassade fragt nach state :" + risiko.getCurrentState());
-					oos.reset();
+//					oos.reset();
 					oos.writeObject(risiko.getCurrentState());
 					oos.reset();
 				} catch (IOException e) {
