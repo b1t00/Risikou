@@ -509,8 +509,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				risiko.setLandClickZeit(true);
 				cl.show(container, "attackTo");
 			} else {
-				// wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele
-				// Einheiten angreifen sollen
+				// wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie vieleEinheiten angreifen sollen
 				attackNumberPl = new UnitNumberPanel(this, UnitNumber.ATTACK, risiko, spielerNummer);
 				container.add(attackNumberPl, "attackNumber");
 				cl.show(container, "attackNumber");
