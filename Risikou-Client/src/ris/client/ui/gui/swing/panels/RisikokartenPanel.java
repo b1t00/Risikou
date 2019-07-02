@@ -54,8 +54,6 @@ public class RisikokartenPanel extends JPanel {
 				this.remove(kb);
 			this.removeAll();
 		}
-
-
 		spielerKartenBtn.removeAll(spielerKartenBtn);
 
 	for(int i = 0; i < 5; i++){ //TODO: kann man schoener machen, aber muss auch nicht

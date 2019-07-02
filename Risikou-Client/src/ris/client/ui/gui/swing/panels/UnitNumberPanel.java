@@ -29,6 +29,7 @@ public class UnitNumberPanel extends JPanel {
 	}
 	
 	private RisikoInterface ris;
+	private int iD;
 	private UnitNumberListener listener;
 	private JLabel titel;
 	private JTextArea frage = new JTextArea();
@@ -38,10 +39,11 @@ public class UnitNumberPanel extends JPanel {
 	private int safedNumber;
 //	private JComboBox <Integer> anzahl;
 	
-	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko) {		
+	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko, int iD) {		
 		listener = unl;
 		unitNumber = un;
 		ris = risiko;
+		this.iD = iD;
 		
 		//ermöglicht automatischen Zeilenumbruch
 		frage = new JTextArea();
@@ -87,7 +89,7 @@ public class UnitNumberPanel extends JPanel {
 		this.add(numberTextField);
 		this.add(logButton);
 		
-		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));
+		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));
 	}
 	
 	public int getNumber() {

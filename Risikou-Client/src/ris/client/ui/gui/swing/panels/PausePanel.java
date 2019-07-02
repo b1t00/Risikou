@@ -20,7 +20,13 @@ public class PausePanel extends JPanel {
 		info.setLineWrap(true);
 		info.setWrapStyleWord(true);
 		info.setEditable(false);
-		info.setText("Du bist gerade nicht an der Reihe...");
+		
+		if(iD == ris.gibAktivenPlayer().getNummer()) {
+			info.setText("Warte auf Verteidigung!");
+		} else {
+			info.setText("Du bist gerade nicht an der Reihe...");
+		}
+		
 		this.add(titel);
 		this.add(info);
 		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));

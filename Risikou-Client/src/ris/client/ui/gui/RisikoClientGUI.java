@@ -186,7 +186,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		gamePl.add(infoPl, BorderLayout.SOUTH);
 
 		this.add(gamePl);
-//		dicePl = new DicePanel();
+		dicePl = new DicePanel();
 //		container.add(dicePl, "dice");
 		this.setVisible(true);
 	}
@@ -275,7 +275,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	@Override // question panel
 	public void answerSelected(boolean answer, String phase) {
 		if (answer) {
-			moveAttackNumberPl = new UnitNumberPanel(this, UnitNumber.MOVEATTACK, risiko);
+			moveAttackNumberPl = new UnitNumberPanel(this, UnitNumber.MOVEATTACK, risiko, spielerNummer);
 			container.add(moveAttackNumberPl, "moveAttack");
 			cl.show(container, "moveAttack");
 		} else {
@@ -338,10 +338,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 									+ risiko.gibAktivenPlayer().getEinheitenkarten()
 											.get(risiko.gibAktivenPlayer().getEinheitenkarten().size() - 1));
 				}
+				risikoKartenTPl.setUp();
+				infoPl.update();
 				risiko.setNextState();
 				risiko.setNextPlayer();
-				infoPl.update();
-				risikoKartenTPl.setUp();
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
@@ -513,7 +513,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			} else {
 				// wenn attackState nicht 2 ist, wird im Dialog-Panel abgefragt, wie viele
 				// Einheiten angreifen sollen
-				attackNumberPl = new UnitNumberPanel(this, UnitNumber.ATTACK, risiko);
+				attackNumberPl = new UnitNumberPanel(this, UnitNumber.ATTACK, risiko, spielerNummer);
 				container.add(attackNumberPl, "attackNumber");
 				cl.show(container, "attackNumber");
 				// & es kann nicht mehr auf ein Land geklickt werden
@@ -529,7 +529,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				cl.show(container, "moveTo");
 			} else if (worldPl.getMoveState() == 1) {
 				System.out.println("<----------------------- bin ich hier im moveState2222?? GuiRequest");
-				moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE, risiko);
+				moveNumberPl = new UnitNumberPanel(this, UnitNumber.MOVE, risiko, spielerNummer);
 				container.add(moveNumberPl, "moveNumber");
 				cl.show(container, "moveNumber");
 				risiko.setLandClickZeit(false);
@@ -865,7 +865,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void setAttackPlayer(String attLand, String defLand, String attacker, String defender) {
 		if (name.equals(defender)) {
 			System.out.println("Ich " + name + " bin verteidiger");
-			defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko);
+			defenseNumberPl = new UnitNumberPanel(this, UnitNumber.DEFENSE, risiko, spielerNummer);
 			container.add(defenseNumberPl, "defenseNumber");
 			cl.show(container, "defenseNumber");
 		} //und panel updaten bei allen

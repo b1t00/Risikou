@@ -464,11 +464,11 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 		risiko.attackStart(attLand, defLand, attUnits);
-		clientsUpdaten("attackStart");
-		clientsUpdaten(attLand.getName()); 
-		clientsUpdaten(defLand.getName());
-		clientsUpdaten(attLand.getBesitzer().getName());
-		clientsUpdaten(defLand.getBesitzer().getName());
+		updateExceptAktiverPlayer("attackStart");
+		updateExceptAktiverPlayer(attLand.getName()); 
+		updateExceptAktiverPlayer(defLand.getName());
+		updateExceptAktiverPlayer(attLand.getBesitzer().getName());
+		updateExceptAktiverPlayer(defLand.getBesitzer().getName());
 //		clientsUpdaten(String.valueOf(defLand.getNummer()));
 	}
 	
@@ -490,7 +490,7 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 		System.out.println("Winner: " + attackObjekt.getWinner());
-		updateExceptAktiverPlayer("attackFinal");
+		clientsUpdaten("attackFinal");
 		schickeAttackObjekt(attackObjekt);
 	}
 

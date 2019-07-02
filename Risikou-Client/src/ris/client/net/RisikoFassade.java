@@ -116,11 +116,11 @@ public class RisikoFassade implements RisikoInterface {
 		Player aktiverPlayer = null;
 		sout.println("gibAktivenPlayer");
 		try {
-//			synchronized (ois) {
+			synchronized (ois) {
 				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
-//			}
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("fehler eim einlesen vom player");
 			// TODO Auto-generated catch block
@@ -180,7 +180,7 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public boolean zieheEinheitenkarte(Player playerHatGezogen) {
+	public boolean zieheEinheitenkarte() {
 		boolean kannZiehen = false;
 		goIntoCommandMode();
 		sout.println("zieheEinheitenkarte");
