@@ -385,6 +385,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			int defLandUnits = risiko.getDefLandUnits();
 			// wenn die defense-nummer eingeloggt wurde, wird die attack hier durchgeführt
 			if (number <= defLandUnits && number < 3) {
+				pausePl = new PausePanel(this.spielerNummer, risiko);
+				container.add(pausePl, "pausePl");
+				cl.show(container, "pausePl");
 				risiko.attackFinal(number);
 				
 				// hier eher dice panel aufrufen
@@ -555,6 +558,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dialogPl.update(attackObjekt);
 		dicePl.setAttack(attackObjekt);
 		dicePl.showResult();
+		
+		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
+		System.out.println("name gewinner: " + attackObjekt.getWinner());
 		
 //		Ausgabe im JOptionPane:
 		//hier kann die wiederholte abfrage, ob es sich um den aktivenSpieler handelt bestimmt verkürzt werden
