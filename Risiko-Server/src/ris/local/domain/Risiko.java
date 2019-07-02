@@ -439,4 +439,10 @@ public class Risiko implements RisikoInterface, Serializable {
 		
 	}
 
+	@Override
+	public void buttnUpdate() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

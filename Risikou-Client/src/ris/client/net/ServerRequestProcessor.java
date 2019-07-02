@@ -59,7 +59,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			e.printStackTrace();
 		}
 		while (true) {
-			if (doNotListenMode) {
+			while (doNotListenMode) {
 				//System.out.println("ich höre nicht zu");
 				try {
 					Thread.sleep(25); // rennt zu schnell dadurch, wenn er nichts zum verarbeiten hat
@@ -67,7 +67,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				continue;
+//				continue;
 			}
 			String input = "";
 			// Aktionen vom Server werden eingelesen und verarbeitet
@@ -124,6 +124,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				}
 				client.updateDialogSetUnit(land);
 				client.updateWorld();
+				break;
+			case "buttnUpdate":
+				client.buttonUpdaten();
 				break;
 			case "updateMoveUnits":
 				Land von = null;

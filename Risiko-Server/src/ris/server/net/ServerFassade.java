@@ -14,8 +14,9 @@ public class ServerFassade implements ServerListener {
 	private RisikoInterface risiko;
 	private Socket clientSocket;
 	private ObjectOutputStream out;
+	private int listenerNr = 0;
 
-	public ServerFassade(ObjectOutputStream outClient, RisikoInterface risiko) {
+	public ServerFassade(ObjectOutputStream outClient, RisikoInterface risiko, int nr) {
 //		public ServerFassade(Socket clientSocket, RisikoInterface risiko) {
 //		this.clientSocket = clientSocket;
 		this.out = outClient;
@@ -26,6 +27,8 @@ public class ServerFassade implements ServerListener {
 			e.printStackTrace();
 		}*/
 		this.risiko = risiko;
+		
+		this.listenerNr = nr;
 	}
 
 	@Override
@@ -67,6 +70,10 @@ public class ServerFassade implements ServerListener {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public int getListenerNr() {
+		return listenerNr;
 	}
 
 }

@@ -322,6 +322,10 @@ public class ClientRequestProcessor implements Runnable {
 					e1.printStackTrace();
 				}
 				break;
+			case "buttnUpdate":
+				updateExceptAktiverPlayer("buttnUpdate");
+				
+				break;
 			case "allMissionsComplete":
 				try {
 					oos.reset();
@@ -561,6 +565,14 @@ public class ClientRequestProcessor implements Runnable {
 	public void clientsUpdaten(String welchesUpdate) {
 		for (ServerListener sl : allServerListeners) {
 			sl.handleEvent(welchesUpdate);
+		}
+	}
+
+	public void updateExceptAktiverPlayer(String welchesUpdate) {
+		for (int i = 0; i < allServerListeners.size(); i++) {
+			if (!(i == allServerListeners.get(i).getListenerNr())) {
+				allServerListeners.get(i).handleEvent(welchesUpdate);
+			}
 		}
 	}
 

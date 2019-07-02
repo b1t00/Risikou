@@ -578,6 +578,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void updateMoveUnits(Land von, Land zu, int unit) {
 		dialogPl.update(von, zu, unit);
 	}
+	
+	public void buttonUpdaten() {
+		
+		risiko.buttnUpdate();
+		loginPl.buttonUpdaten("update");
+	};
 
 /////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
 
