@@ -559,6 +559,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dicePl.setAttack(attackObjekt);
 		dicePl.showResult();
 		
+		String winnerName = attackObjekt.getWinner().getName();
+		String aktuellerPlayerName = risiko.gibAktivenPlayer().getName();
+		
 		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
 		System.out.println("name gewinner: " + attackObjekt.getWinner());
 		System.out.println("besitzer def land: " +attackObjekt.getDefLand().getBesitzer());
@@ -582,8 +585,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 		JOptionPane.showMessageDialog(null, ergebnis);
 		
-		if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())
-				&& attackObjekt.getDefLand().getBesitzer().equals(risiko.gibAktivenPlayer())) {
+		if (winnerName.equals(aktuellerPlayerName)
+				&& attackObjekt.getDefLand().getBesitzer().getName().equals(aktuellerPlayerName)) {
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt "
 					+ attackObjekt.getDefLand() + " ein.");
 			updateWorld();
@@ -602,7 +605,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					showQuestion();
 				}
 			}
-		} else if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
+		} else if (winnerName.equals(risiko.gibAktivenPlayer())) {
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf gewonnen.");
 			updateWorld();
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
