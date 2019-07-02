@@ -363,7 +363,6 @@ public class Spiellogik implements Serializable{
 			}
 		}
 		
-		
 		// Methode diceAttack und diceDefense geben pro Unit einen zufälligen Wert zwischen 1 und 6 in einer ArrayList zurück
 		ArrayList<Integer> attList = null;
 		try {

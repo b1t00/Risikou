@@ -120,7 +120,7 @@ public class DialogPanel extends JPanel {
 		}
 	}
 	
-	//text anhaengen bei set units
+	//text anhaengen für set units
 	public void updateSetUnit(String land) {
 		try {
 			System.out.println("dialogp probiert ein updateLand");

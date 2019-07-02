@@ -352,7 +352,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		if (gameSpeicher != null) {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			turn = gameSpeicher.getSpielstand();
-//			Jeder geladene Spieler muss erst dem Playermanagement hinzugef�gt werden
+//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefuegt werden
 			for(int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
