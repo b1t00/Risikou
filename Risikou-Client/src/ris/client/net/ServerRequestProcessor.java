@@ -120,7 +120,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				client.updateWorld();
 				break;
 			case "buttnUpdate":
-				client.buttonUpdaten();
+//				client.buttonUpdaten();
 				break;
 			case "updateMoveUnits":
 				Land von = null;

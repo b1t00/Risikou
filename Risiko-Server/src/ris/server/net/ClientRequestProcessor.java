@@ -14,6 +14,7 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Player;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -154,7 +155,7 @@ public class ClientRequestProcessor implements Runnable {
 			case "getPlayerArray":
 				try {
 //					oos.reset();
-					oos.writeObject(risiko.getPlayerArray());					
+					oos.writeObject((ArrayList<Player>)risiko.getPlayerArray());					
 					oos.reset();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -220,6 +221,9 @@ public class ClientRequestProcessor implements Runnable {
 			case "moveUnitsGueltig":
 				moveUnitsGueltig();
 				break;
+			case "moveUnits":
+				moveUnits();
+				break;
 			case "setNextState":
 				risiko.setNextState();
 				break;
@@ -240,8 +244,8 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "aksForServerListenerNr":
 				for(int i = 0 ; i < allServerListeners.size(); i++) {
-					allServerListeners.get(i).schickeNurObject(allServerListeners.size());
-					allServerListeners.get(i).schickeNurObject(i);
+					allServerListeners.get(i).schickeReinesObject(allServerListeners.size());
+					allServerListeners.get(i).schickeReinesObject(i);
 				}
 				break;
 			case "getSpielladeDateien":
@@ -327,10 +331,6 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				break;
-			case "buttnUpdate":
-				updateExceptAktiverPlayer("buttnUpdate");
-				
 				break;
 			case "allMissionsComplete":
 				try {
@@ -544,6 +544,28 @@ public class ClientRequestProcessor implements Runnable {
 			}
 		}
 	};
+	public void moveUnits(){
+		Integer vonGue = null;
+		Integer zuGue = null;
+		Integer unitsGue = null;
+		try {
+			vonGue = Integer.parseInt(in.readLine());
+			zuGue = Integer.parseInt(in.readLine());
+			unitsGue = Integer.parseInt(in.readLine());
+		
+			risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue);
+
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	};
 	
 	public void setEinheiten() {
 		int landID = 0;
@@ -629,16 +651,6 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 
-<<<<<<< Updated upstream
-	public void updateExceptAktiverPlayer(String welchesUpdate) {
-		for (int i = 0; i < allServerListeners.size(); i++) {
-			if (!(i == allServerListeners.get(i).getListenerNr())) {
-				allServerListeners.get(i).handleEvent(welchesUpdate);
-			}
-		}
-	}
-=======
->>>>>>> Stashed changes
 
 	public void allUpdate() {
 		String updateState = null;

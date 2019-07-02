@@ -71,9 +71,6 @@ public class ServerFassade implements ServerListener {
 		}
 		
 	}
-	
-//	public int getListenerNr() {
-//		return listenerNr;
-//	}
+
 
 }

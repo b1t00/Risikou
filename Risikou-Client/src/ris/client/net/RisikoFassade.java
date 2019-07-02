@@ -293,10 +293,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getPlayerArray");
 		try {
 //			if(!ois.ct().equals("leer")){
-			synchronized (ois) {
+//			synchronized (ois) {
 
-				allePlayer = (ArrayList<Player>) ois.readObject();
-			}
+				allePlayer =  (ArrayList<Player>) ois.readObject();
+//			}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -660,10 +660,5 @@ public class RisikoFassade implements RisikoInterface {
 		}
 	}
 
-	public void buttnUpdate() {
-		goIntoCommandMode();
-		sout.println("buttnUpdate");
-		releaseCommandMode();
-	}
 
 }
