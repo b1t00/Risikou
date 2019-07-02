@@ -95,7 +95,7 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "gibAktivenPlayer":
 				try {
-					oos.reset();
+//					oos.reset();
 					oos.writeObject(risiko.gibAktivenPlayer());
 					oos.reset();
 				} catch (IOException e) {
