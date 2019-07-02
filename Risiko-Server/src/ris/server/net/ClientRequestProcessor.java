@@ -236,6 +236,7 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				System.out.println("CRP ich speicher grad die Datei " + name);
 				risiko.spielSpeichern(name);
 				break;
 			case "getSpielladeDateien":
@@ -480,11 +481,11 @@ public class ClientRequestProcessor implements Runnable {
 		}
 		for (int i = 0; i < allServerListeners.size(); i++) {
 			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
-				allServerListeners.get(i).handleEvent("updateMoveUnits");
 				try {
-					allServerListeners.get(i).schickeNurObject((risiko.getLandById(vonGue)));
-					allServerListeners.get(i).schickeNurObject((risiko.getLandById(zuGue)));
-					allServerListeners.get(i).schickeNurObject(unitsGue);
+					allServerListeners.get(i).handleEvent("updateMoveUnits");
+					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
+					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
+					allServerListeners.get(i).schickeReinesObject(unitsGue);
 				} catch (LandExistiertNichtException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

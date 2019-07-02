@@ -364,6 +364,7 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void spielSpeichern(String name) {
 		sout.println("spielSpeichern");
+		System.out.println("RF ich speicher jetztz mit dem dateinamen : " + name);
 		// muss hier noch darauf gewartet werden, dass der server sein ok gibt?
 		sout.println(name);
 	}

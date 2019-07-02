@@ -57,7 +57,7 @@ public class ServerFassade implements ServerListener {
 	}
 
 	@Override
-	public void schickeNurObject(Object o) {
+	public void schickeReinesObject(Object o) {
 		try {
 			out.reset();
 			out.writeObject(o);

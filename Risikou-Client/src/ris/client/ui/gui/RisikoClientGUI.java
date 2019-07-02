@@ -466,7 +466,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
 					updateMoveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
-					// Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
+					// TODO:Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
 					if (win()) {
 						JOptionPane.showMessageDialog(null,
 								risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");

@@ -319,6 +319,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public void spielSpeichern(String datei) {
+//		System.out.println("bin sogar in Risiko " + datei);
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		fileMg.speichern(game, datei);
 	}

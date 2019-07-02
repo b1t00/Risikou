@@ -202,7 +202,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 	}
 
 	@Override
-	public void schickeNurObject(Object o) {
+	public void schickeReinesObject(Object o) {
 		// TODO Auto-generated method stub
 		
 	}
