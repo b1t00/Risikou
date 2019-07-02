@@ -71,13 +71,11 @@ public class RisikoFassade implements RisikoInterface {
 //		while (currentState == null) {
 		sout.println("getCurrentState");
 		try {
-//			synchronized (ois) {
 			Object o = new Object();
 			o = ois.readObject();
 			System.out.println("(RF)objectState " + o);
 			currentState = (State) o;
 //				currentState = (State) ois.readObject(); 
-//			}
 		} catch (ClassNotFoundException | IOException e) {
 //			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,6 +115,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("gibAktivenPlayer");
 		try {
 //			synchronized (ois) {
+
 				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
@@ -156,7 +155,6 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void setNextPlayer() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -395,9 +393,7 @@ public class RisikoFassade implements RisikoInterface {
 
 		sout.println("getLandClickZeit");
 		try {
-			synchronized (ois) {
 				landClickZeit = (boolean) ois.readObject();
-			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

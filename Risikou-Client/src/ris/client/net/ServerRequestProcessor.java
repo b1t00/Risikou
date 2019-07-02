@@ -72,13 +72,11 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			String input = "";
 			// Aktionen vom Server werden eingelesen und verarbeitet
 			try {
-//				synchronized (sin) {
 					waitingForServer = true;
 					System.out.println("warte auf server");
 					input = sin.readObject().toString();
 					System.out.println("got input " + input);
 					waitingForServer = false;
-//				}
 			} catch (Exception e) {
 				System.out.println("--->Fehler beim Lesen vom Server (Aktion): ");
 				System.out.println(e.toString());
@@ -86,9 +84,6 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				return;
 			}
 			switch (input) {
-//			case "":
-//				System.out.println("etwas wurde eingelesen");
-//				break;
 			case "spielWurdeAngefanen":
 				// TODO:
 			case "initializeGamePanel":
