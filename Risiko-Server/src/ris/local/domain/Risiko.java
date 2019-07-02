@@ -129,7 +129,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return playerMg.getPlayerById(zahl);
 	}
 
-	public synchronized Player gibAktivenPlayer() {
+	public Player gibAktivenPlayer() {
 		return turn.gibAktivenPlayer();
 	}
 
