@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -14,8 +12,8 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
+import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
-import ris.common.valueobjects.State;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -104,7 +102,9 @@ public class ClientRequestProcessor implements Runnable {
 					oos.reset();
 					oos.writeObject(risiko.gibAktivenPlayer());
 					oos.reset();
+					System.out.println("aktiver Player gesendet");
 				} catch (IOException e) {
+					System.out.println("Fehler beim Senden von aktiver Player");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -115,6 +115,7 @@ public class ClientRequestProcessor implements Runnable {
 					oos.writeObject(risiko.getColorArray());
 					oos.reset();
 				} catch (IOException e) {
+					System.out.println("Fehler beim Senden von Color-Array");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -159,6 +160,7 @@ public class ClientRequestProcessor implements Runnable {
 					oos.writeObject(risiko.getPlayerArray());
 					oos.reset();
 				} catch (IOException e) {
+					System.out.println("Fehler beim Senden von playerarray");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -179,6 +181,22 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "defenseLandGueltig": // attackLandGueltig
 				defenseLandGueltig();
+				break;
+			case "attackStart":
+				attackStart();
+				break;
+			case "getDefLandUnits":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getDefLandUnits());
+					oos.reset();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+			break;
+			case "attackFinal":
+				attackFinal();
 				break;
 			case "kannVerschieben":
 				int nr = -3; // TODO Achtung: es gibt kein spieler mit dem wert -3
@@ -206,27 +224,31 @@ public class ClientRequestProcessor implements Runnable {
 			case "moveUnitsGueltig":
 				moveUnitsGueltig();
 				break;
-			case "moveUnits":
-				try {
-					int vonMov = Integer.parseInt(in.readLine());
-					int zuMov = Integer.parseInt(in.readLine());
-					int unitsMov = Integer.parseInt(in.readLine());
-					try {
-						risiko.moveUnits(risiko.getLandById(vonMov), risiko.getLandById(zuMov), unitsMov);
-					} catch (ZuWenigEinheitenException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (LandExistiertNichtException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				} catch (NumberFormatException | IOException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				break;
+//			case "moveUnits":
+//				try {
+//					int vonMov = Integer.parseInt(in.readLine());
+//					int zuMov = Integer.parseInt(in.readLine());
+//					int unitsMov = Integer.parseInt(in.readLine());
+//					try {
+//						risiko.moveUnits(risiko.getLandById(vonMov), risiko.getLandById(zuMov), unitsMov);
+//					} catch (ZuWenigEinheitenException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					} catch (LandExistiertNichtException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				} catch (NumberFormatException | IOException e2) {
+//					// TODO Auto-generated catch block
+//					e2.printStackTrace();
+//				}
+//				break;
 			case "setNextState":
 				risiko.setNextState();
+				break;
+			case "setNextPlayer":
+				risiko.setNextPlayer();
+				allServerListeners.get(risiko.gibAktivenPlayer().getNummer()).handleEvent("anDerReihe");
 				break;
 			case "spielSpeichern":
 				String name = null;
@@ -331,6 +353,16 @@ public class ClientRequestProcessor implements Runnable {
 					e1.printStackTrace();
 				}
 				break;
+			case "zieheEinheitenkarte":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.zieheEinheitenkarte());
+					oos.reset();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case "allUpdate":
 				allUpdate();
 				break;
@@ -416,9 +448,50 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		clientsUpdaten("beginAttack");
-		clientsUpdaten(att.toString());
-		clientsUpdaten(def.toString());
+	}
+	
+	public void attackStart() {
+		Land attLand = null;
+		Land defLand = null;
+		int attUnits = 0;
+		
+		try {
+			attLand = risiko.getLandById(Integer.parseInt(in.readLine()));
+			defLand = risiko.getLandById(Integer.parseInt(in.readLine()));
+			attUnits = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | LandExistiertNichtException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		risiko.attackStart(attLand, defLand, attUnits);
+		clientsUpdaten("attackStart");
+		clientsUpdaten(attLand.getName()); 
+		clientsUpdaten(defLand.getName());
+		clientsUpdaten(attLand.getBesitzer().getName());
+		clientsUpdaten(defLand.getBesitzer().getName());
+//		clientsUpdaten(String.valueOf(defLand.getNummer()));
+	}
+	
+	public void attackFinal() {
+		int defUnits = 0;
+		try {
+			defUnits = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Attack attackObjekt = risiko.attackFinal(defUnits);
+		try {
+			oos.reset();
+			oos.writeObject(attackObjekt);
+			oos.reset();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Winner: " + attackObjekt.getWinner());
+		updateExceptAktiverPlayer("attackFinal");
+		schickeAttackObjekt(attackObjekt);
 	}
 
 	public void moveFromLandGueltig() {
@@ -456,7 +529,8 @@ public class ClientRequestProcessor implements Runnable {
 		}
 	}
 
-	public void moveUnitsGueltig() {
+	
+	public void moveUnitsGueltig(){
 		Integer vonGue = null;
 		Integer zuGue = null;
 		Integer unitsGue = null;
@@ -464,36 +538,75 @@ public class ClientRequestProcessor implements Runnable {
 			vonGue = Integer.parseInt(in.readLine());
 			zuGue = Integer.parseInt(in.readLine());
 			unitsGue = Integer.parseInt(in.readLine());
-
 			oos.reset();
 			oos.writeObject(risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue));
+			System.out.println("move units gültig? " + risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue));
 			oos.reset();
-
-		} catch (NumberFormatException e) {
+		} catch (NumberFormatException | LandExistiertNichtException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (LandExistiertNichtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		for (int i = 0; i < allServerListeners.size(); i++) {
-			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
-				try {
-					allServerListeners.get(i).handleEvent("updateMoveUnits");
-					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
-					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
-					allServerListeners.get(i).schickeReinesObject(unitsGue);
-				} catch (LandExistiertNichtException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		} 
+		
+		try {
+			if(risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue)){
+				risiko.moveUnits(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue);for (int i = 0; i < allServerListeners.size(); i++) {
+					if (!(i == risiko.gibAktivenPlayer().getNummer())) {
+						try {
+							allServerListeners.get(i).handleEvent("updateMoveUnits");
+							allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
+							allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
+							allServerListeners.get(i).schickeReinesObject(unitsGue);
+							allServerListeners.get(i).handleEvent(risiko.gibAktivenPlayer().getName());
+						} catch (LandExistiertNichtException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 			}
+		} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-	};
+	}
+//	public void moveUnitsGueltig() {
+//		Integer vonGue = null;
+//		Integer zuGue = null;
+//		Integer unitsGue = null;
+//		try {
+//			vonGue = Integer.parseInt(in.readLine());
+//			zuGue = Integer.parseInt(in.readLine());
+//			unitsGue = Integer.parseInt(in.readLine());
+//
+//			oos.reset();
+//			oos.writeObject(risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue));
+//			oos.reset();
+//
+//		} catch (NumberFormatException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (LandExistiertNichtException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		for (int i = 0; i < allServerListeners.size(); i++) {
+//			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
+//				try {
+//					allServerListeners.get(i).handleEvent("updateMoveUnits");
+//					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
+//					allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
+//					allServerListeners.get(i).schickeReinesObject(unitsGue);
+//				} catch (LandExistiertNichtException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//
+//	};
 
 	public void setEinheiten() {
 		int landID = 0;
@@ -517,6 +630,7 @@ public class ClientRequestProcessor implements Runnable {
 			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
 				allServerListeners.get(i).handleEvent("updateDialog(Land)");
 				allServerListeners.get(i).handleEvent(land.getName());
+				allServerListeners.get(i).handleEvent(risiko.gibAktivenPlayer().getName());
 			}
 		}
 //		for(ServerListener sl: allServerListeners) {
@@ -561,6 +675,20 @@ public class ClientRequestProcessor implements Runnable {
 	public void clientsUpdaten(String welchesUpdate) {
 		for (ServerListener sl : allServerListeners) {
 			sl.handleEvent(welchesUpdate);
+		}
+	}
+	
+	public void updateExceptAktiverPlayer(String welchesUpdate) {
+		for (int i = 0; i < allServerListeners.size(); i++) {
+			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
+				allServerListeners.get(i).handleEvent(welchesUpdate);
+			}
+		}
+	}
+	
+	public void schickeAttackObjekt(Attack aO) {
+		for(ServerListener sl: allServerListeners) {
+			sl.schickeObjekt(aO);
 		}
 	}
 

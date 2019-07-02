@@ -39,7 +39,7 @@ public interface RisikoInterface {
 	
 	public void setTauschZeit(boolean obTauschbar);
 	
-	public boolean zieheEinheitenkarte(Player playerHatGezogen);
+	public boolean zieheEinheitenkarte();
 	
 	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException;
 	

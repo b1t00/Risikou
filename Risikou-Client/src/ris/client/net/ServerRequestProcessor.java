@@ -94,6 +94,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			case "initializeGamePanel":
 				client.showGamePanel();
 				break;
+			case "anDerReihe":
+				client.showQuestion();
+				break;
 			case "updateDialog":
 				String ereignis = null;
 				synchronized (sin) {
@@ -111,9 +114,11 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				break;
 			case "updateDialog(Land)":
 				String land = null;
-				synchronized (sin) {
+				String player = null;
+//				synchronized (sin) {
 					try {
 						land = sin.readObject().toString();
+						player = sin.readObject().toString();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -121,18 +126,20 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-				}
-				client.updateDialogSetUnit(land);
+//				}
+				client.updateDialogSetUnit(land, player);
 				client.updateWorld();
 				break;
 			case "updateMoveUnits":
 				Land von = null;
 				Land zu = null;
 				int unit = 0;
+				String verschieber = null;
 				try {
 					von = (Land) sin.readObject();
 					zu = (Land) sin.readObject();
 					unit = Integer.parseInt(sin.readObject().toString());
+					verschieber = sin.readObject().toString();
 				} catch (ClassNotFoundException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -141,7 +148,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					e1.printStackTrace();
 				}
 				client.updateWorld();
-				client.updateMoveUnits(von, zu, unit);
+				client.updateMoveUnits(von, zu, unit, verschieber);
 				break;
 			case "attackStart":
 				String attLand = null;

@@ -26,6 +26,7 @@ public class QuestionPanel extends JPanel{
 	private RisikoInterface ris = null;
 	private QuestionListener listener = null;
 	private String phase = "";
+	private int iD;
 	
 
 	private JLabel titel = new JLabel("Attack", SwingConstants.CENTER);
@@ -33,10 +34,11 @@ public class QuestionPanel extends JPanel{
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	
-	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase) {
+	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase, int iD) {
 		ris = risiko;
 		this.listener = listener;
 		this.phase = phase;
+		this.iD = iD;
 		
 		setupUI();
 		setupEvents();
@@ -80,7 +82,7 @@ public class QuestionPanel extends JPanel{
 		this.add(yesButton);
 		this.add(noButton);
 		
-		setBorder(new LineBorder(ris.getColorArray().get(ris.gibAktivenPlayer().getNummer()), 5));		
+		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));		
 	}
 	
 	public void setupEvents() {

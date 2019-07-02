@@ -155,7 +155,8 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	// fragt den player, ob er ein land eingenommen hat via boolean
 	// gutschriftEinheitenkarte und setzt diesen dann auf false
-	public boolean zieheEinheitenkarte(Player aktiverPlayer) {
+	public boolean zieheEinheitenkarte() {
+		Player aktiverPlayer = gibAktivenPlayer();
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
 			Risikokarte neueKarte = einheitenkartenStapel.remove(0);
 			aktiverPlayer.setEinheitenkarte(neueKarte);

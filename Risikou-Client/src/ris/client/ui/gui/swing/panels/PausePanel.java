@@ -10,12 +10,11 @@ import javax.swing.border.LineBorder;
 import ris.common.interfaces.RisikoInterface;
 
 public class PausePanel extends JPanel {
-	private RisikoInterface ris;
 	private JLabel titel = new JLabel("Pause");
 	private JTextArea info;
 	
 	//bekommt id, damit die richtige Farbe angezeigt werden kann
-	public PausePanel (int iD) {
+	public PausePanel (int iD, RisikoInterface ris) {
 		this.setLayout(new GridLayout(2, 1));
 		info = new JTextArea();
 		info.setLineWrap(true);
@@ -24,6 +23,6 @@ public class PausePanel extends JPanel {
 		info.setText("Du bist gerade nicht an der Reihe...");
 		this.add(titel);
 		this.add(info);
-//		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));
+		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));
 	}	
 }

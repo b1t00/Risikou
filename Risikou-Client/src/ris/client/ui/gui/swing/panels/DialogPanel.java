@@ -112,17 +112,17 @@ public class DialogPanel extends JPanel {
 	}
 	
 	//text anhaengen bei verschieben von einheiten
-	public void update(Land land1, Land land2, int number) {
+	public void update(Land land1, Land land2, int number, String player) {
 		if(number == 1) {
 			try {
-				info.getDocument().insertString(0,ris.gibAktivenPlayer() + " verschiebt eine Einheit von " + land1 + " nach " + land2 + "\n",null);
+				info.getDocument().insertString(0,player + " verschiebt eine Einheit von " + land1 + " nach " + land2 + "\n",null);
 			} catch (BadLocationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}			
 		} else {
 			try {
-				info.getDocument().insertString(0,ris.gibAktivenPlayer() + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + "\n",null);
+				info.getDocument().insertString(0,player + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + "\n",null);
 			} catch (BadLocationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -131,15 +131,14 @@ public class DialogPanel extends JPanel {
 	}
 	
 	//text anhaengen bei set units
-	public void updateSetUnit(String land) {
+	public void updateSetUnit(String land, String player) {
 		try {
 			System.out.println("dialogp probiert ein updateLand");
-			info.getDocument().insertString(0, ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n", null);
+			info.getDocument().insertString(0, player + " setzt eine Einheit auf " + land + "\n", null);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		info.append(ris.gibAktivenPlayer() + " setzt eine Einheit auf " + land + "\n");
 	}
 	public void beginAttack(String attacker, String defender) {
 		try {

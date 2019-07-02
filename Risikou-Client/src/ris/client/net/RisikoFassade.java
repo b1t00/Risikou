@@ -122,6 +122,7 @@ public class RisikoFassade implements RisikoInterface {
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
 //			}
 		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("fehler eim einlesen vom player");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -155,8 +156,9 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setNextPlayer() {
-		// TODO Auto-generated method stub
-
+		goIntoCommandMode();
+		sout.println("setNextPlayer");
+		releaseCommandMode();
 	}
 
 	@Override
@@ -179,8 +181,17 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public boolean zieheEinheitenkarte(Player playerHatGezogen) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean kannZiehen = false;
+		goIntoCommandMode();
+		sout.println("zieheEinheitenkarte");
+		try {
+			kannZiehen = (Boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return kannZiehen;
 	}
 
 	@Override
@@ -188,7 +199,7 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		Integer vonMov = von.getNummer();
 		Integer zuMov = zu.getNummer();
-		Integer unitsMov = units; //kann es hoer zu problemen kommen, weil parameter namen oefter vergeben wurden? //TODO: obacht
+		Integer unitsMov = units; //kann es hier zu problemen kommen, weil parameter namen oefter vergeben wurden? //TODO: obacht
 		sout.println("moveUnits");
 		sout.println(vonMov.toString());
 		sout.println(zuMov.toString());
@@ -289,6 +300,7 @@ public class RisikoFassade implements RisikoInterface {
 		goIntoCommandMode();
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
 		sout.println("getPlayerArray");
+		System.out.println("gib mir den playerarray");
 		try {
 //			if(!ois.ct().equals("leer")){
 			synchronized (ois) {
@@ -297,6 +309,7 @@ public class RisikoFassade implements RisikoInterface {
 			}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("Fehler beim einlesen vom playerarray");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
