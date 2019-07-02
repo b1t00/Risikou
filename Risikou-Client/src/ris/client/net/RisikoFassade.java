@@ -185,9 +185,18 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void moveUnits(Land von, Land zu, int units) {
-		// TODO Auto-generated method stub
-
+		goIntoCommandMode();
+		Integer vonMov = von.getNummer();
+		Integer zuMov = zu.getNummer();
+		Integer unitsMov = units; //kann es hoer zu problemen kommen, weil parameter namen oefter vergeben wurden? //TODO: obacht
+		sout.println("moveUnits");
+		sout.println(vonMov.toString());
+		sout.println(zuMov.toString());
+		sout.println(unitsMov.toString());
+		releaseCommandMode();
 	}
+	
+	
 
 	@Override
 	public Player getGewinner() {
@@ -261,12 +270,12 @@ public class RisikoFassade implements RisikoInterface {
 		serverListener.setDoNotListenMode(true);
 		if (serverListener.isWaitingForServer()) {
 			sout.println("sentAliveMessage");
-			synchronized (ois) {
+//			synchronized (ois) {
 				while (serverListener.isWaitingForServer()) {
 					System.out.println("still waiting for server");
 				}
 				System.out.println("done we can go into command mode");
-			}
+//			}
 		}
 	}
 

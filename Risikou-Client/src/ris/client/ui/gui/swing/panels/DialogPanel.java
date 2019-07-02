@@ -114,9 +114,19 @@ public class DialogPanel extends JPanel {
 	//text anhaengen bei verschieben von einheiten
 	public void update(Land land1, Land land2, int number) {
 		if(number == 1) {
-			info.append(ris.gibAktivenPlayer() + " verschiebt eine Einheit von " + land1 + " nach " + land2 + "\n");			
+			try {
+				info.getDocument().insertString(0,ris.gibAktivenPlayer() + " verschiebt eine Einheit von " + land1 + " nach " + land2 + "\n",null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 		} else {
-			info.append(ris.gibAktivenPlayer() + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + "\n");
+			try {
+				info.getDocument().insertString(0,ris.gibAktivenPlayer() + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + "\n",null);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	

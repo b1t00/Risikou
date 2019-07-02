@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class GameObject implements Serializable{
+	//TODO: persistenz
 
 	private ArrayList<Player> allePlayer;
 	private Turn spielstand;
@@ -29,5 +30,6 @@ public class GameObject implements Serializable{
 	public Turn getSpielstand() {
 		return spielstand;
 	}
+	
 	
 }

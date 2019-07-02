@@ -17,7 +17,7 @@ import java.io.Serializable;
 import ris.common.valueobjects.GameObject;
 
 public class FilePersistenceManager implements Serializable {
-	
+	//TODO:PERSISTENZ
 	public void speichern(Serializable gameObject, String datei) {
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;

@@ -462,11 +462,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		case MOVE:
 			if (risiko.moveUnitsGueltig(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number)) {
-				System.out.println("hab ichs geschafft?? ------------------------------------------------------------------------");
 				try {
 					risiko.moveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					updateWorld();
-					dialogPl.update(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+					updateMoveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number);
 					// Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
 					if (win()) {
 						JOptionPane.showMessageDialog(null,
@@ -574,6 +573,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		dialogPl.update(aO);
 		dicePl.setAttack(aO);
 		dicePl.showResult();
+	}
+	
+	public void updateMoveUnits(Land von, Land zu, int unit) {
+		dialogPl.update(von, zu, unit);
 	}
 
 /////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
@@ -787,7 +790,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	// ___________________________ Speichern & Laden
-	// ________________________________________
+	// __________________________________
 
 	@Override
 	public void speichern() {

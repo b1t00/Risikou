@@ -51,7 +51,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("bin bereit für infos!");
+		System.out.println("bin bereit für infous!");
 		try {
 			String input = sin.readObject().toString();
 			System.out.println("should read ready for battle: " + input);
@@ -60,7 +60,13 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 		}
 		while (true) {
 			if (doNotListenMode) {
-				System.out.println("ich höre nicht zu");
+				//System.out.println("ich höre nicht zu");
+				try {
+					Thread.sleep(25); // rennt zu schnell dadurch, wenn er nichts zum verarbeiten hat
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				continue;
 			}
 			String input = "";
@@ -119,6 +125,24 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				client.updateDialogSetUnit(land);
 				client.updateWorld();
 				break;
+			case "updateMoveUnits":
+				Land von = null;
+				Land zu = null;
+				int unit = 0;
+				try {
+					von = (Land) sin.readObject();
+					zu = (Land) sin.readObject();
+					unit = Integer.parseInt(sin.readObject().toString());
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				client.updateWorld();
+				client.updateMoveUnits(von, zu, unit);
+				break;
 			case "attackStart":
 				String attLand = null;
 				String defLand = null;
@@ -173,6 +197,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 
 	@Override
 	public void schickeObjekt(Attack aO) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void schickeNurObject(Object o) {
 		// TODO Auto-generated method stub
 		
 	}
