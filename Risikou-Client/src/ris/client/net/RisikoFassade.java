@@ -215,8 +215,17 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Player getGewinner() {
-		// TODO Auto-generated method stub
-		return null;
+		goIntoCommandMode();
+		Player winner = null;
+		sout.println("getGewinner");
+		try {
+			winner = (Player) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return winner;
 	}
 
 	@Override
@@ -457,8 +466,10 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public void setTauschZeit(boolean obTauschbar) {
-		// TODO Auto-generated method stub
-
+		goIntoCommandMode();
+		sout.println("setTauschZeit");
+		sout.println(String.valueOf(obTauschbar));
+		releaseCommandMode();
 	}
 
 	@Override

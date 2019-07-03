@@ -69,8 +69,7 @@ public class UnitNumberPanel extends JPanel {
 			break;
 		case DEFENSE:
 			titel = new JLabel("Attack");
-			//muss hier die info übermittelt werden, wie viele Einheiten angreifen?
-			frage.setText("Mit wie vielen Einheiten soll verteidigt werden?");
+			frage.setText("Du wurdest angegriffen! Mit wie vielen Einheiten soll verteidigt werden?");
 			logButton = new JButton("Verteidigen!");
 			break;
 		case MOVE:

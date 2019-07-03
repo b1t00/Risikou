@@ -146,9 +146,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 //		risiko.spielAufbau();
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		int xSize = ((int) tk.getScreenSize().getWidth());
+//		int xSize = ((int) tk.getScreenSize().getWidth());
+		int xSize = 1400;
 		System.out.println("die hoehe vom spiel :" + xSize);
-		int ySize = ((int) tk.getScreenSize().getHeight());
+		int ySize = 900;
+//		int ySize = ((int) tk.getScreenSize().getHeight());
 		System.out.println("die hoehe vom spiel :" + ySize);
 
 		setLocation(0, 0); // setzt Jframe wieder nach links oben (nicht mehr in die mitte)
@@ -340,8 +342,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 							"Du hast ein Land erobert und bekommst eine Risikokarte \n"
 									+ risiko.gibAktivenPlayer().getEinheitenkarten()
 											.get(risiko.gibAktivenPlayer().getEinheitenkarten().size() - 1));
+					risikoKartenTPl.setUp();
 				}
-				risikoKartenTPl.setUp();
+//				risikoKartenTPl.setUp();
 				risiko.setNextState();
 				risiko.setNextPlayer();
 				infoPl.update();
@@ -358,8 +361,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	@Override // unit number panel
-	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir
-	// unsbefinden (attack, defense, move)
+	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns befinden (attack, defense, move)
 	public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption {
 		System.out.println("Status un: " + un);
 		switch (un) {
@@ -392,58 +394,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				cl.show(container, "pausePl");
 				risiko.attackFinal(number);
 		 
-				// hier eher dice panel aufrufen
-//				String ergebnis = "";
-//				if (attackObjekt.getResult().get(0) == -1) {
-//					ergebnis += attackObjekt.getAttacker() + " verliert " + -attackObjekt.getResult().get(0)
-//							+ " Einheit, ";
-//				} else {
-//					ergebnis += attackObjekt.getAttacker() + " verliert " + -attackObjekt.getResult().get(0)
-//							+ " Einheiten, ";
-//				}
-//				if (attackObjekt.getResult().get(1) == -1) {
-//					ergebnis += attackObjekt.getDefender() + " verliert " + -attackObjekt.getResult().get(1)
-//							+ " Einheit.";
-//				} else {
-//					ergebnis += attackObjekt.getDefender() + " verliert " + -attackObjekt.getResult().get(1)
-//							+ " Einheiten.";
-//				}
-//				JOptionPane.showMessageDialog(null, ergebnis);
-//				if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())
-//						&& worldPl.getAttackLand2().getBesitzer().equals(risiko.gibAktivenPlayer())) {
-//					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt "
-//							+ worldPl.getAttackLand2() + " ein.");
-//					updateWorld();
-//					// check, ob jemand gewonnen hat
-//					if (win()) {
-//						JOptionPane.showMessageDialog(null,
-//								risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
-//					}
-//					if (worldPl.getAttackLand1().getEinheiten() > 1) {
-//						System.out.println("hier müsste panel kommen");
-//						System.out.println("einheiten verbleibend: " + worldPl.getAttackLand1().getEinheiten());
-//						QuestionPanel nachrueckPl = new QuestionPanel(this, risiko, "nachruecken");
-//						container.add(nachrueckPl, "nachruecken");
-//						cl.show(container, "nachruecken");
-//					} else {
-//						showQuestion();
-//					}
-//				} else if (attackObjekt.getWinner().equals(risiko.gibAktivenPlayer())) {
-//					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf gewonnen.");
-//					updateWorld();
-//					showQuestion();
-//				} else {
-//					JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf verloren!");
-//					updateWorld();
-//					// check, ob jemand gewonnen hat
-//					if (win()) {
-//						JOptionPane.showMessageDialog(null,
-//								risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
-//					}
-//					showQuestion();
-//				}
-//				// TODO: bis hier
-//				// wenn defense ungültige anzahl einheiten angegeben hat:
+//		   wenn defense ungültige anzahl einheiten angegeben hat:
 			} else {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl an Einheiten!");
 			}
@@ -750,6 +701,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		risiko.setLandClickZeit(true);
 	}
 
+	
 	public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl) {
 		ArrayList<Risikokarte> kicked = auswahl;
 		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {

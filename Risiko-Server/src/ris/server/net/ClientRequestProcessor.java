@@ -419,6 +419,16 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "getGewinner":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getGewinner());
+					oos.reset();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case "allUpdate":
 				allUpdate();
 				break;
@@ -705,14 +715,14 @@ public class ClientRequestProcessor implements Runnable {
 
 	public void setTauschZeit() {
 		boolean obTauschBar = false;
-		String tauschBar = "";
+		String tauschbar = "";
 		try {
-			tauschBar = in.readLine();
+			tauschbar = in.readLine();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			System.out.println("tauschbar kann nicht eingelesen werden");
 			e1.printStackTrace();
 		}
-		if (tauschBar.equals(true))
+		if (tauschbar.equals("true"))
 			obTauschBar = true;
 		risiko.setTauschZeit(obTauschBar);
 	}

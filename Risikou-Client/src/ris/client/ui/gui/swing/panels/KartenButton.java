@@ -50,21 +50,23 @@ public class KartenButton extends JButton {
 	}
 
 	public void setAusgewaehlt(boolean istAusgewaehlt) {
+		ausgewaehlt = istAusgewaehlt;
 		if (risikoKarte == null) {
 			this.setBackground(Color.GRAY);
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
-			risikoKarte.setAusgewaehl(istAusgewaehlt);
+//			risikoKarte.setAusgewaehl(istAusgewaehlt);
 			if (istAusgewaehlt) {
-				this.setBackground(Color.CYAN);
+				this.setBackground(Color.RED);
 			} else {
-				this.setBackground(Color.GREEN);
+				this.setBackground(Color.ORANGE);
 			}
 		}
 //		return true;
 	}
 
 	public boolean getAusgewaehlt() {
-		return risikoKarte.getAusgewaehl();
+		return ausgewaehlt;
+//		return risikoKarte.getAusgewaehl();
 	}
 }

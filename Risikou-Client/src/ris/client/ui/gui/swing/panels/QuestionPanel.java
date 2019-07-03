@@ -69,11 +69,11 @@ public class QuestionPanel extends JPanel{
 				break;
 			case ATTACK: 
 				titel.setText("Attack");
-				abfrage.setText(ris.gibAktivenPlayer() + ": Moechtest du angreifen?");
+				abfrage.setText("Moechtest du angreifen?");
 				break;
 			case CHANGEUNITS:
 				titel.setText("Move units");
-				 abfrage.setText(ris.gibAktivenPlayer() + ": Moechtest du Einheiten verschieben?");
+				 abfrage.setText("Moechtest du Einheiten verschieben?");
 				 break;
 			}
 		}
