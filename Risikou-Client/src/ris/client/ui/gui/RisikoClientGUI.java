@@ -49,8 +49,8 @@ import ris.client.ui.gui.swing.panels.UnitNumberPanel.UnitNumber;
 import ris.client.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.client.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.client.ui.gui.swing.panels.WorldPanel;
-import ris.client.ui.gui.swing.panels.werBistDuPanle;
 import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
+import ris.client.ui.gui.swing.panels.werBistDuPanle;
 import ris.client.ui.gui.swing.panels.werBistDuPanle.SpielerladenListener;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
@@ -60,7 +60,6 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Risikokarte;
-import ris.common.valueobjects.State;
 
 public class RisikoClientGUI extends JFrame implements QuestionListener, WorldListener, UnitNumberListener,
 		kartenAuswahlListener, RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener, SpielerladenListener {

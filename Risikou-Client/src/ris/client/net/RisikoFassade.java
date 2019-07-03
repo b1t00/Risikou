@@ -433,9 +433,6 @@ public class RisikoFassade implements RisikoInterface {
 				e.printStackTrace();
 				releaseCommandMode();
 			}
-			for(Player play : gameDatei.getAllePlayer()) {
-				System.out.println(play.getName());
-			}
 	}
 	
 	public GameObject getGameDatei() {
