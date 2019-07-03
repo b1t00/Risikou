@@ -9,10 +9,10 @@ import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.ReadOnlyBufferException;
 import java.util.ArrayList;
 
 import ris.client.ui.gui.RisikoClientGUI;
+import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
@@ -303,19 +303,18 @@ public class RisikoFassade implements RisikoInterface {
 	public ArrayList<Player> getPlayerArray() {
 		goIntoCommandMode();
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
+		synchronized (ois) {
 		sout.println("getPlayerArray");
 		System.out.println("gib mir den playerarray");
 		try {
 //			if(!ois.ct().equals("leer")){
-			synchronized (ois) {
 
 				allePlayer = (ArrayList<Player>) ois.readObject();
-			}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("Fehler beim einlesen vom playerarray");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 		releaseCommandMode();
 		return allePlayer;
@@ -328,7 +327,7 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public Land getLandById(int landId) {
+	public Land getLandById(int landId) throws LandExistiertNichtException {
 		goIntoCommandMode();
 		System.out.println("rf getLandByID");
 		sout.println("getLandById");
@@ -338,7 +337,12 @@ public class RisikoFassade implements RisikoInterface {
 		Land land = null;
 		try {
 //			synchronized (ois) {
-				land = (Land) ois.readObject();
+				Object input = ois.readObject();
+				if(input instanceof Land) {
+					land = (Land) input;
+				} else {
+					throw new LandExistiertNichtException(land);
+				}
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block

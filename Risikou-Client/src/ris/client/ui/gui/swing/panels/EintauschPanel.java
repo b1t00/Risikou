@@ -70,7 +70,7 @@ public class EintauschPanel extends JPanel{
 		//und ruft den attackListener (die GUI) auf, die die Antwort weiterverarbeitet
 		@Override
 		public void actionPerformed(ActionEvent aE) {
-			System.out.println("eintauchpanel antwort : " + answer);
+			System.out.println("eintauschpanel antwort : " + answer);
 			listener.eintauschButtonClicked(answer);
 		}
 	}

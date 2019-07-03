@@ -350,7 +350,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return verzeichnis;
 	}
 
-	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException {
+	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException, LandExistiertNichtException {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {
@@ -370,13 +370,7 @@ public class Risiko implements RisikoInterface, Serializable {
 				// und fuer jedes Land werden die Einheiten neu gesetzt
 				for (Land loadedLand : loadedPlayer.getBesitz()) {
 					Land land = null;
-					// TODO: das catchen an andere Stelle!
-					try {
 						land = worldMg.getLandById(loadedLand.getNummer());
-					} catch (LandExistiertNichtException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 					try {
 						land.setEinheiten(loadedLand.getEinheiten());
 					} catch (ZuWenigEinheitenException e) {
