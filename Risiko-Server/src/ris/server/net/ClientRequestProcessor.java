@@ -357,9 +357,12 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				ladeDatei = risiko.gameObjectLaden(datei);
-				for(Player play : ladeDatei.getAllePlayer()) {
-					System.out.println("naaaaame " + play.getName());
+				try {
+					risiko.spielLaden(datei);
+				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException | LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+
 				}
 				break;
 			case "getLandClickZeit":
@@ -529,7 +532,6 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (LandExistiertNichtException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -752,8 +754,17 @@ public class ClientRequestProcessor implements Runnable {
 			oos.writeObject(risiko.getLandById(iD));
 			oos.reset();
 		} catch (IOException | LandExistiertNichtException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			try {
+				oos.reset();
+				oos.writeObject("Error");
+				oos.reset();
+				System.out.println(e1);
+				System.out.println("excpetion im server");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+//			e1.printStackTrace();
 		}
 	}
 

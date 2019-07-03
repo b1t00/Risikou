@@ -76,10 +76,12 @@ public class WorldPanel extends JPanel {
 				int b = color.getBlue();
 				Land land = null;
 	//			//je nach state des spiels und state der phase wird das geklickte land auf das jeweilige Attribut gesetzt
-					try {
+				try {
 						land = ris.getLandById(b);
 					} catch (LandExistiertNichtException | NullPointerException e) {
 						JOptionPane.showMessageDialog(null, "Du hast ins Meer geklickt... So gewinnst du nie!");
+						System.out.println(e);
+						return;
 					}
 					switch (ris.getCurrentState()) {
 					case SETUNITS:

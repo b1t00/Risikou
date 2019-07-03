@@ -84,7 +84,7 @@ public interface RisikoInterface {
 	
 	public String[] getSpielladeDateien();
 	
-	public void spielLaden(String name) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException;
+	public void spielLaden(String name) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException, LandExistiertNichtException;
 	
 	public void spielAufbau();
 	

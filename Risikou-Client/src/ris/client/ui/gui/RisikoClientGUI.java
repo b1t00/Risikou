@@ -337,9 +337,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //				eingenommen wurde, dann wird eine Einheitenkarte gezogen
 //				die Methode zieheEinheitenkarte prüft, ob ein Land eingenommen wurde, zieht automatisch eine Risikokarte und gibt als boolean
 //				zurück, ob ein Land eingenommen wurde 
-//				TODO: eventuell vorher abfrage, ob land eingenommen wurde
 				if (risiko.zieheEinheitenkarte()) {
-					updateKartenpanel2();
+//					updateKartenpanel2();
 					for (Risikokarte karte : risiko.gibAktivenPlayer().getEinheitenkarten()) {
 						System.out.println(karte);
 					}
@@ -350,13 +349,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 											.get(risiko.gibAktivenPlayer().getEinheitenkarten().size() - 1));
 				}
 				risikoKartenTPl.setUp();
-				infoPl.update();
 				risiko.setNextState();
 				risiko.setNextPlayer();
+				infoPl.update();
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
-//				showQuestion();
 				System.out.println("Nächste Spielphase");
 				break;
 			default:
@@ -775,7 +773,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 						try {
 							risiko.getLandById(l.getNummer()).setEinheiten(2);
 						} catch (LandExistiertNichtException e) {
-							// TODO Auto-generated catch block
+							System.out.println("Land existiert nicht");
 							e.printStackTrace();
 						}
 						updateWorld();
@@ -874,7 +872,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	@Override
 	public void spielLaden(String dateiname) {
 		try {
-			risiko.spielLaden(dateiname);
+			try {
+				risiko.spielLaden(dateiname);
+			} catch (LandExistiertNichtException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

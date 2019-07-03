@@ -43,12 +43,7 @@ public class RisikokartenPanel extends JPanel {
 
 	}
 
-//	public RisikokartenPanel(Risiko risk, Risikokarte karte) {
-//
-//	}
-
 	public void setUp() {
-
 		if (spielerKartenBtn.size() != 0) {
 			for (KartenButton kb : spielerKartenBtn)
 				this.remove(kb);
@@ -170,10 +165,10 @@ public class RisikokartenPanel extends JPanel {
 
 	}
 
-//	zaehler f�r Easteregg
+//	zaehler fuer Easteregg
 	int easterE = 0;
 
-	// muss in gleich klasse
+// muss in gleich klasse
 	class KartenListener implements ActionListener {
 
 		@Override
