@@ -128,7 +128,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
-		werBistPl = new werBistDuPanle(this,risiko);
+		
 		wieVielePl = new WieVieleSpielerPanel(this, risiko);
 //		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
@@ -882,7 +882,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("hier gehts weiter");
+		werBistPl = new werBistDuPanle(this,risiko);
+		System.out.println("hier gehts weiter mit wer bist du ");
 		showWerBistDuPanel();
 //		showGamePanel();
 	}

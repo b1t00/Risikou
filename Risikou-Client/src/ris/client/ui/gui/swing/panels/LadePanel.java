@@ -18,6 +18,7 @@ public class LadePanel extends JPanel {
 
 	public interface LadeListener{
 		public void spielLaden(String dateiname);
+		
 	}
 	
 	private LadeListener listener;

@@ -431,7 +431,8 @@ public class RisikoFassade implements RisikoInterface {
 	
 	public GameObject getGameDatei() {
 		goIntoCommandMode();
-		spielLaden("haaaaaaaaaaalo.ser");
+//		spielLaden("haaaaaaaaaaalo.ser");
+		
 		releaseCommandMode();
 		return gameDatei;
 	}

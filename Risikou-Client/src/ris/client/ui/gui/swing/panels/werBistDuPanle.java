@@ -57,9 +57,13 @@ public class werBistDuPanle extends JPanel {
 			
 			System.out.println(name);
 			for(Player play : allePlayer) {
-				if(play.getName().equals(name));
-				spielerNr = play.getNummer();
+				System.out.println(play.getNummer());
+				if(play.getName().equals(name)) {
+					spielerNr = play.getNummer();			
+				};
 			}
+			
+			System.out.println("aktuelle spielernr" +  spielerNr);
 			listener.spielerLaden(alleSpielerNamen.getSelectedValue(),spielerNr);
 		}
 	}
