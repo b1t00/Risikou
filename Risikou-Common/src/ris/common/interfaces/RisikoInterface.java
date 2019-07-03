@@ -10,6 +10,7 @@ import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
@@ -106,4 +107,9 @@ public interface RisikoInterface {
 	public void spielEintreitenBtn(int sListenerNr);
 	
 	public void removeRisikoKarten(ArrayList<Integer> risikokartenWahl);
+
+	public GameObject gameObjectLaden(String datei);
+	
+	public GameObject getGameDatei();
+
 }

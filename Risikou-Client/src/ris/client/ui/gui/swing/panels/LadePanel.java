@@ -18,6 +18,7 @@ public class LadePanel extends JPanel {
 
 	public interface LadeListener{
 		public void spielLaden(String dateiname);
+		
 	}
 	
 	private LadeListener listener;
@@ -50,7 +51,6 @@ public class LadePanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			System.out.println(alleDateien.getSelectedValue());
 			listener.spielLaden(alleDateien.getSelectedValue());			
 		}	
 	}

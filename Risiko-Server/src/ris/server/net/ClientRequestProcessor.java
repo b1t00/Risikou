@@ -13,8 +13,13 @@ import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
+
 import ris.common.valueobjects.Risikokarte;
+
+import ris.common.valueobjects.Player;
+
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -319,9 +324,24 @@ public class ClientRequestProcessor implements Runnable {
 				risiko.spielSpeichern(name);
 				break;
 			case "getSpielladeDateien":
+				int x = 1;
+				int y = 1;
+				String[] dateien = risiko.getSpielladeDateien();
 				try {
 					oos.reset();
-					oos.writeObject(risiko.getSpielladeDateien());
+					for(String s : dateien) {
+						if(s == null) {
+							System.out.println(x);
+							dateien[x-1] = "freier Speicher";
+						}
+						
+						System.out.println("datei " + x++ + " " + s);
+					}
+					for(String s : dateien) {
+						System.out.println("datei " + y++ + " " + s);
+					}
+					oos.writeObject(dateien);
+					System.out.println("schicke ich die sachen los?");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -329,8 +349,14 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "spielLaden":
 				String datei = null;
+				GameObject ladeDatei = null;
 				try {
 					datei = in.readLine();
+					ladeDatei = risiko.gameObjectLaden(datei);
+					oos.reset();
+					oos.writeObject(ladeDatei);
+					oos.reset();
+					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -340,6 +366,7 @@ public class ClientRequestProcessor implements Runnable {
 				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException | LandExistiertNichtException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+
 				}
 				break;
 			case "getLandClickZeit":

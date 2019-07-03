@@ -21,7 +21,7 @@ public class KartenButton extends JButton {
 	}
 
 	public KartenButton(Risikokarte karte) {
-		super("nichts");
+		super("noch keine Karte");
 		this.risikoKarte = karte;
 		this.setPreferredSize(new Dimension(130, 140));
 //		System.out.println("ging nicht" + ip.getHeight()); // mal gucken
@@ -38,7 +38,7 @@ public class KartenButton extends JButton {
 			this.setBackground(Color.GRAY);
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
-			this.setBackground(Color.GREEN);
+			this.setBackground(new Color(161, 141, 61));
 			
 			setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		}
@@ -57,7 +57,7 @@ public class KartenButton extends JButton {
 		} else {
 //			risikoKarte.setAusgewaehl(istAusgewaehlt);
 			if (istAusgewaehlt) {
-				this.setBackground(Color.RED);
+				this.setBackground(new Color(187, 170, 80));
 			} else {
 				this.setBackground(Color.ORANGE);
 			}

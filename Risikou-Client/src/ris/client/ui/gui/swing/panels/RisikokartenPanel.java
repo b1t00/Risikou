@@ -1,4 +1,4 @@
-package ris.client.ui.gui.swing.panels;
+﻿package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -63,14 +63,14 @@ public class RisikokartenPanel extends JPanel {
 			}
 		}
 
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 50, 5); // Abstand zwischen Buttens
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 20, 5); // Abstand zwischen Buttens
 		setLayout(fl);
 		for (KartenButton k : spielerKartenBtn) {
 			add(k);
 			k.setVisible(true);
 			k.addActionListener(new KartenListener());
 		}
-		this.setBackground(Color.YELLOW);
+//		this.setBackground(new Color(154, 87, 0)); // hier kann man hintegrund setzten
 	}
 
 	// Wenn 5 Karten vorhanden sind! TODO: in runden implementieren
@@ -181,6 +181,7 @@ public class RisikokartenPanel extends JPanel {
 				easterE++;
 			} else {
 				JOptionPane.showMessageDialog(null, "Du kannst wirklich keine Karten eintauschen!");
+
 				easterE = 0;
 			}
 		}

@@ -15,6 +15,7 @@ import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
+import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
@@ -25,6 +26,7 @@ public class RisikoFassade implements RisikoInterface {
 	private BufferedReader sin;
 	private PrintStream sout;
 	private ObjectInputStream ois;
+	GameObject gameDatei = null;
 	ServerRequestProcessor serverListener;
 	
 	private RisikoClientGUI gui;
@@ -401,22 +403,47 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public String[] getSpielladeDateien() {
+		goIntoCommandMode();
 		String[] verzeichnis = new String[10];
-
 		sout.println("getSpielladeDateien");
 		try {
-			verzeichnis = (String[]) ois.readObject();
+			verzeichnis = (String[]) ( ois.readObject());
+			for(String s : verzeichnis) {
+				System.out.println("eins");
+				System.out.println(s);
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		releaseCommandMode();
 		return verzeichnis;
 	}
 
 	@Override
 	public void spielLaden(String name) {
+		goIntoCommandMode();
+		
 		sout.println("spielLaden");
 		sout.println(name);
+			try {
+				gameDatei = (GameObject) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				releaseCommandMode();
+			}
+			for(Player play : gameDatei.getAllePlayer()) {
+				System.out.println(play.getName());
+			}
+	}
+	
+	public GameObject getGameDatei() {
+		goIntoCommandMode();
+//		spielLaden("haaaaaaaaaaalo.ser");
+		
+		releaseCommandMode();
+		return gameDatei;
 	}
 
 	@Override
@@ -714,6 +741,12 @@ public class RisikoFassade implements RisikoInterface {
 
 	@Override
 	public Player getPlayerById(int iD) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GameObject gameObjectLaden(String datei) {
 		// TODO Auto-generated method stub
 		return null;
 	}
