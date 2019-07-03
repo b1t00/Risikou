@@ -6,9 +6,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
@@ -42,13 +43,13 @@ public interface RisikoInterface {
 	
 	public boolean zieheEinheitenkarte();
 	
-	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException;
+	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException, UngueltigeAnzahlEinheitenException;
 	
 	public boolean attackLandGueltig(Land attacker);
 
 	public boolean defenseLandGueltig(Land attacker, Land defender);
 	
-	public void attackStart(Land attLand, Land defLand, int attUnits);
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException;
 	
 	public int getDefLandUnits();
 	
@@ -88,7 +89,7 @@ public interface RisikoInterface {
 	
 	public void spielAufbau();
 	
-	public void setEinheiten(Land land, int units);
+	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException;
 	
 	public void setSpielerAnzahl(int spielerAnzahl);
 	

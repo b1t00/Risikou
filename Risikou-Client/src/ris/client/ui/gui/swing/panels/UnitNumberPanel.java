@@ -11,13 +11,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.interfaces.RisikoInterface;
 
 public class UnitNumberPanel extends JPanel {
 
 	public interface UnitNumberListener{
-		public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption;
+		public void numberLogged(int number, UnitNumber un);
 	}
 	
 	//besser: in turn implementieren
@@ -112,13 +111,9 @@ public class UnitNumberPanel extends JPanel {
 			try {
 				int numberAsInt = Integer.parseInt(number);
 				safedNumber = numberAsInt;
-				try {
-					listener.numberLogged(numberAsInt, unitNumber);
-					numberTextField.setText("");
-				} catch (ZuWenigEinheitenNichtMoeglichExeption e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				listener.numberLogged(numberAsInt, unitNumber);
+				numberTextField.setText("");
+				
 				
 			} catch (NumberFormatException nfe) {
 				System.err.println("Bitte eine Zahl eingeben.");

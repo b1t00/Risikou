@@ -8,7 +8,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
@@ -382,6 +384,7 @@ public class ClientRequestProcessor implements Runnable {
 					oos.writeObject(risiko.getLandClickZeit());
 					oos.reset();
 				} catch (IOException e) {
+					System.out.println("Problem beim Schicken von LandClickZeit");
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -503,8 +506,13 @@ public class ClientRequestProcessor implements Runnable {
 			int iD = Integer.parseInt(in.readLine());
 			try {
 				risiko.playerAnlegen(name, farbe, iD);
+				oos.reset();
+				oos.writeObject("hat geklappt");
+				oos.reset();
 			} catch (SpielerNameExistiertBereitsException e) {
-				// TODO Auto-generated catch block
+				oos.reset();
+				oos.writeObject(e);
+				oos.reset();
 				e.printStackTrace();
 			}
 		} catch (IOException e) {
@@ -574,13 +582,31 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		risiko.attackStart(attLand, defLand, attUnits);
-		updateExceptAktiverPlayer("attackStart");
-		updateExceptAktiverPlayer(attLand.getName());
-		updateExceptAktiverPlayer(defLand.getName());
-		updateExceptAktiverPlayer(attLand.getBesitzer().getName());
-		updateExceptAktiverPlayer(defLand.getBesitzer().getName());
-//		clientsUpdaten(String.valueOf(defLand.getNummer()));
+		try {
+		 risiko.attackStart(attLand, defLand, attUnits);
+			 try {
+				oos.reset();
+				oos.writeObject("hat geklappt");
+				oos.reset();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			 updateExceptAktiverPlayer("attackStart");
+			 updateExceptAktiverPlayer(attLand.getName());
+			 updateExceptAktiverPlayer(defLand.getName());
+			 updateExceptAktiverPlayer(attLand.getBesitzer().getName());
+			 updateExceptAktiverPlayer(defLand.getBesitzer().getName());
+		} catch(LandNichtInBesitzException e) {
+			try {
+				oos.reset();
+				oos.writeObject(e);
+				oos.reset();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	public void attackFinal() {
@@ -591,13 +617,13 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Attack attackObjekt = risiko.attackFinal(defUnits);
+		Attack attackObjekt = null;
+		attackObjekt = risiko.attackFinal(defUnits);
 		try {
 			oos.reset();
 			oos.writeObject(attackObjekt);
 			oos.reset();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Winner: " + attackObjekt.getWinner());
@@ -658,28 +684,38 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 
-		try {
-			if (risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue)) {
-				risiko.moveUnits(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue);
-				for (int i = 0; i < allServerListeners.size(); i++) {
-					if (!(i == risiko.gibAktivenPlayer().getNummer())) {
+			try {
+				if (risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue)) {
+						risiko.moveUnits(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue);
 						try {
-							allServerListeners.get(i).handleEvent("updateMoveUnits");
-							allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
-							allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
-							allServerListeners.get(i).schickeReinesObject(unitsGue);
-							allServerListeners.get(i).handleEvent(risiko.gibAktivenPlayer().getName());
-						} catch (LandExistiertNichtException e) {
+							oos.reset();
+							oos.writeObject("hat geklappt");
+							oos.reset();
+						} catch (IOException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+				
+					for (int i = 0; i < allServerListeners.size(); i++) {
+						if (!(i == risiko.gibAktivenPlayer().getNummer())) {
+							try {
+								allServerListeners.get(i).handleEvent("updateMoveUnits");
+								allServerListeners.get(i).schickeReinesObject((risiko.getLandById(vonGue)));
+								allServerListeners.get(i).schickeReinesObject((risiko.getLandById(zuGue)));
+								allServerListeners.get(i).schickeReinesObject(unitsGue);
+								allServerListeners.get(i).handleEvent(risiko.gibAktivenPlayer().getName());
+							} catch (LandExistiertNichtException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 					}
 				}
+			} catch (LandExistiertNichtException | ZuWenigEinheitenException | UngueltigeAnzahlEinheitenException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			
 	}
 //	public void moveUnitsGueltig() {
 //		Integer vonGue = null;
@@ -737,7 +773,29 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		risiko.setEinheiten(land, units);
+		try {
+			risiko.setEinheiten(land, units);
+			try {
+				oos.reset();
+				oos.writeObject("hat geklappt");
+				oos.reset();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (UngueltigeAnzahlEinheitenException e) {
+			try {
+				oos.reset();
+				oos.writeObject(e);
+				oos.reset();
+				oos.writeObject(land.getEinheiten()-1);
+				oos.reset();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 		for (int i = 0; i < allServerListeners.size(); i++) {
 			if (!(i == risiko.gibAktivenPlayer().getNummer())) {
 				allServerListeners.get(i).handleEvent("updateDialog(Land)");

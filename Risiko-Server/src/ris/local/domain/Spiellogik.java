@@ -9,7 +9,6 @@ import java.util.List;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
@@ -243,10 +242,7 @@ public class Spiellogik implements Serializable{
 		return moeglicheAngreifer;
 	}
 
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
-		if(!worldMg.getLaender().contains(attackLand)) {
-			throw new LandExistiertNichtException(attackLand);
-		}
+	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) {
 		ArrayList<Land> feindlicheLaender = new ArrayList<Land>();
 		for (int i = 0; i < worldMg.nachbarn[attackLand.getNummer()].length; i++) {
 			if (worldMg.nachbarn[attackLand.getNummer()][i]) {
@@ -310,13 +306,11 @@ public class Spiellogik implements Serializable{
 		return false;
 	}
 	
-	//überprüft, ob ein ausgewähltes Land angreifen kann (Besitzer = aktiverPlayer, hat feindliche Nachbarn und mehr als 1Einheit)
-	public boolean attackLandGueltig(Land att) throws LandExistiertNichtException {
-		if(turn.gibAktivenPlayer().equals(att.getBesitzer()) &&
-				getFeindlicheNachbarn(att).size() > 0 &&
-				att.getEinheiten() > 1) {
-			return true;
-		} 
+	//ueberprueft, ob ein ausgewaehltes Land angreifen kann (Besitzer = aktiverPlayer, hat feindliche Nachbarn und mehr als 1Einheit)
+	public boolean attackLandGueltig(Land att) {
+		if(turn.gibAktivenPlayer().equals(att.getBesitzer()) && att.getEinheiten() > 1 && getFeindlicheNachbarn(att).size() > 0) {
+				return true;
+		} 	
 		return false;
 	}
 	
@@ -382,12 +376,7 @@ public class Spiellogik implements Serializable{
 
 		// ergebnis ist ein Array[2]: an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten (Werte sind negativ
 		ArrayList<Integer> result = null;
-		try{
-			result= diceResults(attList, defList);
-			}
-		catch(UngueltigeAnzahlEinheitenException e) {
-			e.printStackTrace();
-		}
+		result= diceResults(attList, defList);
 		attackObjekt.setResult(result);
 			
 		//das Spielfeld wird dem Ergebnis des Angriff angepasst
@@ -395,7 +384,7 @@ public class Spiellogik implements Serializable{
 		try {
 			attLand.setEinheiten(result.get(0));
 			defLand.setEinheiten(result.get(1));
-		} catch (ZuWenigEinheitenException e) {
+		} catch (UngueltigeAnzahlEinheitenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -428,7 +417,7 @@ public class Spiellogik implements Serializable{
 			try {
 				defLand.setEinheiten(winUnits);
 				attLand.setEinheiten(-winUnits);
-			} catch (ZuWenigEinheitenException e) {
+			} catch (UngueltigeAnzahlEinheitenException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -543,11 +532,7 @@ public class Spiellogik implements Serializable{
 	}
 
 
-	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) throws UngueltigeAnzahlEinheitenException {
-		
-		if(aList.size()>3|| aList.size()<=0 || defList.size()>2||defList.size()<=0) {
-			throw new UngueltigeAnzahlEinheitenException(1,3,1,2);
-		}
+	public ArrayList<Integer> diceResults(ArrayList<Integer> aList, ArrayList<Integer> defList) {
 		int lossDef = 0;
 		int lossAtt = 0;
 		Collections.sort(aList);
@@ -659,14 +644,9 @@ public class Spiellogik implements Serializable{
 	//wird aufgerufen, bevor der Spieler in die Attack-Phase kommt
 	public boolean kannAngreifen(Player player) {
 		for(Land land: player.getBesitz()) {
-			try {
 				if(attackLandGueltig(land)) {
 					return true;
 				}
-			} catch (LandExistiertNichtException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		} return false;
 	}
 	
@@ -710,16 +690,14 @@ public class Spiellogik implements Serializable{
 		return false;
 	}
 
-	public void moveUnits(Land start, Land ziel, int menge)
-			throws ZuWenigEinheitenException, LandExistiertNichtException {
-		if ((start.getEinheiten() - menge) < 1) {
-			throw new ZuWenigEinheitenException(start.getEinheiten()-1);
+	public void moveUnits(Land start, Land ziel, int menge){
+		try {
+			start.setEinheiten(-menge);
+			ziel.setEinheiten(menge);
+		} catch (UngueltigeAnzahlEinheitenException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		if (!worldMg.getLaender().contains(start)) {
-			throw new LandExistiertNichtException(start);
-		}
-		start.setEinheiten(-menge);
-		ziel.setEinheiten(menge);
 	}
 
 	public int[] initBlockedUnits(int[] uBlock) {

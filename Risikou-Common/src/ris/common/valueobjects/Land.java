@@ -2,6 +2,7 @@ package ris.common.valueobjects;
 
 import java.io.Serializable;
 
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
 
 public class Land implements Comparable, Serializable{
@@ -27,10 +28,9 @@ public class Land implements Comparable, Serializable{
 	}
 	
 	// Methode um Einheiten zu setzten 
-	// abfrage, ob noch genug einheiten auf dem land stehen findet in der spiellogik||risiko||cui statt
-	public void setEinheiten(int einheit) throws ZuWenigEinheitenException {
-			if(this.einheiten+einheit < 0)  {
-				throw new ZuWenigEinheitenException(einheit);
+	public void setEinheiten(int einheit) throws UngueltigeAnzahlEinheitenException {
+			if((this.einheiten + einheit) < 1)  {
+				throw new UngueltigeAnzahlEinheitenException(1, this.einheiten-1);
 			} else {
 				this.einheiten += einheit;
 			}

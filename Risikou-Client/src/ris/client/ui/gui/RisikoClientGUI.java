@@ -53,9 +53,10 @@ import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.client.ui.gui.swing.panels.werBistDuPanle;
 import ris.client.ui.gui.swing.panels.werBistDuPanle.SpielerladenListener;
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
@@ -368,14 +369,19 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	@Override // unit number panel
 	// unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns befinden (attack, defense, move)
-	public void numberLogged(int number, UnitNumber un) throws ZuWenigEinheitenNichtMoeglichExeption {
+	public void numberLogged(int number, UnitNumber un) {
 		System.out.println("Status un: " + un);
 		switch (un) {
 		case ATTACK:
 			if ((number > (worldPl.getAttackLand1().getEinheiten() - 1)) || number > 3 || number < 1) {
 				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
 			} else {
-				risiko.attackStart(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+				try {
+					risiko.attackStart(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+				} catch (LandNichtInBesitzException e) {
+					JOptionPane.showMessageDialog(null, e);
+					e.printStackTrace();
+				}
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
@@ -444,7 +450,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			//wenn wir uns im setUnits State befinden, bedeutet das, dass auf dem land eine Einheit gesetzt wurde
-			risiko.setEinheiten(land, 1);
+			try {
+				risiko.setEinheiten(land, 1);
+			} catch (UngueltigeAnzahlEinheitenException e) {
+				JOptionPane.showMessageDialog(null, e);
+				e.printStackTrace();
+				return;
+			}
 			//der aktive Player updatet sich automatisch, alle anderen werden über die serverListener informiert
 			updateDialogSetUnit(land.getName(), name);
 			updateWorld();
@@ -713,26 +725,27 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		risiko.setLandClickZeit(true);
 	}
 
-	
-	public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl) {
-		ArrayList<Risikokarte> kicked = auswahl;
+	@Override
+	public void combiAusgewaehlt(ArrayList<Integer> auswahl) {
+		//wenn risikokarten erfolgreich eingetauscht wurden, muss noch überprüft werden, ob ein land im besitz ist und dann die einheiten gutgeschrieben werden
 		for (Land l : risiko.gibAktivenPlayer().getBesitz()) {
-			for (Risikokarte k : kicked) {
+			for (Integer landId: auswahl) {
 				// falls der spieler das Land von der Risikokarte beim eintauschen besitzt..
-				if (l.getName().equals(k.getLand().getName())) {
-					// .. wird auf das land zwei einheiten gesetzt
-					try {
+				try {
+					if (l.getName().equals(risiko.getLandById(landId).getName())) {
+						// .. wird auf das land zwei einheiten gesetzt
 						try {
-							risiko.getLandById(l.getNummer()).setEinheiten(2);
-						} catch (LandExistiertNichtException e) {
-							System.out.println("Land existiert nicht");
+							risiko.setEinheiten(l, 2);
+						} catch (UngueltigeAnzahlEinheitenException e) {
+							JOptionPane.showMessageDialog(null, e);
 							e.printStackTrace();
-						}
-						updateWorld();
-					} catch (ZuWenigEinheitenException e) {
-						// TODO Auto-generated catch block
-						e.getLocalizedMessage();
+						}	
+						updateWorld(); 
 					}
+				} catch (LandExistiertNichtException e) {
+					JOptionPane.showMessageDialog(null, "Du hast ins Meer geklickt... So gewinnst du nie!");
+					System.out.println(e);
+					return;
 				}
 			}
 		}

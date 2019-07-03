@@ -13,6 +13,9 @@ import java.util.ArrayList;
 
 import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandNichtInBesitzException;
+import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
@@ -74,7 +77,6 @@ public class RisikoFassade implements RisikoInterface {
 	public State getCurrentState() {
 		goIntoCommandMode();
 		State currentState = null;
-//		while (currentState == null) {
 		sout.println("getCurrentState");
 		try {
 //			synchronized (ois) {
@@ -82,13 +84,11 @@ public class RisikoFassade implements RisikoInterface {
 			o = ois.readObject();
 			System.out.println("(RF)objectState " + o);
 			currentState = (State) o;
-//				currentState = (State) ois.readObject(); 
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 //			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		}
 		System.out.println("(RF)cuurent state " + currentState);
 		releaseCommandMode();
 		return currentState;
@@ -231,7 +231,7 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public boolean moveUnitsGueltig(Land von, Land zu, int units) {
+	public boolean moveUnitsGueltig(Land von, Land zu, int units)  {
 		goIntoCommandMode();
 		Integer vonGue = von.getNummer();
 		Integer zuGue = zu.getNummer();
@@ -252,26 +252,38 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public void playerAnlegen(String name, String farbe, int iD) {
+	public void playerAnlegen(String name, String farbe, int iD) throws SpielerNameExistiertBereitsException {
 		goIntoCommandMode();
 		Integer ID = iD;
 		sout.println("playerAnlegen");
 		sout.println(name);
 		sout.println(farbe);
 		sout.println(ID.toString());
+		try {
+			Object input = ois.readObject();
+			if (!(input instanceof String))
+				throw new SpielerNameExistiertBereitsException(name, farbe, iD);
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		releaseCommandMode();
 	}
 
 	// TODO: kann glaube ich weg
 	@Override
 	public void spielAufbau() {
+		goIntoCommandMode();
 		sout.println("spielAufbau");
+		releaseCommandMode();
 	}
 
 	@Override
 	public void setSpielerAnzahl(int spielerAnzahl) {
+		goIntoCommandMode();
 		sout.println("setSpielerAnzahl");
 		sout.println(spielerAnzahl);
+		releaseCommandMode();
 	}
 
 	@Override
@@ -450,10 +462,11 @@ public class RisikoFassade implements RisikoInterface {
 
 		sout.println("getLandClickZeit");
 		try {
-			synchronized (ois) {
+//			synchronized (ois) {
 				landClickZeit = (boolean) ois.readObject();
-			}
+//			}
 		} catch (ClassNotFoundException | IOException e) {
+			System.out.println("Fehler bei LandclickZeit");
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -548,12 +561,21 @@ public class RisikoFassade implements RisikoInterface {
 		return defLandUnits;
 	}
 	
-	public void attackStart(Land attLand, Land defLand, int attUnits) {
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException {
 		goIntoCommandMode();
 		sout.println("attackStart");
 		sout.println(attLand.getNummer());
 		sout.println(defLand.getNummer());
 		sout.println(attUnits);
+		try {
+			Object input = ois.readObject();
+			if(!(input instanceof String)) {
+				throw new LandNichtInBesitzException(attLand);
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		releaseCommandMode();
 	}
 	
@@ -684,14 +706,25 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public void setEinheiten(Land land, int units) {
-//		goIntoCommandMode();
+	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
+		goIntoCommandMode();
 		System.out.println("ich setzte einheiten <-----------------------");
 		sout.println("setEinheiten");
 //		die ID vom Land wird verschickt -> Methode getLandByID
 		sout.println(land.getNummer());
 		sout.println(units);
-//		releaseCommandMode();
+		Object input;
+			try {
+				input = ois.readObject();
+				if(!(input instanceof String)) {
+					int max = (Integer) ois.readObject();
+					throw new UngueltigeAnzahlEinheitenException(1, max);
+				}
+			} catch (ClassNotFoundException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+		releaseCommandMode();
 
 	}
 

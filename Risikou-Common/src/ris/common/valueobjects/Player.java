@@ -222,9 +222,9 @@ public class Player implements Serializable {
 	public void removeKarten(ArrayList<Land> kicked) {
 		System.out.println("---------");
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
-			for(Risikokarte kick: kicked) {
-				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
-					this.gezogeneRisikokarten.remove(kick);
+			for(Land kick: kicked) {
+				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick)) {
+					this.gezogeneRisikokarten.remove(this.gezogeneRisikokarten.get(i));
 				}
 			}
 			kartenWurdenEntfernt = true;
