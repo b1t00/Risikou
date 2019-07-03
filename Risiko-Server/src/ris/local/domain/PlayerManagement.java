@@ -25,24 +25,30 @@ public class PlayerManagement implements Serializable {
 		colorArray = new ArrayList<Color>();
 	}
 
-	public String menuFarbeAuswaehlen(String farbe) {
+	public void menuFarbeAuswaehlen(String farbe) {
+		System.out.println(" Player Management es wurde die Farbe : " + farbe);
 		switch (farbe) {
-		case "r":
-			return FarbeAuswaehlen(0);
-		case "g":
-			return FarbeAuswaehlen(1);
-		case "b":
-			return FarbeAuswaehlen(2);
-		case "w":
-			return FarbeAuswaehlen(3);
-		case "p":
-			return FarbeAuswaehlen(4);
-		case "s":
-			return FarbeAuswaehlen(5);
+		case "rot":
+			 FarbeAuswaehlen(0);
+			 break;
+		case "gruen":
+			 FarbeAuswaehlen(1);
+			 break;
+		case "blau":
+			 FarbeAuswaehlen(2);
+			 break;
+		case "weiss":
+			 FarbeAuswaehlen(3);
+			 break;
+		case "pink":
+			 FarbeAuswaehlen(4);
+			 break;
+		case "schwarz":
+			 FarbeAuswaehlen(5);
+			 break;
 		default:
 			falscheEingabe = true;
 		}
-		return farbe;
 	}
 
 	// @tobi man könnte das auch mit zahlen eingabe machen, dann könnte man sich

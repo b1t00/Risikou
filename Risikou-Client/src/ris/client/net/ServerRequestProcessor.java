@@ -89,9 +89,19 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 //			case "":
 //				System.out.println("etwas wurde eingelesen");
 //				break;
+			case "enableStartBtn":
+				client.setEnableNeuesSpielbtn(false);
+				break;
+			case "unenableStartBtn":
+				client.setEnableNeuesSpielbtn(true);
+				break;
+			case "spielEintreitenBtn":
+				client.setSpielEintreitenBtn();
+				break;
 			case "spielWurdeAngefanen":
 				// TODO:
 			case "initializeGamePanel":
+//				client.removeLoginPanel();
 				client.showGamePanel();
 				break;
 			case "anDerReihe":

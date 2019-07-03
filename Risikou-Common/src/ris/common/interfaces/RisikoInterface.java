@@ -67,7 +67,7 @@ public interface RisikoInterface {
 	
 	public ArrayList<String> getFarbauswahl();
 	
-	public String setFarbeAuswaehlen(String farbe);
+	public void setFarbeAuswaehlen(String farbe);
 	
 	public ArrayList<Player> getPlayerArray();
 	
@@ -96,4 +96,12 @@ public interface RisikoInterface {
 	public void allUpdate(String ereignis);
 	
 	public Player getPlayerById(int iD);
+
+	public void aksForServerListenerNr();
+
+	public void aktiveClientAskHowMany(int sListenerNr);
+
+	public void pressBackButn(int sListenerNr);
+
+	public void spielEintreitenBtn(int sListenerNr);
 }

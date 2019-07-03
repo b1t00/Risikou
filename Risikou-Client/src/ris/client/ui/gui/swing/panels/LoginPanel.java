@@ -23,15 +23,16 @@ public class LoginPanel extends JPanel {
 
 	public LoginPanel(RisikoClientGUI client) {
 		this.client = client;
-//		Dimension size = this.getPreferredSize();
-//		size.width = 1100;
-//		this.setPreferredSize(size);
+		Dimension size = this.getPreferredSize();
+		size.width = 1100;
+		this.setPreferredSize(size);
 //		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
 		spielStartenBtn.setMnemonic(KeyEvent.VK_ENTER);
 		spielStartenBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				client.aktiveClientAskHowMany();
 				client.showNeuesSpielPanel();
 			}
 		});
@@ -49,6 +50,9 @@ public class LoginPanel extends JPanel {
 //		setupEvents();
 	}
 	
+	public void setEnableNeuesSpielbtn(boolean sichtbar) {
+		spielStartenBtn.setEnabled(sichtbar);
+	}
 //	public void setupEvents(){
 //		spielLadenBtn.addActionListener(new ButtonListener());
 //	}
@@ -59,4 +63,10 @@ public class LoginPanel extends JPanel {
 //			listener.laden();
 //		}
 //	}
+
+	public void setSpielEintreitenBtn() {
+		
+		spielStartenBtn.setText("Party beitreten");
+		spielStartenBtn.setEnabled(true);
+	}
 }

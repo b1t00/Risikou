@@ -69,9 +69,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private ServerRequestProcessor serverListener;
 
 //	name ist notwendig, damit die gui weiß, was sie anzeigen soll // gleicht mit crp ab
-	private String name;
+	private String name = null;
 	private int spielerNummer;
-
+	private int sListenerNr;
 	// LOGIN //
 	private LoginPanel loginPl;
 	private LadePanel ladePl;
@@ -133,6 +133,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		pack();
 		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
+		risiko.aksForServerListenerNr();
 	}
 
 	public void setSpieler(String name, int iD) {
@@ -141,12 +142,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	public void initializeGamePl() {
+	
+		
 //		risiko.spielAufbau();
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = ((int) tk.getScreenSize().getWidth());
-		System.out.println(xSize);
+		System.out.println("die hoehe vom spiel :" + xSize);
 		int ySize = ((int) tk.getScreenSize().getHeight());
-		System.out.println(ySize);
+		System.out.println("die hoehe vom spiel :" + ySize);
 
 		setLocation(0, 0); // setzt Jframe wieder nach links oben (nicht mehr in die mitte)
 		this.setSize(xSize, ySize);
@@ -154,6 +157,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.setVisible(true);
 		this.setTitle("Risiko");
 
+//		this.setSize(945,1750);
 		// ermoeglicht das schliessen des fensters
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -538,7 +542,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	// ------------------------ UPDATE'S from SRP -------------------------------\\
-
 	public void updateWorld() {
 		worldPl.removeAll();
 		worldPl.revalidate();
@@ -628,6 +631,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void updateMoveUnits(Land von, Land zu, int unit, String player) {
 		dialogPl.update(von, zu, unit, player);
 	}
+	
+	
 
 /////////////////////*********SHOW METHODEN**********\\\\\\\\\\\\\\\\\\\\\
 
@@ -664,11 +669,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	public void showGamePanel() {
+		if(name == null) {
+			System.out.println("ich hab keinen namen"); // TODO: Methode um socket verbindung zu trennen und sorry spiel voll panel anzuzeigen
+//			System.exit(0);
+		} else {
 		initializeGamePl();
 		worldPl = new WorldPanel(this, risiko, spielerNummer);
 		gamePl.add(worldPl, BorderLayout.CENTER);
 		showPanel(gamePl);
 		showIndividuellesPanel();
+		}
 //		showQuestion();
 	}
 
@@ -870,4 +880,39 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			cl.show(container, "defenseNumber");
 		} //und panel updaten bei allen
 	}
+	
+	public void setServerListenerNr(int serverListenerNr) {
+		this.sListenerNr = serverListenerNr;
+	}
+	public void aktiveClientAskHowMany() {
+		risiko.aktiveClientAskHowMany(sListenerNr);
+	}
+	// wenn man auf zurueck im wievieleSpielerPanel drückt, wird neuesSpielStarten der anderen  Clients wieder aktiviert
+	public void pressBackButn() {
+		risiko.pressBackButn(sListenerNr);
+	}
+	public void setEnableNeuesSpielbtn(boolean an) {
+		loginPl.setEnableNeuesSpielbtn(an);
+	}
+
+	public void spielEintreitenBtn() {
+		risiko.spielEintreitenBtn(sListenerNr);
+	}
+
+	public void setSpielEintreitenBtn() {
+		loginPl.setSpielEintreitenBtn();
+		
+	}
+
+	public void removeLoginPanel() {
+		this.remove(loginPl);
+		this.remove(neuerSpielerPl);
+		this.remove(wieVielePl);
+		
+	}
+
+	public void farbeAktualisieren(String farbe) {
+		risiko.setFarbeAuswaehlen(farbe);
+	}
+
 }

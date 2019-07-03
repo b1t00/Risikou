@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -23,7 +24,7 @@ public class NeuerSpielerPanel extends JPanel {
 	private JButton hinzufuegen;
 	private JComboBox<String> farbauswahlCB;
 	private RisikoClientGUI client;
-	private int x;
+	private int spielerNr;
 
 	private RisikoInterface risiko;
 
@@ -34,26 +35,23 @@ public class NeuerSpielerPanel extends JPanel {
 		this.client = client;
 
 		this.setIgnoreRepaint(false);
-		x = risiko.getPlayerArray().size() + 1;
+		spielerNr = risiko.getPlayerArray().size() + 1;
 		
-		nameLabel = new JLabel("Name von Spieler " + x);
+		nameLabel = new JLabel("Name von Spieler " + spielerNr);
 
 		test = "test";
 		nameField = new JTextField(10);
+
+		ArrayList<String> farben = risiko.getFarbauswahl();
+		for(int i = 0 ; i < farben.size() ; i++) {
+			if(farben.get(i) == null) {
+				farben.remove(i);
+			}
+		}
 		
-//		System.out.println(risiko.getFarbauswahl().size());
-//		for(String farbe : risiko.getFarbauswahl()) {
-//			System.out.println(farbe);
-//		}
-		
-		String[] farbListe = risiko.getFarbauswahl().toArray(new String[risiko.getFarbauswahl().size()]); // moeglichkeit
-																											// ArrayList<String>
-																											// zu einem
-																											// String[]
-																											// array
-																											// umzuschreiben
+		String[] farbListe = farben.toArray(new String[farben.size()]); // moeglichkeit ArrayList<String> zu einem Strin[] array umzuschreiben
 		farbauswahlCB = new JComboBox<String>(farbListe); // ComboBox braucht String[] Array
-		farbauswahlCB.setSelectedIndex(x);
+		farbauswahlCB.setSelectedIndex(spielerNr);
 
 		hinzufuegen = new JButton("hinzufuegen");
 
@@ -67,20 +65,25 @@ public class NeuerSpielerPanel extends JPanel {
 //				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
 				System.out.println("name : " + name);
+				risiko.setFarbeAuswaehlen(farbe);
 				if (name.equals("")) {
 					//TODO: falls name schon vergeben ist
 					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswaehlen");
 				} else {
+					hinzufuegen.setText("wartet auf nächsten spieler");	
+					hinzufuegen.setEnabled(false);
 					try {
-						risiko.playerAnlegen(name, farbe, (x-1));
-						client.setSpieler(name, (x-1));
+						risiko.playerAnlegen(name, farbe, (spielerNr-1));
+						client.setSpieler(name, (spielerNr-1));
 						System.out.println("player angelegt!");
 					} catch (SpielerNameExistiertBereitsException e1) {
 						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
 					}
 
-					farbauswahlCB.removeItemAt(farbIndex);
-					System.out.println("wartet auf nächsten spieler");					
+//					farbauswahlCB.removeItemAt(farbIndex);
+//					if(spielerNr == 1) {
+//					client.spielEintreitenBtn();
+//					}
 
 				}
 
@@ -114,7 +117,7 @@ public class NeuerSpielerPanel extends JPanel {
 		gc.gridy = 0;
 
 		this.add(nameLabel, gc);
-		System.out.println("hier gucken x JLabel: " + x);
+		System.out.println("hier gucken x JLabel: " + spielerNr);
 
 		//// 1. Line 2. Column ///////////////////
 

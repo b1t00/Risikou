@@ -56,23 +56,23 @@ public class Risiko implements RisikoInterface, Serializable {
 		System.out.println("risiko, wird state gesetzte? ");
 		turn.setNextState();
 	}
-	
+
 	public boolean getTauschZeit() {
 		return turn.getTauschZeit();
 	}
-	
+
 	public void setTauschZeit(boolean tauschZeit) {
 		turn.setTauschZeit(tauschZeit);
 	}
-	
+
 	public boolean getLandClickZeit() {
 		return turn.getLandClickZeit();
 	}
-	
+
 	public void setLandClickZeit(boolean landClickZeit) {
 		turn.setLandClickZeit(landClickZeit);
 	}
-	
+
 	public void spielAufbau() {
 		System.out.println("spiel wird aufgebaut!");
 		logik.verteileEinheiten();
@@ -85,23 +85,23 @@ public class Risiko implements RisikoInterface, Serializable {
 		turn.setAktivenPlayer(logik.whoBegins());
 		turn.setPlayerList(playerMg.getPlayers());
 	}
-	
+
 	public void setSpielerAnzahl(int spielerAnzahl) {
 		playerMg.setSpielerAnzahl(spielerAnzahl);
 	}
-	
+
 	public int getSpielerAnzahl() {
 		return playerMg.getSpielerAnzahl();
 	}
 
 	public void playerAnlegen(String name, String farbe, int nummer) throws SpielerNameExistiertBereitsException {
 		playerMg.addPlayer(name, farbe, nummer);
-		//Farbe wird dem Colorarray hinzugefügt
+		// Farbe wird dem Colorarray hinzugefügt
 		setColorArray(farbe);
 	}
 
 	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!
-	public void setzeAktivenPlayer() { //TODO: evtl 
+	public void setzeAktivenPlayer() { // TODO: evtl
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
 
@@ -124,7 +124,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	public Land getLandById(int zahl) throws LandExistiertNichtException {
 		return worldMg.getLandById(zahl);
 	}
-	
+
 	public Player getPlayerById(int zahl) {
 		return playerMg.getPlayerById(zahl);
 	}
@@ -167,11 +167,12 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	// gibt zurueck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
-	//TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder aendern! 
+	// TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder
+	// aendern!
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
 	}
-	
+
 	public boolean mussTauschen(Player aktiverPlayer) {
 		return aktiverPlayer.mussTauschen();
 	}
@@ -232,12 +233,11 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	
 	public boolean kannAngreifen() {
 		return logik.kannAngreifen(gibAktivenPlayer());
 	}
-	
-	//TODO: exception behandeln
+
+	// TODO: exception behandeln
 
 	public boolean attackLandGueltig(Land att) {
 		try {
@@ -256,11 +256,11 @@ public class Risiko implements RisikoInterface, Serializable {
 	public boolean moveFromLandGueltig(Land move) {
 		return logik.moveFromLandGueltig(move);
 	}
-	
+
 	public boolean moveToLandGueltig(Land from, Land to) {
 		return logik.moveToLandGueltig(from, to);
 	}
-	
+
 	public boolean moveUnitsGueltig(Land from, Land to, int units) {
 		return logik.moveUnitsGueltig(from, to, units);
 	}
@@ -275,15 +275,15 @@ public class Risiko implements RisikoInterface, Serializable {
 		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
 		return feindlicheLaender;
 	}
-	
+
 	public void attackStart(Land attLand, Land defLand, int attUnits) {
 		logik.attackStart(attLand, defLand, attUnits);
 	}
-	
+
 	public int getDefLandUnits() {
 		return logik.getDefLandUnits();
 	}
-	
+
 	public Attack attackFinal(int defUnits) {
 		return logik.attackFinal(defUnits);
 	}
@@ -304,12 +304,13 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
+	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public boolean kannVerschieben(Player player) {
 		return logik.kannVerschieben(player);
 	}
-	
+
 	public void moveUnits(Land start, Land ziel, int menge) {
 		try {
 			logik.moveUnits(start, ziel, menge);
@@ -324,23 +325,24 @@ public class Risiko implements RisikoInterface, Serializable {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		fileMg.speichern(game, datei);
 	}
-	
-	public String[] getSpielladeDateien(){
+
+	public String[] getSpielladeDateien() {
 //		in verzeichnis werden die dateien als string gespeichert 
 		String[] verzeichnis = new String[10];
-		
+
 //		dann werden die dateien ausgelesen
-		//System.getProperty("file.separator") macht es möglich, mit unterschiedlichen Betriebssystemen den Pfad zu laden
+		// System.getProperty("file.separator") macht es möglich, mit unterschiedlichen
+		// Betriebssystemen den Pfad zu laden
 		Path dir = Paths.get("files" + System.getProperty("file.separator"));
 		DirectoryStream<Path> stream = null;
 		try {
 			stream = Files.newDirectoryStream(dir);
 //			dann werden die dateien in den array geschrieben
 			int i = 0;
-		      for (Path entry: stream) {
-		    	  verzeichnis[i] = entry.getFileName().toString();
-		    	  i++;
-		      }
+			for (Path entry : stream) {
+				verzeichnis[i] = entry.getFileName().toString();
+				i++;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -355,20 +357,20 @@ public class Risiko implements RisikoInterface, Serializable {
 			game.setAllePlayer(gameSpeicher.getAllePlayer());
 			turn = gameSpeicher.getSpielstand();
 //			Jeder geladene Spieler muss erst dem Playermanagement hinzugefï¿½gt werden
-			for(int i = 0; i < game.getAllePlayer().size(); i++) {
+			for (int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
 
-				//im anschluss werden die Laender entsprechend verteilt
+				// im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
-				//und die Risikokarten
-				for (Risikokarte karte: loadedPlayer.getEinheitenkarten()) {
+				// und die Risikokarten
+				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				//und fuer jedes Land werden die Einheiten neu gesetzt
-				for(Land loadedLand: loadedPlayer.getBesitz()) {
+				// und fuer jedes Land werden die Einheiten neu gesetzt
+				for (Land loadedLand : loadedPlayer.getBesitz()) {
 					Land land = null;
-					//TODO: das catchen an andere Stelle!
+					// TODO: das catchen an andere Stelle!
 					try {
 						land = worldMg.getLandById(loadedLand.getNummer());
 					} catch (LandExistiertNichtException e1) {
@@ -388,7 +390,7 @@ public class Risiko implements RisikoInterface, Serializable {
 			System.out.println("datei wohl = null");
 		}
 	}
-	
+
 	public void setEinheiten(Land land, int units) {
 		try {
 			land.setEinheiten(units);
@@ -403,11 +405,13 @@ public class Risiko implements RisikoInterface, Serializable {
 		return playerMg.getFarbauswahl();
 	}
 
-	public String setFarbeAuswaehlen(String farbe) { // hier string
-		return playerMg.menuFarbeAuswaehlen(farbe);
+	public void setFarbeAuswaehlen(String farbe) { // hier string
+		playerMg.menuFarbeAuswaehlen(farbe);
 	}
-	
-	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom gewï¿½nschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
+
+	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer
+	// vom gewï¿½nschten spieler eintragen), damit die entsprechende Spielerfarbe
+	// erscheint.
 	public ArrayList<Color> getColorArray() {
 		return playerMg.getColorArray();
 	}
@@ -437,7 +441,33 @@ public class Risiko implements RisikoInterface, Serializable {
 	@Override
 	public void allUpdate(String ereignis) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+
+
+	@Override
+	public void aksForServerListenerNr() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void aktiveClientAskHowMany(int sListenerNr) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void pressBackButn(int sListenerNr) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void spielEintreitenBtn(int sListenerNr) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

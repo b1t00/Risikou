@@ -26,6 +26,8 @@ public class RisikoFassade implements RisikoInterface {
 	private PrintStream sout;
 	private ObjectInputStream ois;
 	ServerRequestProcessor serverListener;
+	
+	private RisikoClientGUI gui;
 
 	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
 		try {
@@ -35,6 +37,8 @@ public class RisikoFassade implements RisikoInterface {
 			ois = new ObjectInputStream(is);
 			sin = new BufferedReader(new InputStreamReader(is));
 			sout = new PrintStream(socket.getOutputStream());
+			
+			this.gui = gui;
 
 			serverListener = new ServerRequestProcessor(ois, sin, gui);
 			Thread t = new Thread(serverListener);
@@ -624,9 +628,11 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public String setFarbeAuswaehlen(String farbe) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setFarbeAuswaehlen(String farbe) {
+		goIntoCommandMode();
+		sout.println("setFarbeAuswaehlen");
+		sout.println(farbe);
+		releaseCommandMode();
 	}
 
 	@Override
@@ -646,6 +652,41 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("allUpdate");
 		sout.println(ereignis);
 	}
+	
+	public void aksForServerListenerNr() {
+		goIntoCommandMode();
+		int serverListenerNr = -99;
+		int serverListenerSize = -99;
+		sout.println("aksForServerListenerNr");
+		try {
+			serverListenerSize = (int) ois.readObject();
+			serverListenerNr = (int) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("serverlistenergoeße und nr " + serverListenerSize + " - " + serverListenerNr);
+		releaseCommandMode();
+		gui.setServerListenerNr(serverListenerNr);
+		if(serverListenerSize > 1) {
+//			gui.updateStartButn();
+		}
+	}
+	public void aktiveClientAskHowMany(int serverListenerNr) {
+		Integer sListenerNr = serverListenerNr;
+		sout.println("aktiveClientAskHowMany");
+		sout.println(sListenerNr.toString());
+	}
+	public void pressBackButn(int serverListenerNr) {
+		Integer sListenerNr = serverListenerNr;
+		sout.println("pressBackButn");
+		sout.println(sListenerNr.toString());
+	}
+	
+	public void spielEintreitenBtn(int sListenerNr) {
+		sout.println("spielEintreitenBtn");
+		sout.println(sListenerNr);
+	};
 
 	@Override
 	public Player getPlayerById(int iD) {

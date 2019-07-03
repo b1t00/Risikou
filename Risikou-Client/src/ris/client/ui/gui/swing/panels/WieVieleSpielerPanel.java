@@ -100,6 +100,7 @@ public class WieVieleSpielerPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				client.showLoginPanel();
+				client.pressBackButn();
 			}
 		});
 
