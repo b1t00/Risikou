@@ -219,7 +219,7 @@ public class Player implements Serializable {
 //		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
 //	}
 	
-	public void removeKarten(ArrayList<Risikokarte> kicked) {
+	public void removeKarten(ArrayList<Land> kicked) {
 		System.out.println("---------");
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
 			for(Risikokarte kick: kicked) {

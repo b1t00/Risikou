@@ -165,6 +165,19 @@ public class Risiko implements RisikoInterface, Serializable {
 		}
 		return false;
 	}
+	
+	public void removeRisikoKarten(ArrayList<Integer> risikokartenWahl) {
+		ArrayList<Land> kicked = new ArrayList<Land>();
+		for(Integer landId: risikokartenWahl) {
+			try {
+				kicked.add(getLandById(landId));
+			} catch (LandExistiertNichtException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		gibAktivenPlayer().removeKarten(kicked);
+	}
 
 	// gibt zurueck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
 	// TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder

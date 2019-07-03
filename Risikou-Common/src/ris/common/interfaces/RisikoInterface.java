@@ -104,4 +104,6 @@ public interface RisikoInterface {
 	public void pressBackButn(int sListenerNr);
 
 	public void spielEintreitenBtn(int sListenerNr);
+	
+	public void removeRisikoKarten(ArrayList<Integer> risikokartenWahl);
 }

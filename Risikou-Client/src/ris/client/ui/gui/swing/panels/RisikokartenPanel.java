@@ -99,12 +99,13 @@ public class RisikokartenPanel extends JPanel {
 //	    wenn drei Karten ausgewaehlt wurden, wird als naechstes ueberprueft, ob die kombi gueltig ist
 			if (auswahlPruefen(ausgeWahlteKarten)) {
 				//die entsprechenden Risikokarten zu den Buttons werden in einen neuen Array geschrieben, damit sie vom Player im Server geloescht werden koennen
-				ArrayList<Risikokarte> risikokartenWahl = new ArrayList<Risikokarte>();
+				ArrayList<Integer> risikokartenWahl = new ArrayList<Integer>();
 				for(KartenButton k : ausgeWahlteKarten) {
-					risikokartenWahl.add(k.getKarte());
+					risikokartenWahl.add(k.getKarte().getLand().getNummer());
 				}
 				System.out.println("einloesen waere schonmal richtig");
-				risiko.gibAktivenPlayer().removeKarten(risikokartenWahl);
+				risiko.removeRisikoKarten(risikokartenWahl);
+//				risiko.gibAktivenPlayer().removeKarten(risikokartenWahl);
 				listener.combiAusgewaehlt(risikokartenWahl);
 					
 //				for(KartenButton kb : spielerKartenBtn) { 

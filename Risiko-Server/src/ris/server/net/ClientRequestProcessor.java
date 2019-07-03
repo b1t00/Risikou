@@ -14,6 +14,7 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
+import ris.common.valueobjects.Risikokarte;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -419,6 +420,9 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "removeRisikoKarten":
+				removeRisikoKarten();
+				break;
 			case "getGewinner":
 				try {
 					oos.reset();
@@ -711,6 +715,25 @@ public class ClientRequestProcessor implements Runnable {
 //			sl.handleEvent("updateDialog(Land)");
 //			sl.handleEvent(land.getName());
 //		}
+	}
+	
+	public void removeRisikoKarten() {
+		int land1 = 0;
+		int land2 = 0;
+		int land3 = 0;
+		try {
+			land1 = Integer.parseInt(in.readLine());
+			land2 = Integer.parseInt(in.readLine());
+			land3 = Integer.parseInt(in.readLine());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		ArrayList<Integer> risikokartenWahl = new ArrayList<Integer>();
+		risikokartenWahl.add(land1);
+		risikokartenWahl.add(land2);
+		risikokartenWahl.add(land3);
+		risiko.removeRisikoKarten(risikokartenWahl);
 	}
 
 	public void setTauschZeit() {

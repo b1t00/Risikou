@@ -612,6 +612,15 @@ public class RisikoFassade implements RisikoInterface {
 		releaseCommandMode();
 		return ColorArray;
 	}
+	
+	public void removeRisikoKarten(ArrayList<Integer> risikokartenWahl) {
+		goIntoCommandMode();
+		sout.println("removeRisikoKarten");
+		for(Integer landId: risikokartenWahl) {
+			sout.println(String.valueOf(landId));
+		}
+		releaseCommandMode();
+	}
 
 	@Override
 	public ArrayList<String> getFarbauswahl() {
