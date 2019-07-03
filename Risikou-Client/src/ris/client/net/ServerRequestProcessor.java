@@ -107,6 +107,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			case "anDerReihe":
 				client.showQuestion();
 				break;
+			case "spielLadenTrue":
+				client.setSpielgeladenTrue();
+				break;
 			case "updateDialog":
 				String ereignis = null;
 				synchronized (sin) {
@@ -122,6 +125,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				}
 				client.updateDialog(ereignis);
 				break;
+				
 			case "updateDialog(Land)":
 				String land = null;
 				String player = null;

@@ -36,6 +36,8 @@ public class Risiko implements RisikoInterface, Serializable {
 	private ArrayList<Risikokarte> einheitenkartenStapel;
 	private Turn turn;
 	private GameObject game;
+	
+	private boolean spielWurdeGeladen = false;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
@@ -487,6 +489,15 @@ public class Risiko implements RisikoInterface, Serializable {
 	public GameObject getGameDatei() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void spielLadenTrue() {
+	System.out.println("spiel wurde geladen risikpo ");
+		spielWurdeGeladen = true;
+	}
+	public boolean spielWurdeGeladen() {
+		return spielWurdeGeladen;
 	}
 
 }

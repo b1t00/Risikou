@@ -73,6 +73,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private String name = null;
 	private int spielerNummer;
 	private int sListenerNr;
+	private boolean spielGeladenTrue = false;
 	// LOGIN //
 	private LoginPanel loginPl;
 	private LadePanel ladePl;
@@ -614,6 +615,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	
 	public void showWerBistDuPanel() {
 		this.pack();
+		werBistPl = new werBistDuPanle(this, risiko);
 		showPanel(werBistPl);
 	}
 
@@ -832,17 +834,24 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		werBistPl = new werBistDuPanle(this,risiko);
+		spielLadenTrue();
+//		werBistPl = new werBistDuPanle(this,risiko);
 		System.out.println("hier gehts weiter mit wer bist du ");
 		showWerBistDuPanel();
 //		showGamePanel();
 	}
 	
+	private void spielLadenTrue() {
+		risiko.spielLadenTrue();
+		
+	}
+
 	@Override
 	public void spielerLaden(String name, int spielerNr) {
 		this.name = name;
 		this.spielerNummer = spielerNr;
-		initializeGamePl();
+		
+		risiko.kannSpielGeladenWerden();
 	}
 
 	public void setAttackPlayer(String attLand, String defLand, String attacker, String defender) {
@@ -886,6 +895,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	public void farbeAktualisieren(String farbe) {
 		risiko.setFarbeAuswaehlen(farbe);
+	}
+
+	public void setSpielgeladenTrue() {
+		spielGeladenTrue = true;
+	}
+	public boolean spielWurdeGeladen() {
+		return spielGeladenTrue;
 	}
 
 

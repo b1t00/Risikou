@@ -748,4 +748,18 @@ public class RisikoFassade implements RisikoInterface {
 		return null;
 	}
 
+	@Override
+	public void spielLadenTrue() {
+		goIntoCommandMode();
+		System.out.println("fasse sagt true");
+		sout.println("spielLadenTrue");
+		releaseCommandMode();
+	}
+	
+	public void kannSpielGeladenWerden() {
+		goIntoCommandMode();
+		System.out.println("kannSpielGeladenWerden");
+		releaseCommandMode();
+	}
+
 }

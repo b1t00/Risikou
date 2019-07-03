@@ -112,4 +112,8 @@ public interface RisikoInterface {
 	
 	public GameObject getGameDatei();
 
+	public void spielLadenTrue();
+
+	public void kannSpielGeladenWerden();
+
 }

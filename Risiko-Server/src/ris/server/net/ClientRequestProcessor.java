@@ -15,11 +15,7 @@ import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
-
-import ris.common.valueobjects.Risikokarte;
-
 import ris.common.valueobjects.Player;
-
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -329,15 +325,15 @@ public class ClientRequestProcessor implements Runnable {
 				String[] dateien = risiko.getSpielladeDateien();
 				try {
 					oos.reset();
-					for(String s : dateien) {
-						if(s == null) {
+					for (String s : dateien) {
+						if (s == null) {
 							System.out.println(x);
-							dateien[x-1] = "freier Speicher";
+							dateien[x - 1] = "freier Speicher";
 						}
-						
+
 						System.out.println("datei " + x++ + " " + s);
 					}
-					for(String s : dateien) {
+					for (String s : dateien) {
 						System.out.println("datei " + y++ + " " + s);
 					}
 					oos.writeObject(dateien);
@@ -346,6 +342,11 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				break;
+			case "spielLadenTrue":
+				risiko.spielLadenTrue();
+				System.out.println("bin auch iner crp");
+				updateExceptAktiverPlayer("spielLadenTrue");
 				break;
 			case "spielLaden":
 				String datei = null;
@@ -356,18 +357,24 @@ public class ClientRequestProcessor implements Runnable {
 					oos.reset();
 					oos.writeObject(ladeDatei);
 					oos.reset();
-					
+
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
 					risiko.spielLaden(datei);
-				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException | LandExistiertNichtException e) {
+				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException
+						| LandExistiertNichtException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 
 				}
+				// achtung das muss noch umgeschrieben werden
+
+				break;
+			case "kannSpielGeladenWerden":
+				kannSpielGeladenWerden();
 				break;
 			case "getLandClickZeit":
 				try {
@@ -447,19 +454,6 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
-			case "removeRisikoKarten":
-				removeRisikoKarten();
-				break;
-			case "getGewinner":
-				try {
-					oos.reset();
-					oos.writeObject(risiko.getGewinner());
-					oos.reset();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
 			case "allUpdate":
 				allUpdate();
 				break;
@@ -474,6 +468,20 @@ public class ClientRequestProcessor implements Runnable {
 //			}
 
 		} while (!(input.equals("q")));
+	}
+
+	private void kannSpielGeladenWerden() {
+		System.out.println(" CRP GEHT DAS ? <-----------------------" + risiko.getGameDatei().getAllePlayer().size());
+		// TODO: button auf ausstellen
+		if (true) {
+			System.out.println("muesste gehen");
+		} else {
+			for (ServerListener sl : allServerListeners) {
+				sl.handleEvent("initializeGamePanel");
+			}
+
+		}
+
 	}
 
 	public void getFarbauswahl() {
@@ -743,36 +751,17 @@ public class ClientRequestProcessor implements Runnable {
 //			sl.handleEvent(land.getName());
 //		}
 	}
-	
-	public void removeRisikoKarten() {
-		int land1 = 0;
-		int land2 = 0;
-		int land3 = 0;
-		try {
-			land1 = Integer.parseInt(in.readLine());
-			land2 = Integer.parseInt(in.readLine());
-			land3 = Integer.parseInt(in.readLine());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		ArrayList<Integer> risikokartenWahl = new ArrayList<Integer>();
-		risikokartenWahl.add(land1);
-		risikokartenWahl.add(land2);
-		risikokartenWahl.add(land3);
-		risiko.removeRisikoKarten(risikokartenWahl);
-	}
 
 	public void setTauschZeit() {
 		boolean obTauschBar = false;
-		String tauschbar = "";
+		String tauschBar = "";
 		try {
-			tauschbar = in.readLine();
+			tauschBar = in.readLine();
 		} catch (IOException e1) {
-			System.out.println("tauschbar kann nicht eingelesen werden");
+			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if (tauschbar.equals("true"))
+		if (tauschBar.equals(true))
 			obTauschBar = true;
 		risiko.setTauschZeit(obTauschBar);
 	}

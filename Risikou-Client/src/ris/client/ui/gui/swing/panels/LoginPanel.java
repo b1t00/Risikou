@@ -19,10 +19,10 @@ public class LoginPanel extends JPanel {
 
 	private JButton spielStartenBtn;
 	private JButton spielLadenBtn;
-	private RisikoClientGUI client;
+	private RisikoClientGUI gui;
 
 	public LoginPanel(RisikoClientGUI client) {
-		this.client = client;
+		this.gui = client;
 		Dimension size = this.getPreferredSize();
 		size.width = 1100;
 		this.setPreferredSize(size);
@@ -42,8 +42,13 @@ public class LoginPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				client.zweitausendaLook();
-				client.showLadePanel();
+//				client.zweitausendaLook();
+				System.out.println("wuuuuuuuuuuuuuuuuuuuurde das spiel geladen??? " + client.spielWurdeGeladen());
+				if(client.spielWurdeGeladen()) {
+					client.showWerBistDuPanel();
+				} else {
+					client.showLadePanel();
+				}
 			}
 		});
 		this.add(spielLadenBtn);
