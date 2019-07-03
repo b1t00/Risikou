@@ -500,4 +500,10 @@ public class Risiko implements RisikoInterface, Serializable {
 		return spielWurdeGeladen;
 	}
 
+	@Override
+	public void kannSpielGeladenWerden() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
