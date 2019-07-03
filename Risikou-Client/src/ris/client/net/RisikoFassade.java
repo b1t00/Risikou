@@ -16,6 +16,7 @@ import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
@@ -261,8 +262,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(ID.toString());
 		try {
 			Object input = ois.readObject();
-			if (!(input instanceof String))
+			if (!(input instanceof String)) {
+				System.out.println("classe vom input" + input.getClass());
 				throw new SpielerNameExistiertBereitsException(name, farbe, iD);
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -279,10 +282,19 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public void setSpielerAnzahl(int spielerAnzahl) {
+	public void setSpielerAnzahl(int spielerAnzahl) throws UngueltigeAnzahlSpielerException {
 		goIntoCommandMode();
 		sout.println("setSpielerAnzahl");
 		sout.println(spielerAnzahl);
+		try {
+			Object input = ois.readObject();
+			if(!(input instanceof String)) {
+				throw new UngueltigeAnzahlSpielerException(spielerAnzahl);
+			}
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		releaseCommandMode();
 	}
 

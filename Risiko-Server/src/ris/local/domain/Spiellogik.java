@@ -8,7 +8,6 @@ import java.util.List;
 
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;

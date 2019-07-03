@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ris.client.ui.gui.RisikoClientGUI;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 
 public class WieVieleSpielerPanel extends JPanel {
@@ -48,12 +49,19 @@ public class WieVieleSpielerPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "Uh-oh!", inputText + " ist keine gültige Nummer",
 							JOptionPane.ERROR_MESSAGE);
 				}
-				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
-					risiko.setSpielerAnzahl(anzahlSpieler);
+//				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
+					try {
+						risiko.setSpielerAnzahl(anzahlSpieler);
+					} catch (UngueltigeAnzahlSpielerException e1) {
+						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
+						System.out.println(e1.getLocalizedMessage());
+						anzahlSpielertextfield.setText("");
+						return;
+					}
 					client.showNeuerSpielerPanel();
-				} else {
-					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");
-				}
+//				} else {
+//					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");
+//				}
 
 			}
 

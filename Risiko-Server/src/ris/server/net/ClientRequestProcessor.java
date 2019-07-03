@@ -11,7 +11,7 @@ import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
@@ -188,7 +188,28 @@ public class ClientRequestProcessor implements Runnable {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				risiko.setSpielerAnzahl(spielerAnzahl);
+				try {
+					risiko.setSpielerAnzahl(spielerAnzahl);
+					try {
+						oos.reset();
+						oos.writeObject("hat geklappt");
+						oos.reset();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (UngueltigeAnzahlSpielerException e4) {
+					try {
+						oos.reset();
+						oos.writeObject(e4);
+						oos.reset();
+						System.out.println(e4.getLocalizedMessage());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					e4.printStackTrace();
+				}
 				/*
 				 * for (ServerListener sl : allServerListeners) { sl.handleEvent(e); }
 				 */
@@ -366,11 +387,9 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				try {
 					risiko.spielLaden(datei);
-				} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException
-						| LandExistiertNichtException e) {
+				} catch (SpielerNameExistiertBereitsException | LandExistiertNichtException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-
 				}
 				// achtung das muss noch umgeschrieben werden
 
@@ -711,7 +730,7 @@ public class ClientRequestProcessor implements Runnable {
 						}
 					}
 				}
-			} catch (LandExistiertNichtException | ZuWenigEinheitenException | UngueltigeAnzahlEinheitenException e) {
+			} catch (LandExistiertNichtException | UngueltigeAnzahlEinheitenException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

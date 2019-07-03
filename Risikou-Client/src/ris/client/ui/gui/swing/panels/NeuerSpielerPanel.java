@@ -72,16 +72,16 @@ public class NeuerSpielerPanel extends JPanel {
 				} else {
 					try {
 						risiko.playerAnlegen(name, farbe, (spielerNr-1));
-						client.setSpieler(name, (spielerNr-1));
-						System.out.println("player angelegt!");
-						hinzufuegen.setText("wartet auf nächsten spieler");	
-						hinzufuegen.setEnabled(false);
 					} catch (SpielerNameExistiertBereitsException e1) {
 						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
 						System.out.println(e1);
 						nameField.setText("");
 						return;
 					}
+					client.setSpieler(name, (spielerNr-1));
+					System.out.println("player angelegt!");
+					hinzufuegen.setText("wartet auf nächsten spieler");	
+					hinzufuegen.setEnabled(false);
 
 //					farbauswahlCB.removeItemAt(farbIndex);
 //					if(spielerNr == 1) {

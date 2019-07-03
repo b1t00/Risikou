@@ -1,15 +1,13 @@
 package ris.common.interfaces;
 
 import java.awt.Color;
-import java.nio.file.DirectoryStream;
-import java.nio.file.Path;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
@@ -43,7 +41,7 @@ public interface RisikoInterface {
 	
 	public boolean zieheEinheitenkarte();
 	
-	public void moveUnits(Land von, Land zu, int units) throws ZuWenigEinheitenException, LandExistiertNichtException, UngueltigeAnzahlEinheitenException;
+	public void moveUnits(Land von, Land zu, int units) throws LandExistiertNichtException, UngueltigeAnzahlEinheitenException;
 	
 	public boolean attackLandGueltig(Land attacker);
 
@@ -85,13 +83,13 @@ public interface RisikoInterface {
 	
 	public String[] getSpielladeDateien();
 	
-	public void spielLaden(String name) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException, LandExistiertNichtException;
+	public void spielLaden(String name) throws SpielerNameExistiertBereitsException, LandExistiertNichtException;
 	
 	public void spielAufbau();
 	
 	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException;
 	
-	public void setSpielerAnzahl(int spielerAnzahl);
+	public void setSpielerAnzahl(int spielerAnzahl) throws UngueltigeAnzahlSpielerException;
 	
 	public int getSpielerAnzahl();
 	

@@ -56,7 +56,6 @@ import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
@@ -843,7 +842,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (SpielerNameExistiertBereitsException | ZuWenigEinheitenException e) {
+		} catch (SpielerNameExistiertBereitsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

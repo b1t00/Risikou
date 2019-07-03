@@ -14,7 +14,7 @@ import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
@@ -88,7 +88,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		turn.setPlayerList(playerMg.getPlayers());
 	}
 
-	public void setSpielerAnzahl(int spielerAnzahl) {
+	public void setSpielerAnzahl(int spielerAnzahl) throws UngueltigeAnzahlSpielerException {
 		playerMg.setSpielerAnzahl(spielerAnzahl);
 	}
 
@@ -356,7 +356,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		return verzeichnis;
 	}
 
-	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, ZuWenigEinheitenException, LandExistiertNichtException {
+	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, LandExistiertNichtException {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
 		if (gameSpeicher != null) {

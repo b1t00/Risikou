@@ -3,7 +3,6 @@ package ris.common.valueobjects;
 import java.io.Serializable;
 
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenException;
 
 public class Land implements Comparable, Serializable{
 	private int einheiten;

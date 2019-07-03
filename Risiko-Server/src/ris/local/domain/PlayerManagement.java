@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
+import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.valueobjects.Player;
 
 public class PlayerManagement implements Serializable {
@@ -88,7 +89,10 @@ public class PlayerManagement implements Serializable {
 		return gamerListe;
 	}
 
-	public void setSpielerAnzahl(int spielerAnzahl) {
+	public void setSpielerAnzahl(int spielerAnzahl) throws UngueltigeAnzahlSpielerException {
+		if(spielerAnzahl > 6 || spielerAnzahl < 2) {
+			throw new UngueltigeAnzahlSpielerException(spielerAnzahl);
+		}
 		this.spielerAnzahl = spielerAnzahl;
 	}
 	
