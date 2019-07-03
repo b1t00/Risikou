@@ -70,14 +70,17 @@ public class NeuerSpielerPanel extends JPanel {
 					//TODO: falls name schon vergeben ist
 					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswaehlen");
 				} else {
-					hinzufuegen.setText("wartet auf nächsten spieler");	
-					hinzufuegen.setEnabled(false);
 					try {
 						risiko.playerAnlegen(name, farbe, (spielerNr-1));
 						client.setSpieler(name, (spielerNr-1));
 						System.out.println("player angelegt!");
+						hinzufuegen.setText("wartet auf nächsten spieler");	
+						hinzufuegen.setEnabled(false);
 					} catch (SpielerNameExistiertBereitsException e1) {
 						JOptionPane.showMessageDialog(null, e1.getLocalizedMessage());
+						System.out.println(e1);
+						nameField.setText("");
+						return;
 					}
 
 //					farbauswahlCB.removeItemAt(farbIndex);

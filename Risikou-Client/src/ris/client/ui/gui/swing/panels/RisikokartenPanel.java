@@ -31,7 +31,7 @@ public class RisikokartenPanel extends JPanel {
 	public interface RisikoKartenListener {
 		public void updateKartenpanel();
 		public void updateKartenpanel2();
-		public void combiAusgewaehlt(ArrayList<Risikokarte> auswahl);
+		public void combiAusgewaehlt(ArrayList<Integer> auswahl);
 	}
 
 	public RisikokartenPanel(RisikoInterface risk, RisikoKartenListener listener) {
@@ -105,7 +105,6 @@ public class RisikokartenPanel extends JPanel {
 				}
 				System.out.println("einloesen waere schonmal richtig");
 				risiko.removeRisikoKarten(risikokartenWahl);
-//				risiko.gibAktivenPlayer().removeKarten(risikokartenWahl);
 				listener.combiAusgewaehlt(risikokartenWahl);
 					
 //				for(KartenButton kb : spielerKartenBtn) { 

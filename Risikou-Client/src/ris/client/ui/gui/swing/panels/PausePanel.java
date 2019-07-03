@@ -1,21 +1,25 @@
 package ris.client.ui.gui.swing.panels;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
 
 public class PausePanel extends JPanel {
-	private JLabel titel = new JLabel("Pause");
+	private JLabel titel = new JLabel("Pause", SwingConstants.CENTER);
 	private JTextArea info;
 	
 	//bekommt id, damit die richtige Farbe angezeigt werden kann
 	public PausePanel (int iD, RisikoInterface ris) {
+		Font schriftart = new Font("Impact", Font.PLAIN, 20);
 		this.setLayout(new GridLayout(2, 1));
+		titel.setFont(schriftart);
 		info = new JTextArea();
 		info.setLineWrap(true);
 		info.setWrapStyleWord(true);

@@ -1,9 +1,10 @@
 package ris.common.exceptions;
-//gab es einfach nicht
+
+import ris.common.valueobjects.Land;
 
 public class LandNichtInBesitzException extends Exception {
 
-	public LandNichtInBesitzException(String message) {
-		super(message);
+	public LandNichtInBesitzException(Land land) {
+		super(land.getName() + " gehört nicht dem Angreifer...");
 	}
 }

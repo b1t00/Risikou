@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.ZuWenigEinheitenException;
-import ris.common.exceptions.ZuWenigEinheitenNichtMoeglichExeption;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
@@ -250,16 +250,8 @@ public class Risiko implements RisikoInterface, Serializable {
 		return logik.kannAngreifen(gibAktivenPlayer());
 	}
 
-	// TODO: exception behandeln
-
 	public boolean attackLandGueltig(Land att) {
-		try {
-			return logik.attackLandGueltig(att);
-		} catch (LandExistiertNichtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return false;
+		return logik.attackLandGueltig(att);
 	}
 
 	public boolean defenseLandGueltig(Land att, Land def) {
@@ -289,8 +281,12 @@ public class Risiko implements RisikoInterface, Serializable {
 		return feindlicheLaender;
 	}
 
-	public void attackStart(Land attLand, Land defLand, int attUnits) {
-		logik.attackStart(attLand, defLand, attUnits);
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException {
+		if(attLand.getBesitzer().getName().equals(gibAktivenPlayer())) {
+			logik.attackStart(attLand, defLand, attUnits);
+		} else {
+			throw new LandNichtInBesitzException(attLand);
+		}
 	}
 
 	public int getDefLandUnits() {
@@ -325,12 +321,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge) {
-		try {
 			logik.moveUnits(start, ziel, menge);
-		} catch (ZuWenigEinheitenException | LandExistiertNichtException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public void spielSpeichern(String datei) {
@@ -386,7 +377,7 @@ public class Risiko implements RisikoInterface, Serializable {
 						land = worldMg.getLandById(loadedLand.getNummer());
 					try {
 						land.setEinheiten(loadedLand.getEinheiten());
-					} catch (ZuWenigEinheitenException e) {
+					} catch (UngueltigeAnzahlEinheitenException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -398,13 +389,9 @@ public class Risiko implements RisikoInterface, Serializable {
 		}
 	}
 
-	public void setEinheiten(Land land, int units) {
-		try {
-			land.setEinheiten(units);
-		} catch (ZuWenigEinheitenException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
+		land.setEinheiten(units);
+	
 	}
 
 //	'''''''''' PlayerManagement ''''''''''''''''
