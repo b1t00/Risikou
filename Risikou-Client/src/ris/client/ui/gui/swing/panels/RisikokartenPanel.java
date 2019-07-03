@@ -71,14 +71,14 @@ public class RisikokartenPanel extends JPanel {
 			}
 		}
 
-		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 50, 5); // Abstand zwischen Buttens
+		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 20, 5); // Abstand zwischen Buttens
 		setLayout(fl);
 		for (KartenButton k : spielerKartenBtn) {
 			add(k);
 			k.setVisible(true);
 			k.addActionListener(new KartenListener());
 		}
-		this.setBackground(Color.YELLOW);
+//		this.setBackground(new Color(154, 87, 0)); // hier kann man hintegrund setzten
 	}
 
 	// Wenn 5 Karten vorhanden sind! TODO: in runden implementieren
@@ -193,6 +193,7 @@ public class RisikokartenPanel extends JPanel {
 //				System.out.println("wurde eine KArte ausgewaeht" + dreiKartenAusgewaehlt());
 				easterE = 0;
 			}
+			//TODO: wenn wir zeit haben
 			if (easterE++ > 3) {
 				JOptionPane.showInternalMessageDialog(null, "Sorry, aber grad kannst du keine Karten eintauschen",
 						"Du kannst grad nichts einloesen", JOptionPane.INFORMATION_MESSAGE);

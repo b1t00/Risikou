@@ -390,6 +390,12 @@ public class Risiko implements RisikoInterface, Serializable {
 			System.out.println("datei wohl = null");
 		}
 	}
+	
+	public GameObject gameObjectLaden(String datei) {
+		FilePersistenceManager fileMg = new FilePersistenceManager();
+		GameObject gameSpeicher = fileMg.laden(datei);
+		return gameSpeicher;
+	}
 
 	public void setEinheiten(Land land, int units) {
 		try {
@@ -468,6 +474,12 @@ public class Risiko implements RisikoInterface, Serializable {
 	public void spielEintreitenBtn(int sListenerNr) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public GameObject getGameDatei() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -49,7 +49,9 @@ import ris.client.ui.gui.swing.panels.UnitNumberPanel.UnitNumber;
 import ris.client.ui.gui.swing.panels.UnitNumberPanel.UnitNumberListener;
 import ris.client.ui.gui.swing.panels.WieVieleSpielerPanel;
 import ris.client.ui.gui.swing.panels.WorldPanel;
+import ris.client.ui.gui.swing.panels.werBistDuPanle;
 import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
+import ris.client.ui.gui.swing.panels.werBistDuPanle.SpielerladenListener;
 import ris.common.exceptions.LandExistiertNichtException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.ZuWenigEinheitenException;
@@ -61,7 +63,7 @@ import ris.common.valueobjects.Risikokarte;
 import ris.common.valueobjects.State;
 
 public class RisikoClientGUI extends JFrame implements QuestionListener, WorldListener, UnitNumberListener,
-		kartenAuswahlListener, RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener {
+		kartenAuswahlListener, RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener, SpielerladenListener {
 
 	public static final int DEFAULT_PORT = 6789;
 
@@ -75,6 +77,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	// LOGIN //
 	private LoginPanel loginPl;
 	private LadePanel ladePl;
+	private werBistDuPanle werBistPl;
 	private WieVieleSpielerPanel wieVielePl;
 	private NeuerSpielerPanel neuerSpielerPl;
 	private RisikokartenPanel risikoKartenTPl;
@@ -125,6 +128,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
+		werBistPl = new werBistDuPanle(this,risiko);
 		wieVielePl = new WieVieleSpielerPanel(this, risiko);
 //		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
@@ -142,13 +146,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	public void initializeGamePl() {
-	
+		System.out.println("GUI mein name ist " + name);
+		System.out.println("meine nummer ist " + spielerNummer);
 		
 //		risiko.spielAufbau();
 		Toolkit tk = Toolkit.getDefaultToolkit();
-		int xSize = ((int) tk.getScreenSize().getWidth());
+//		int xSize = ((int) tk.getScreenSize().getWidth());
+		int xSize = 1400;
 		System.out.println("die hoehe vom spiel :" + xSize);
-		int ySize = ((int) tk.getScreenSize().getHeight());
+//		int ySize = ((int) tk.getScreenSize().getHeight());
+		int ySize = 900;
 		System.out.println("die hoehe vom spiel :" + ySize);
 
 		setLocation(0, 0); // setzt Jframe wieder nach links oben (nicht mehr in die mitte)
@@ -657,6 +664,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.pack();
 		showPanel(loginPl);
 	}
+	
+	public void showWerBistDuPanel() {
+		this.pack();
+		showPanel(werBistPl);
+	}
 
 	public void showLadePanel() {
 		ladePl = new LadePanel(this, risiko);
@@ -868,9 +880,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			e.printStackTrace();
 		}
 		System.out.println("hier gehts weiter");
-		showGamePanel();
+		showWerBistDuPanel();
+//		showGamePanel();
 	}
-
+	
+	@Override
+	public void spielerLaden(String name, int spielerNr) {
+		this.name = name;
+		this.spielerNummer = spielerNr;
+		initializeGamePl();
+	}
 
 	public void setAttackPlayer(String attLand, String defLand, String attacker, String defender) {
 		if (name.equals(defender)) {
@@ -914,5 +933,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void farbeAktualisieren(String farbe) {
 		risiko.setFarbeAuswaehlen(farbe);
 	}
+
+
 
 }
