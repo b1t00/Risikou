@@ -18,6 +18,9 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
 
+/*
+ * Panel das Infos bei allen Spielern anzeigt, was gerade im Spiel passiert
+ */
 public class DialogPanel extends JPanel {
 	
 	public interface SpeichernListener {
@@ -66,25 +69,29 @@ public class DialogPanel extends JPanel {
 			try {
 				info.getDocument().insertString(0, "Runde : " + runde++ + ris.gibAktivenPlayer() + " ist am Zug. \n", null);
 			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			info.append(ris.gibAktivenPlayer() + " ist am Zug. \n");
 			break;
 		case "setUnits":
 			try {
 				info.getDocument().insertString(0, ris.gibAktivenPlayer() + " setzt neue Einheiten \n", null);
 			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			info.append(ris.gibAktivenPlayer() + " setzt neue Einheiten \n");
 			break;
 		case "attack":
-			info.append(ris.gibAktivenPlayer() + " greift an. \n");
+			try {
+				info.getDocument().insertString(0, ris.gibAktivenPlayer() + " greift an. \n", null);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
 			break;
 		case "moveUnits":
-			info.append(ris.gibAktivenPlayer() + " verschiebt Einheiten. \n");
+			try {
+				info.getDocument().insertString(0, ris.gibAktivenPlayer() + " verschiebt Einheiten. \n", null);
+			} catch (BadLocationException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -105,7 +112,6 @@ public class DialogPanel extends JPanel {
 						+ "Einheiten Angriff: " + attackObj.getAttUnits().length + "\nEinheiten Defense: " + attackObj.getDefUnits().length +
 						"\n" + attackObj.getAttacker() + " verliert den Kampf. \n", null);
 			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -124,7 +130,6 @@ public class DialogPanel extends JPanel {
 			try {
 				info.getDocument().insertString(0,player + " verschiebt " + number + " Einheiten von " + land1 + " nach " + land2 + "\n",null);
 			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -133,7 +138,6 @@ public class DialogPanel extends JPanel {
 	//text anhaengen bei set units
 	public void updateSetUnit(String land, String player) {
 		try {
-			System.out.println("dialogp probiert ein updateLand");
 			info.getDocument().insertString(0, player + " setzt eine Einheit auf " + land + "\n", null);
 		} catch (BadLocationException e) {
 			// TODO Auto-generated catch block
@@ -145,12 +149,10 @@ public class DialogPanel extends JPanel {
 		try {
 			info.getDocument().insertString(0, attacker + "greift " + defender + " an\n", null);
 		} catch (BadLocationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	//ab hier eventuell auslagern -> wohin?
 	public void setupEvents() {
 		speicherButton.addActionListener(new AntwortListener());
 	}

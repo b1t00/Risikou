@@ -14,7 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import ris.client.ui.gui.RisikoClientGUI;
-
+/*
+ * Panel fuer den Login
+ */
 public class LoginPanel extends JPanel {
 
 	private JButton spielStartenBtn;
@@ -23,10 +25,6 @@ public class LoginPanel extends JPanel {
 
 	public LoginPanel(RisikoClientGUI client) {
 		this.gui = client;
-//		Dimension size = this.getPreferredSize();
-//		size.width = 1100;
-//		this.setPreferredSize(size);
-//		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
 		spielStartenBtn.setMnemonic(KeyEvent.VK_ENTER);
 		spielStartenBtn.addActionListener(new ActionListener() {
@@ -45,8 +43,6 @@ public class LoginPanel extends JPanel {
 
 				boolean load;
 				load = client.spielWurdeGeladen();
-				System.out.println("wuede geladen login " + load);
-//				client.zweitausendaLook();
 				if (load) {
 					client.showWerBistDuPanel();
 				} else {
@@ -55,25 +51,13 @@ public class LoginPanel extends JPanel {
 			}
 		});
 		this.add(spielLadenBtn);
-//		setupEvents();
 	}
 
 	public void setEnableNeuesSpielbtn(boolean sichtbar) {
 		spielStartenBtn.setEnabled(sichtbar);
 	}
-//	public void setupEvents(){
-//		spielLadenBtn.addActionListener(new ButtonListener());
-//	}
-//	
-//	class ButtonListener implements ActionListener {
-//		@Override
-//		public void actionPerformed(ActionEvent aE) {
-//			listener.laden();
-//		}
-//	}
 
 	public void setSpielEintreitenBtn() {
-
 		spielStartenBtn.setText("Party beitreten");
 		spielStartenBtn.setEnabled(true);
 	}

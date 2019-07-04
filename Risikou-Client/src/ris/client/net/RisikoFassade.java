@@ -728,6 +728,12 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("spielEintreitenBtn");
 		sout.println(sListenerNr);
 	};
+	
+	@Override
+	public void setSpeicherButtonDisable() {
+		gui.setSpeicherButtonDisable();
+		
+	}
 
 	/*
 	 * ab hier Methoden, die vom Interface stammen, aber nicht implementiert werden muessen
@@ -763,5 +769,7 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

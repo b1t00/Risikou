@@ -60,17 +60,14 @@ public class EintauschPanel extends JPanel{
 
 	
 	class AntwortListener implements ActionListener {
-		//der antwortListener speichert die Antwort mittels Button
 		private String answer;
 		
 		public AntwortListener(String answer) {
 			this.answer = answer;
 		}
 		
-		//und ruft den attackListener (die GUI) auf, die die Antwort weiterverarbeitet
 		@Override
 		public void actionPerformed(ActionEvent aE) {
-			System.out.println("eintauschpanel antwort : " + answer);
 			listener.eintauschButtonClicked(answer);
 		}
 	}

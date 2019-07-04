@@ -949,4 +949,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		spielGeladenTrue = true;
 	}
 
+	public void setSpeicherButtonDisable() {
+		ladePl.setSpeicherButtonDisable();
+		
+	}
+
 }

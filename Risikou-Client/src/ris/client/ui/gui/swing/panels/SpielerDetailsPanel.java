@@ -25,12 +25,6 @@ public class SpielerDetailsPanel extends JPanel {
 	public SpielerDetailsPanel(RisikoInterface ris, String spielername) {
 		this.risiko = ris;
 		this.spielername = spielername;
-//		farbAuswahl = risiko.gibAktivenPlayer().getFarbe());
-		//diese sachen sind jetzt in der setupui methode
-//		name = new JLabel("Name: " + spielername);
-//		farbe = new JLabel("Farbe: " + farbAuswahl); // TODO: Farbe als Enums?
-//		mission = new JLabel(
-//				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
 		setupUI();
 	}
 
@@ -49,20 +43,7 @@ public class SpielerDetailsPanel extends JPanel {
 		
 		layOutSetUp();
 		setBorder(new LineBorder(risiko.getColorArray().get(dieserPlayer.getNummer()), 5));
-//		this.setBorder(BorderFactory.createEtchedBorder());
-		
-//		//		this.setBackground(Color.lightGray); //TODO: Farbuebergabe
-//		 update();
 	}
-
-//	wird nicht mehr benötigt, da es die ganze zeit gleich bleibt
-//	public void update() {
-//		name.setText("Name: " + risiko.gibAktivenPlayer());
-//		farbe.setText("Farbe: " + risiko.gibAktivenPlayer().getFarbe());
-//		mission.setText(
-//				"<html><center>" + "Deine Mission: <br>" + risiko.gibAktivenPlayer().getMission() + "</center></html>");
-//		setBorder(new LineBorder(risiko.getColorArray().get(risiko.gibAktivenPlayer().getNummer()), 5));
-//	}
 
 	public void layOutSetUp() {
 		setLayout(new GridBagLayout());
@@ -106,17 +87,5 @@ public class SpielerDetailsPanel extends JPanel {
 		gc.anchor = GridBagConstraints.CENTER;
 
 		add(mission, gc);
-
-		// 2.Spalte 1. Reihe/////////////////////////////////////////
-
-//		gc.weightx = 1;
-//		gc.weighty = 1;
-//
-//		gc.gridx = 1;
-//
-//		gc.anchor = GridBagConstraints.CENTER;
-////		karteBtn = new JButton("karte");
-////		karteBtn.setPreferredSize(new Dimension(100, 100));
-//		add(karteBtn, gc);
 	}
 }

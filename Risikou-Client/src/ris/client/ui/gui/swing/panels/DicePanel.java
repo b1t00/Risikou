@@ -47,15 +47,6 @@ public class DicePanel extends JPanel {
 	    	g.drawImage(wuerfel5, 0, 0, null);
 	    	g.drawImage(wuerfel6, 0, 0, null);
 	    	
-//	    	ArrayList<Player> playerArray = ris.getPlayerArray();
-//	    	for(Player player: playerArray) {
-//	    		for (Land land: player.getBesitz()) {
-//	    			drawFlag(land, player.getFarbe(), g);
-//	    			g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
-//	    			g.setFont(new Font("TimesRoman", Font.BOLD, 18));
-//	    		}
-//	    	}
-	    }
 	
 	public void setAttack(Attack attObj) {
 		this.attObj = attObj;
@@ -75,6 +66,5 @@ public class DicePanel extends JPanel {
 		}
 		JOptionPane.showMessageDialog(null, ergebnis);
 	}
-	//Methode zum Anzeigen
 	
 }

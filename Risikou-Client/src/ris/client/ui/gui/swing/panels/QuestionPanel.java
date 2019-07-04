@@ -15,6 +15,9 @@ import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
 
+/*
+ * QuestionPanel wird immer aufgerufen, wenn fragen an den Spieler sind
+ */
 public class QuestionPanel extends JPanel{
 	
 	public interface QuestionListener {
@@ -39,7 +42,6 @@ public class QuestionPanel extends JPanel{
 		this.listener = listener;
 		this.phase = phase;
 		this.iD = iD;
-		
 		setupUI();
 		setupEvents();
 	}
@@ -49,7 +51,6 @@ public class QuestionPanel extends JPanel{
 		this.setLayout(new GridLayout(4, 1));
 		this.setSize(100,400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-//		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
 		
 		//ermöglicht automatischen Zeilenumbruch
@@ -76,6 +77,7 @@ public class QuestionPanel extends JPanel{
 				 abfrage.setText("Moechtest du Einheiten verschieben?");
 				 break;
 			}
+			ris.setSpeicherButtonDisable();
 		}
 		
 		this.add(abfrage);
