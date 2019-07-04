@@ -225,17 +225,24 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		} else {
 			System.out.println("ich bin passiver Spieler");
 		}
+		// TODO: hier muss vom laden gesztarzez werden
 		
 	}
 
-	public void showGamePl() {
-		this.add(gamePl);
-		// CENTER
+	public void showGamePanel() {
+		if(name == null) {
+			System.out.println("ich hab keinen namen"); // TODO: Methode um socket verbindung zu trennen und sorry spiel voll panel anzuzeigen
+//			System.exit(0);
+		} else {
+		initializeGamePl();
 		worldPl = new WorldPanel(this, risiko, spielerNummer);
 		gamePl.add(worldPl, BorderLayout.CENTER);
-		this.add(gamePl);
-		updateWorld();
+		showPanel(gamePl);
+		showIndividuellesPanel();
+		}
+//		showQuestion();
 	}
+
 
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
@@ -694,20 +701,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		showPanel(neuerSpielerPl);
 	}
 
-	public void showGamePanel() {
-		if(name == null) {
-			System.out.println("ich hab keinen namen"); // TODO: Methode um socket verbindung zu trennen und sorry spiel voll panel anzuzeigen
-//			System.exit(0);
-		} else {
-		initializeGamePl();
-		worldPl = new WorldPanel(this, risiko, spielerNummer);
-		gamePl.add(worldPl, BorderLayout.CENTER);
-		showPanel(gamePl);
-		showIndividuellesPanel();
-		}
-//		showQuestion();
-	}
-
 	// Diese Methode prüft, wer der Client ist zeigt dementsprechend das
 	// "interaktive" Panel an
 	public void showIndividuellesPanel() {
@@ -992,10 +985,5 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void setSpielgeladenTrue() {
 		spielGeladenTrue = true;
 	}
-
-
-
-
-
 
 }
