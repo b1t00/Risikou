@@ -22,7 +22,7 @@ public class LoginPanel extends JPanel {
 	private RisikoClientGUI gui;
 
 	public LoginPanel(RisikoClientGUI client) {
-		this.client = client;
+		this.gui = client;
 //		Dimension size = this.getPreferredSize();
 //		size.width = 1100;
 //		this.setPreferredSize(size);

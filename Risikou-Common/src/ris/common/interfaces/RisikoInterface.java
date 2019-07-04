@@ -112,4 +112,16 @@ public interface RisikoInterface {
 	
 	public GameObject getGameDatei();
 
+	boolean spielWurdeGeladen();
+
+	public Object getLaender();
+
+	public void spielLadenTrue();
+
+	public GameObject getGeladenesSpiel();
+
+	public int wieVieleSpielerImGame();
+
+	public void spielerWurdeGeladen();
+
 }

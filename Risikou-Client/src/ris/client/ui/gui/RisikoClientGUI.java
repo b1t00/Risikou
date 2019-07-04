@@ -992,9 +992,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void setSpielgeladenTrue() {
 		spielGeladenTrue = true;
 	}
-	public boolean spielWurdeGeladen() {
-		return spielGeladenTrue;
-	}
+
 
 
 

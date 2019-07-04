@@ -843,4 +843,10 @@ public class RisikoFassade implements RisikoInterface {
 		return 0;
 	}
 
+	@Override
+	public void spielLadenTrue() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

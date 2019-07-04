@@ -514,8 +514,11 @@ public class Risiko implements RisikoInterface, Serializable {
 	System.out.println("spiel wurde geladen risikpo ");
 		spielWurdeGeladen = true;
 	}
-	public boolean spielWurdeGeladen() {
-		return spielWurdeGeladen;
-	}
 
+	@Override
+	public void spielerWurdeGeladen() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
