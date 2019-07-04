@@ -42,8 +42,11 @@ public class RisikokartenPanel extends JPanel {
 
 	public void setUp() {
 		if (spielerKartenBtn.size() != 0) {
-			for (KartenButton kb : spielerKartenBtn)
+			for (KartenButton kb : spielerKartenBtn) {
 				this.remove(kb);
+				this.revalidate();
+				this.repaint();
+			}
 			this.removeAll();
 		}
 		spielerKartenBtn.removeAll(spielerKartenBtn);
@@ -117,15 +120,17 @@ public class RisikokartenPanel extends JPanel {
 //						}
 //					}
 //			}
-				for(KartenButton kb : ausgeWahlteKarten) { 
-					System.out.println("remove karte");
-							kb.setAusgewaehlt(false);
-							kb.setUp();
-							this.remove(kb);
-							kb.repaint();
-				}
+//				aber deses brauchen wir schon nech
+//				for(KartenButton kb : ausgeWahlteKarten) { 
+//					System.out.println("remove karte");
+//							kb.setAusgewaehlt(false);
+//							kb.setUp();
+//							this.remove(kb);
+//							kb.repaint();
+//				}
+				this.setUp();
 				listener.combiAusgewaehlt(risikokartenWahl);
-				listener.updateKartenpanel2();
+				listener.updateKartenpanel();
 				return true;
 			} else {
 			// es wurden nicht die richtigen Karten eingeloest
