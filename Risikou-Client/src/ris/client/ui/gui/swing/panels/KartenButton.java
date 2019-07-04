@@ -58,7 +58,7 @@ public class KartenButton extends JButton {
 			if (istAusgewaehlt) {
 				this.setBackground(new Color(187, 170, 80));
 			} else {
-				this.setBackground(Color.ORANGE);
+				this.setBackground(new Color(161, 141, 61));
 			}
 		}
 	}
