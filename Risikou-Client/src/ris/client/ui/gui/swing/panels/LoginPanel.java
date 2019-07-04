@@ -22,10 +22,10 @@ public class LoginPanel extends JPanel {
 	private RisikoClientGUI gui;
 
 	public LoginPanel(RisikoClientGUI client) {
-		this.gui = client;
-		Dimension size = this.getPreferredSize();
-		size.width = 1100;
-		this.setPreferredSize(size);
+		this.client = client;
+//		Dimension size = this.getPreferredSize();
+//		size.width = 1100;
+//		this.setPreferredSize(size);
 //		setLocationRelativeTo(null);
 		spielStartenBtn = new JButton("Neues Spiel beginnen");
 		spielStartenBtn.setMnemonic(KeyEvent.VK_ENTER);
@@ -39,12 +39,15 @@ public class LoginPanel extends JPanel {
 		this.add(spielStartenBtn);
 		spielLadenBtn = new JButton("Spiel laden");
 		spielLadenBtn.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				boolean load;
+				load = client.spielWurdeGeladen();
+				System.out.println("wuede geladen login " + load);
 //				client.zweitausendaLook();
-				System.out.println("wuuuuuuuuuuuuuuuuuuuurde das spiel geladen??? " + client.spielWurdeGeladen());
-				if(client.spielWurdeGeladen()) {
+				if (load) {
 					client.showWerBistDuPanel();
 				} else {
 					client.showLadePanel();
@@ -54,7 +57,7 @@ public class LoginPanel extends JPanel {
 		this.add(spielLadenBtn);
 //		setupEvents();
 	}
-	
+
 	public void setEnableNeuesSpielbtn(boolean sichtbar) {
 		spielStartenBtn.setEnabled(sichtbar);
 	}
@@ -70,7 +73,7 @@ public class LoginPanel extends JPanel {
 //	}
 
 	public void setSpielEintreitenBtn() {
-		
+
 		spielStartenBtn.setText("Party beitreten");
 		spielStartenBtn.setEnabled(true);
 	}

@@ -31,7 +31,9 @@ public class RisikoFassade implements RisikoInterface {
 	private BufferedReader sin;
 	private PrintStream sout;
 	private ObjectInputStream ois;
-	GameObject gameDatei = null;
+	
+//	GameObject gameDatei = null;
+	
 	ServerRequestProcessor serverListener;
 	
 	private RisikoClientGUI gui;
@@ -461,24 +463,44 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public void spielLaden(String name) {
 		goIntoCommandMode();
-		
 		sout.println("spielLaden");
 		sout.println(name);
-			try {
-				gameDatei = (GameObject) ois.readObject();
-			} catch (ClassNotFoundException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				releaseCommandMode();
-			}
+		releaseCommandMode();
 	}
 	
 	public GameObject getGameDatei() {
 		goIntoCommandMode();
-//		spielLaden("haaaaaaaaaaalo.ser");
+		sout.println("getGameDatei");
+		GameObject gameDatei = null;
+		try {
+			gameDatei = (GameObject) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			releaseCommandMode();
+		}
+//		for(Player play : gameDatei.getAllePlayer()) {
+//			System.out.println(play.getName());
+//		}
 		
 		releaseCommandMode();
 		return gameDatei;
+	}
+	
+	public boolean spielWurdeGeladen() {
+		goIntoCommandMode();
+		boolean wurdeSpielGeladen = false;
+		sout.println("spielWurdeGeladen");
+		try {
+			wurdeSpielGeladen = (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return wurdeSpielGeladen;
+	}
+	public void spielerWurdeGeladen() {
+		sout.println("spielerWurdeGeladen");
 	}
 
 	@Override
@@ -809,17 +831,16 @@ public class RisikoFassade implements RisikoInterface {
 	}
 
 	@Override
-	public void spielLadenTrue() {
-		goIntoCommandMode();
-		System.out.println("fasse sagt true");
-		sout.println("spielLadenTrue");
-		releaseCommandMode();
+
+	public GameObject getGeladenesSpiel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	public void kannSpielGeladenWerden() {
-		goIntoCommandMode();
-		System.out.println("kannSpielGeladenWerden");
-		releaseCommandMode();
+
+	@Override
+	public int wieVieleSpielerImGame() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

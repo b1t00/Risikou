@@ -15,6 +15,7 @@ import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
+
 import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
@@ -39,6 +40,8 @@ public class Risiko implements RisikoInterface, Serializable {
 	private GameObject game;
 	
 	private boolean spielWurdeGeladen = false;
+	private GameObject geladenesSpiel = null;
+	private int spielerGeladen = 0;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
@@ -378,6 +381,7 @@ public class Risiko implements RisikoInterface, Serializable {
 
 				// im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
+				playerMg.getPlayers().get(i).setMission(loadedPlayer.getMissionObject());
 				// und die Risikokarten
 				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
@@ -403,7 +407,26 @@ public class Risiko implements RisikoInterface, Serializable {
 	public GameObject gameObjectLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
+		// sobald das spiel vom ersten clien geladen wird wird boolean und geladenesSpiel gesetzt;
+		this.spielWurdeGeladen = true;
+		this.geladenesSpiel = gameSpeicher;
 		return gameSpeicher;
+	}
+	public GameObject getGeladenesSpiel(){
+		//gibt geladenes Spiel zurück
+		return geladenesSpiel;
+	}
+	@Override
+	public boolean spielWurdeGeladen() {
+		return this.spielWurdeGeladen;
+	}
+	public int wieVieleSpielerImGame() {
+		System.out.println("wievieleSpieler im spiel und was ist hier los risiko");
+		for(Player play : getPlayerArray()){
+			System.out.println(play.getName());
+			System.out.println(play.getNummer());
+		};
+		return ++spielerGeladen;
 	}
 
 	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
@@ -487,19 +510,12 @@ public class Risiko implements RisikoInterface, Serializable {
 		return null;
 	}
 
-	@Override
 	public void spielLadenTrue() {
 	System.out.println("spiel wurde geladen risikpo ");
 		spielWurdeGeladen = true;
 	}
 	public boolean spielWurdeGeladen() {
 		return spielWurdeGeladen;
-	}
-
-	@Override
-	public void kannSpielGeladenWerden() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

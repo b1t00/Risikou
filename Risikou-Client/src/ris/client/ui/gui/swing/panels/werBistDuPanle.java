@@ -55,9 +55,7 @@ public class werBistDuPanle extends JPanel {
 		public void actionPerformed(ActionEvent arg0) {
 			String name = alleSpielerNamen.getSelectedValue();
 			
-			System.out.println(name);
 			for(Player play : allePlayer) {
-				System.out.println(play.getNummer());
 				if(play.getName().equals(name)) {
 					spielerNr = play.getNummer();			
 				};
