@@ -11,6 +11,7 @@ import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
+import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
@@ -123,5 +124,7 @@ public interface RisikoInterface {
 	public int wieVieleSpielerImGame();
 
 	public void spielerWurdeGeladen();
+
+	public Kontinent getKontinentVonLand(Land defLand);
 
 }

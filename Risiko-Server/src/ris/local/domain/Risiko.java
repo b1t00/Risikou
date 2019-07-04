@@ -16,10 +16,10 @@ import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
 import ris.common.exceptions.UngueltigeAnzahlSpielerException;
-import ris.common.exceptions.ZuVieleDateienException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
+import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
@@ -136,6 +136,10 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	public Land getLandById(int zahl) throws LandExistiertNichtException {
 		return worldMg.getLandById(zahl);
+	}
+	
+	public Kontinent getKontinentVonLand(Land land) {
+		return worldMg.getKontinentVonLand(land);
 	}
 
 	public ArrayList<Player> getPlayerArray() {

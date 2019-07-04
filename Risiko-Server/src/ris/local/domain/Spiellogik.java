@@ -655,34 +655,12 @@ public class Spiellogik implements Serializable{
 				}
 		} return false;
 	}
-	
-
-//	public ArrayList<Integer> verteileEinheiten(){}
-
-//	public void angriffAuswerten(ArrayList<Integer> dice, Land def, Land att) {
-//		Player attacker = isOwner(att);
-//		int defNew = dice.get(0);
-//		if (def.getEinheiten() + dice.get(0) > 0) {
-//			def.setEinheiten(defNew);
-//		} else {
-//			def.setFarbe(isOwner(def).getFarbe());
-//		}
-//		att.setEinheiten(dice.get(1));
-//	}
-//	public Player isOwner(Land attacker) {
-//		for (Player p : playerMg.getPlayers()) {
-//			for (Land l : p.getBesitz()) {
-//				if (l.getNummer() == attacker.getNummer()) {
-//					return p;
-//				}
-//			}
-//		}
-//		return null;
-//	}
 
 	public boolean moveUnitsGueltig(Land from, Land to, int units) {
 		if(units > 0) {
-			if (from.getEinheiten() - units > 0 && worldMg.isBenachbart(from, to)) {
+//			fuer die verfuegbaren Einheiten muessen die blockierten Einheiten abgezogen werden, die allerdings im Spieler stehen
+			int verfuegbareEinheiten = (from.getEinheiten() - from.getBesitzer().getBlock()[from.getNummer()]);
+			if ((verfuegbareEinheiten - units) > 0 && worldMg.isBenachbart(from, to)) {
 				return true;
 			}
 		}

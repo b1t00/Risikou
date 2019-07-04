@@ -21,10 +21,15 @@ import ris.common.exceptions.UngueltigeAnzahlSpielerException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
+import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
 import ris.common.valueobjects.State;
+
+/*
+ * hier notiz zu rekursivem aufruf in den exceptions
+ */
 
 public class RisikoFassade implements RisikoInterface {
 	private Socket socket = null;
@@ -132,9 +137,9 @@ public class RisikoFassade implements RisikoInterface {
 				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
 			}
 		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("fehler eim einlesen vom player");
-			// TODO Auto-generated catch block
+			System.out.println("Fehler eim Einlesen vom player");
 			e.printStackTrace();
+			gibAktivenPlayer();
 		}
 		releaseCommandMode();
 		return aktiverPlayer;
@@ -348,6 +353,7 @@ public class RisikoFassade implements RisikoInterface {
 			} catch (ClassNotFoundException | IOException e) {
 			System.out.println("Fehler beim einlesen vom playerarray");
 			e.printStackTrace();
+			getPlayerArray();
 		}
 		}
 		releaseCommandMode();
@@ -513,8 +519,9 @@ public class RisikoFassade implements RisikoInterface {
 				landClickZeit = (boolean) ois.readObject();
 //			}
 		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("Fehler bei LandclickZeit");
+			System.err.println("Fehler bei LandclickZeit");
 			e.printStackTrace();
+			getLandClickZeit();
 		}
 		System.out.println("clickzeit: " + landClickZeit);
 		releaseCommandMode();
@@ -772,7 +779,22 @@ public class RisikoFassade implements RisikoInterface {
 				e.printStackTrace();
 			} 
 		releaseCommandMode();
-
+	}
+	
+	@Override
+	public Kontinent getKontinentVonLand(Land defLand) {
+		Kontinent k = null;
+		goIntoCommandMode();
+		sout.println("getKontinentVonLand");
+		sout.println(defLand.getNummer());
+		try {
+			k = (Kontinent) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return null;
 	}
 
 	public void allUpdate(String ereignis) {
@@ -846,5 +868,7 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

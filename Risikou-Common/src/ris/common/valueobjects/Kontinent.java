@@ -26,7 +26,6 @@ public class Kontinent implements Serializable{
 		return value;
 	}
 	
-	//sollte vielleicht auch in die spiellogik?
 	public boolean isOwnedByPlayer(Player player) {
 		ArrayList<Land> testArray = player.getBesitz();
 		//durchläuft den eigenen Array und überprüft bei jedem Land, ob es in dem Besitz-Array des Players ist

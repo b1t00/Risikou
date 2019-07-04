@@ -595,12 +595,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 		String winnerName = attackObjekt.getWinner().getName();
 		String aktuellerPlayerName = risiko.gibAktivenPlayer().getName();
-//		
-//		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
-//		System.out.println("name gewinner: " + attackObjekt.getWinner());
-//		System.out.println("besitzer def land: " +attackObjekt.getDefLand().getBesitzer());
-//		
-//		Ausgabe im JOptionPane:
 		//hier kann die wiederholte abfrage, ob es sich um den aktivenSpieler handelt bestimmt verkürzt werden
 		String ergebnis = "";
 		if (attackObjekt.getResult().get(0) == -1) {
@@ -624,13 +618,17 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat gewonnen und nimmt "
 					+ attackObjekt.getDefLand() + " ein.");
 			updateWorld();
-			// check, ob jemand gewonnen hat
+//			check, ob jemand gewonnen hat
 			if (win()) {
 				risiko.getGewinner();
 //				JOptionPane.showMessageDialog(null,
 //						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
+//			dieser Block wird nur bei dem aktiven Client ausgefuehrt
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
+//				if(risiko.getKontinentVonLand(attackObjekt.getDefLand()).isOwnedByPlayer(risiko.gibAktivenPlayer())) {
+//					JOptionPane.showMessageDialog(null, "Du hast " + risiko.getKontinentVonLand(attackObjekt.getDefLand()) + " erobert!");
+//				}
 				if (attackObjekt.getAttLand().getEinheiten() > 1) {
 					System.out.println("einheiten verbleibend: " + worldPl.getAttackLand1().getEinheiten());
 					QuestionPanel nachrueckPl = new QuestionPanel(this, risiko, "nachruecken", spielerNummer);
@@ -809,7 +807,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		risiko.setTauschZeit(false);
 		showSetUnits(5);
 		infoPl.update();
-		risikoKartenTPl.setUp();
+//		risikoKartenTPl.setUp();
 	}
 
 	@Override

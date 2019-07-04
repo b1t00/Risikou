@@ -258,8 +258,16 @@ public class WorldManagement implements Serializable {
 		return kontinente;
 	}
 	
-	public Kontinent getEuropa(){ //test
-		return kontinente.get(0);
+	public Kontinent getKontinentVonLand(Land land) {
+		Kontinent gesuchterKontinent = null;
+		for(Kontinent k: kontinente) {
+			for(Land l: k.getLaender()){
+				if (l.getNummer() == land.getNummer()) {
+					gesuchterKontinent = k;
+				}
+			}
+		}
+		return gesuchterKontinent;
 	}
 	
 	public ArrayList<Land> getEigeneNachbarn(Land land){

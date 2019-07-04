@@ -538,6 +538,30 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "getKontinentVonLand":
+				int landId = 0;
+				try {
+					landId = Integer.parseInt(in.readLine());
+				} catch (NumberFormatException | IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Land land = null;
+				try {
+					land = risiko.getLandById(landId);
+				} catch (LandExistiertNichtException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getKontinentVonLand(land));
+					oos.reset();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case "allUpdate":
 				allUpdate();
 				break;
