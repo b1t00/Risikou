@@ -231,6 +231,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		} else {
 			System.out.println("ich bin passiver Spieler");
 		}
+		
 		// TODO: hier muss vom laden gesztarzez werden
 		
 	}
@@ -507,8 +508,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		switch (currentState) {
 //		switch (risiko.getCurrentState()) {
 		case SETUNITS:
-			//wenn wir uns im setUnits State befinden, bedeutet das, dass auf dem land eine Einheit gesetzt wurde
+//		    wenn wir uns im setUnits State befinden, bedeutet das, dass auf dem land eine Einheit gesetzt wurde
 			try {
+				System.out.println("alte anzahl einheiten: " + land.getEinheiten());
 				risiko.setEinheiten(land, 1);
 			} catch (UngueltigeAnzahlEinheitenException e) {
 				JOptionPane.showMessageDialog(null, e);
@@ -518,6 +520,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			//der aktive Player updatet sich automatisch, alle anderen werden über die serverListener informiert
 			updateDialogSetUnit(land.getName(), name);
 			updateWorld();
+			System.out.println("Warum updatet die world nicht?");
 			//Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
 			if (win()) {
 				risiko.getGewinner();
@@ -527,6 +530,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			//auf dem setUnitPl sind die restlichen Einheiten gespeichert und werden runtergezählt
 			setUnitsPl.decrementUnits();
 			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
+				System.out.println("warum updatet das panel nicht?");
 				setUnitsPl.update();
 			} else {
 				risiko.setLandClickZeit(false);
@@ -581,8 +585,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	public void updateDialogSetUnit(String land, String player) {
-		System.out.println("bei updatedialog in gui angekommen");
 		dialogPl.updateSetUnit(land, player);
+//		updateWorld();
 	}
 	
 	public void updateAttack(Attack attackObjekt) {
@@ -592,11 +596,11 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 		String winnerName = attackObjekt.getWinner().getName();
 		String aktuellerPlayerName = risiko.gibAktivenPlayer().getName();
-		
-		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
-		System.out.println("name gewinner: " + attackObjekt.getWinner());
-		System.out.println("besitzer def land: " +attackObjekt.getDefLand().getBesitzer());
-		
+//		
+//		System.out.println("name aktiver player: " + risiko.gibAktivenPlayer());
+//		System.out.println("name gewinner: " + attackObjekt.getWinner());
+//		System.out.println("besitzer def land: " +attackObjekt.getDefLand().getBesitzer());
+//		
 //		Ausgabe im JOptionPane:
 		//hier kann die wiederholte abfrage, ob es sich um den aktivenSpieler handelt bestimmt verkürzt werden
 		String ergebnis = "";

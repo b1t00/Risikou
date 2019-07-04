@@ -204,14 +204,13 @@ public class WorldPanel extends JPanel {
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {
 	    			drawFlag(land, player.getFarbe(), g);
-		    		g.drawString(" "+land.getEinheiten(), land.getxE(), land.getyE());
+		    		g.drawString(" " + land.getEinheiten(), land.getxE(), land.getyE());
 		    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
 	    		}
 	    	}
 	    }
 	    
 	    
-
 	// Getter Methoden
 	public int getAttackState() {
 		return attackState;

@@ -311,13 +311,6 @@ public class Risiko implements RisikoInterface, Serializable {
 		return logik.attackFinal(defUnits);
 	}
 
-//	public ArrayList<Integer> attack (Land att, Land def, int attEinheiten, int defEinheiten) throws LaenderNichtBenachbartException, NichtGenugEinheitenException {
-
-//	public Attack attack(Land att, Land def, int attEinheiten, int defEinheiten)
-//			throws ZuWenigEinheitenNichtMoeglichExeption, ZuWenigEinheitenException {
-//		return logik.attack(att, def, attEinheiten);
-//	}
-
 	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
 		return logik.diceDefense(defUnit);
 	}
@@ -368,35 +361,51 @@ public class Risiko implements RisikoInterface, Serializable {
 		return verzeichnis;
 	}
 
-	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, LandExistiertNichtException {
+	public GameObject gameObjectLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
-		if (gameSpeicher != null) {
-			game.setAllePlayer(gameSpeicher.getAllePlayer());
-			turn = gameSpeicher.getSpielstand();
-//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefï¿½gt werden
+		// sobald das spiel vom ersten client geladen wird, wird boolean und geladenesSpiel gesetzt;
+		this.spielWurdeGeladen = true;
+		this.geladenesSpiel = gameSpeicher;
+		return gameSpeicher;
+	}
+	
+	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, LandExistiertNichtException {
+//		FilePersistenceManager fileMg = new FilePersistenceManager();
+//		GameObject gameSpeicher = fileMg.laden(datei);
+		if (geladenesSpiel != null) {
+			game.setAllePlayer(geladenesSpiel.getAllePlayer());
+			turn = geladenesSpiel.getSpielstand();
+//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefuegt werden
 			for (int i = 0; i < game.getAllePlayer().size(); i++) {
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
-
-				// im anschluss werden die Laender entsprechend verteilt
+				
+//				im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				playerMg.getPlayers().get(i).setMission(loadedPlayer.getMissionObject());
-				// und die Risikokarten
+				
+//				und die Risikokarten
 				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				// und fuer jedes Land werden die Einheiten neu gesetzt
+				
+//				und fuer jedes Land werden die Einheiten neu gesetzt
 				for (Land loadedLand : loadedPlayer.getBesitz()) {
 					Land land = null;
 						land = worldMg.getLandById(loadedLand.getNummer());
 					try {
-						land.setEinheiten(loadedLand.getEinheiten());
+						//einheiten - 1, da jedes land per default eine einheit besitzt
+						land.setEinheiten(loadedLand.getEinheiten()-1);
+						land.setBesitzer(loadedPlayer);
 					} catch (UngueltigeAnzahlEinheitenException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
+				
+//				die farbe von jedem player wird dem colorArray hinzugefuegt
+				playerMg.setColorArray(loadedPlayer.getFarbe());
 			}
 			System.out.println("eigentlich fertig geladen");
 		} else {
@@ -404,14 +413,6 @@ public class Risiko implements RisikoInterface, Serializable {
 		}
 	}
 	
-	public GameObject gameObjectLaden(String datei) {
-		FilePersistenceManager fileMg = new FilePersistenceManager();
-		GameObject gameSpeicher = fileMg.laden(datei);
-		// sobald das spiel vom ersten clien geladen wird wird boolean und geladenesSpiel gesetzt;
-		this.spielWurdeGeladen = true;
-		this.geladenesSpiel = gameSpeicher;
-		return gameSpeicher;
-	}
 	public GameObject getGeladenesSpiel(){
 		//gibt geladenes Spiel zurück
 		return geladenesSpiel;
@@ -431,7 +432,6 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
 		land.setEinheiten(units);
-	
 	}
 
 //	'''''''''' PlayerManagement ''''''''''''''''
@@ -443,9 +443,11 @@ public class Risiko implements RisikoInterface, Serializable {
 		playerMg.menuFarbeAuswaehlen(farbe);
 	}
 
-	// Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer
-	// vom gewï¿½nschten spieler eintragen), damit die entsprechende Spielerfarbe
-	// erscheint.
+	/*
+	 * Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom 
+	 * gewuenschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
+	 * @see ris.common.interfaces.RisikoInterface#getColorArray()
+	 */
 	public ArrayList<Color> getColorArray() {
 		return playerMg.getColorArray();
 	}

@@ -28,6 +28,7 @@ public class Land implements Comparable, Serializable{
 	
 	// Methode um Einheiten zu setzten 
 	public void setEinheiten(int einheit) throws UngueltigeAnzahlEinheitenException {
+		System.out.println("set einheiten im land");
 			if((this.einheiten + einheit) < 1)  {
 				throw new UngueltigeAnzahlEinheitenException(1, this.einheiten-1);
 			} else {

@@ -444,13 +444,11 @@ public class ClientRequestProcessor implements Runnable {
 				System.out.println("so viele spieler bis jetyt " + geladeneSpieler);
 				
 				if(geladeneSpieler == risiko.getGeladenesSpiel().getAllePlayer().size()) {
-					
 //						risiko.spielAufbau();
 						for (ServerListener sl : allServerListeners) {
-							sl.handleEvent("initializeFromLaden");
-							
+//							sl.handleEvent("initializeFromLaden");
+							sl.handleEvent("initializeGamePanel");
 						}
-					
 				};
 				break;
 			case "getLandClickZeit":

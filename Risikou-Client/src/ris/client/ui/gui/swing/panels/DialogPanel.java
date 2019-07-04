@@ -140,6 +140,7 @@ public class DialogPanel extends JPanel {
 			e.printStackTrace();
 		}
 	}
+	
 	public void beginAttack(String attacker, String defender) {
 		try {
 			info.getDocument().insertString(0, attacker + "greift " + defender + " an\n", null);

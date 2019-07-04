@@ -20,7 +20,10 @@ public class WorldManagement implements Serializable {
 	
 
 	public void erstelleWelt() {
-		//Erstellung von Ländern und speichern in der ArrayList<Land>
+		/*
+		 * Erstellung von Laendern und speichern in der ArrayList<Land>
+		 * Konstruktor Land: String Name, int ID, int Einheiten, RGB
+		 */
 		Land groenland = new Land("Groenland", 0, 1,335,77,354,78);
 		laender.add(groenland);
 		Land island = new Land("Island", 1, 1,452,103,467,106);

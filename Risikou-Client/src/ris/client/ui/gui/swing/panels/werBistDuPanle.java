@@ -35,9 +35,10 @@ public class werBistDuPanle extends JPanel {
 //			System.out.println("Fehler1");
 		ArrayList<String> namen = new ArrayList<String>();
 		// Arraylist<Player> wird zu String[] umgeschriebn
-		allePlayer = risiko.getGameDatei().getAllePlayer();
+//		allePlayer = risiko.getGameDatei().getAllePlayer();
+		allePlayer = risiko.getPlayerArray();
 		for (int i = 0; i < allePlayer.size(); i++) {
-			namen.add(risiko.getGameDatei().getAllePlayer().get(i).getName());
+			namen.add(risiko.getPlayerArray().get(i).getName());
 		}
 		String[] playerStringArray = namen.toArray(new String[namen.size()]);
 		alleSpielerNamen = new JList<String>(playerStringArray);
