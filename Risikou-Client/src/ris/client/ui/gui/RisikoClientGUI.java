@@ -219,6 +219,8 @@ public class RisikoClientGUI extends JFrame
 			showPanel(gamePl);
 			showIndividuellesPanel();
 		}
+		this.revalidate();
+		this.repaint();
 	}
 
 //	je nach spielphase wird ein anderes panel im container-panel angezeigt
@@ -260,6 +262,7 @@ public class RisikoClientGUI extends JFrame
 			}
 			break;
 		}
+		dialogPl.enableSpeicherBtn();
 	}
 
 	public void showSetUnits() {
@@ -357,6 +360,7 @@ public class RisikoClientGUI extends JFrame
 				break;
 			}
 		}
+		dialogPl.unEnableSpeicherBtn();
 	}
 
 	@Override // unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns
@@ -419,6 +423,7 @@ public class RisikoClientGUI extends JFrame
 				JOptionPane.showMessageDialog(null, "Ungueltige Anzahl Einheiten!");
 			}
 		}
+		dialogPl.unEnableSpeicherBtn();
 	}
 
 	@Override // worldlistener
