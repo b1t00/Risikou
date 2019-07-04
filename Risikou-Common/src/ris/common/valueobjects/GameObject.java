@@ -3,8 +3,11 @@ package ris.common.valueobjects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+ *  @class das GameObject wird beim Speichern genutzt und enthaelt alle wichtigen Daten zu dem Spiel
+ */
+
 public class GameObject implements Serializable{
-	//TODO: persistenz
 
 	private ArrayList<Player> allePlayer;
 	private Turn spielstand;

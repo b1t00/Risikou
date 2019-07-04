@@ -265,8 +265,8 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(ID.toString());
 		try {
 			Object input = ois.readObject();
-			if (!(input instanceof String)) {
-				throw new SpielerNameExistiertBereitsException(name, farbe, iD);
+			if (input instanceof SpielerNameExistiertBereitsException) {
+				throw new SpielerNameExistiertBereitsException(name);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block
@@ -507,7 +507,6 @@ public class RisikoFassade implements RisikoInterface {
 	public boolean getLandClickZeit() {
 		goIntoCommandMode();
 		boolean landClickZeit = true;
-
 		sout.println("getLandClickZeit");
 		try {
 //			synchronized (ois) {
@@ -515,7 +514,6 @@ public class RisikoFassade implements RisikoInterface {
 //			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("Fehler bei LandclickZeit");
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("clickzeit: " + landClickZeit);

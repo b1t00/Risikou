@@ -12,7 +12,6 @@ public class PlayerManagement implements Serializable {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
-	private boolean falscheEingabe;
 	private ArrayList<Color> colorArray;
 	private int spielerAnzahl;
 
@@ -27,7 +26,6 @@ public class PlayerManagement implements Serializable {
 	}
 
 	public void menuFarbeAuswaehlen(String farbe) {
-		System.out.println(" Player Management es wurde die Farbe : " + farbe);
 		switch (farbe) {
 		case "rot":
 			 FarbeAuswaehlen(0);
@@ -47,30 +45,25 @@ public class PlayerManagement implements Serializable {
 		case "schwarz":
 			 FarbeAuswaehlen(5);
 			 break;
-		default:
-			falscheEingabe = true;
 		}
 	}
 
-	// @tobi man könnte das auch mit zahlen eingabe machen, dann könnte man sich
-	// warhrscheinlich den switchcase sparen
+	/*
+	 * entsprechend des int-Wert kann auf die Farbe im Index des farbenAuswahl Arrays zugegriffen werden
+	 * add(welcheFarbe, null) damit der Array gleichlang bleibt und die Farben am richtigen Index bleiben
+	 */
 	public String FarbeAuswaehlen(int welcheFarbe) {
 		String farbe = "";
 		if (farbenAuswahl.get(welcheFarbe) != null) {
 			farbe = farbenAuswahl.get(welcheFarbe);
 			farbenAuswahl.remove(welcheFarbe);
 			farbenAuswahl.add(welcheFarbe, null);
-			falscheEingabe = false;
 		} else {
-			falscheEingabe = true;
+			System.out.println("Farbe schon vergeben!");
 		}
 		return farbe;
 	}
 
-	public boolean getRichtigeEingabe() {
-		return falscheEingabe;
-	}
-	
 	public Player getPlayerById(int iD) {
 		Player spieler = null;
 		for(Player player: gamerListe) {
@@ -109,14 +102,10 @@ public class PlayerManagement implements Serializable {
 		Player player = new Player(name, farbe, nummer);
 		for(Player p: gamerListe) {
 			if(p.getName().equals(name)) {
-				throw new SpielerNameExistiertBereitsException(name, farbe, nummer);
+				throw new SpielerNameExistiertBereitsException(name);
 			}
 		}
 		gamerListe.add(player);
-	}
-	
-	public ArrayList<Color> getColorArray() {
-		return colorArray;
 	}
 	
 	public void setColorArray(String farbe) {
@@ -142,6 +131,10 @@ public class PlayerManagement implements Serializable {
 			}
 	}
 
+	public ArrayList<Color> getColorArray() {
+		return colorArray;
+	}
+	
 	public void addColor(Color color) {
 		this.colorArray.add(color);
 	}

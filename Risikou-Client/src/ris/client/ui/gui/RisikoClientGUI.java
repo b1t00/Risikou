@@ -239,7 +239,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void showGamePanel() {
 		if(name == null) {
 			System.out.println("ich hab keinen namen"); // TODO: Methode um socket verbindung zu trennen und sorry spiel voll panel anzuzeigen
-//			System.exit(0);
 		} else {
 		initializeGamePl();
 		worldPl = new WorldPanel(this, risiko, spielerNummer);

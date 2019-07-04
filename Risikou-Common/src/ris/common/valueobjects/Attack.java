@@ -3,7 +3,6 @@ package ris.common.valueobjects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-//serializable weg?
 public class Attack implements Serializable {
 	private Player attacker;
 	private Player defender;

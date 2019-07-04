@@ -40,8 +40,8 @@ public class Player implements Serializable {
 	}
 
 	public String getMission() {
-//		return mission.getMission();
-		return "dies das verschiedene Dinge";
+		return mission.getMission();
+//		return "dies das verschiedene Dinge";
 	}
 
 	public Mission getMissionObject() {
@@ -99,7 +99,7 @@ public class Player implements Serializable {
 		return ausgabe;
 	}
 
-	// prueft, ob player land besitzt, wenn ja, löscht er es, wenn nein, fügt er es hinzu
+	// prueft, ob player land besitzt, wenn ja, loescht er es, wenn nein, fuegt er es hinzu
 	public void setBesitz(Land land) {
 		if (inBesitz.contains(land)) {
 			inBesitz.remove(land);
@@ -124,7 +124,7 @@ public class Player implements Serializable {
 		this.inBesitz.add(neuesLand);
 	}
 
-	// diese Methode beim Hinzufügen von einem ganzen Länder-Array, am Anfang
+	// diese Methode beim Hinzufügen von einem ganzen Laender-Array, am Anfang
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}

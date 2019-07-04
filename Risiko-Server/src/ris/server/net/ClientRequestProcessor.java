@@ -439,17 +439,12 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				break;
 			case "spielerWurdeGeladen":
-				int geladeneSpieler = risiko.wieVieleSpielerImGame();
-				System.out.println("so viele spieler gibt es " + risiko.getGeladenesSpiel().getAllePlayer().size());
-				System.out.println("so viele spieler bis jetyt " + geladeneSpieler);
-				
+				int geladeneSpieler = risiko.wieVieleSpielerImGame();				
 				if(geladeneSpieler == risiko.getGeladenesSpiel().getAllePlayer().size()) {
-//						risiko.spielAufbau();
 						for (ServerListener sl : allServerListeners) {
-//							sl.handleEvent("initializeFromLaden");
 							sl.handleEvent("initializeGamePanel");
 						}
-				};
+				}
 				break;
 			case "getLandClickZeit":
 				try {
@@ -458,7 +453,6 @@ public class ClientRequestProcessor implements Runnable {
 					oos.reset();
 				} catch (IOException e) {
 					System.out.println("Problem beim Schicken von LandClickZeit");
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				break;

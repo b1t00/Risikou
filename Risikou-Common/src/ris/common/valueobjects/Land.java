@@ -9,7 +9,6 @@ public class Land implements Comparable, Serializable{
 	private int nummer;
 	private String name;
 	private Player besitzer;
-	private String rgb;
 	private int xf;
 	private int yf;
 	private int xE;
@@ -23,7 +22,6 @@ public class Land implements Comparable, Serializable{
 		this.setYf(yf);
 		this.setxE(xE);
 		this.setyE(yE);
-		//this.rgb = rgb;
 	}
 	
 	// Methode um Einheiten zu setzten 

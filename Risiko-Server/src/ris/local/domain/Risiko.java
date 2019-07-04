@@ -15,12 +15,11 @@ import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
-
 import ris.common.exceptions.UngueltigeAnzahlSpielerException;
+import ris.common.exceptions.ZuVieleDateienException;
 import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
-import ris.common.valueobjects.Kontinent;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Player;
 import ris.common.valueobjects.Risikokarte;
@@ -38,7 +37,10 @@ public class Risiko implements RisikoInterface, Serializable {
 	private ArrayList<Risikokarte> einheitenkartenStapel;
 	private Turn turn;
 	private GameObject game;
-	
+	/*
+	 * mit spielWurdeGeladen fragt jeder client bei der wahl von spielladen ab, ob
+	 * bereits von einem anderen spieler ein spiel geladen wurde
+	 */
 	private boolean spielWurdeGeladen = false;
 	private GameObject geladenesSpiel = null;
 	private int spielerGeladen = 0;
@@ -48,48 +50,9 @@ public class Risiko implements RisikoInterface, Serializable {
 		playerMg = new PlayerManagement();
 		turn = new Turn(playerMg.getPlayers());
 		logik = new Spiellogik(worldMg, playerMg, turn);
+		game = new GameObject(playerMg.getPlayers(), turn);
 		RisikokartenManagement einheitenkartenMg = new RisikokartenManagement();
 		einheitenkartenStapel = einheitenkartenMg.getEinheitenkarten();
-//		turn.state = State.SETUNITS;
-		game = new GameObject(playerMg.getPlayers(), turn);
-	}
-
-	public State getCurrentState() {
-		return turn.getCurrentState();
-	}
-
-	public void setNextState() {
-		System.out.println("risiko, wird state gesetzte? ");
-		turn.setNextState();
-	}
-
-	public boolean getTauschZeit() {
-		return turn.getTauschZeit();
-	}
-
-	public void setTauschZeit(boolean tauschZeit) {
-		turn.setTauschZeit(tauschZeit);
-	}
-
-	public boolean getLandClickZeit() {
-		return turn.getLandClickZeit();
-	}
-
-	public void setLandClickZeit(boolean landClickZeit) {
-		turn.setLandClickZeit(landClickZeit);
-	}
-
-	public void spielAufbau() {
-		System.out.println("spiel wird aufgebaut!");
-		logik.verteileEinheiten();
-		logik.verteileMissionen();
-		setzeAktivenPlayer();
-	}
-
-	// @to: Methode die sagt wer anfaengt
-	public void whoBegins() {
-		turn.setAktivenPlayer(logik.whoBegins());
-		turn.setPlayerList(playerMg.getPlayers());
 	}
 
 	public void setSpielerAnzahl(int spielerAnzahl) throws UngueltigeAnzahlSpielerException {
@@ -106,53 +69,115 @@ public class Risiko implements RisikoInterface, Serializable {
 		setColorArray(farbe);
 	}
 
-	// TODO: diese methode kann wahrschienich weg, nochmal ueberpruefen!
+	/*
+	 * spielAufbau() verteilt zufaellig alle laender an die spieler und gibt jedem
+	 * Spieler eine zufaellige Mission und setzt den aktiven Spieler
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#spielAufbau()
+	 */
+	public void spielAufbau() {
+		logik.verteileEinheiten();
+		logik.verteileMissionen();
+		setzeAktivenPlayer();
+	}
+
+	/*
+	 * Methode die ausrechnet wer anfaengt
+	 */
+	public void whoBegins() {
+		turn.setAktivenPlayer(logik.whoBegins());
+		turn.setPlayerList(playerMg.getPlayers());
+	}
+
 	public void setzeAktivenPlayer() { // TODO: evtl
 		turn.setAktivenPlayer(logik.setzeStartSpieler());
 	}
 
-	public ArrayList<String> gibLaenderUndNummer() {
-		return player.gibLaenderUndNummer();
+	public State getCurrentState() {
+		return turn.getCurrentState();
 	}
 
-	public ArrayList<Land> getEigeneLaender(Player player) {
-		return player.getBesitz();
-	}
-
-	public ArrayList<Player> getPlayerArray() {
-		return playerMg.getPlayers();
-	}
-
-	public ArrayList<Land> getLaender(){
-		return worldMg.getLaender();
-	}
-	
-	public int getAnzahlPlayer() {
-		return playerMg.getAnzahlPlayer();
-	}
-
-	public Land getLandById(int zahl) throws LandExistiertNichtException {
-		return worldMg.getLandById(zahl);
-	}
-
-	public Player getPlayerById(int zahl) {
-		return playerMg.getPlayerById(zahl);
-	}
-
-	public Player gibAktivenPlayer() {
-		return turn.gibAktivenPlayer();
+	public void setNextState() {
+		turn.setNextState();
 	}
 
 	public void setNextPlayer() {
 		turn.naechsteSpielrunde();
 	}
 
-//	******************************>Missions-Sachen<**************************
-	// Missionsabfragen gilt fuer alle spieler
+	/*
+	 * gibt an spieler zurueck ob risikokarten eingetauscht werden duerfen
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#getTauschZeit()
+	 */
+	public boolean getTauschZeit() {
+		return turn.getTauschZeit();
+	}
+
+	public void setTauschZeit(boolean tauschZeit) {
+		turn.setTauschZeit(tauschZeit);
+	}
+
+	public boolean getLandClickZeit() {
+		return turn.getLandClickZeit();
+	}
+
+	public void setLandClickZeit(boolean landClickZeit) {
+		turn.setLandClickZeit(landClickZeit);
+	}
+
+	public ArrayList<Land> getLaender() {
+		return worldMg.getLaender();
+	}
+
+	public ArrayList<Land> getEigeneLaender(Player player) {
+		return player.getBesitz();
+	}
+
+	public Land getLandById(int zahl) throws LandExistiertNichtException {
+		return worldMg.getLandById(zahl);
+	}
+
+	public ArrayList<Player> getPlayerArray() {
+		return playerMg.getPlayers();
+	}
+
+	/*
+	 * gibt den spieler der dran ist, aus dem playerArray wieder
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#gibAktivenPlayer()
+	 */
+	public Player gibAktivenPlayer() {
+		return turn.gibAktivenPlayer();
+	}
+
+	public int getAnzahlPlayer() {
+		return playerMg.getAnzahlPlayer();
+	}
+
+	public Player getPlayerById(int zahl) {
+		return playerMg.getPlayerById(zahl);
+	}
+	
+	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
+		land.setEinheiten(units);
+	}
+
+//	******************************>Gewinnabfragen<**************************
+	/*
+	 * diese Methode ueberprueft ob ein Spieler seine Mission erfuellt hat
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#allMissionsComplete()
+	 */
 	public boolean allMissionsComplete() {
 		return logik.allMissionsComplete();
 	}
 
+	/*
+	 * ueberprueft ob @param Player seine Mission erfuellt hat
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#rundeMissionComplete()
+	 */
 	public boolean rundeMissionComplete() {
 		return logik.rundeMissionComplete(gibAktivenPlayer());
 	}
@@ -163,8 +188,14 @@ public class Risiko implements RisikoInterface, Serializable {
 
 //	****************************RISIKOKARTEN************************************
 
-	// fragt den player, ob er ein land eingenommen hat via boolean
-	// gutschriftEinheitenkarte und setzt diesen dann auf false
+	/*
+	 * fragt den player, ob er ein land eingenommen hat via boolean
+	 * gutschriftEinheitenkarte und setzt diesen dann auf false falls true, zieht er
+	 * automatisch eine Einheitenkarte vom Stapel und diese Karte wird vom Stapel
+	 * geloescht
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#zieheEinheitenkarte()
+	 */
 	public boolean zieheEinheitenkarte() {
 		Player aktiverPlayer = gibAktivenPlayer();
 		if (aktiverPlayer.getGutschriftEinheitenkarte()) {
@@ -175,10 +206,17 @@ public class Risiko implements RisikoInterface, Serializable {
 		}
 		return false;
 	}
-	
+
+	/*
+	 * die Methode bekommt vom Client eine ArrayList<mit den ids der laender, welche
+	 * auf den eingetauschten Risikokarten sind>
+	 * 
+	 * @see
+	 * ris.common.interfaces.RisikoInterface#removeRisikoKarten(java.util.ArrayList)
+	 */
 	public void removeRisikoKarten(ArrayList<Integer> risikokartenWahl) {
 		ArrayList<Land> kicked = new ArrayList<Land>();
-		for(Integer landId: risikokartenWahl) {
+		for (Integer landId : risikokartenWahl) {
 			try {
 				kicked.add(getLandById(landId));
 			} catch (LandExistiertNichtException e) {
@@ -190,16 +228,23 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	// gibt zurueck, ob ein Player Risikokarten gegen Einheiten eintauschen kann
-	// TODO: wird aktuell direkt beim Player aufgerufen -> hier loeschen oder
-	// aendern!
 	public boolean changePossible(Player aktiverPlayer) {
 		return aktiverPlayer.changePossible();
 	}
 
+	/*
+	 * sobald ein Spieler 5 Karten gezogen hat, wird er gezwungen diese
+	 * einzutauschen
+	 */
 	public boolean mussTauschen(Player aktiverPlayer) {
 		return aktiverPlayer.mussTauschen();
 	}
 
+	/*
+	 * wird um Fehler aufgrund der Socketverbindung auszuweichen, auf dem Client
+	 * abgefragt Sicherer waere diese Methode auf dem Server in der Spiellogik zu
+	 * benutzen
+	 */
 	public boolean isGueltigeTauschkombi(Symbol s1, Symbol s2, Symbol s3) {
 		return logik.isGueltigeTauschkombi(s1, s2, s3);
 	}
@@ -210,15 +255,10 @@ public class Risiko implements RisikoInterface, Serializable {
 
 //	****************************RISIKOKARTEN************************************
 
-	// ALTE METHODE, KANN GELOESCHT WERDEN
-//	public int[] risikokartenTauschkombiVorhanden(Player aktiverPlayer) {
-//		return logik.risikokartenTauschkombiVorhanden(aktiverPlayer);
-//	}
-
-	// get Gewinner kann nur geholt werden, wenn einer eine Mission erfï¿½llt hat
-	// bzw
-	// missionenCompletet True ist..
-
+	/*
+	 * gibt ein Array<Land> zurueck mit den Nachbern mit dem gleichen Besitzer wenn
+	 * Null, beudeutet das er nur von Feinden umgeben ist
+	 */
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
 	}
@@ -227,43 +267,47 @@ public class Risiko implements RisikoInterface, Serializable {
 		return worldMg.isBenachbart(land1, land2);
 	}
 
-	public ArrayList<Land> getEinheitenVerschiebenVonLaender(Player player) {
-		ArrayList<Land> verschiebbareEinheitenLaender = logik.getLaenderMitMehrAlsEinerEinheit(player);
-		return logik.getLaenderMitEigenenNachbarn(verschiebbareEinheitenLaender);
-	}
-
-	// WELT AUSGABE->
+	/*
+	 * Wurde nur in der CUI benutzts
+	 */
 	public ArrayList<Land> gibWeltAus() {
 		Collections.sort(worldMg.getLaender());
 		return worldMg.getLaender();
 	}
 
-	public ArrayList<Kontinent> gibAlleKontinente() {
-		return worldMg.getKontinente();
-	}
-
-	public ArrayList<Player> gibAllePlayer() {
-		return playerMg.getPlayers();
-	}
-	// WELT AUSGABE <-
-
-	// ----------------------------------------einheiten-------------------------------------------------
 	public int errechneVerfuegbareEinheiten() {
 		int verfuegbareEinheiten = logik.errechneVerfuegbareEinheiten(turn.gibAktivenPlayer());
 		return verfuegbareEinheiten;
 	}
-	// ----------------------------------------einheiten-------------------------------------------------
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Start^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+	/*
+	 * geht den Besitzt des aktiven Spielers durch und schaut ob ein Land angreifen
+	 * kann
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#kannAngreifen()
+	 */
 	public boolean kannAngreifen() {
 		return logik.kannAngreifen(gibAktivenPlayer());
 	}
 
+	/*
+	 * wird benutzt um zu ueberpruefen ob das ausgewaehlte Land angreifen kann
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#attackLandGueltig(ris.common.
+	 * valueobjects.Land)
+	 */
 	public boolean attackLandGueltig(Land att) {
 		return logik.attackLandGueltig(att);
 	}
 
+	/*
+	 * wird benutzt um zu ueberpruefen ob man das ausgewaehlte Land angreifen kann
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#attackLandGueltig(ris.common.
+	 * valueobjects.Land)
+	 */
 	public boolean defenseLandGueltig(Land att, Land def) {
 		return logik.defenseLandGueltig(att, def);
 	}
@@ -280,20 +324,19 @@ public class Risiko implements RisikoInterface, Serializable {
 		return logik.moveUnitsGueltig(from, to, units);
 	}
 
-	public ArrayList<Land> getAngriffsLaender(Player angreifer) {
-		ArrayList<Land> moeglicheLaender = logik.getLaenderMitMehrAlsEinerEinheit(angreifer);
-		ArrayList<Land> attackLaender = logik.getLaenderMitFeindlichenNachbarn(angreifer, moeglicheLaender);
-		return attackLaender;
-	}
-
-	public ArrayList<Land> getFeindlicheNachbarn(Land attackLand) throws LandExistiertNichtException {
-		ArrayList<Land> feindlicheLaender = logik.getFeindlicheNachbarn(attackLand);
-		return feindlicheLaender;
-	}
-
-	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException, LandInBesitzException {
-		if(attLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
-			if(!defLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
+	/*
+	 * wird aufgerufen, wenn angreifer laender gewaehlt und einheiten eingegeben hat
+	 * danach bekommt der verteidiger bescheid, dass er eine anzahl an units
+	 * eingeben muss
+	 * 
+	 * @see
+	 * ris.common.interfaces.RisikoInterface#attackStart(ris.common.valueobjects.
+	 * Land, ris.common.valueobjects.Land, int)
+	 */
+	public void attackStart(Land attLand, Land defLand, int attUnits)
+			throws LandNichtInBesitzException, LandInBesitzException {
+		if (attLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
+			if (!defLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
 				logik.attackStart(attLand, defLand, attUnits);
 			} else {
 				throw new LandInBesitzException(defLand);
@@ -303,42 +346,40 @@ public class Risiko implements RisikoInterface, Serializable {
 		}
 	}
 
-	public int getDefLandUnits() {
-		return logik.getDefLandUnits();
-	}
-
 	public Attack attackFinal(int defUnits) {
 		return logik.attackFinal(defUnits);
 	}
 
-	public ArrayList<Integer> diceDefense(int defUnit) throws UngueltigeAnzahlEinheitenException {
-		return logik.diceDefense(defUnit);
+	public int getDefLandUnits() {
+		return logik.getDefLandUnits();
 	}
 
-	public ArrayList<Integer> diceAttack(int attUnit) throws UngueltigeAnzahlEinheitenException {
-		return logik.diceAttack(attUnit);
-	}
-	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Angriff_Ende^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^Einheiten
-	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	// verschieben^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 	public boolean kannVerschieben(Player player) {
 		return logik.kannVerschieben(player);
 	}
 
 	public void moveUnits(Land start, Land ziel, int menge) {
-			logik.moveUnits(start, ziel, menge);
+		logik.moveUnits(start, ziel, menge);
 	}
 
+//	***************************************SPEICHERN UND LADEN***************************************************
+
 	public void spielSpeichern(String datei) {
-//		System.out.println("bin sogar in Risiko " + datei);
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		fileMg.speichern(game, datei);
 	}
 
 	public String[] getSpielladeDateien() {
 //		in verzeichnis werden die dateien als string gespeichert 
+		/*
+		 * wir haben 10 Speicherplaetze in unserem Spiel wenn es mehr sind, muessen
+		 * diese noch manuell herausgeloescht werden
+		 */
 		String[] verzeichnis = new String[10];
 
 //		dann werden die dateien ausgelesen
@@ -351,11 +392,13 @@ public class Risiko implements RisikoInterface, Serializable {
 //			dann werden die dateien in den array geschrieben
 			int i = 0;
 			for (Path entry : stream) {
+//				if(i == 10) {
+//					throw new ZuVieleDateienException(11);
+//				}
 				verzeichnis[i] = entry.getFileName().toString();
 				i++;
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return verzeichnis;
@@ -364,89 +407,97 @@ public class Risiko implements RisikoInterface, Serializable {
 	public GameObject gameObjectLaden(String datei) {
 		FilePersistenceManager fileMg = new FilePersistenceManager();
 		GameObject gameSpeicher = fileMg.laden(datei);
-		// sobald das spiel vom ersten client geladen wird, wird boolean und geladenesSpiel gesetzt;
+//		sobald das spiel vom ersten client geladen wird, wird boolean und geladenesSpiel gesetzt;
 		this.spielWurdeGeladen = true;
 		this.geladenesSpiel = gameSpeicher;
 		return gameSpeicher;
 	}
-	
+
 	public void spielLaden(String datei) throws SpielerNameExistiertBereitsException, LandExistiertNichtException {
-//		FilePersistenceManager fileMg = new FilePersistenceManager();
-//		GameObject gameSpeicher = fileMg.laden(datei);
 		if (geladenesSpiel != null) {
 			game.setAllePlayer(geladenesSpiel.getAllePlayer());
+			game.setSpielstand(turn);
 			turn = geladenesSpiel.getSpielstand();
-//			Jeder geladene Spieler muss erst dem Playermanagement hinzugefuegt werden
+
 			for (int i = 0; i < game.getAllePlayer().size(); i++) {
+//			    Jeder geladene Spieler muss erst dem Playermanagement hinzugefuegt werden
 				Player loadedPlayer = game.getAllePlayer().get(i);
 				playerMg.addPlayer(loadedPlayer.getName(), loadedPlayer.getFarbe(), loadedPlayer.getNummer());
-				
+
 //				im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
 				playerMg.getPlayers().get(i).setMission(loadedPlayer.getMissionObject());
-				
+
 //				und die Risikokarten
 				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
 				}
-				
+
 //				und fuer jedes Land werden die Einheiten neu gesetzt
 				for (Land loadedLand : loadedPlayer.getBesitz()) {
 					Land land = null;
-						land = worldMg.getLandById(loadedLand.getNummer());
+					land = worldMg.getLandById(loadedLand.getNummer());
 					try {
-						//einheiten - 1, da jedes land per default eine einheit besitzt
-						land.setEinheiten(loadedLand.getEinheiten()-1);
+						// einheiten - 1, da jedes land per default eine einheit besitzt
+						land.setEinheiten(loadedLand.getEinheiten() - 1);
 						land.setBesitzer(loadedPlayer);
 					} catch (UngueltigeAnzahlEinheitenException e) {
-						// TODO Auto-generated catch block
+						System.err.println("Fehler beim Laden.");
 						e.printStackTrace();
 					}
 				}
-				
+
 //				die farbe von jedem player wird dem colorArray hinzugefuegt
 				playerMg.setColorArray(loadedPlayer.getFarbe());
 			}
-			System.out.println("eigentlich fertig geladen");
 		} else {
-			System.out.println("datei wohl = null");
+			System.err.println("Die geladene Datei ist leer");
 		}
 	}
-	
-	public GameObject getGeladenesSpiel(){
-		//gibt geladenes Spiel zurück
+
+//  gibt geladenes Spiel zurueck
+	public GameObject getGeladenesSpiel() {
 		return geladenesSpiel;
 	}
+
 	@Override
 	public boolean spielWurdeGeladen() {
 		return this.spielWurdeGeladen;
 	}
+	
+	public void spielLadenTrue() {
+		spielWurdeGeladen = true;
+	}
+
+
+	/*
+	 * Methode wird aufgerufen, wenn sich ein Spieler beim Laden anmeldet, daher
+	 * wird erst inkrementiert und der neue Wert zurueckgegeben
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#wieVieleSpielerImGame()
+	 */
 	public int wieVieleSpielerImGame() {
-		System.out.println("wievieleSpieler im spiel und was ist hier los risiko");
-		for(Player play : getPlayerArray()){
-			System.out.println(play.getName());
-			System.out.println(play.getNummer());
-		};
 		return ++spielerGeladen;
 	}
 
-	public void setEinheiten(Land land, int units) throws UngueltigeAnzahlEinheitenException {
-		land.setEinheiten(units);
-	}
-
 //	'''''''''' PlayerManagement ''''''''''''''''
+	/*
+	 * gibt alle verfuegbaren farben (String) fuer das anmelden im spiel 
+	 * @see ris.common.interfaces.RisikoInterface#getFarbauswahl()
+	 */
 	public ArrayList<String> getFarbauswahl() {
 		return playerMg.getFarbauswahl();
 	}
 
-	public void setFarbeAuswaehlen(String farbe) { // hier string
+	public void setFarbeAuswaehlen(String farbe) { 
 		playerMg.menuFarbeAuswaehlen(farbe);
 	}
 
 	/*
-	 * Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer vom 
-	 * gewuenschten spieler eintragen), damit die entsprechende Spielerfarbe erscheint.
-	 * @see ris.common.interfaces.RisikoInterface#getColorArray()
+	 * Gibt alle verwendeten Farben (RGB) der Spieler zurueck.
+	 * Man muss einfach nur risiko.getColorArray().get(und hier die Spielernummer
+	 * vom gewuenschten spieler eintragen), damit die entsprechende Spielerfarbe
+	 * erscheint.
 	 */
 	public ArrayList<Color> getColorArray() {
 		return playerMg.getColorArray();
@@ -456,31 +507,23 @@ public class Risiko implements RisikoInterface, Serializable {
 		playerMg.setColorArray(farbe);
 	}
 
-	public boolean getRichtigeEingabe() {
-		return playerMg.getRichtigeEingabe();
-	}
 
-	// test main
-//	public static void main(String[] args) {
-//		Risiko test = new Risiko();
-//		test.PlayerAnlegen("a", "rot", 0);
-//		test.PlayerAnlegen("b", "gruen", 1);
-////		test.verteileMissionen();
-////		test.getPlayerArray().get(0).getMission();
-//		
-//	}
-	// TODO: @tobi nach jeder rund einbinden?? Spieler aus Array lï¿½schen
+	// TODO: muss noch implementiert werden
 	public boolean isPlayerDead(Player play) {
 		return play.isDead();
 	}
 
+	
+	/*
+	 * ab hier Methoden aus RisikoInterface, die auf Client-Seite gebraucht werden
+	 * Fehlermeldung, wenn diese nicht im Interface auftauchen
+	 * 
+	 * @see ris.common.interfaces.RisikoInterface#allUpdate(java.lang.String)
+	 */
 	@Override
 	public void allUpdate(String ereignis) {
-		// TODO Auto-generated method stub
-
+	
 	}
-
-
 
 	@Override
 	public void aksForServerListenerNr() {
@@ -512,15 +555,11 @@ public class Risiko implements RisikoInterface, Serializable {
 		return null;
 	}
 
-	public void spielLadenTrue() {
-	System.out.println("spiel wurde geladen risikpo ");
-		spielWurdeGeladen = true;
-	}
 
 	@Override
 	public void spielerWurdeGeladen() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 }

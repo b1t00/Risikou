@@ -85,9 +85,6 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				return;
 			}
 			switch (input) {
-//			case "":
-//				System.out.println("etwas wurde eingelesen");
-//				break;
 			case "enableStartBtn":
 				client.setEnableNeuesSpielbtn(false);
 				break;

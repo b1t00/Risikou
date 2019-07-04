@@ -345,7 +345,14 @@ public class Spiellogik implements Serializable{
 		Land defLand = attackObjekt.getDefLand();
 		int anzahlAttUnits = attackObjekt.getAnzahlAttUnits();
 		
-		//buBlock speichert die Anzahl der blockierten Einheiten vom AngriffsLand
+		/*
+		 * buBlock speichter die Anzahl der blockierten Einheiten zu jedem Land
+		 * (blockiert sind Einheiten, wenn sie schon einmal angegriffen haben)
+		 * vor der Auswertung des Kampfes, muss die Anzahl der jetzt angreifenden
+		 * Einheiten abgezogen werden, damit bei Verlust oder Verschieben der Einheiten
+		 * und einem Verbleib von weniger Einheiten als im buBlock vermerkt,
+		 * der buBlock fuer das entsprechende Land automatisch "geleert" ist.
+		 */
 		int buBlock = attacker.getBlock()[attLand.getNummer()];
 		if (buBlock > 0) {
 			if (buBlock - anzahlAttUnits >= 0) {
@@ -355,30 +362,24 @@ public class Spiellogik implements Serializable{
 				attacker.setBlock(attLand.getNummer(), -attacker.getBlock()[attLand.getNummer()]);
 			}
 		}
-		
-		
-		// Methode diceAttack und diceDefense geben pro Unit einen zufälligen Wert zwischen 1 und 6 in einer ArrayList zurück
+			
+		// Methode diceAttack und diceDefense geben pro gesetzter Unit einen zufaelligen Wert zwischen 1 und 6 in einer ArrayList zurueck
 		ArrayList<Integer> attList = null;
+		ArrayList<Integer> defList = null;
 		try {
 			attList = diceAttack(anzahlAttUnits);
 			attackObjekt.setAttUnits(attList);
-		} catch (UngueltigeAnzahlEinheitenException e) {
-			e.printStackTrace();
-		}
-		ArrayList<Integer> defList = null;
-		try {
 			defList = diceDefense(defUnits);
 			attackObjekt.setDefUnits(defList);
 		} catch (UngueltigeAnzahlEinheitenException e) {
 			e.printStackTrace();
 		}
 
-		// ergebnis ist ein Array[2]: an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten (Werte sind negativ
+		// result ist ein Array[2]: an 1. Stelle die verlorenen attack-Einheiten, an 2. die verlorenen defense-Einheiten (Werte sind negativ)
 		ArrayList<Integer> result = null;
 		result= diceResults(attList, defList);
 		attackObjekt.setResult(result);
 			
-		//das Spielfeld wird dem Ergebnis des Angriff angepasst
 		//dem attack land werden die einheiten abgezogen, die einheiten vom defland weiter unten, falls alle einheiten verloren gehen und diese somit 0 werden wuerden
 		try {
 			attLand.setEinheiten(result.get(0));
@@ -389,9 +390,8 @@ public class Spiellogik implements Serializable{
 		
 		/*
 		 * wurde das Land nicht erobert, wird der alte Wert an 
-		 * Blockierten Einheiten - die verlorenen Einheiten wieder in das Block-Array geschrieben
+		 * Blockierten Einheiten minus die verlorenen Einheiten wieder in das buBlock-Array geschrieben
 		 */
-		System.out.println("result get 1: " + result.get(1));
 		if (defLand.getEinheiten() + result.get(1) > 0) {
 			try {
 				defLand.setEinheiten(result.get(1));
@@ -402,8 +402,6 @@ public class Spiellogik implements Serializable{
 			if (buBlock + result.get(0) >= 0) {
 				int block = buBlock + result.get(0);
 				attacker.setBlock(attLand.getNummer(), block);
-			} else {
-				attacker.setBlock(attLand.getNummer(), 0);
 			}
 			//wer weniger einheiten verloren hat, gewinnt den kampf
 			if(result.get(0) > result.get(1)) {
@@ -422,7 +420,7 @@ public class Spiellogik implements Serializable{
 			try {
 				//erst werden einheiten des angreifers hinzuaddiert
 				defLand.setEinheiten(winUnits);
-				//dann einheiten des verteidigers abezogen (diese reihenfolge, damit die anzahl der einheiten nicht bei 0 landen)
+				//dann einheiten des verteidigers abezogen (diese reihenfolge, damit die anzahl der einheiten nicht bei 0 landet)
 				defLand.setEinheiten(result.get(1));
 				attLand.setEinheiten(-winUnits);
 			} catch (UngueltigeAnzahlEinheitenException e) {
@@ -432,17 +430,17 @@ public class Spiellogik implements Serializable{
 			attackObjekt.setLoser(defender);
 			attackObjekt.setWinner(attacker);
 			
-			//das Land wird beim verlierer gelöscht und dem Sieger hinzugefügt
+			//das Land wird beim verlierer geloescht und dem Sieger hinzugefuegt
 			defender.setBesitz(defLand);
 			attacker.setBesitz(defLand);
 			//der Besitzer des eroberten Landes wird aktualisiert
 			defLand.setBesitzer(attacker);
 
-			// setzt bei erobertem Land die beteiligten Einheiten auf Block
+			//setzt bei erobertem Land die beteiligten Einheiten auf Block
 			attacker.setBlock(defLand.getNummer(), defLand.getEinheiten());
 
-			// setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
-			// ende des Zuges ziehen kann
+			//setzt beim gewinner den gutschriftEinheitenkarte auf true, damit er diese am
+			//ende des Zuges Risikokarte ziehen kann
 			attacker.setGutschriftEinheitenkarte(true);
 		}	
 		return attackObjekt;		
@@ -573,7 +571,7 @@ public class Spiellogik implements Serializable{
 				lossAtt = lossAtt - 1;
 		}
 		
-		//bei insgesamt 2 Würfeln pro Person
+		//bei insgesamt 2 Wuerfeln pro Person
 		if (defList.size() == 2) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
@@ -585,7 +583,7 @@ public class Spiellogik implements Serializable{
 				lossAtt = lossAtt - 1;
 		}
 	
-		//bei insgesamt 3 Würfeln pro Person
+		//bei insgesamt 3 Wuerfeln pro Person
 		if (defList.size() == 3) {
 			if (aList.get(0) > defList.get(0))
 				lossDef = lossDef - 1;
