@@ -366,7 +366,7 @@ public class Risiko implements RisikoInterface, Serializable {
 
 				// im anschluss werden die Laender entsprechend verteilt
 				playerMg.getPlayers().get(i).addLaender(loadedPlayer.getBesitz());
-//				playerMg.getPlayers().get(i).setMission(loadedPlayer.getMissionObject());
+				playerMg.getPlayers().get(i).setMission(loadedPlayer.getMissionObject());
 				// und die Risikokarten
 				for (Risikokarte karte : loadedPlayer.getEinheitenkarten()) {
 					playerMg.getPlayers().get(i).setEinheitenkarte(karte);
