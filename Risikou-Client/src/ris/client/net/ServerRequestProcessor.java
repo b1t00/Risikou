@@ -104,6 +104,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 //				client.removeLoginPanel();
 				client.showGamePanel();
 				break;
+			case "initializeFromLaden":
+				client.initializeFromLaden();
+				break;
 			case "anDerReihe":
 				client.showQuestion();
 				break;

@@ -109,4 +109,12 @@ public interface RisikoInterface {
 	public GameObject gameObjectLaden(String datei);
 	
 	public GameObject getGameDatei();
+
+	public GameObject getGeladenesSpiel();
+
+	public boolean spielWurdeGeladen();
+
+	public int wieVieleSpielerImGame();
+
+	public void spielerWurdeGeladen();
 }

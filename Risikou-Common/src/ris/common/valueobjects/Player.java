@@ -10,15 +10,15 @@ public class Player implements Serializable {
 	private String name;
 	private String farbe;
 	private int nummer;
-	private Mission mission; 
+	private Mission mission;
 	private ArrayList<Risikokarte> gezogeneRisikokarten;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
 	int[] uBlock = new int[42];
 	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
 	private boolean gutschriftEinheitenkarte = false;
-	
+
 	private boolean kartenWurdenEntfernt = false;
-	
+
 	private ArrayList<Symbol> dreiAusgewaehltenKarten = new ArrayList<Symbol>();
 
 	public Player(String name, String farbe, int nummer) {
@@ -41,7 +41,12 @@ public class Player implements Serializable {
 	}
 
 	public String getMission() {
-		return mission.getMission();
+//		return mission.getMission();
+		return "dies das verschiedene Dinge";
+	}
+
+	public Mission getMissionObject() {
+		return this.mission;
 	}
 
 	public Boolean isMissionComplete(Player aktiverPlayer) {
@@ -112,11 +117,11 @@ public class Player implements Serializable {
 			inBesitz.add(land);
 		}
 	}
-	
-	//TODO: nochmal exceptions checken
+
+	// TODO: nochmal exceptions checken
 	public Land getLandById(int i) {
-		for(Land l : inBesitz) {
-			if(l.getNummer() == i) {
+		for (Land l : inBesitz) {
+			if (l.getNummer() == i) {
 				return l;
 			}
 		}
@@ -173,19 +178,23 @@ public class Player implements Serializable {
 		}
 		return reihe;
 	}
-	
+
 	public boolean mussTauschen() {
-		if(gezogeneRisikokarten.size() > 4) {
+		if (gezogeneRisikokarten.size() > 4) {
 			return true;
 		}
 		return false;
 	}
-	
+
 // wird nicht benutzt die methode
 	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
-		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { //alle sind gleich 
+		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { // alle
+																														// sind
+																														// gleich
 			return true;
-		} else if (arry.get(0).getSymbol() != arry.get(1).getSymbol() && arry.get(0).getSymbol() != arry.get(2).getSymbol() && arry.get(1).getSymbol() != arry.get(2).getSymbol()) { // alle sind unterschiedlich
+		} else if (arry.get(0).getSymbol() != arry.get(1).getSymbol()
+				&& arry.get(0).getSymbol() != arry.get(2).getSymbol()
+				&& arry.get(1).getSymbol() != arry.get(2).getSymbol()) { // alle sind unterschiedlich
 			return true;
 		} else {
 			kartenWurdenEntfernt = false;
@@ -231,19 +240,19 @@ public class Player implements Serializable {
 //		}
 //		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
 //	}
-	
+
 	public void removeKarten(ArrayList<Risikokarte> kicked) {
 		System.out.println("---------");
-		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
-			for(Risikokarte kick: kicked) {
-				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
+		for (int i = 0; i < this.gezogeneRisikokarten.size(); i++) {
+			for (Risikokarte kick : kicked) {
+				if (this.gezogeneRisikokarten.get(i).getLand().equals(kick.getLand())) {
 					this.gezogeneRisikokarten.remove(kick);
 				}
 			}
 			kartenWurdenEntfernt = true;
 		}
 	}
-	
+
 	public boolean getKartenWurdenEntfernt() {
 		return kartenWurdenEntfernt;
 	}
