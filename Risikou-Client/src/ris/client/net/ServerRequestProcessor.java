@@ -11,29 +11,29 @@ import ris.common.valueobjects.Land;
 import ris.common.valueobjects.State;
 import ris.common.valueobjects.State;
 
+/**
+ * @class Klasse die die ganze Zeit "zuhoert" und update prozesse fuer alle
+ *        Clients annimmt
+ *
+ */
 public class ServerRequestProcessor implements ServerListener, Runnable {
 	private RisikoClientGUI client;
-//	private Socket socket;
 	private ObjectInputStream sin;
 	private BufferedReader in;
+	private boolean doNotListenMode = false;
+	private boolean waitingForServer = false;
 
 	public ServerRequestProcessor(ObjectInputStream sin, BufferedReader in, RisikoClientGUI client) {
 		this.in = in;
 		this.client = client;
-//		try {
-//			socket = new Socket(host, port);
-//			InputStream is = socket.getInputStream();
 		this.sin = sin;
-
-//					new ObjectInputStream(is);
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
-	private boolean doNotListenMode = false;
-
+	/*
+	 * Der DoNotListenMode setzt die WhileSchleife so, dass SRP keinen Input mehr
+	 * erwartet und somit nicht mehr "zuhoert" ob updates kommen Somit sollte die
+	 * RisikoFassade mit Server kommunizieren koennen
+	 */
 	public void setDoNotListenMode(boolean mode) {
 		doNotListenMode = mode;
 	}
@@ -42,15 +42,17 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 		return doNotListenMode;
 	}
 
-	private boolean waitingForServer = false;
-
+	/*
+	 * Methode die RisikoFassade verraet ob der ServerRequestProzessor auf einen
+	 * Input wartet oder nicht
+	 */
 	public boolean isWaitingForServer() {
 		return waitingForServer;
 	}
 
 	@Override
 	public void run() {
-		System.out.println("bin bereit für infous!");
+		System.out.println("bin bereit für infos!");
 		try {
 			String input = sin.readObject().toString();
 			System.out.println("should read ready for battle: " + input);
@@ -59,11 +61,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 		}
 		while (true) {
 			if (doNotListenMode) {
-				//System.out.println("ich höre nicht zu");
 				try {
 					Thread.sleep(25); // rennt zu schnell dadurch, wenn er nichts zum verarbeiten hat
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				continue;
@@ -71,17 +71,15 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			String input = "";
 			// Aktionen vom Server werden eingelesen und verarbeitet
 			try {
-//				synchronized (sin) {
-					waitingForServer = true;
-					System.out.println("warte auf server");
-					input = sin.readObject().toString();
-					System.out.println("got input " + input);
-					waitingForServer = false;
-//				}
+				waitingForServer = true;
+				System.out.println("warte auf server");
+				input = sin.readObject().toString();
+				System.out.println("got input " + input);
+				waitingForServer = false;
 			} catch (Exception e) {
-				System.out.println("--->Fehler beim Lesen vom Server (Aktion): ");
-				System.out.println(e.toString());
-				System.out.println(e.getMessage());
+				System.err.println("--->Fehler beim Lesen vom Server (Aktion): ");
+				System.err.println(e.toString());
+				System.err.println(e.getMessage());
 				return;
 			}
 			switch (input) {
@@ -94,14 +92,8 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 			case "spielEintreitenBtn":
 				client.setSpielEintreitenBtn();
 				break;
-			case "spielWurdeAngefanen":
-				// TODO:
 			case "initializeGamePanel":
-//				client.removeLoginPanel();
 				client.showGamePanel();
-				break;
-			case "initializeFromLaden":
-				client.initializeFromLaden();
 				break;
 			case "anDerReihe":
 				client.setCurrentState(State.SETUNITS);
@@ -112,34 +104,27 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				break;
 			case "updateDialog":
 				String ereignis = null;
-				synchronized (sin) {
-					try {
-						ereignis = sin.readObject().toString();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				try {
+					ereignis = sin.readObject().toString();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
 				}
 				client.updateDialog(ereignis);
-				break;	
+
+				break;
 			case "updateDialog(Land)":
 				String land = null;
 				String player = null;
-//				synchronized (sin) {
-					try {
-						land = sin.readObject().toString();
-						player = sin.readObject().toString();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-//				}
+				try {
+					land = sin.readObject().toString();
+					player = sin.readObject().toString();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 				client.updateDialogSetUnit(land, player);
 				client.updateWorld();
 				break;
@@ -154,10 +139,8 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					unit = Integer.parseInt(sin.readObject().toString());
 					verschieber = sin.readObject().toString();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				client.updateWorld();
@@ -168,24 +151,18 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				String defLand = null;
 				String attacker = null;
 				String defender = null;
-//				int defLandUnits = 0;
 				try {
 					try {
 						attLand = (String) sin.readObject();
 						defLand = (String) sin.readObject();
 						attacker = (String) sin.readObject();
 						defender = (String) sin.readObject();
-//						defLandUnits = Integer.parseInt( (String) sin.readObject());
 					} catch (NumberFormatException | ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//					System.out.println("angreifer : " + attacker + "verteidiger :" + defender);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				client.setAttackPlayer(attLand, defLand, attacker, defender);
 				break;
 			case "attackFinal":
@@ -193,13 +170,9 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				try {
 					attackObjekt = (Attack) sin.readObject();
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				client.updateAttack(attackObjekt);
-				///client.setAttackPlayer(attacker, defender);
-				//setDoNotListenMode(false);
-			//	System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				break;
 			case "Tschuess!":
 				client.disconnect();
@@ -209,7 +182,6 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				try {
 					gewinner = (String) sin.readObject();
 				} catch (ClassNotFoundException | IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				client.showWinner(gewinner);
@@ -218,10 +190,13 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				System.out.println("etwas wurde eingelesen: " + input);
 				break;
 			}
-
 		}
 	}
 
+	/*
+	 * Methoden vom Interface welche nicht genutzt werden
+	 * @see ris.common.interfaces.ServerListener#handleEvent(java.lang.String)
+	 */
 	@Override
 	public void handleEvent(String e) {
 		// TODO Auto-generated method stub
@@ -231,19 +206,19 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 	@Override
 	public void schickeObjekt(Attack aO) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void schickeReinesObject(Object o) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void beendeVerbindung() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

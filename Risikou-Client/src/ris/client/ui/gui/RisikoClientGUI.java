@@ -129,31 +129,23 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private State currentState;
 
 	public RisikoClientGUI(String host, int port) {
-
-		zweitausendaLook();
+		neunzigerlook();
 		try {
 			socket = new Socket(host, port);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		risiko = new RisikoFassade(socket, this);
-
 		initializeLoginPl();
-//		testSetUp(); // legt drei spieler an. zum testen
-//		showGamePanel(); // TODO: nur zum testen. wird mit Login dialog aber nicht aufgerufen
 	}
 
 	private void initializeLoginPl() {
 		// LOGIN
 		loginPl = new LoginPanel(this);
-		
 		wieVielePl = new WieVieleSpielerPanel(this, risiko);
-//		neuerSpielerPl = new NeuerSpielerPanel(risiko, this);
 		Container c = this.getContentPane();
 		c.add(loginPl);
 		setSize(new Dimension(340, 340)); // größe vom Loginpanel
-//		pack();
 		setLocationRelativeTo(null); // setzt Jframe in die Mitte vom Bildschirm
 		setVisible(true);
 		risiko.aksForServerListenerNr();
@@ -168,15 +160,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		System.out.println("GUI mein name ist " + name);
 		System.out.println("meine nummer ist " + spielerNummer);
 		
-//		risiko.spielAufbau();
 		Toolkit tk = Toolkit.getDefaultToolkit();
-//		int xSize = ((int) tk.getScreenSize().getWidth());
 		int xSize = 1400;
-		System.out.println("die hoehe vom spiel :" + xSize);
 		int ySize = 900;
-//		int ySize = ((int) tk.getScreenSize().getHeight());
-
-		System.out.println("die hoehe vom spiel :" + ySize);
 
 		setLocation(0, 0); // setzt Jframe wieder nach links oben (nicht mehr in die mitte)
 		this.setSize(xSize, ySize);
@@ -184,7 +170,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		this.setVisible(true);
 		this.setTitle("Risiko");
 
-//		this.setSize(945,1750);
 		// ermoeglicht das schliessen des fensters
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -218,27 +203,12 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 		this.add(gamePl);
 		dicePl = new DicePanel();
-//		container.add(dicePl, "dice");
 		this.setVisible(true);
-	}
-	
-	public void initializeFromLaden() {
-		System.out.println("GUI mein name ist " +  name);
-		System.out.println("GUI meine spielerNr ist " + spielerNummer);
-		System.out.println("GUI meine serverListenerNr ist " + sListenerNr);
-		if(name.equals(risiko.gibAktivenPlayer().getName())) {
-			System.out.println("ich bin der aktive spieler");
-		} else {
-			System.out.println("ich bin passiver Spieler");
-		}
-		
-		// TODO: hier muss vom laden gesztarzez werden
-		
 	}
 
 	public void showGamePanel() {
 		if(name == null) {
-			System.out.println("ich hab keinen namen"); // TODO: Methode um socket verbindung zu trennen und sorry spiel voll panel anzuzeigen
+			System.err.println("ich hab keinen namen"); 
 		} else {
 		initializeGamePl();
 		worldPl = new WorldPanel(this, risiko, spielerNummer);
@@ -246,24 +216,18 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		showPanel(gamePl);
 		showIndividuellesPanel();
 		}
-//		showQuestion();
 	}
 
-
-	// je nach spielphase wird ein anderes panel im container-panel angezeigt
+//	je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
-		System.out.println("show Question <-------------");
 		switch (currentState) {
 //		switch (risiko.getCurrentState()) {
 		case SETUNITS:
-			System.out.println("set units funktioniert");
 			eintauschPl = new EintauschPanel(this, risiko);
-			System.out.println("??");
 			container.add(eintauschPl, "eintausch");
 			cl.show(container, "eintausch");
 			break;
 		case ATTACK:
-			System.out.println("aaaaaaaataaaaaaaaaack");
 			if (risiko.kannAngreifen()) {
 				attackQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
 				container.add(attackQuestionPl, "attackQuestion");
@@ -277,8 +241,6 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			break;
 		case CHANGEUNITS:
 			if (risiko.kannVerschieben(risiko.gibAktivenPlayer())) {
-				
-				System.out.println("kann ich verschieben GUI <-----------------------????????????????????????????ß");
 				moveUnitsQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
 				container.add(moveUnitsQuestionPl, "moveUnitsQuestion");
 				cl.show(container, "moveUnitsQuestion");
@@ -292,37 +254,30 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
-//				showQuestion();
 			}
 			break;
-		default:
-			// TODO
-			break;
 		}
 	}
-
-	@Override
-	public void eintauschButtonClicked(String answer) {
-		if (answer.equals("setzen")) {
-			System.out.println("show set uniiiits");
-			showSetUnits();
-//			risiko.allUpdate("setUnits");
-		} else {
-			cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
-			container.add(cardRequestPl, "cardRequest");
-			cl.show(container, "cardRequest");
-			risiko.setTauschZeit(true);
-		}
-	}
-
+	
 	public void showSetUnits() {
-//		dialogPl.update("setUnits");
 		int units = risiko.errechneVerfuegbareEinheiten();
 		System.out.println("Verfügbare Einheiten: " + units);
 		setUnitsPl = new SetUnitsPanel(units, risiko);
 		container.add(setUnitsPl, "setUnits");
 		cl.show(container, "setUnits");
 		risiko.setLandClickZeit(true);
+	}
+
+	@Override //actionlistener eintauschPanel
+	public void eintauschButtonClicked(String answer) {
+		if (answer.equals("setzen")) {
+			showSetUnits();
+		} else {
+			cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
+			container.add(cardRequestPl, "cardRequest");
+			cl.show(container, "cardRequest");
+			risiko.setTauschZeit(true);
+		}
 	}
 
 	@Override // question panel
@@ -336,11 +291,10 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 	}
 
-	@Override // question panel
-	// antwortListener vom Question Panel
+	@Override 	// antwortListener vom Question Panel
 	public void answerSelected(boolean answer) {
 		if (answer) {
-			// wenn mit ja geantwortet wird:
+//			wenn mit ja geantwortet wird:
 			switch (currentState) {
 //			switch (risiko.getCurrentState()) {
 			case SETUNITS:
@@ -489,18 +443,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		}
 	}
 
-	public void continueSetUnits() {
-		if (risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
-			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
-				setUnitsPl.update();
-			} else {
-				risiko.setLandClickZeit(false);
-				currentState = currentState.setNextState();
-				risiko.setNextState();
-				showQuestion();
-			}
-		}
-	}
+
 
 	@Override // worldlistener
 	public void countryClicked(Land land) {
@@ -654,6 +597,19 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
+				showQuestion();
+			}
+		}
+	}
+	
+	public void continueSetUnits() {
+		if (risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
+			if (setUnitsPl.getVerfuegbareEinheiten() > 0) {
+				setUnitsPl.update();
+			} else {
+				risiko.setLandClickZeit(false);
+				currentState = currentState.setNextState();
+				risiko.setNextState();
 				showQuestion();
 			}
 		}
@@ -846,7 +802,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		risikoKartenTPl.setUp();
 	}
 
-	public void zweitausendaLook() {
+	public void neunzigerlook() {
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.motif.MotifLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
