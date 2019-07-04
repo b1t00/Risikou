@@ -121,14 +121,13 @@ public class RisikokartenPanel extends JPanel {
 //					}
 //			}
 //				aber deses brauchen wir schon nech
-//				for(KartenButton kb : ausgeWahlteKarten) { 
-//					System.out.println("remove karte");
-//							kb.setAusgewaehlt(false);
-//							kb.setUp();
-//							this.remove(kb);
-//							kb.repaint();
-//				}
-				this.setUp();
+				for(KartenButton kb : ausgeWahlteKarten) { 
+					System.out.println("remove karte");
+							kb.setAusgewaehlt(false);
+							kb.setUp();
+							this.remove(kb);
+							kb.repaint();
+				}
 				listener.combiAusgewaehlt(risikokartenWahl);
 				listener.updateKartenpanel();
 				return true;
