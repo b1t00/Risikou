@@ -221,6 +221,18 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		container.add(dicePl, "dice");
 		this.setVisible(true);
 	}
+	
+	public void initializeFromLaden() {
+		System.out.println("GUI mein name ist " +  name);
+		System.out.println("GUI meine spielerNr ist " + spielerNummer);
+		System.out.println("GUI meine serverListenerNr ist " + sListenerNr);
+		if(name.equals(risiko.gibAktivenPlayer().getName())) {
+			System.out.println("ich bin der aktive spieler");
+		} else {
+			System.out.println("ich bin passiver Spieler");
+		}
+		
+	}
 
 	public void showGamePl() {
 		this.add(gamePl);
@@ -670,13 +682,16 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 	
 	public void showWerBistDuPanel() {
+		werBistPl = new werBistDuPanle(this,risiko);
 		this.pack();
 		werBistPl = new werBistDuPanle(this, risiko);
 		showPanel(werBistPl);
+		werBistPl.setSize(new Dimension(340, 340));
 	}
 
 	public void showLadePanel() {
 		ladePl = new LadePanel(this, risiko);
+		System.out.println("wo hab ich probleme?");
 		showPanel(ladePl);
 	}
 
@@ -893,8 +908,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		spielLadenTrue();
-//		werBistPl = new werBistDuPanle(this,risiko);
+		
 		System.out.println("hier gehts weiter mit wer bist du ");
 		showWerBistDuPanel();
 //		showGamePanel();
@@ -917,12 +931,17 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 	}
 
+	public boolean spielWurdeGeladen() {
+		return risiko.spielWurdeGeladen();
+	}
+	
+
 	@Override
 	public void spielerLaden(String name, int spielerNr) {
 		this.name = name;
 		this.spielerNummer = spielerNr;
-		
-		risiko.kannSpielGeladenWerden();
+		risiko.spielerWurdeGeladen();
+//		initializeGamePl(); 
 	}
 
 	public void setAttackPlayer(String attLand, String defLand, String attacker, String defender) {
@@ -979,9 +998,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void setSpielgeladenTrue() {
 		spielGeladenTrue = true;
 	}
-	public boolean spielWurdeGeladen() {
-		return spielGeladenTrue;
-	}
+
+
+
 
 
 

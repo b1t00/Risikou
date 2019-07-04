@@ -395,14 +395,11 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "spielLaden":
 				String datei = null;
-				GameObject ladeDatei = null;
+			
 				try {
 					datei = in.readLine();
-					ladeDatei = risiko.gameObjectLaden(datei);
-					oos.reset();
-					oos.writeObject(ladeDatei);
-					oos.reset();
-
+					risiko.gameObjectLaden(datei);
+				
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -418,6 +415,43 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "kannSpielGeladenWerden":
 				kannSpielGeladenWerden();
+				break;
+			case "getGameDatei":
+				GameObject ladeDatei = null;
+				ladeDatei = risiko.getGeladenesSpiel();
+				try {
+					oos.reset();
+					oos.writeObject(ladeDatei);
+					oos.reset();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
+			case "spielWurdeGeladen" :
+				try {
+					oos.reset();
+					oos.writeObject(risiko.spielWurdeGeladen());
+					oos.reset();
+				} catch (IOException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				break;
+			case "spielerWurdeGeladen":
+				int geladeneSpieler = risiko.wieVieleSpielerImGame();
+				System.out.println("so viele spieler gibt es " + risiko.getGeladenesSpiel().getAllePlayer().size());
+				System.out.println("so viele spieler bis jetyt " + geladeneSpieler);
+				
+				if(geladeneSpieler == risiko.getGeladenesSpiel().getAllePlayer().size()) {
+					
+//						risiko.spielAufbau();
+						for (ServerListener sl : allServerListeners) {
+							sl.handleEvent("initializeFromLaden");
+							
+						}
+					
+				};
 				break;
 			case "getLandClickZeit":
 				try {
