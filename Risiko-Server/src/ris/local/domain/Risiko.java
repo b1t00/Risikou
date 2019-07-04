@@ -44,6 +44,7 @@ public class Risiko implements RisikoInterface, Serializable {
 	private boolean spielWurdeGeladen = false;
 	private GameObject geladenesSpiel = null;
 	private int spielerGeladen = 0;
+	boolean gameNotReady = false;
 
 	public Risiko() {
 		worldMg = new WorldManagement();
@@ -564,6 +565,31 @@ public class Risiko implements RisikoInterface, Serializable {
 	public void spielerWurdeGeladen() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public void setSpeicherButtonDisable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean gameNotReady() {
+		return gameNotReady;
+	}
+
+	@Override
+	public void spielNotReady() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSpielNotReady() {
+		gameNotReady = true;
+	}
+	public void setSpielReady() {
+		gameNotReady = false;
 	}
 
 }

@@ -954,4 +954,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 		
 	}
 
+	public boolean gameNotReady() {
+		return risiko.gameNotReady();
+	}
+
+	public void spielNotReady() {
+		risiko.spielNotReady();
+		
+	}
+
 }

@@ -46,7 +46,7 @@ public class DicePanel extends JPanel {
 	    	g.drawImage(wuerfel4, 0, 0, null);
 	    	g.drawImage(wuerfel5, 0, 0, null);
 	    	g.drawImage(wuerfel6, 0, 0, null);
-	    	
+	   }
 	
 	public void setAttack(Attack attObj) {
 		this.attObj = attObj;

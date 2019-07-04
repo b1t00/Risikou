@@ -7,14 +7,14 @@ Autors: Annie Berend
 	(Hannes Lesemann)
 
 INFO:	Risikospiel - Projekt für das Modul Progammieren 2 an der Hochschule Bremen
-	2019
+Jahr:	2019
 
 Benutzte Programmiersprache: 	Java JDK 8
 
-Anweisung:	MiniRisServer.java   in Risikou-Server/src/ris/server/net/MiniRisServer.java 
+Anweisung:	MiniRisServer.java   in - Risikou-Server/src/ris/server/net/MiniRisServer.java 
 		einmalig starten um Server zum Laufen zu bringen
 		
-		RisikoClientGUI.java in Risikou-Client/src/ris/client/gui/RisikoClientGUI.java
+		RisikoClientGUI.java in - Risikou-Client/src/ris/client/gui/RisikoClientGUI.java
 		pro Spieler starten
 
 Anmerkungen: 	-Es kann nur ein Spiel gleichzeitig laufen

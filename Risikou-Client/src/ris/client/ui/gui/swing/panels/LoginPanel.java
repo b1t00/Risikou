@@ -32,9 +32,13 @@ public class LoginPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				client.aktiveClientAskHowMany();
 				client.showNeuesSpielPanel();
+				client.spielNotReady();
 			}
 		});
 		this.add(spielStartenBtn);
+		if(gui.gameNotReady()) {
+			setEnableNeuesSpielbtn(false);
+		}
 		spielLadenBtn = new JButton("Spiel laden");
 		spielLadenBtn.addActionListener(new ActionListener() {
 
