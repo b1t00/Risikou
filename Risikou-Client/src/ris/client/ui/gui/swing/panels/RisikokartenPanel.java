@@ -73,7 +73,6 @@ public class RisikokartenPanel extends JPanel {
 //		this.setBackground(new Color(154, 87, 0)); // hier kann man hintegrund setzten
 	}
 
-	// Wenn 5 Karten vorhanden sind! TODO: in runden implementieren
 	public boolean manMussTauschen() {
 		for (KartenButton k : spielerKartenBtn) {
 			if (k.getKarte() == null) {
@@ -92,7 +91,6 @@ public class RisikokartenPanel extends JPanel {
 			System.out.println("ist karte ausgewaehlt? " + k.getAusgewaehlt());
 			if (k.getAusgewaehlt()) {
 				ausgeWahlteKarten.add(k);
-				System.out.println("adde eine karte");
 			}
 		}
 		if ((ausgeWahlteKarten.size() > 2)) { 
@@ -125,7 +123,6 @@ public class RisikokartenPanel extends JPanel {
 							kb.setUp();
 							this.remove(kb);
 							kb.repaint();
-							break;
 				}
 				listener.combiAusgewaehlt(risikokartenWahl);
 				listener.updateKartenpanel2();
