@@ -74,12 +74,6 @@ public class Player implements Serializable {
 		this.gutschriftEinheitenkarte = wert;
 	}
 
-	// müsste nicht statt gb direkt auf uBlock zugegriffen werden?
-//	public int[] setBlock(int[] gB, int indexLand, int units) {
-//		gB[indexLand] += units;
-//		return gB;
-//	}
-
 	public void setBlock(int indexLand, int units) {
 		uBlock[indexLand] += units;
 	}
@@ -105,11 +99,8 @@ public class Player implements Serializable {
 		return ausgabe;
 	}
 
-	// prüft, ob player land besitzt, wenn ja, löscht er es, wenn nein, fügt er es
-	// hinzu
+	// prueft, ob player land besitzt, wenn ja, löscht er es, wenn nein, fügt er es hinzu
 	public void setBesitz(Land land) {
-		// TODO: evtl. muss die equals methode überschrieben werden, damit contains
-		// funktioniert
 		if (inBesitz.contains(land)) {
 			inBesitz.remove(land);
 		} else {
@@ -127,8 +118,8 @@ public class Player implements Serializable {
 		return null;
 	}
 
-	// diese Methode beim Hinzufügen von einzelnen Ländern, wahrscheinlich
-	// überflüssig, erledigt sich mit setBesitz
+	// diese Methode beim Hinzufuegen von einzelnen Laendern, wahrscheinlich
+	// ueberfluessig, erledigt sich mit setBesitz
 	public void addLand(Land neuesLand) {
 		this.inBesitz.add(neuesLand);
 	}
@@ -139,8 +130,6 @@ public class Player implements Serializable {
 	}
 
 //	------------------------------------------RisikokartenKombi-----------------------------------------------------------------------
-	// TODO: diese beiden methoden können bestimmt vereinfacht werden und
-	// zusammengefasst werden
 
 	public int[] risikokartenKombi() {
 		// erstellt Array mit den Anzahlen der Risikokarten für die verschiedenen
@@ -239,6 +228,11 @@ public class Player implements Serializable {
 //		System.out.println("Karten wurden fertig eingetauscht, Anzahl: " + eingetauscht);
 //	}
 
+	
+	/*
+	 * mit dieser methode werden die risikokarten entfernt, wenn sie eingetauscht wurden
+	 * dies passiert mit einem array der laender, die auf den risikokarten stehen
+	 */
 	public void removeKarten(ArrayList<Land> kicked) {
 		System.out.println("---------");
 		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {

@@ -119,7 +119,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private UnitNumberPanel moveNumberPl;
 
 	private JPanel gamePl;
-	
+	/*
+	 * Die lokslr Speicherung der Variable currentState im Client ist eine Notloesung, da die Abfrage des currentStates von 
+	 * Risiko immer wieder zu Problemen gefuehrt hat. Aufgrund von Zeitknappheit konnte der Fehler nicht weiter gesucht 
+	 * werden. Damit das Spiel nicht immer wieder aus diesem Grund abstuerzt, haben wir uns dazu entschieden, die Variable 
+	 * im Client zu speichern, was natuerlich zu Probleme fuehren kann, wenn die Methode risiko.setNextState() nicht korrekt 
+	 * ausgefuehrt wird.
+	 */
 	private State currentState;
 
 	public RisikoClientGUI(String host, int port) {
