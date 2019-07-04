@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -47,7 +48,7 @@ public interface RisikoInterface {
 
 	public boolean defenseLandGueltig(Land attacker, Land defender);
 	
-	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException;
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException, LandInBesitzException;
 	
 	public int getDefLandUnits();
 	
@@ -114,5 +115,7 @@ public interface RisikoInterface {
 	public void spielLadenTrue();
 
 	public void kannSpielGeladenWerden();
+
+	public ArrayList<Land> getLaender();
 
 }

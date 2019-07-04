@@ -28,6 +28,7 @@ public class WorldPanel extends JPanel {
 	private Land moveLand2;
 	private int attackState;
 	private int moveState;
+	private ArrayList<Land> alleLaender = null;
 	
 	private BufferedImage karte = null;
 	private BufferedImage karte2 = null;
@@ -57,6 +58,7 @@ public class WorldPanel extends JPanel {
 		// states werden zu Beginn auf 1 gesetzt und dann je nach Spielstand auf 2 gewechselt
 		this.attackState = 1;
 		this.moveState = 1;
+//		alleLaender = risiko.getLaender();
 
 		loadImage();
 
@@ -193,6 +195,11 @@ public class WorldPanel extends JPanel {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
 	    	g.drawImage(kontinente.getScaledInstance(kontinente.getWidth()/20*11, kontinente.getHeight()/20*11,0),-35,517,null);
+//	    	for(Land land: alleLaender) {
+//	    		drawFlag(land, land.getBesitzer().getFarbe(), g);
+//	    		g.drawString(" " + land.getEinheiten(), land.getxE(), land.getyE());
+//	    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
+//	    	}
 	    	ArrayList<Player> playerArray = ris.getPlayerArray();
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {

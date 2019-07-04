@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -119,6 +120,10 @@ public class Risiko implements RisikoInterface, Serializable {
 		return playerMg.getPlayers();
 	}
 
+	public ArrayList<Land> getLaender(){
+		return worldMg.getLaender();
+	}
+	
 	public int getAnzahlPlayer() {
 		return playerMg.getAnzahlPlayer();
 	}
@@ -283,9 +288,13 @@ public class Risiko implements RisikoInterface, Serializable {
 		return feindlicheLaender;
 	}
 
-	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException {
-		if(attLand.getBesitzer().getName().equals(gibAktivenPlayer())) {
-			logik.attackStart(attLand, defLand, attUnits);
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException, LandInBesitzException {
+		if(attLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
+			if(!defLand.getBesitzer().getName().equals(gibAktivenPlayer().getName())) {
+				logik.attackStart(attLand, defLand, attUnits);
+			} else {
+				throw new LandInBesitzException(defLand);
+			}
 		} else {
 			throw new LandNichtInBesitzException(attLand);
 		}

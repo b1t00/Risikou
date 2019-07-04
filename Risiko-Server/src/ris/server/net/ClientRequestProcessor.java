@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -17,7 +19,6 @@ import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.GameObject;
 import ris.common.valueobjects.Land;
-import ris.common.valueobjects.Player;
 
 public class ClientRequestProcessor implements Runnable {
 
@@ -28,6 +29,7 @@ public class ClientRequestProcessor implements Runnable {
 	// private PrintStream out;
 	private ObjectOutputStream oos;
 	private ArrayList<ServerListener> allServerListeners;
+	private boolean closed = false;
 
 	public ClientRequestProcessor(ObjectOutputStream outClient, Socket clientSocket, RisikoInterface risiko,
 			ArrayList<ServerListener> allServerListeners) {
@@ -77,6 +79,14 @@ public class ClientRequestProcessor implements Runnable {
 			} catch (Exception e) {
 				System.out.println("--->Fehler beim Lesen vom Client (Aktion): ");
 				System.out.println(e.getMessage());
+//				if(e instanceof SocketException) {
+//					try {
+//						clientSocket.close();
+//					} catch (IOException e1) {
+//						System.out.println("Fehler beim Beenden der Verbindung");
+//						e1.printStackTrace();
+//					}
+//				}
 				continue;
 			}
 			switch (input) {
@@ -246,6 +256,17 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "getLaender":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getLaender());
+					oos.reset();
+				} catch (IOException e) {
+					System.out.println("Fehler beim Senden von laenderarray");
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			case "getCurrentState":
 				try {
 					System.out.println("in crp fassade fragt nach state :" + risiko.getCurrentState());
@@ -341,6 +362,7 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				System.out.println("CRP ich speicher grad die Datei " + name);
 				risiko.spielSpeichern(name);
+				disconnect();
 				break;
 			case "getSpielladeDateien":
 				int x = 1;
@@ -461,10 +483,24 @@ public class ClientRequestProcessor implements Runnable {
 				try {
 					oos.reset();
 					oos.writeObject(risiko.allMissionsComplete());
+					oos.reset();
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				break;
+			case "getGewinner":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.getGewinner());
+					oos.reset();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				clientsUpdaten("gewinner gefunden");
+				clientsUpdaten(risiko.getGewinner().getName());
+				disconnect();
 				break;
 			case "zieheEinheitenkarte":
 				try {
@@ -489,7 +525,7 @@ public class ClientRequestProcessor implements Runnable {
 //				getFarben();
 //			}
 
-		} while (!(input.equals("q")));
+		} while (!closed);
 	}
 
 	private void kannSpielGeladenWerden() {
@@ -616,7 +652,7 @@ public class ClientRequestProcessor implements Runnable {
 			 updateExceptAktiverPlayer(defLand.getName());
 			 updateExceptAktiverPlayer(attLand.getBesitzer().getName());
 			 updateExceptAktiverPlayer(defLand.getBesitzer().getName());
-		} catch(LandNichtInBesitzException e) {
+		} catch(LandNichtInBesitzException | LandInBesitzException e) {
 			try {
 				oos.reset();
 				oos.writeObject(e);
@@ -703,18 +739,15 @@ public class ClientRequestProcessor implements Runnable {
 			e.printStackTrace();
 		}
 
-			try {
-				if (risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue)) {
+		try {
+			if (risiko.moveUnitsGueltig(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue)) {
+					try {
 						risiko.moveUnits(risiko.getLandById(vonGue), risiko.getLandById(zuGue), unitsGue);
-						try {
-							oos.reset();
-							oos.writeObject("hat geklappt");
-							oos.reset();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-				
+					} catch (LandExistiertNichtException | UngueltigeAnzahlEinheitenException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					for (int i = 0; i < allServerListeners.size(); i++) {
 						if (!(i == risiko.gibAktivenPlayer().getNummer())) {
 							try {
@@ -730,11 +763,10 @@ public class ClientRequestProcessor implements Runnable {
 						}
 					}
 				}
-			} catch (LandExistiertNichtException | UngueltigeAnzahlEinheitenException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		} catch (LandExistiertNichtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 //	public void moveUnitsGueltig() {
 //		Integer vonGue = null;
@@ -838,7 +870,7 @@ public class ClientRequestProcessor implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		if (tauschBar.equals(true))
+		if (tauschBar.equals("true"))
 			obTauschBar = true;
 		risiko.setTauschZeit(obTauschBar);
 	}
@@ -906,6 +938,20 @@ public class ClientRequestProcessor implements Runnable {
 				allServerListeners.get(i).handleEvent("updateDialog");
 				allServerListeners.get(i).handleEvent(updateState);
 			}
+		}
+	}
+	
+	private void disconnect() {
+		for (ServerListener sl : allServerListeners) {
+			sl.beendeVerbindung();
+		}
+		try {
+			clientSocket.close();
+			System.out.println("ich schließe, Feierabend!");
+			closed = true;
+		} catch (IOException e) {
+			System.out.println("Fehler beim Beenden der Verbindung");
+			e.printStackTrace();
 		}
 	}
 

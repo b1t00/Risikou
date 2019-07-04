@@ -2,15 +2,14 @@ package ris.client.net;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 
 import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
+import ris.common.valueobjects.State;
+import ris.common.valueobjects.State;
 
 public class ServerRequestProcessor implements ServerListener, Runnable {
 	private RisikoClientGUI client;
@@ -105,6 +104,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				client.showGamePanel();
 				break;
 			case "anDerReihe":
+				client.setCurrentState(State.SETUNITS);
 				client.showQuestion();
 				break;
 			case "spielLadenTrue":
@@ -124,8 +124,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					}
 				}
 				client.updateDialog(ereignis);
-				break;
-				
+				break;	
 			case "updateDialog(Land)":
 				String land = null;
 				String player = null;
@@ -202,6 +201,19 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 				//setDoNotListenMode(false);
 			//	System.out.println("(SRP) gui name :" + client.getNameFromGui());
 				break;
+			case "Tschuess!":
+				client.disconnect();
+				break;
+			case "gewinner gefunden":
+				String gewinner = "";
+				try {
+					gewinner = (String) sin.readObject();
+				} catch (ClassNotFoundException | IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				client.showWinner(gewinner);
+				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);
 				break;
@@ -224,6 +236,12 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 
 	@Override
 	public void schickeReinesObject(Object o) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beendeVerbindung() {
 		// TODO Auto-generated method stub
 		
 	}

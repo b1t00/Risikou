@@ -105,7 +105,6 @@ public class RisikokartenPanel extends JPanel {
 				}
 				System.out.println("einloesen waere schonmal richtig");
 				risiko.removeRisikoKarten(risikokartenWahl);
-				listener.combiAusgewaehlt(risikokartenWahl);
 					
 //				for(KartenButton kb : spielerKartenBtn) { 
 //							kb.setAusgewaehlt(false);
@@ -121,12 +120,14 @@ public class RisikokartenPanel extends JPanel {
 //					}
 //			}
 				for(KartenButton kb : ausgeWahlteKarten) { 
+					System.out.println("remove karte");
 							kb.setAusgewaehlt(false);
 							kb.setUp();
 							this.remove(kb);
 							kb.repaint();
 							break;
 				}
+				listener.combiAusgewaehlt(risikokartenWahl);
 				listener.updateKartenpanel2();
 				return true;
 			} else {
@@ -156,15 +157,14 @@ public class RisikokartenPanel extends JPanel {
 		}
 	}
 
-// muss in gleich klasse
 	class KartenListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 //	wenn auf die risikokarte geklickt wird, wird zuerst ueberprueft, ob ueberhaupt geklickt werden kann
+		System.out.println("tauschzeit ist: " + risiko.getTauschZeit());
 		if(risiko.getTauschZeit()) {
 			if (!dreiKartenAusgewaehlt()) {
-				System.out.println("markiere karte");
 				KartenButton b = (KartenButton) e.getSource();
 				b.setAusgewaehlt(true);
 //				risiko.setKarteAusgewaehlt(b.getKarte(), true);
@@ -180,7 +180,6 @@ public class RisikokartenPanel extends JPanel {
 				easterE++;
 			} else {
 				JOptionPane.showMessageDialog(null, "Du kannst wirklich keine Karten eintauschen!");
-
 				easterE = 0;
 			}
 		}

@@ -66,7 +66,27 @@ public class ServerFassade implements ServerListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+	}
+	
+	public void beendeVerbindung() {
+		try {
+			out.reset();
+			out.writeObject("Tschuess!");
+			out.reset();
+
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+//		try {
+//			clientSocket.close();
+//			System.out.println("Verbindung zu " + clientSocket.getInetAddress()
+//				+ ":" + clientSocket.getPort() + " durch Client abgebrochen");
+//		} catch (Exception e) {
+//			System.out.println("--->Fehler beim Beenden der Verbindung: ");
+//			System.out.println(e.getMessage());
+//			//		out.println("Fehler");
+//		}
 	}
 
 }

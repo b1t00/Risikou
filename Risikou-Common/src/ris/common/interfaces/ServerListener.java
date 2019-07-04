@@ -8,4 +8,5 @@ public interface ServerListener {
 	public void handleEvent(String e);
 	public void schickeObjekt(Attack aO);
 	public void schickeReinesObject(Object o);
+	public void beendeVerbindung();
 }

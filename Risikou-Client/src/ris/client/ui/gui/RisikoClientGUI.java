@@ -7,7 +7,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -53,6 +55,7 @@ import ris.client.ui.gui.swing.panels.WorldPanel.WorldListener;
 import ris.client.ui.gui.swing.panels.werBistDuPanle;
 import ris.client.ui.gui.swing.panels.werBistDuPanle.SpielerladenListener;
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -60,6 +63,7 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.Attack;
 import ris.common.valueobjects.Land;
 import ris.common.valueobjects.Risikokarte;
+import ris.common.valueobjects.State;
 
 public class RisikoClientGUI extends JFrame implements QuestionListener, WorldListener, UnitNumberListener,
 		kartenAuswahlListener, RisikoKartenListener, EintauschListener, SpeichernListener, LadeListener, SpielerladenListener {
@@ -68,6 +72,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 
 	private RisikoInterface risiko;
 	private ServerRequestProcessor serverListener;
+	private Socket socket;
 
 //	name ist notwendig, damit die gui weiß, was sie anzeigen soll // gleicht mit crp ab
 	private String name = null;
@@ -114,11 +119,19 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	private UnitNumberPanel moveNumberPl;
 
 	private JPanel gamePl;
+	
+	private State currentState;
 
 	public RisikoClientGUI(String host, int port) {
 
 		zweitausendaLook();
-		risiko = new RisikoFassade(host, port, this);
+		try {
+			socket = new Socket(host, port);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		risiko = new RisikoFassade(socket, this);
 
 		initializeLoginPl();
 //		testSetUp(); // legt drei spieler an. zum testen
@@ -215,7 +228,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	// je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
 		System.out.println("show Question <-------------");
-		switch (risiko.getCurrentState()) {
+		switch (currentState) {
+//		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			System.out.println("set units funktioniert");
 			eintauschPl = new EintauschPanel(this, risiko);
@@ -231,6 +245,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				cl.show(container, "attackQuestion");
 			} else {
 				JOptionPane.showMessageDialog(null, "Du kannst leider niemanden angreifen.");
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				showQuestion();
 			}
@@ -244,6 +259,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				cl.show(container, "moveUnitsQuestion");
 			} else {
 				JOptionPane.showMessageDialog(null, "Du kannst leider keine Einheiten verschieben.");
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				risiko.setNextPlayer();
 				infoPl.update();
@@ -300,7 +316,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	public void answerSelected(boolean answer) {
 		if (answer) {
 			// wenn mit ja geantwortet wird:
-			switch (risiko.getCurrentState()) {
+			switch (currentState) {
+//			switch (risiko.getCurrentState()) {
 			case SETUNITS:
 //				cardRequestPl = new RequestPanel(CountryRequest.CARDREQUEST, risiko);
 //				container.add(cardRequestPl, "cardRequest");
@@ -324,11 +341,13 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			// wenn mit nein geantwortet wird:
 			}
 		} else {
-			switch (risiko.getCurrentState()) {
+			switch (currentState) {
+//			switch (risiko.getCurrentState()) {
 			case SETUNITS:
 //				showSetUnits();
 //				break;
 			case ATTACK:
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				showQuestion();
 				break;
@@ -351,6 +370,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					risikoKartenTPl.setUp();
 				}
 //				risikoKartenTPl.setUp();
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				risiko.setNextPlayer();
 				infoPl.update();
@@ -377,7 +397,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			} else {
 				try {
 					risiko.attackStart(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
-				} catch (LandNichtInBesitzException e) {
+				} catch (LandNichtInBesitzException | LandInBesitzException e) {
 					JOptionPane.showMessageDialog(null, e);
 					e.printStackTrace();
 				}
@@ -387,13 +407,24 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			}
 			break;
 		case MOVEATTACK:
-			if (number > worldPl.getAttackLand1().getEinheiten() - 1) {
-				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
-			} else {
-				risiko.moveUnitsGueltig(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+//			if (number > worldPl.getAttackLand1().getEinheiten() - 1) {
+//				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten.");
+//			} else {
+//				risiko.moveUnitsGueltig(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number);
+//				updateWorld();
+//				updateMoveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number, name);
+//				showQuestion();
+//			}
+			if (risiko.moveUnitsGueltig(worldPl.getAttackLand1(), worldPl.getAttackLand2(), number)) {
 				updateWorld();
 				updateMoveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number, name);
+				// TODO:Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
+				if (win()) {
+					risiko.getGewinner();
+				}
 				showQuestion();
+			} else {
+				JOptionPane.showMessageDialog(null, "Ungueltige Anzahl Einheiten!");
 			}
 			break;
 		case DEFENSE: 
@@ -418,8 +449,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					updateMoveUnits(worldPl.getMoveLand1(), worldPl.getMoveLand2(), number, name);
 					// TODO:Check, ob durch das verschieben von einheiten eine Mission erfüllt wurde
 					if (win()) {
-						JOptionPane.showMessageDialog(null,
-								risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
+						risiko.getGewinner();
+//						JOptionPane.showMessageDialog(null,
+//								risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 					}
 //				} catch (LandExistiertNichtException | ZuWenigEinheitenException e) {
 //					// TODO Auto-generated catch block
@@ -427,7 +459,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //				}
 				showQuestion();
 			} else {
-				JOptionPane.showMessageDialog(null, "Ungültige Anzahl Einheiten!");
+				JOptionPane.showMessageDialog(null, "Ungueltige Anzahl Einheiten!");
 			}
 		}
 	}
@@ -438,6 +470,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				setUnitsPl.update();
 			} else {
 				risiko.setLandClickZeit(false);
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				showQuestion();
 			}
@@ -445,8 +478,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	}
 
 	@Override // worldlistener
-	public void countryClicked(Land land) { //synchronized
-		switch (risiko.getCurrentState()) {
+	public void countryClicked(Land land) {
+		switch (currentState) {
+//		switch (risiko.getCurrentState()) {
 		case SETUNITS:
 			//wenn wir uns im setUnits State befinden, bedeutet das, dass auf dem land eine Einheit gesetzt wurde
 			try {
@@ -461,7 +495,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			updateWorld();
 			//Check, ob durch das Setzen einer Unit die Mission erfüllt wurde
 			if (win()) {
-				JOptionPane.showMessageDialog(null, risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
+				risiko.getGewinner();
+//				JOptionPane.showMessageDialog(null,
+//						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
 			//auf dem setUnitPl sind die restlichen Einheiten gespeichert und werden runtergezählt
 			setUnitsPl.decrementUnits();
@@ -469,6 +505,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 				setUnitsPl.update();
 			} else {
 				risiko.setLandClickZeit(false);
+				currentState = currentState.setNextState();
 				risiko.setNextState();
 				showQuestion();
 			}
@@ -561,8 +598,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			updateWorld();
 			// check, ob jemand gewonnen hat
 			if (win()) {
-				JOptionPane.showMessageDialog(null,
-						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
+				risiko.getGewinner();
+//				JOptionPane.showMessageDialog(null,
+//						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
 				if (attackObjekt.getAttLand().getEinheiten() > 1) {
@@ -574,7 +612,7 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 					showQuestion();
 				}
 			}
-		} else if (winnerName.equals(risiko.gibAktivenPlayer())) {
+		} else if (winnerName.equals(risiko.gibAktivenPlayer().getName())) {
 			JOptionPane.showMessageDialog(null, risiko.gibAktivenPlayer() + " hat den Kampf gewonnen.");
 			updateWorld();
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
@@ -585,8 +623,9 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			updateWorld();
 			// check, ob jemand gewonnen hat
 			if (win()) {
-				JOptionPane.showMessageDialog(null,
-						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
+				risiko.getGewinner();
+//				JOptionPane.showMessageDialog(null,
+//						risiko.getGewinner().getName() + " hat gewonnen!! Wuuuhuuu!!");
 			}
 			if(risiko.gibAktivenPlayer().getNummer() == spielerNummer) {
 				showQuestion();
@@ -658,6 +697,8 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 	// "interaktive" Panel an
 	public void showIndividuellesPanel() {
 		if (risiko.gibAktivenPlayer().getName().equals(this.name)) {
+			//eigentlich unschoen, wird quasi lokal kopiert, aber somit muss seltener der currentstate vom risiko abgefragt werden
+			currentState = State.SETUNITS;
 			showQuestion();
 		} else {
 			pausePl = new PausePanel(this.spielerNummer, risiko);
@@ -853,6 +894,18 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 //		showGamePanel();
 	}
 	
+	public void disconnect() {
+		JOptionPane.showMessageDialog(null, "Das Spiel wurde gespeichert und ist nun beendet.");
+		setVisible(false);
+		dispose();
+//		try {
+//			socket.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+	}
+	
 	private void spielLadenTrue() {
 		risiko.spielLadenTrue();
 		
@@ -873,6 +926,14 @@ public class RisikoClientGUI extends JFrame implements QuestionListener, WorldLi
 			container.add(defenseNumberPl, "defenseNumber");
 			cl.show(container, "defenseNumber");
 		} //und panel updaten bei allen
+	}
+	
+	public void showWinner(String name) {
+		JOptionPane.showMessageDialog(null, name + " hat gewonnen!! Wuuuhuuu!!");
+	}
+	
+	public void setCurrentState(State state) {
+		currentState = state;
 	}
 	
 	public void setServerListenerNr(int serverListenerNr) {

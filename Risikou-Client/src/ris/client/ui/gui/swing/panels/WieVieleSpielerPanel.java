@@ -49,7 +49,6 @@ public class WieVieleSpielerPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "Uh-oh!", inputText + " ist keine gültige Nummer",
 							JOptionPane.ERROR_MESSAGE);
 				}
-//				if (anzahlSpieler > 1 && anzahlSpieler < 7) {
 					try {
 						risiko.setSpielerAnzahl(anzahlSpieler);
 					} catch (UngueltigeAnzahlSpielerException e1) {
@@ -58,11 +57,7 @@ public class WieVieleSpielerPanel extends JPanel {
 						anzahlSpielertextfield.setText("");
 						return;
 					}
-					client.showNeuerSpielerPanel();
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Nur 2 bis 6 Spieler Moeglich");
-//				}
-
+				client.showNeuerSpielerPanel();
 			}
 
 		});

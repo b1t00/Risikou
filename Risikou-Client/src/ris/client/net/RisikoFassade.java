@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.exceptions.LandExistiertNichtException;
+import ris.common.exceptions.LandInBesitzException;
 import ris.common.exceptions.LandNichtInBesitzException;
 import ris.common.exceptions.SpielerNameExistiertBereitsException;
 import ris.common.exceptions.UngueltigeAnzahlEinheitenException;
@@ -35,9 +36,9 @@ public class RisikoFassade implements RisikoInterface {
 	
 	private RisikoClientGUI gui;
 
-	public RisikoFassade(String host, int port, RisikoClientGUI gui) {
+	public RisikoFassade(Socket socket, RisikoClientGUI gui) {
 		try {
-			socket = new Socket(host, port);
+//			socket = new Socket(host, port);
 //			startServer(socket);<>
 			InputStream is = socket.getInputStream();
 			ois = new ObjectInputStream(is);
@@ -78,17 +79,17 @@ public class RisikoFassade implements RisikoInterface {
 	public State getCurrentState() {
 		goIntoCommandMode();
 		State currentState = null;
+		synchronized (ois) {
 		sout.println("getCurrentState");
 		try {
-//			synchronized (ois) {
 			Object o = new Object();
 			o = ois.readObject();
 			System.out.println("(RF)objectState " + o);
 			currentState = (State) o;
-//			}
 		} catch (ClassNotFoundException | IOException e) {
 //			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
 		}
 		System.out.println("(RF)cuurent state " + currentState);
 		releaseCommandMode();
@@ -263,7 +264,6 @@ public class RisikoFassade implements RisikoInterface {
 		try {
 			Object input = ois.readObject();
 			if (!(input instanceof String)) {
-				System.out.println("classe vom input" + input.getClass());
 				throw new SpielerNameExistiertBereitsException(name, farbe, iD);
 			}
 		} catch (ClassNotFoundException | IOException e) {
@@ -338,21 +338,35 @@ public class RisikoFassade implements RisikoInterface {
 	public ArrayList<Player> getPlayerArray() {
 		goIntoCommandMode();
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
-		synchronized (ois) {
-		sout.println("getPlayerArray");
-		System.out.println("gib mir den playerarray");
-		try {
-//			if(!ois.ct().equals("leer")){
-
+			sout.println("getPlayerArray");
+			System.out.println("gib mir den playerarray");
+			synchronized (ois) {
+			try {
 				allePlayer = (ArrayList<Player>) ois.readObject();
-//			}
-		} catch (ClassNotFoundException | IOException e) {
+			} catch (ClassNotFoundException | IOException e) {
 			System.out.println("Fehler beim einlesen vom playerarray");
 			e.printStackTrace();
 		}
 		}
 		releaseCommandMode();
 		return allePlayer;
+	}
+	
+	public ArrayList<Land> getLaender() {
+		goIntoCommandMode();
+		ArrayList<Land> alleLaender = new ArrayList<Land>();
+		synchronized (ois) {
+			sout.println("getLaender");
+			System.out.println("gib mir den playerarray");
+			try {
+				alleLaender = (ArrayList<Land>) ois.readObject();
+			} catch (ClassNotFoundException | IOException e) {
+			System.out.println("Fehler beim einlesen vom landarray");
+			e.printStackTrace();
+		}
+		}
+		releaseCommandMode();
+		return alleLaender;
 	}
 
 	@Override
@@ -524,7 +538,6 @@ public class RisikoFassade implements RisikoInterface {
 	@Override
 	public boolean attackLandGueltig(Land attacker) {
 		goIntoCommandMode();
-		// TODO Auto-generated method stub
 		System.out.println("Land : " + attacker.getNummer());
 		sout.println("attackLandGueltig");
 		sout.println(attacker.getNummer());
@@ -573,7 +586,7 @@ public class RisikoFassade implements RisikoInterface {
 		return defLandUnits;
 	}
 	
-	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException {
+	public void attackStart(Land attLand, Land defLand, int attUnits) throws LandNichtInBesitzException, LandInBesitzException {
 		goIntoCommandMode();
 		sout.println("attackStart");
 		sout.println(attLand.getNummer());
@@ -581,8 +594,10 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println(attUnits);
 		try {
 			Object input = ois.readObject();
-			if(!(input instanceof String)) {
+			if(input instanceof LandNichtInBesitzException) {
 				throw new LandNichtInBesitzException(attLand);
+			} else if(input instanceof LandInBesitzException) {
+				throw new LandInBesitzException(defLand);
 			}
 		} catch (ClassNotFoundException | IOException e) {
 			// TODO Auto-generated catch block

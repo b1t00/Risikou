@@ -379,10 +379,9 @@ public class Spiellogik implements Serializable{
 		attackObjekt.setResult(result);
 			
 		//das Spielfeld wird dem Ergebnis des Angriff angepasst
-		//den beiden Ländern werden mit setEinheiten die verlorenen Einheiten abgezogen
+		//dem attack land werden die einheiten abgezogen, die einheiten vom defland weiter unten, falls alle einheiten verloren gehen und diese somit 0 werden wuerden
 		try {
 			attLand.setEinheiten(result.get(0));
-			defLand.setEinheiten(result.get(1));
 		} catch (UngueltigeAnzahlEinheitenException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -392,7 +391,14 @@ public class Spiellogik implements Serializable{
 		 * wurde das Land nicht erobert, wird der alte Wert an 
 		 * Blockierten Einheiten - die verlorenen Einheiten wieder in das Block-Array geschrieben
 		 */
-		if (defLand.getEinheiten() > 0) {
+		System.out.println("result get 1: " + result.get(1));
+		if (defLand.getEinheiten() + result.get(1) > 0) {
+			try {
+				defLand.setEinheiten(result.get(1));
+			} catch (UngueltigeAnzahlEinheitenException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			if (buBlock + result.get(0) >= 0) {
 				int block = buBlock + result.get(0);
 				attacker.setBlock(attLand.getNummer(), block);
@@ -410,11 +416,14 @@ public class Spiellogik implements Serializable{
 		}
 
 		// wenn das Land erobert wurde (def-einheiten sind auf 0), werden die Angriffs-Einheiten verschoben
-		if (defLand.getEinheiten() == 0) {
+		if (defLand.getEinheiten() + result.get(1) == 0) {
 			//winUnits sind die Einheiten, die automatisch in das eroberte Land ziehen (angreifende Einheiten - verlorene Attack-Einheiten)
 			int winUnits = anzahlAttUnits + result.get(0);
 			try {
+				//erst werden einheiten des angreifers hinzuaddiert
 				defLand.setEinheiten(winUnits);
+				//dann einheiten des verteidigers abezogen (diese reihenfolge, damit die anzahl der einheiten nicht bei 0 landen)
+				defLand.setEinheiten(result.get(1));
 				attLand.setEinheiten(-winUnits);
 			} catch (UngueltigeAnzahlEinheitenException e) {
 				// TODO Auto-generated catch block
@@ -674,8 +683,10 @@ public class Spiellogik implements Serializable{
 //	}
 
 	public boolean moveUnitsGueltig(Land from, Land to, int units) {
-		if (from.getEinheiten() - units > 0 && worldMg.isBenachbart(from, to)) {
-			return true;
+		if(units > 0) {
+			if (from.getEinheiten() - units > 0 && worldMg.isBenachbart(from, to)) {
+				return true;
+			}
 		}
 		return false;
 	}

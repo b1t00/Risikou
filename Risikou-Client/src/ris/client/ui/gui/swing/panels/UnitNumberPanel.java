@@ -1,5 +1,6 @@
 package ris.client.ui.gui.swing.panels;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -49,6 +50,9 @@ public class UnitNumberPanel extends JPanel {
 		frage.setLineWrap(true);
 		frage.setWrapStyleWord(true);
 		frage.setEditable(false);
+		titel = new JLabel("Titel");
+		Font schriftart = new Font("Impact", Font.PLAIN, 20);
+
 		
 		setupUI();
 		setupEvents();
@@ -57,22 +61,23 @@ public class UnitNumberPanel extends JPanel {
 	public void setupUI(){
 		switch(unitNumber) {
 		case ATTACK:
-			titel = new JLabel("Attack");
+			titel.setText("Attack");
+//			titel = new JLabel("Attack");
 			frage.setText("Mit vielen Einheiten soll angegriffen werden?");
 			logButton = new JButton("Angreifen!");
 			break;
 		case MOVEATTACK:
-			titel = new JLabel("Einheiten nachruecken");
+			titel.setText("Einheiten nachruecken");
 			frage.setText("Wieviele Einheiten sollen nachruecken?");
 			logButton = new JButton("Verschieben");
 			break;
 		case DEFENSE:
-			titel = new JLabel("Attack");
+			titel.setText("Attack");
 			frage.setText("Du wurdest angegriffen! Mit wie vielen Einheiten soll verteidigt werden?");
 			logButton = new JButton("Verteidigen!");
 			break;
 		case MOVE:
-			titel = new JLabel("Move units");
+			titel.setText("Move units");
 			frage.setText("Wie viele Einheiten sollen verschoben werden?");
 //			Integer[] zahlen = getMöglicheZahlen;
 //			anzahl = new JComboBox<>(zahlen);
