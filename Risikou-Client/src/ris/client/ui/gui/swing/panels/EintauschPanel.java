@@ -1,5 +1,6 @@
 package ris.client.ui.gui.swing.panels;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,6 +26,8 @@ public class EintauschPanel extends JPanel{
 	private JButton tauschButton = new JButton("Risikokarten eintauschen");
 	
 	public EintauschPanel(EintauschListener listener, RisikoInterface risiko) {
+		Font schriftart = new Font("Impact", Font.PLAIN, 20);
+		titel.setFont(schriftart);
 		this.listener = listener;
 		ris = risiko;
 		setupUI();

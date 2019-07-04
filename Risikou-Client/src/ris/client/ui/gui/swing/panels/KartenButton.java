@@ -39,8 +39,7 @@ public class KartenButton extends JButton {
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
 			this.setBackground(new Color(161, 141, 61));
-			
-			setBorder(BorderFactory.createRaisedSoftBevelBorder());
+						setBorder(BorderFactory.createRaisedSoftBevelBorder());
 		}
 		setVerticalTextPosition(SwingConstants.BOTTOM);
 	}
@@ -62,7 +61,6 @@ public class KartenButton extends JButton {
 				this.setBackground(Color.ORANGE);
 			}
 		}
-//		return true;
 	}
 
 	public boolean getAusgewaehlt() {

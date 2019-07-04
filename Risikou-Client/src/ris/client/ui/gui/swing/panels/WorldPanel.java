@@ -195,11 +195,6 @@ public class WorldPanel extends JPanel {
 	    	g.drawImage(karte,0,0,null);
 	    	g.drawImage(karte2,0,0,null);
 	    	g.drawImage(kontinente.getScaledInstance(kontinente.getWidth()/20*11, kontinente.getHeight()/20*11,0),-35,517,null);
-//	    	for(Land land: alleLaender) {
-//	    		drawFlag(land, land.getBesitzer().getFarbe(), g);
-//	    		g.drawString(" " + land.getEinheiten(), land.getxE(), land.getyE());
-//	    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
-//	    	}
 	    	ArrayList<Player> playerArray = ris.getPlayerArray();
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {

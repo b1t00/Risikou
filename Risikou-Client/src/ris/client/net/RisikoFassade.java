@@ -143,7 +143,7 @@ public class RisikoFassade implements RisikoInterface {
 			System.out.println("Fehler eim Einlesen vom player");
 			e.printStackTrace();
 //			Versuch rekursiver Aufruf, wenn falscher input eingelesen wurde, der kein Player ist
-			gibAktivenPlayer();
+//			gibAktivenPlayer();
 		}
 		releaseCommandMode();
 		return aktiverPlayer;
@@ -316,11 +316,25 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<Player> allePlayer = new ArrayList<Player>();
 		sout.println("getPlayerArray");
 		try {
-			allePlayer = (ArrayList<Player>) ois.readObject();
+			Object input = ois.readObject();
+			if(input instanceof String) {
+				String fromServer = (String) input;
+				if(fromServer.equals("gewinner gefunden")) {
+					String gewinner = "";
+					try {
+						gewinner = (String) ois.readObject();
+					} catch (ClassNotFoundException | IOException e) {
+						e.printStackTrace();
+					}
+					gui.showWinner(gewinner);
+				}
+			} else {
+				allePlayer = (ArrayList<Player>) input;
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.err.println("Fehler beim einlesen vom playerarray");
-			e.printStackTrace();
-			getPlayerArray();
+//			e.printStackTrace();
+//			getPlayerArray();
 		}
 		releaseCommandMode();
 		return allePlayer;

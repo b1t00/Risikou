@@ -18,8 +18,8 @@ public class PausePanel extends JPanel {
 	//bekommt id, damit die richtige Farbe angezeigt werden kann
 	public PausePanel (int iD, RisikoInterface ris) {
 		Font schriftart = new Font("Impact", Font.PLAIN, 20);
-		this.setLayout(new GridLayout(2, 1));
 		titel.setFont(schriftart);
+		this.setLayout(new GridLayout(2, 1));
 		info = new JTextArea();
 		info.setLineWrap(true);
 		info.setWrapStyleWord(true);

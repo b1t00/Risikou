@@ -10,7 +10,8 @@ public class MissionLaenderanzahl extends Mission implements Serializable {
 
 	@Override
 	public boolean missionComplete(Player aktiverSpieler) {
-		if (aktiverSpieler.getBesitz().size() > 23) {
+//		if (aktiverSpieler.getBesitz().size() > 23) {
+		if (aktiverSpieler.getBesitz().size() > 21) {
 			return true;
 		}
 		return false;

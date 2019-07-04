@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
@@ -38,6 +39,7 @@ public class UnitNumberPanel extends JPanel {
 	private JButton logButton;
 	private int safedNumber;
 //	private JComboBox <Integer> anzahl;
+	private Font schriftart;
 	
 	public UnitNumberPanel(UnitNumberListener unl, UnitNumber un, RisikoInterface risiko, int iD) {		
 		listener = unl;
@@ -50,10 +52,9 @@ public class UnitNumberPanel extends JPanel {
 		frage.setLineWrap(true);
 		frage.setWrapStyleWord(true);
 		frage.setEditable(false);
-		titel = new JLabel("Titel");
-		Font schriftart = new Font("Impact", Font.PLAIN, 20);
+		titel = new JLabel("Titel",  SwingConstants.CENTER);
+		schriftart = new Font("Impact", Font.PLAIN, 20);
 
-		
 		setupUI();
 		setupEvents();
 	}
@@ -62,22 +63,25 @@ public class UnitNumberPanel extends JPanel {
 		switch(unitNumber) {
 		case ATTACK:
 			titel.setText("Attack");
-//			titel = new JLabel("Attack");
+			titel.setFont(schriftart);
 			frage.setText("Mit vielen Einheiten soll angegriffen werden?");
 			logButton = new JButton("Angreifen!");
 			break;
 		case MOVEATTACK:
 			titel.setText("Einheiten nachruecken");
+			titel.setFont(schriftart);
 			frage.setText("Wieviele Einheiten sollen nachruecken?");
 			logButton = new JButton("Verschieben");
 			break;
 		case DEFENSE:
 			titel.setText("Attack");
+			titel.setFont(schriftart);
 			frage.setText("Du wurdest angegriffen! Mit wie vielen Einheiten soll verteidigt werden?");
 			logButton = new JButton("Verteidigen!");
 			break;
 		case MOVE:
 			titel.setText("Move units");
+			titel.setFont(schriftart);
 			frage.setText("Wie viele Einheiten sollen verschoben werden?");
 //			Integer[] zahlen = getMöglicheZahlen;
 //			anzahl = new JComboBox<>(zahlen);

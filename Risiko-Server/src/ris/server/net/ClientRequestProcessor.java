@@ -458,9 +458,10 @@ public class ClientRequestProcessor implements Runnable {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				System.out.println("schicke gewinner " + risiko.getGewinner().getName());
 				clientsUpdaten("gewinner gefunden");
 				clientsUpdaten(risiko.getGewinner().getName());
-				disconnect();
+//				disconnect();
 				break;
 			case "zieheEinheitenkarte":
 				try {
@@ -828,7 +829,7 @@ public class ClientRequestProcessor implements Runnable {
  * TODO: sammel methode um alle clients zu aktualisieren ausser dem aktiven spieler,
  * weil es sonst zu problemen mit der Verbindung kommt. 
  * muss aber umgeschrieben werden und funktioniert so nicht 
- * wenn die Spieler sich nicht in der richtigen Reinfolge einloggen
+ * wenn die Spieler sich nicht in der richtigen Reihenfolge einloggen
  */
 	public void updateExceptAktiverPlayer(String welchesUpdate) {
 		for (int i = 0; i < allServerListeners.size(); i++) {
@@ -848,7 +849,7 @@ public class ClientRequestProcessor implements Runnable {
 		String updateState = null;
 //		bekommt von der gui den befehl, allen clients zu sagen, dass sie sich updaten sollen
 		try {
-//			durch den state wird das update ermöglicht
+//			durch den state wird das update ermoeglicht
 			updateState = (String) in.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();

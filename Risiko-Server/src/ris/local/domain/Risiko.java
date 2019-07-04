@@ -212,8 +212,8 @@ public class Risiko implements RisikoInterface, Serializable {
 	}
 
 	/*
-	 * die Methode bekommt vom Client eine ArrayList<mit den ids der laender, welche
-	 * auf den eingetauschten Risikokarten sind>
+	 * die Methode bekommt vom Client eine ArrayList mit den ids der laender, welche
+	 * auf den eingetauschten Risikokarten sind
 	 * 
 	 * @see
 	 * ris.common.interfaces.RisikoInterface#removeRisikoKarten(java.util.ArrayList)
@@ -224,7 +224,6 @@ public class Risiko implements RisikoInterface, Serializable {
 			try {
 				kicked.add(getLandById(landId));
 			} catch (LandExistiertNichtException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -246,7 +245,7 @@ public class Risiko implements RisikoInterface, Serializable {
 
 	/*
 	 * wird um Fehler aufgrund der Socketverbindung auszuweichen, auf dem Client
-	 * abgefragt Sicherer waere diese Methode auf dem Server in der Spiellogik zu
+	 * abgefragt. Sicherer waere es, diese Methode auf dem Server in der Spiellogik zu
 	 * benutzen
 	 */
 	public boolean isGueltigeTauschkombi(Symbol s1, Symbol s2, Symbol s3) {
@@ -260,8 +259,8 @@ public class Risiko implements RisikoInterface, Serializable {
 //	****************************RISIKOKARTEN************************************
 
 	/*
-	 * gibt ein Array<Land> zurueck mit den Nachbern mit dem gleichen Besitzer wenn
-	 * Null, beudeutet das er nur von Feinden umgeben ist
+	 * gibt ein Array<Land> zurueck mit den Nachbarn mit dem gleichen Besitzer wenn
+	 * Null, beudeutet das, dass er nur von Feinden umgeben ist
 	 */
 	public ArrayList<Land> getEigeneNachbarn(Land land) {
 		return worldMg.getEigeneNachbarn(land);
@@ -387,7 +386,7 @@ public class Risiko implements RisikoInterface, Serializable {
 		String[] verzeichnis = new String[10];
 
 //		dann werden die dateien ausgelesen
-		// System.getProperty("file.separator") macht es möglich, mit unterschiedlichen
+		// System.getProperty("file.separator") macht es moeglich, mit unterschiedlichen
 		// Betriebssystemen den Pfad zu laden
 		Path dir = Paths.get("files" + System.getProperty("file.separator"));
 		DirectoryStream<Path> stream = null;

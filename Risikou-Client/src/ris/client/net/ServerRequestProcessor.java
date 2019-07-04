@@ -185,6 +185,7 @@ public class ServerRequestProcessor implements ServerListener, Runnable {
 					e.printStackTrace();
 				}
 				client.showWinner(gewinner);
+//				client.disconnectWin();
 				break;
 			default:
 				System.out.println("etwas wurde eingelesen: " + input);

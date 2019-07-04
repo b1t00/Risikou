@@ -1,5 +1,6 @@
 package ris.client.ui.gui.swing.panels;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -27,9 +28,11 @@ public class RequestPanel extends JPanel{
 	private JLabel titel;
 	private JTextArea abfrage;
 	private CountryRequest countryR;
+	private Font schriftart;
 
 	
 	public RequestPanel (CountryRequest cr, RisikoInterface risiko) {
+		schriftart = new Font("Impact", Font.PLAIN, 20);
 		countryR = cr;
 		ris = risiko;
 		
@@ -47,23 +50,28 @@ public class RequestPanel extends JPanel{
 		switch(countryR) {
 		case CARDREQUEST:
 			titel = new JLabel("CardCombi", SwingConstants.CENTER);
+			titel.setFont(schriftart);
 			abfrage.setText("Klicke auf drei deiner Risikokarten. Mögliche Kombinationen: drei gleiche Symbole oder drei unterschiedliche. \n Eine Karte mit einem Land, das du besitzt, bringt eine extra Einheit.");
 		case SETUNITS:
 			break;
 		case ATTACKCOUNTRY:
 			titel = new JLabel("Attack", SwingConstants.CENTER);
+			titel.setFont(schriftart);
 			abfrage.setText("Mit welchem Land soll angegriffen werden? (direkt anklicken)");
 			break;
 		case DEFENSECOUNTRY:
 			titel = new JLabel("Attack", SwingConstants.CENTER);
+			titel.setFont(schriftart);
 			abfrage.setText("Welches Land soll angegriffen werden? (direkt anklicken)");
 			break;
 		case MOVEFROMCOUNTRY:
 			titel = new JLabel("Move units", SwingConstants.CENTER);
+			titel.setFont(schriftart);
 			abfrage.setText("Von welchem Land soll eine Einheit verschoben werden? (direkt anklicken)");
 			break;
 		case MOVETOCOUNTRY:
 			titel = new JLabel("Move units", SwingConstants.CENTER);
+			titel.setFont(schriftart);
 			abfrage.setText("Zu welchem Land soll eine Einheit verschoben werden? (direkt anklicken)");
 			break;
 		}

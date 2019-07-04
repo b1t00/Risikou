@@ -1,6 +1,7 @@
 package ris.client.ui.gui.swing.panels;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,12 +34,14 @@ public class QuestionPanel extends JPanel{
 	private JTextArea abfrage;
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
+	private Font schriftart;
 	
 	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase, int iD) {
 		ris = risiko;
 		this.listener = listener;
 		this.phase = phase;
 		this.iD = iD;
+		schriftart = new Font("Impact", Font.PLAIN, 20);
 		
 		setupUI();
 		setupEvents();
@@ -60,19 +63,24 @@ public class QuestionPanel extends JPanel{
 		//wenn in der Attack Phase gefragt wird, ob Einheiten nachgeholt werden sollen, kann nicht auf das Turn Objekt zugegriffen werden -> eigener Fall
 		if (phase.equals("nachruecken")) {
 			titel.setText("Einheiten nachruecken");
+			
+			titel.setFont(schriftart);
 			abfrage.setText("Moechtest du mit weiteren Einheiten nachruecken?");
 		} else {
 			switch (ris.getCurrentState()) {
 			case SETUNITS:
 				titel.setText("CardCombi");
+				titel.setFont(schriftart);
 				abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 				break;
 			case ATTACK: 
 				titel.setText("Attack");
+				titel.setFont(schriftart);
 				abfrage.setText("Moechtest du angreifen?");
 				break;
 			case CHANGEUNITS:
 				titel.setText("Move units");
+				titel.setFont(schriftart);
 				 abfrage.setText("Moechtest du Einheiten verschieben?");
 				 break;
 			}
