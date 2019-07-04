@@ -245,7 +245,8 @@ public class RisikoFassade implements RisikoInterface {
 		Player winner = null;
 		sout.println("getGewinner");
 		try {
-			winner = (Player) ois.readObject();
+			{winner = (Player) ois.readObject();
+			}
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
@@ -401,7 +402,20 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("rundeMissionComplete");
 		boolean win = false;
 		try {
-			win = (boolean) ois.readObject();
+			Object input = ois.readObject();
+			if(input instanceof String) {
+				String fromServer = (String) input;
+				if(fromServer.equals("gewinner gefunden")) {
+					String gewinner = "";
+					try {
+						gewinner = (String) ois.readObject();
+					} catch (ClassNotFoundException | IOException e) {
+						e.printStackTrace();
+					}
+					gui.showWinner(gewinner);
+				}
+			} else 
+			win = (boolean) input;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
