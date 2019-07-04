@@ -538,6 +538,9 @@ public class ClientRequestProcessor implements Runnable {
 					e.printStackTrace();
 				}
 				break;
+			case "removeRisikoKarten":
+				removeRisikoKarten();
+				break;
 			case "getKontinentVonLand":
 				int landId = 0;
 				try {
@@ -734,6 +737,25 @@ public class ClientRequestProcessor implements Runnable {
 		System.out.println("Winner: " + attackObjekt.getWinner());
 		clientsUpdaten("attackFinal");
 		schickeAttackObjekt(attackObjekt);
+	}
+	
+	public void removeRisikoKarten() {
+		ArrayList<Integer> risikokartenWahl = new ArrayList<Integer>();
+		int land1 = 0;
+		int land2 = 0;
+		int land3 = 0;
+		try {
+			land1 = Integer.parseInt(in.readLine());
+			land2 = Integer.parseInt(in.readLine());
+			land3 = Integer.parseInt(in.readLine());
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		risikokartenWahl.add(land1);
+		risikokartenWahl.add(land2);
+		risikokartenWahl.add(land3);
+		risiko.removeRisikoKarten(risikokartenWahl);
 	}
 
 	public void moveFromLandGueltig() {

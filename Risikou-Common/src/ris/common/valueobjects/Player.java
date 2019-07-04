@@ -13,8 +13,9 @@ public class Player implements Serializable {
 	private Mission mission;
 	private ArrayList<Risikokarte> gezogeneRisikokarten;
 	private ArrayList<Land> inBesitz = new ArrayList<Land>();
+//	der uBlock enthaelt die durch einen angriff blockierten einheiten, diese stehen an dem index, der der landnummer entspricht, auf der die blockierten einheiten stehen 
 	int[] uBlock = new int[42];
-	// bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
+//	bei Einnahme eines Landes wird gutschriftEinheitenkarte auf true gesetzt
 	private boolean gutschriftEinheitenkarte = false;
 	private boolean kartenWurdenEntfernt = false;
 
@@ -41,7 +42,6 @@ public class Player implements Serializable {
 
 	public String getMission() {
 		return mission.getMission();
-//		return "dies das verschiedene Dinge";
 	}
 
 	public Mission getMissionObject() {
@@ -65,17 +65,17 @@ public class Player implements Serializable {
 		return uBlock;
 	}
 
-	// Methode wird aufgerufen, wenn ein Zug beendet wird
+	public void setBlock(int indexLand, int units) {
+		uBlock[indexLand] += units;
+	}
+
+//	Methode wird aufgerufen, wenn ein Zug beendet wird
 	public boolean getGutschriftEinheitenkarte() {
 		return gutschriftEinheitenkarte;
 	}
 
 	public void setGutschriftEinheitenkarte(boolean wert) {
 		this.gutschriftEinheitenkarte = wert;
-	}
-
-	public void setBlock(int indexLand, int units) {
-		uBlock[indexLand] += units;
 	}
 
 	public void setEinheitenkarte(Risikokarte karte) {
@@ -90,16 +90,7 @@ public class Player implements Serializable {
 		return name;
 	}
 
-	// vlt auch unnöttige methode siehe cui gibLaenderUndNummerVonSpielerAus()
-	public ArrayList<String> gibLaenderUndNummer() {
-		ArrayList<String> ausgabe = new ArrayList<String>();
-		for (Land land : getBesitz()) {
-			ausgabe.add(land.getNummer() + " : " + land.getName());
-		}
-		return ausgabe;
-	}
-
-	// prueft, ob player land besitzt, wenn ja, loescht er es, wenn nein, fuegt er es hinzu
+//	prueft, ob player land besitzt, wenn ja, loescht er es, wenn nein, fuegt er es hinzu
 	public void setBesitz(Land land) {
 		if (inBesitz.contains(land)) {
 			inBesitz.remove(land);
@@ -108,23 +99,13 @@ public class Player implements Serializable {
 		}
 	}
 
-	// TODO: nochmal exceptions checken
-	public Land getLandById(int i) {
-		for (Land l : inBesitz) {
-			if (l.getNummer() == i) {
-				return l;
-			}
-		}
-		return null;
-	}
-
 	// diese Methode beim Hinzufuegen von einzelnen Laendern, wahrscheinlich
 	// ueberfluessig, erledigt sich mit setBesitz
 	public void addLand(Land neuesLand) {
 		this.inBesitz.add(neuesLand);
 	}
 
-	// diese Methode beim Hinzufügen von einem ganzen Laender-Array, am Anfang
+// diese Methode beim Hinzufuegen von einem ganzen Laender-Array, am Anfang
 	public void addLaender(ArrayList<Land> neueLaender) {
 		this.inBesitz = neueLaender;
 	}
@@ -136,13 +117,13 @@ public class Player implements Serializable {
 		// Symbole
 		// 1. Stelle = Kanone, 2. Stelle = Reiter, 3. Stelle = Soldat
 		int[] symbolAnzahlArray = { 0, 0, 0 };
-		if (gezogeneRisikokarten != null) {
+		if (gezogeneRisikokarten.size() > 2) {
 			for (Risikokarte karte : gezogeneRisikokarten) {
 				if (karte.getSymbol() == Symbol.KANONE) {
 					symbolAnzahlArray[0]++;
 				} else if (karte.getSymbol().equals(Symbol.REITER)) {
 					symbolAnzahlArray[1]++;
-				} else {
+				} else if (karte.getSymbol().equals(Symbol.SOLDAT)) {
 					symbolAnzahlArray[2]++;
 				}
 			}
@@ -150,16 +131,15 @@ public class Player implements Serializable {
 		return symbolAnzahlArray;
 	}
 
-	// risikokarten-change possible?
+//	risikokarten-change possible?
 	public boolean changePossible() {
 		boolean reihe = true;
 		for (int i = 0; i < this.risikokartenKombi().length; i++) {
-			// Prüfen, ob drei gleiche Karten vorhanden sind
+//			Pruefen, ob drei gleiche Karten vorhanden sind
 			if (this.risikokartenKombi()[i] > 2) {
 				return true;
 			}
-			// Eine Reihe wird überprüft, in dem ab dem Moment, wenn ein Symbol auf 0 ist,
-			// der boolean reihe auf false gesetzt wird
+//			Eine Reihe wird ueberprueft, in dem ab dem Moment, wenn ein Symbol auf 0 ist, der boolean reihe auf false gesetzt wird
 			else if (risikokartenKombi()[i] == 0) {
 				reihe = false;
 			}
@@ -174,31 +154,32 @@ public class Player implements Serializable {
 		return false;
 	}
 
-// wird nicht benutzt die methode
-	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
-		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { // alle
-																														// sind
-																														// gleich
-			return true;
-		} else if (arry.get(0).getSymbol() != arry.get(1).getSymbol()
-				&& arry.get(0).getSymbol() != arry.get(2).getSymbol()
-				&& arry.get(1).getSymbol() != arry.get(2).getSymbol()) { // alle sind unterschiedlich
-			return true;
-		} else {
-			kartenWurdenEntfernt = false;
-			return false;
-		}
-	}
-	
 	/*
-	 * mit dieser methode werden die risikokarten entfernt, wenn sie eingetauscht wurden
-	 * dies passiert mit einem array der laender, die auf den risikokarten stehen
+	 * auswahl wird direkt im client geprueft um die socket verbindung zu schonen,
+	 * daher nicht ganz so sicher
+	 */
+//	public boolean auswahlPruefen(ArrayList<Risikokarte> arry) {
+//		if (arry.get(0).getSymbol() == arry.get(1).getSymbol() && arry.get(1).getSymbol() == arry.get(2).getSymbol()) { 
+//			return true;
+//		} else if (arry.get(0).getSymbol() != arry.get(1).getSymbol()
+//				&& arry.get(0).getSymbol() != arry.get(2).getSymbol()
+//				&& arry.get(1).getSymbol() != arry.get(2).getSymbol()) { // alle sind unterschiedlich
+//			return true;
+//		} else {
+//			kartenWurdenEntfernt = false;
+//			return false;
+//		}
+//	}
+
+	/*
+	 * mit dieser methode werden die risikokarten entfernt, wenn sie eingetauscht
+	 * wurden dies passiert mit einem array der laender, die auf den risikokarten
+	 * stehen
 	 */
 	public void removeKarten(ArrayList<Land> kicked) {
-		System.out.println("---------");
-		for (int i = 0; i <  this.gezogeneRisikokarten.size(); i++) {
-			for(Land kick: kicked) {
-				if(this.gezogeneRisikokarten.get(i).getLand().equals(kick)) {
+		for (int i = 0; i < this.gezogeneRisikokarten.size(); i++) {
+			for (Land kick : kicked) {
+				if (this.gezogeneRisikokarten.get(i).getLand().equals(kick)) {
 					this.gezogeneRisikokarten.remove(this.gezogeneRisikokarten.get(i));
 				}
 			}
@@ -210,11 +191,10 @@ public class Player implements Serializable {
 		return kartenWurdenEntfernt;
 	}
 
-	public boolean isDead() { // TODO: @tobi muss wahrscheinlich nach jedem angriff kontrolliert werden
+	public boolean isDead() {
 		if (inBesitz.size() <= 0) {
 			return true;
 		}
 		return false;
 	}
-
 }

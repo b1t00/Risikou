@@ -109,30 +109,17 @@ public class RisikokartenPanel extends JPanel {
 				System.out.println("einloesen waere schonmal richtig");
 				risiko.removeRisikoKarten(risikokartenWahl);
 
-//				for(KartenButton kb : spielerKartenBtn) { 
-//							kb.setAusgewaehlt(false);
-//							kb.setUp();
-//					}
-//				for(Risikokarte karte: ausgeWahlteKarten) {
-//					for(KartenButton button: spielerKartenBtn) {
-//						if(button.getKarte().equals(karte)) {
-//							this.remove(button);
-//							button.repaint();
-//							break;
-//						}
-//					}
-//			}
 //				aber deses brauchen wir schon nech
-				for (KartenButton kb : ausgeWahlteKarten) {
-					System.out.println("remove karte");
-					kb.setAusgewaehlt(false);
-					kb.setUp();
-					this.remove(kb);
-					kb.repaint();
-				}
+//				for (KartenButton kb : ausgeWahlteKarten) {
+//					System.out.println("remove karte");
+//					kb.setAusgewaehlt(false);
+//					kb.setUp();
+//					this.remove(kb);
+//					kb.repaint();
+//				}
 				listener.combiAusgewaehlt(risikokartenWahl);
 				System.out.println("anzahl risikokarten: " + risiko.gibAktivenPlayer().getEinheitenkarten().size());
-				listener.updateKartenpanel();  //checkkkeeeeeeen
+				listener.updateKartenpanel(); 
 				return true;
 			} else {
 				// es wurden nicht die richtigen Karten eingeloest

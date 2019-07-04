@@ -9,7 +9,5 @@ public class SymbolComparator_test implements Comparator<Risikokarte>, Serializa
 	public int compare(Risikokarte karte1, Risikokarte karte2) {
 		return karte1.getSymbol().compareTo(karte2.getSymbol());
 	}
-	
-	
-	
+
 }

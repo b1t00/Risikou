@@ -3,6 +3,11 @@ package ris.common.valueobjects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/*
+ * @class Attack wird bei jedem neuen Angriff erstellt und beinhaltet alle noetigen Informationen
+ * zum einen notwendig, da die Info der verteidigenden Units zu einem spaeteren Zeitpunkt hinzukommen
+ * wird an alle Clients verschickt, damit diese die Informationen in der GUI verarbeiten koennen
+ */
 public class Attack implements Serializable {
 	private Player attacker;
 	private Player defender;

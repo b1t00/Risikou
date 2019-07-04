@@ -11,7 +11,9 @@ import ris.common.valueobjects.Player;
 public class PlayerManagement implements Serializable {
 
 	private ArrayList<Player> gamerListe = new ArrayList<Player>();
+//	farbenauswahl alle verfuegbaren farben zu beginn des spiels im login-bereich
 	private ArrayList<String> farbenAuswahl = new ArrayList<String>();
+//	colorarray: die tatsaechlich genutzten farben im spiel
 	private ArrayList<Color> colorArray;
 	private int spielerAnzahl;
 
@@ -93,7 +95,7 @@ public class PlayerManagement implements Serializable {
 		return spielerAnzahl;
 	}
 	
-//	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen ^^
+//	Methode die sagt wieviele Player es gibt, man kann auch getPlayers().size() aufrufen
 	public int getAnzahlPlayer() {
 		return gamerListe.size();
 	}

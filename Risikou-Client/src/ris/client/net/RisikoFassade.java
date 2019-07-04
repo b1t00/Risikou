@@ -131,11 +131,10 @@ public class RisikoFassade implements RisikoInterface {
 		Player aktiverPlayer = null;
 		sout.println("gibAktivenPlayer");
 		try {
-			synchronized (ois) {
+//			synchronized (ois) {
 				System.out.println("geb mir den aktiven player Rf");
 				aktiverPlayer = (Player) ois.readObject();
-				System.out.println("RF aktiver player nachfrage : " + aktiverPlayer);
-			}
+//			}
 		} catch (ClassNotFoundException | IOException e) {
 			System.out.println("Fehler eim Einlesen vom player");
 			e.printStackTrace();

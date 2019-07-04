@@ -9,6 +9,7 @@ public class Land implements Comparable, Serializable{
 	private int nummer;
 	private String name;
 	private Player besitzer;
+//	Positionen der Fahne und der Einheitenanzahl
 	private int xf;
 	private int yf;
 	private int xE;
@@ -24,7 +25,7 @@ public class Land implements Comparable, Serializable{
 		this.setyE(yE);
 	}
 	
-	// Methode um Einheiten zu setzten 
+//	Methode um Einheiten zu setzten 
 	public void setEinheiten(int einheit) throws UngueltigeAnzahlEinheitenException {
 		System.out.println("set einheiten im land");
 			if((this.einheiten + einheit) < 1)  {
@@ -39,28 +40,23 @@ public class Land implements Comparable, Serializable{
 		return name;
 	}
 	
-	//@to Methode um player/besitzer zu setzten 
+//	Methode um player/besitzer zu setzen 
 	public void setBesitzer(Player besitzer) {
 		this.besitzer = besitzer;
 	}
 	public Player getBesitzer() {
 		return this.besitzer;
 	}
-	
-	public String auflistung() {
-		return this.nummer + " : " + this.einheiten;
-	}
-	
+
 	public int getEinheiten() {
 		return einheiten;
 	}
 	
 	/*
 	 * gibt Anzahl Einheiten zurueck, die fuer das Verschieben am Ende des Zuges zur Verfuegung stehen
-	 * dafuer wird der Wert beim uBlock(dieser wird beim automatischen Verschieben beim Angriff gesetzt)
+	 * dafuer wird der Wert beim uBlock (dieser wird beim automatischen Verschieben beim Angriff gesetzt)
 	 * von dem eigentlichen Einheiten-Wert abgezogen.
 	 */
-	
 	public int getVerfuegbareEinheiten() {
 		return einheiten - besitzer.getBlock()[nummer] - 1;
 	}
@@ -76,11 +72,11 @@ public class Land implements Comparable, Serializable{
 
 	@Override
 	public boolean equals(Object obj) {
-				if(obj instanceof Land) {
-					Land neuesLand = (Land) obj;
-					return ((this.name.equals(neuesLand.name)));
-				}
-				return false;
+			if(obj instanceof Land) {
+				Land neuesLand = (Land) obj;
+				return ((this.name.equals(neuesLand.name)));
+		}
+		return false;
 	}
 	
 	@Override

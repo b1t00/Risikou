@@ -10,7 +10,7 @@ public class MissionGegner extends Mission implements Serializable {
 		this.gegenspieler = gegenspieler;
 	}
 
-	// um zu gucken ob man nicht sich selbst als Gegner hat
+//	um zu gucken ob man nicht sich selbst als Gegner hat
 	public Player getGegner() {
 		return gegenspieler;
 	}
