@@ -75,6 +75,16 @@ public class RisikoClientGUI extends JFrame
 	private ServerRequestProcessor serverListener;
 	private Socket socket;
 
+	/*
+	 * Die lokale Speicherung der Variable currentState im Client ist eine
+	 * Notloesung, da die Abfrage des currentStates von Risiko immer wieder zu
+	 * Problemen gefuehrt hat. Aufgrund von Zeitknappheit konnte der Fehler nicht
+	 * weiter gesucht werden. Damit das Spiel nicht immer wieder aus diesem Grund
+	 * abstuerzt, haben wir uns dazu entschieden, die Variable im Client zu
+	 * speichern, was natuerlich zu Probleme fuehren kann, wenn die Methode
+	 * risiko.setNextState() nicht korrekt ausgefuehrt wird.
+	 */
+	private State currentState;
 //	name ist notwendig, damit die gui weiß, was sie anzeigen soll // gleicht mit crp ab
 	private String name = null;
 	private int spielerNummer;
@@ -120,16 +130,7 @@ public class RisikoClientGUI extends JFrame
 	private UnitNumberPanel moveNumberPl;
 
 	private JPanel gamePl;
-	/*
-	 * Die lokale Speicherung der Variable currentState im Client ist eine
-	 * Notloesung, da die Abfrage des currentStates von Risiko immer wieder zu
-	 * Problemen gefuehrt hat. Aufgrund von Zeitknappheit konnte der Fehler nicht
-	 * weiter gesucht werden. Damit das Spiel nicht immer wieder aus diesem Grund
-	 * abstuerzt, haben wir uns dazu entschieden, die Variable im Client zu
-	 * speichern, was natuerlich zu Probleme fuehren kann, wenn die Methode
-	 * risiko.setNextState() nicht korrekt ausgefuehrt wird.
-	 */
-	private State currentState;
+
 
 	public RisikoClientGUI(String host, int port) {
 		neunzigerlook();
@@ -232,7 +233,7 @@ public class RisikoClientGUI extends JFrame
 			break;
 		case ATTACK:
 			if (risiko.kannAngreifen()) {
-				attackQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
+				attackQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer, this);
 				container.add(attackQuestionPl, "attackQuestion");
 				cl.show(container, "attackQuestion");
 			} else {
@@ -244,7 +245,7 @@ public class RisikoClientGUI extends JFrame
 			break;
 		case CHANGEUNITS:
 			if (risiko.kannVerschieben(risiko.gibAktivenPlayer())) {
-				moveUnitsQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer);
+				moveUnitsQuestionPl = new QuestionPanel(this, risiko, "state", spielerNummer, this);
 				container.add(moveUnitsQuestionPl, "moveUnitsQuestion");
 				cl.show(container, "moveUnitsQuestion");
 			} else {
@@ -536,7 +537,7 @@ public class RisikoClientGUI extends JFrame
 	//					JOptionPane.showMessageDialog(null, "Du hast " + risiko.getKontinentVonLand(attackObjekt.getDefLand()) + " erobert!");
 	//				}
 					if (attackObjekt.getAttLand().getEinheiten() > 1) {
-						QuestionPanel nachrueckPl = new QuestionPanel(this, risiko, "nachruecken", spielerNummer);
+						QuestionPanel nachrueckPl = new QuestionPanel(this, risiko, "nachruecken", spielerNummer, this);
 						container.add(nachrueckPl, "nachruecken");
 						cl.show(container, "nachruecken");
 					} else {
@@ -633,6 +634,10 @@ public class RisikoClientGUI extends JFrame
 
 	public int getSpielerAnzahl() {
 		return wieVielePl.getAnzahlSpieler();
+	}
+	
+	public State getCurrentState() {
+		return currentState;
 	}
 
 	public static void main(String[] args) {

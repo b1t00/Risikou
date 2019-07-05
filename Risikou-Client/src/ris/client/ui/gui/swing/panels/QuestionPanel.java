@@ -14,66 +14,72 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import ris.client.ui.gui.RisikoClientGUI;
 import ris.common.interfaces.RisikoInterface;
+import ris.common.valueobjects.State;
 
-public class QuestionPanel extends JPanel{
-	
+public class QuestionPanel extends JPanel {
+
 	public interface QuestionListener {
-		//Etwas ungluecklich -> da im attack zwei verschiedene fragen moeglich sind (angreifen oder einheiten nachruecken), muss der eine fall extra bedient werden, daher ueberladung der methoden
-		public void answerSelected(boolean answer, String phase);		
+		// Etwas ungluecklich -> da im attack zwei verschiedene fragen moeglich sind
+		// (angreifen oder einheiten nachruecken), muss der eine fall extra bedient
+		// werden, daher ueberladung der methoden
+		public void answerSelected(boolean answer, String phase);
+
 		public void answerSelected(boolean answer);
 	}
-	
+
 	private RisikoInterface ris = null;
 	private QuestionListener listener = null;
 	private String phase = "";
 	private int iD;
-	
+	private RisikoClientGUI client;
 
 	private JLabel titel = new JLabel("Attack", SwingConstants.CENTER);
 	private JTextArea abfrage;
 	private JButton yesButton = new JButton("Ja");
 	private JButton noButton = new JButton("Nein");
 	private Font schriftart;
-	
-	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase, int iD) {
+
+	public QuestionPanel(QuestionListener listener, RisikoInterface risiko, String phase, int iD,
+			RisikoClientGUI client) {
 		ris = risiko;
 		this.listener = listener;
 		this.phase = phase;
 		this.iD = iD;
+		this.client = client;
 		schriftart = new Font("Impact", Font.PLAIN, 20);
-		
+
 		setupUI();
 		setupEvents();
 	}
-	
-	
+
 	public void setupUI() {
 		this.setLayout(new GridLayout(4, 1));
-		this.setSize(100,400);
+		this.setSize(100, 400);
 		this.setBorder(BorderFactory.createLineBorder(Color.black));
-//		titel.setHorizontalTextPosition(SwingConstants.CENTER);
 		this.add(titel);
-		
-		//ermöglicht automatischen Zeilenumbruch
+
+//		ermoeglicht automatischen Zeilenumbruch
 		abfrage = new JTextArea();
 		abfrage.setLineWrap(true);
 		abfrage.setWrapStyleWord(true);
 		abfrage.setEditable(false);
-		//wenn in der Attack Phase gefragt wird, ob Einheiten nachgeholt werden sollen, kann nicht auf das Turn Objekt zugegriffen werden -> eigener Fall
+		// wenn in der Attack Phase gefragt wird, ob Einheiten nachgeholt werden sollen,
+		// kann nicht auf das Turn Objekt zugegriffen werden -> eigener Fall
 		if (phase.equals("nachruecken")) {
 			titel.setText("Einheiten nachruecken");
-			
+
 			titel.setFont(schriftart);
 			abfrage.setText("Moechtest du mit weiteren Einheiten nachruecken?");
 		} else {
-			switch (ris.getCurrentState()) {
+			switch (client.getCurrentState()) {
 			case SETUNITS:
 				titel.setText("CardCombi");
 				titel.setFont(schriftart);
 				abfrage.setText("Du kannst Risiko-Karten gegen Einheiten eintauschen! Interesse?");
 				break;
-			case ATTACK: 
+			case ATTACK:
 				titel.setText("Attack");
 				titel.setFont(schriftart);
 				abfrage.setText("Moechtest du angreifen?");
@@ -81,43 +87,39 @@ public class QuestionPanel extends JPanel{
 			case CHANGEUNITS:
 				titel.setText("Move units");
 				titel.setFont(schriftart);
-				 abfrage.setText("Moechtest du Einheiten verschieben?");
-				 break;
+				abfrage.setText("Moechtest du Einheiten verschieben?");
+				break;
 			}
 		}
-		
+
 		this.add(abfrage);
 		this.add(yesButton);
 		this.add(noButton);
-		
-		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));		
+
+		setBorder(new LineBorder(ris.getColorArray().get(iD), 5));
 	}
-	
+
 	public void setupEvents() {
 		yesButton.addActionListener(new AntwortListener(true));
 		noButton.addActionListener(new AntwortListener(false));
 	}
 
-	
 	class AntwortListener implements ActionListener {
-		//der antwortListener speichert die Antwort mittels Button
+//		der antwortListener speichert die Antwort in der Variable Buttons
 		private boolean answer;
-		
+
 		public AntwortListener(boolean answer) {
 			this.answer = answer;
 		}
-		
-		//und ruft den attackListener (die GUI) auf, die die Antwort weiterverarbeitet
+
+		// und ruft den attackListener (die GUI) auf, die die Antwort weiterverarbeitet
 		@Override
 		public void actionPerformed(ActionEvent aE) {
-			if(phase.equals("nachruecken")) {
+			if (phase.equals("nachruecken")) {
 				listener.answerSelected(answer, phase);
 			} else {
 				listener.answerSelected(answer);
 			}
 		}
 	}
-	
-
-	
 }

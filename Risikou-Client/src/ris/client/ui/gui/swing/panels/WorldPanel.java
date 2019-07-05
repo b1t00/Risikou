@@ -167,26 +167,26 @@ public class WorldPanel extends JPanel {
 	  public void drawFlag(Land land, String farbe, Graphics g) {
 		  switch(farbe) {
 		  case "rot":
-			  g.drawImage(flagr,land.getXf(),land.getYf(),null);
+			  g.drawImage(flagr,land.getXFahne(),land.getYFahne(),null);
 			  break;
 		  case "gruen":
-			  g.drawImage(flaggr,land.getXf(),land.getYf(),null);
+			  g.drawImage(flaggr,land.getXFahne(),land.getYFahne(),null);
 			  break;
 		  case "blau":
-			  g.drawImage(flagbl,land.getXf(),land.getYf(),null);
+			  g.drawImage(flagbl,land.getXFahne(),land.getYFahne(),null);
 			  break;
 		  case "weiss":
-			  g.drawImage(flagw,land.getXf(),land.getYf(),null);
+			  g.drawImage(flagw,land.getXFahne(),land.getYFahne(),null);
 			  break;
 		  case "pink":
-			  g.drawImage(flagp,land.getXf(),land.getYf(),null);
+			  g.drawImage(flagp,land.getXFahne(),land.getYFahne(),null);
 			  break;
 		  case "schwarz":
-			  g.drawImage(flagbc,land.getXf(),land.getYf(),null);
+			  g.drawImage(flagbc,land.getXFahne(),land.getYFahne(),null);
 			  break;
 	
 		default:
-			g.drawImage(flagp,land.getXf(),land.getYf(),null);
+			g.drawImage(flagp,land.getXFahne(),land.getYFahne(),null);
 		  }
 	  }
 	  
@@ -199,7 +199,7 @@ public class WorldPanel extends JPanel {
 	    	for(Player player: playerArray) {
 	    		for (Land land: player.getBesitz()) {
 	    			drawFlag(land, player.getFarbe(), g);
-		    		g.drawString(" " + land.getEinheiten(), land.getxE(), land.getyE());
+		    		g.drawString(" " + land.getEinheiten(), land.getXEinheiten(), land.getYEinheiten());
 		    		g.setFont(new Font("TimesRoman", Font.BOLD, 18));
 	    		}
 	    	}

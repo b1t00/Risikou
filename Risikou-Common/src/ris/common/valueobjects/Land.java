@@ -10,19 +10,18 @@ public class Land implements Comparable, Serializable{
 	private String name;
 	private Player besitzer;
 //	Positionen der Fahne und der Einheitenanzahl
-	private int xf;
-	private int yf;
-	private int xE;
-	private int yE;
+	private int xFahne;
+	private int yFahne;
+	private int xEinheiten;
+	private int yEinheiten;
 	
-	public Land(String name, int nummer, int einheiten,int xf,int yf,int xE,int yE) {
+	public Land(String name, int nummer, int einheiten,int xFahne,int yFahne,int xEinheiten,int yEinheiten) {
 		this.nummer = nummer;
 		this.name = name;
 		this.einheiten = einheiten;
-		this.setXf(xf);
-		this.setYf(yf);
-		this.setxE(xE);
-		this.setyE(yE);
+		this.xFahne = xFahne;		this.yFahne = yFahne;
+		this.xEinheiten = xEinheiten;
+		this.yEinheiten = yEinheiten;
 	}
 	
 //	Methode um Einheiten zu setzten 
@@ -85,37 +84,22 @@ public class Land implements Comparable, Serializable{
 		return this.nummer - other.getNummer();
 	}
 
-	public int getXf() {
-		return xf;
+	public int getXFahne() {
+		return xFahne;
+	}
+	
+	public int getYFahne() {
+		return yFahne;
 	}
 
-	public void setXf(int xf) {
-		this.xf = xf;
+	public int getYEinheiten() {
+		return yEinheiten;
 	}
 
-	public int getYf() {
-		return yf;
+	public int getXEinheiten() {
+		return xEinheiten;
 	}
 
-	public void setYf(int yf) {
-		this.yf = yf;
-	}
-
-	public int getyE() {
-		return yE;
-	}
-
-	public void setyE(int yE) {
-		this.yE = yE;
-	}
-
-	public int getxE() {
-		return xE;
-	}
-
-	public void setxE(int xE) {
-		this.xE = xE;
-	}
 	
 	
 }
