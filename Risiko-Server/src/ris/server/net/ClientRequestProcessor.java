@@ -365,6 +365,7 @@ public class ClientRequestProcessor implements Runnable {
 					oos.reset();
 					oos.writeObject(ladeDatei);
 					oos.reset();
+					
 				} catch (IOException e2) {
 					e2.printStackTrace();
 				}
