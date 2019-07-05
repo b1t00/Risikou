@@ -160,10 +160,10 @@ public class RisikoClientGUI extends JFrame
 	}
 
 	public void initializeGamePl() {
-		System.out.println("GUI mein name ist " + name);
-		System.out.println("meine nummer ist " + spielerNummer);
+//		System.out.println("GUI mein name ist " + name);
+//		System.out.println("meine nummer ist " + spielerNummer);
 
-		Toolkit tk = Toolkit.getDefaultToolkit();
+//		Toolkit tk = Toolkit.getDefaultToolkit();
 		int xSize = 1400;
 		int ySize = 900;
 
@@ -628,6 +628,7 @@ public class RisikoClientGUI extends JFrame
 		if (risiko.gibAktivenPlayer().getName().equals(this.name)) {
 //			eigentlich unschoen, wird quasi lokal kopiert, aber somit muss seltener der currentstate vom risiko abgefragt werden
 			currentState = State.SETUNITS;
+//			currentState = State.ATTACK;
 			showQuestion();
 		} else {
 			pausePl = new PausePanel(this.spielerNummer, risiko);
