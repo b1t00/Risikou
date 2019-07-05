@@ -230,6 +230,7 @@ public class RisikoClientGUI extends JFrame
 
 //	je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {
+		dialogPl.enableSpeicherBtn();
 		switch (currentState) {
 //		switch (risiko.getCurrentState()) {
 		case SETUNITS:
@@ -267,7 +268,6 @@ public class RisikoClientGUI extends JFrame
 			}
 			break;
 		}
-		dialogPl.enableSpeicherBtn();
 	}
 
 	public void showSetUnits() {
@@ -281,6 +281,7 @@ public class RisikoClientGUI extends JFrame
 
 	@Override // actionlistener eintauschPanel
 	public void eintauschButtonClicked(String answer) {
+		dialogPl.unEnableSpeicherBtn();
 		if (answer.equals("setzen")) {
 			showSetUnits();
 		} else {
@@ -306,6 +307,8 @@ public class RisikoClientGUI extends JFrame
 	public void answerSelected(boolean answer) {
 		if (answer) {
 //			wenn mit ja geantwortet wird:
+//			wird erstmal der speicherbutton deaktiviert
+			dialogPl.unEnableSpeicherBtn();
 			switch (currentState) {
 //			switch (risiko.getCurrentState()) {
 			case SETUNITS:
@@ -362,10 +365,11 @@ public class RisikoClientGUI extends JFrame
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
+//				und speicherbutton wird deaktiviert, da nur der aktive player speichern kann
+				dialogPl.unEnableSpeicherBtn();
 				break;
 			}
 		}
-		dialogPl.unEnableSpeicherBtn();
 	}
 
 	@Override // unitNumberListener, die UnitNumber gibt an, in welcher Spielphase wir uns
@@ -382,6 +386,7 @@ public class RisikoClientGUI extends JFrame
 					JOptionPane.showMessageDialog(null, e);
 					e.printStackTrace();
 				}
+//				dialogPl.unEnableSpeicherBtn();
 				pausePl = new PausePanel(this.spielerNummer, risiko);
 				container.add(pausePl, "pausePl");
 				cl.show(container, "pausePl");
@@ -636,6 +641,8 @@ public class RisikoClientGUI extends JFrame
 //			currentState = State.ATTACK;
 			showQuestion();
 		} else {
+//			wenn der client nicht dran ist, sollte er auch nicht speicher koennen
+			dialogPl.unEnableSpeicherBtn();
 			pausePl = new PausePanel(this.spielerNummer, risiko);
 			container.add(pausePl, "pausePl");
 			cl.show(container, "pausePl");
