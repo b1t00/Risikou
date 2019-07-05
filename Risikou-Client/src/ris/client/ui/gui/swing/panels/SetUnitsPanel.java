@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
 
+
 public class SetUnitsPanel extends JPanel {
 	
 	private int units;

@@ -765,6 +765,29 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("spielEintreitenBtn");
 		sout.println(sListenerNr);
 	};
+	
+	@Override
+	public void setSpeicherButtonDisable() {
+		gui.setSpeicherButtonDisable();
+		
+	}
+	
+	public boolean gameNotReady() {
+		goIntoCommandMode();
+		sout.println("gameReady");
+		boolean gameNotReady = false;
+		try {
+			gameNotReady = (boolean) ois.readObject();
+		} catch (ClassNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+		releaseCommandMode();
+		return gameNotReady;
+	};
+	
+	public void spielNotReady() {
+		sout.println("gameNotReady");
+	}
 
 	/*
 	 * ab hier Methoden, die vom Interface stammen, aber nicht implementiert werden
@@ -802,5 +825,19 @@ public class RisikoFassade implements RisikoInterface {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void setSpielNotReady() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSpielReady() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 }

@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 
 import ris.common.interfaces.RisikoInterface;
 
+//
 public class LadePanel extends JPanel {
 
 	public interface LadeListener{
@@ -35,12 +36,11 @@ public class LadePanel extends JPanel {
 	}
 	
 	public void setupUI() {
-		System.out.println("Fehler1");
-
 		String[] verzeichnis = risiko.getSpielladeDateien();
 		alleDateien = new JList<String>(verzeichnis);
 		this.add(ladeButton);
 		this.add(alleDateien);
+		ladeButton.setEnabled(false);
 	}
 	
 	public void setupEvents() {
@@ -54,5 +54,11 @@ public class LadePanel extends JPanel {
 			listener.spielLaden(alleDateien.getSelectedValue());			
 		}	
 	}
+
+	public void setSpeicherButtonDisable() {
+		ladeButton.setEnabled(true);
+		
+	}
+	
 	
 }

@@ -25,7 +25,6 @@ public class SpielerDetailsPanel extends JPanel {
 	public SpielerDetailsPanel(RisikoInterface ris, String spielername) {
 		this.risiko = ris;
 		this.spielername = spielername;
-
 		setupUI();
 	}
 
@@ -45,8 +44,6 @@ public class SpielerDetailsPanel extends JPanel {
 		layOutSetUp();
 		setBorder(new LineBorder(risiko.getColorArray().get(dieserPlayer.getNummer()), 5));
 	}
-
-
 	public void layOutSetUp() {
 		setLayout(new GridBagLayout());
 
@@ -89,17 +86,5 @@ public class SpielerDetailsPanel extends JPanel {
 		gc.anchor = GridBagConstraints.CENTER;
 
 		add(mission, gc);
-
-		// 2.Spalte 1. Reihe/////////////////////////////////////////
-
-//		gc.weightx = 1;
-//		gc.weighty = 1;
-//
-//		gc.gridx = 1;
-//
-//		gc.anchor = GridBagConstraints.CENTER;
-////		karteBtn = new JButton("karte");
-////		karteBtn.setPreferredSize(new Dimension(100, 100));
-//		add(karteBtn, gc);
 	}
 }

@@ -49,7 +49,6 @@ public class NeuerSpielerPanel extends JPanel {
 			}
 		}
 
-//		 moeglichkeit ArrayList<String> zu einem String[] array umzuschreiben fuer Anzeige in JComboBox
 		String[] farbListe = farben.toArray(new String[farben.size()]);
 		farbauswahlCB = new JComboBox<String>(farbListe); // ComboBox braucht String[] Array
 		farbauswahlCB.setSelectedIndex(spielerNr);
@@ -62,13 +61,9 @@ public class NeuerSpielerPanel extends JPanel {
 
 				String name = nameField.getText();
 				String farbe = (String) farbauswahlCB.getSelectedItem();
-//				farbe = risiko.setFarbeAuswaehlen(farbe);
-//				colorArraySetzten(farbe);
 				int farbIndex = farbauswahlCB.getSelectedIndex();
-				System.out.println("name : " + name);
 				risiko.setFarbeAuswaehlen(farbe);
 				if (name.equals("")) {
-					// TODO: falls name schon vergeben ist
 					JOptionPane.showMessageDialog(null, "Du solltest schon einen Namen auswaehlen");
 				} else {
 					try {
@@ -84,26 +79,8 @@ public class NeuerSpielerPanel extends JPanel {
 					hinzufuegen.setText("wartet auf nächsten spieler");
 					hinzufuegen.setEnabled(false);
 
-//					farbauswahlCB.removeItemAt(farbIndex);
-//					if(spielerNr == 1) {
-//					client.spielEintreitenBtn();
-//					}
-
 				}
 
-				// if (x == client.getSpielerAnzahl()) {
-//					// hier startet das Spiel, (kein Spieler wird mehr hinzugefuegt)
-////					im Spielaufbau werden Einheiten und Missionen verteilt sowie der erste Spieler bestimmt
-//					risiko.spielAufbau();
-//					System.out.println("Nummer: " + risiko.gibAktivenPlayer().getNummer());
-//					client.showGamePanel();
-//				}
-				// TODO: Sysos sind nur zum testen. koennen weg
-//				System.out.println(risiko.getPlayerArray());
-//				for (int i = 0; i < risiko.getPlayerArray().size(); i++) {
-//					System.out.println(risiko.getPlayerArray().get(i).getFarbe());
-//					System.out.println(risiko.getPlayerArray().get(i).getNummer());
-//				}
 			}
 		});
 

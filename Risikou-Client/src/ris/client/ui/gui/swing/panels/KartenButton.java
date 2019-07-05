@@ -9,7 +9,10 @@ import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
 import ris.common.valueobjects.Risikokarte;	
-
+/*
+ * KartenButton der von JButton abgeleitet wurde,
+ * er wird optisch als RisikoKarte verwendet
+ */
 public class KartenButton extends JButton {
 	private String titel;
 	private Risikokarte risikoKarte;
@@ -24,7 +27,6 @@ public class KartenButton extends JButton {
 		super("noch keine Karte");
 		this.risikoKarte = karte;
 		this.setPreferredSize(new Dimension(130, 140));
-//		System.out.println("ging nicht" + ip.getHeight()); // mal gucken
 		setUp();
 		
 	}
@@ -54,7 +56,6 @@ public class KartenButton extends JButton {
 			this.setBackground(Color.GRAY);
 			setBorder(BorderFactory.createLoweredBevelBorder());
 		} else {
-//			risikoKarte.setAusgewaehl(istAusgewaehlt);
 			if (istAusgewaehlt) {
 				this.setBackground(new Color(187, 170, 80));
 			} else {
@@ -65,6 +66,5 @@ public class KartenButton extends JButton {
 
 	public boolean getAusgewaehlt() {
 		return ausgewaehlt;
-//		return risikoKarte.getAusgewaehl();
 	}
 }
