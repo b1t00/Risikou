@@ -230,23 +230,99 @@ public class Spiellogik implements Serializable {
 			return false;
 		}
 
+//		public boolean moveToLandGueltig(Land from, Land to) {
+//			if (from.getBesitzer().equals(to.getBesitzer()) && worldMg.isBenachbart(from, to)) {
+//				return true;
+//			}
+//			return false;
+//		}
+//		
+//		public boolean moveUnitsGueltig(Land from, Land to, int units) {
+//			if (units > 0) {
+////				fuer die verfuegbaren Einheiten muessen die blockierten Einheiten abgezogen werden, die allerdings im Spieler stehen
+//				int verfuegbareEinheiten = (from.getEinheiten() - from.getBesitzer().getBlock()[from.getNummer()]);
+//				if ((verfuegbareEinheiten - units) > 0 && worldMg.isBenachbart(from, to)) {
+//					return true;
+//				}
+//			}
+//			return false;
+//		}
+		
+		/*
+		 * ansatz fuer rekursiven aufruf, aus Zeitgruenden nicht zuende implementiert
+		 * TODO: tiefenAnalyse
+		 */
+		ArrayList<Land> nachbarn;
+		
 		public boolean moveToLandGueltig(Land from, Land to) {
+			System.err.println("----------------------suche " + from + " zu " + to);
+			
 			if (from.getBesitzer().equals(to.getBesitzer()) && worldMg.isBenachbart(from, to)) {
 				return true;
+			} else { 
+				try {
+					nachbarn = getEigeneNachbarn(from);
+				} catch (LandExistiertNichtException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				for(Land suche : nachbarn) {
+					try {
+						if(moveToLandGueltig2(suche, to, from)){
+							return true;
+						} else {
+							return false;
+						}
+					} catch (LandExistiertNichtException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
 			}
 			return false;
 		}
+		int hopcount = 0;
+		public boolean moveToLandGueltig2(Land from, Land to, Land delete) throws LandExistiertNichtException {
+			hopcount++;
+			System.out.println(hopcount);
+			if(hopcount > 100) {
+				return false;
+			}
+		ArrayList<Land> nachbarn = getEigeneNachbarn(from);
+		if (from.getBesitzer().equals(to.getBesitzer()) && worldMg.isBenachbart(from, to)) {
+			return true;
+		} else { 
+			nachbarn.remove(delete);
+			for(Land suche : nachbarn) {
+				if(moveToLandGueltig2(suche, to, from)){
+					return true;
+				} else {
+					return false;
+				}
+			}
+			
+		}
+		return false;
+	}
+		
 
 	public boolean moveUnitsGueltig(Land from, Land to, int units) {
 		if (units > 0) {
 //			fuer die verfuegbaren Einheiten muessen die blockierten Einheiten abgezogen werden, die allerdings im Spieler stehen
 			int verfuegbareEinheiten = (from.getEinheiten() - from.getBesitzer().getBlock()[from.getNummer()]);
-			if ((verfuegbareEinheiten - units) > 0 && worldMg.isBenachbart(from, to)) {
+			if ((verfuegbareEinheiten - units) > 0 ) {
 				return true;
 			}
 		}
 		return false;
 	}
+	
+	
+	
+	
+	
+	
 
 	public void moveUnits(Land start, Land ziel, int menge) {
 		try {

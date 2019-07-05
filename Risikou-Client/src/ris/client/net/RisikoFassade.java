@@ -131,6 +131,8 @@ public class RisikoFassade implements RisikoInterface {
 		return angriff;
 	}
 
+	int count = 0;
+
 	@Override
 	public Player gibAktivenPlayer() {
 		goIntoCommandMode();
@@ -140,11 +142,16 @@ public class RisikoFassade implements RisikoInterface {
 			System.out.println("geb mir den aktiven player Rf");
 			aktiverPlayer = (Player) ois.readObject();
 		} catch (ClassNotFoundException | IOException e) {
-			System.out.println("Fehler eim Einlesen vom player");
+			System.out.println("Fehler eim Einlesen vom player " + count);
 			e.printStackTrace();
+			if (++count < 10) {
+				gibAktivenPlayer();
+			}
 //			Versuch rekursiver Aufruf, wenn falscher input eingelesen wurde, der kein Player ist
-//			gibAktivenPlayer();
+			gibAktivenPlayer();
+
 		}
+
 		releaseCommandMode();
 		return aktiverPlayer;
 	}
@@ -318,9 +325,9 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("getPlayerArray");
 		try {
 			Object input = ois.readObject();
-			if(input instanceof String) {
+			if (input instanceof String) {
 				String fromServer = (String) input;
-				if(fromServer.equals("gewinner gefunden")) {
+				if (fromServer.equals("gewinner gefunden")) {
 					String gewinner = "";
 					try {
 						gewinner = (String) ois.readObject();
@@ -418,6 +425,7 @@ public class RisikoFassade implements RisikoInterface {
 			win = (boolean) input;
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
+			rundeMissionComplete();
 		}
 		releaseCommandMode();
 		return win;
@@ -464,6 +472,7 @@ public class RisikoFassade implements RisikoInterface {
 		} catch (ClassNotFoundException | IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(gameDatei.getSpielstand() + "tuuuuuuuuuuuuuuuuuuuuuuuuuuuuuurn up");
 		releaseCommandMode();
 		return gameDatei;
 	}
@@ -669,7 +678,7 @@ public class RisikoFassade implements RisikoInterface {
 		ArrayList<String> farbauswahl = new ArrayList<String>();
 		sout.println("getFarbauswahl");
 		try {
-				farbauswahl = (ArrayList<String>) ois.readObject();
+			farbauswahl = (ArrayList<String>) ois.readObject();
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			return null;
@@ -758,7 +767,9 @@ public class RisikoFassade implements RisikoInterface {
 	};
 
 	/*
-	 * ab hier Methoden, die vom Interface stammen, aber nicht implementiert werden muessen
+	 * ab hier Methoden, die vom Interface stammen, aber nicht implementiert werden
+	 * muessen
+	 * 
 	 * @see ris.common.interfaces.RisikoInterface#getPlayerById(int)
 	 */
 	@Override

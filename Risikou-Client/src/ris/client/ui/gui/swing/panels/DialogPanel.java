@@ -154,7 +154,13 @@ public class DialogPanel extends JPanel {
 	public void setupEvents() {
 		speicherButton.addActionListener(new AntwortListener());
 	}
-
+	
+	public void unEnableSpeicherBtn() {
+		speicherButton.setEnabled(false);
+	}
+	public void enableSpeicherBtn() {
+		speicherButton.setEnabled(true);
+	}
 	
 	class AntwortListener implements ActionListener {
 		@Override
