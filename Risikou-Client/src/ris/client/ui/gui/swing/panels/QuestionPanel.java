@@ -19,11 +19,6 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.valueobjects.State;
 
 public class QuestionPanel extends JPanel {
-/*
- * QuestionPanel wird immer aufgerufen, wenn fragen an den Spieler sind
- */
-public class QuestionPanel extends JPanel{
-	
 
 	public interface QuestionListener {
 		// Etwas ungluecklich -> da im attack zwei verschiedene fragen moeglich sind
@@ -95,7 +90,6 @@ public class QuestionPanel extends JPanel{
 				abfrage.setText("Moechtest du Einheiten verschieben?");
 				break;
 			}
-			ris.setSpeicherButtonDisable();
 		}
 
 		this.add(abfrage);
