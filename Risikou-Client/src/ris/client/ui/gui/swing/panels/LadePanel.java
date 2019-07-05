@@ -40,7 +40,6 @@ public class LadePanel extends JPanel {
 		alleDateien = new JList<String>(verzeichnis);
 		this.add(ladeButton);
 		this.add(alleDateien);
-		ladeButton.setEnabled(false);
 	}
 	
 	public void setupEvents() {
@@ -55,10 +54,6 @@ public class LadePanel extends JPanel {
 		}	
 	}
 
-	public void setSpeicherButtonDisable() {
-		ladeButton.setEnabled(true);
-		
-	}
 	
 	
 }

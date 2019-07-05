@@ -765,12 +765,7 @@ public class RisikoFassade implements RisikoInterface {
 		sout.println("spielEintreitenBtn");
 		sout.println(sListenerNr);
 	};
-	
-	@Override
-	public void setSpeicherButtonDisable() {
-		gui.setSpeicherButtonDisable();
-		
-	}
+
 	
 	public boolean gameNotReady() {
 		goIntoCommandMode();

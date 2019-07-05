@@ -904,10 +904,7 @@ public class RisikoClientGUI extends JFrame
 		spielGeladenTrue = true;
 	}
 
-	public void setSpeicherButtonDisable() {
-		ladePl.setSpeicherButtonDisable();
-		
-	}
+
 
 	public boolean gameNotReady() {
 		return risiko.gameNotReady();
