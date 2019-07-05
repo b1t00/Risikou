@@ -223,6 +223,10 @@ public class RisikoClientGUI extends JFrame
 		this.revalidate();
 		this.repaint();
 	}
+	
+	public void updateCurrentState() {
+		currentState = risiko.getCurrentState();
+	}
 
 //	je nach spielphase wird ein anderes panel im container-panel angezeigt
 	public void showQuestion() {

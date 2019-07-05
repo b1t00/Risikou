@@ -404,7 +404,8 @@ public class ClientRequestProcessor implements Runnable {
 				int geladeneSpieler = risiko.wieVieleSpielerImGame();
 				if (geladeneSpieler == risiko.getGeladenesSpiel().getAllePlayer().size()) {
 					for (ServerListener sl : allServerListeners) {
-						sl.handleEvent("initializeGamePanel");
+//						sl.handleEvent("initializeGamePanel");
+						sl.handleEvent("initializeLadePanel");
 					}
 				}
 				break;
