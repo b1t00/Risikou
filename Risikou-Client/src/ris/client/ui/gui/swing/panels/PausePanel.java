@@ -11,6 +11,9 @@ import javax.swing.border.LineBorder;
 
 import ris.common.interfaces.RisikoInterface;
 
+/*
+ * wird angezeigt, wenn man nicht an der Reihe ist 
+ */
 public class PausePanel extends JPanel {
 	private JLabel titel = new JLabel("Pause", SwingConstants.CENTER);
 	private JTextArea info;

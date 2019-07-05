@@ -24,7 +24,6 @@ public class SpielerUebersichtsPanel extends JPanel {
 		anzeigeUeberschrift.setOpaque(true);
 		anzeigeUeberschrift.setForeground(Color.BLACK);
 //		anzeigeUeberschrift.invalidate(); //TODO:moeglichkeit suchen, dass jlabel nicht entfernt werden kann
-//		anzeigeUeberschrift.setBackground(Color.lightGray);
 		this.add(anzeigeUeberschrift);
 		this.risiko = risiko;
 		setupUI();
@@ -32,7 +31,6 @@ public class SpielerUebersichtsPanel extends JPanel {
 
 	public void setupUI() {
 		alleSpieler = risiko.getPlayerArray();
-		System.out.println("size playerarray: " + alleSpieler.size());
 		ArrayList<JLabel> playersLbl = new ArrayList<JLabel>();
 		for (Player player : alleSpieler) {
 			if (risiko.gibAktivenPlayer().getName().equals(player.getName())) {
@@ -56,8 +54,6 @@ public class SpielerUebersichtsPanel extends JPanel {
 		for (JLabel label : playersLbl) {
 			this.add(label);
 		}
-//		FlowLayout fl = new FlowLayout(FlowLayout.CENTER, 50, 5); // Abstand zwischen Buttens
-//		setLayout(fl);
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 

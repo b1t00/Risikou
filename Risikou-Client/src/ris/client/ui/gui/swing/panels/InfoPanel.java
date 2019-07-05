@@ -41,9 +41,6 @@ public class InfoPanel extends JPanel {
 		spielerUebersichtsPl.setPreferredSize(new Dimension(200, this.getHeight()));
 		spielerUebersichtsPl.setBackground(Color.ORANGE);
 		add(spielerUebersichtsPl, BorderLayout.EAST);
-//		risikoKartenTPl = new RisikokartenPanel(risiko,RisikoClientGUI client);
-//		risikoKartenTPl.setPreferredSize(new Dimension(500, this.getHeight()));
-//		add(risikoKartenTPl, BorderLayout.CENTER);
 	}
 	
 	//funktion um Heigth auszugeben

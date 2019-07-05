@@ -105,7 +105,7 @@ public class ClientRequestProcessor implements Runnable {
 				}
 				break;
 			case "aktiveClientAskHowMany":
-				int clientNr = -99; //koentte man als error wert benutzens
+				int clientNr = -99; // koentte man als error wert benutzens
 				try {
 					clientNr = Integer.parseInt(in.readLine());
 				} catch (NumberFormatException | IOException e4) {
@@ -257,7 +257,7 @@ public class ClientRequestProcessor implements Runnable {
 			case "attackLandGueltig":
 				attackLandGueltig();
 				break;
-			case "defenseLandGueltig": 
+			case "defenseLandGueltig":
 				defenseLandGueltig();
 				break;
 			case "attackStart":
@@ -276,7 +276,7 @@ public class ClientRequestProcessor implements Runnable {
 				attackFinal();
 				break;
 			case "kannVerschieben":
-				int nr = -3; // Default:  Achtung: es gibt kein spieler mit dem wert -3
+				int nr = -3; // Default: Achtung: es gibt kein spieler mit dem wert -3
 				try {
 					nr = Integer.parseInt(in.readLine());
 				} catch (NumberFormatException | IOException e3) {
@@ -290,10 +290,10 @@ public class ClientRequestProcessor implements Runnable {
 					e2.printStackTrace();
 				}
 				break;
-			case "moveFromLandGueltig": 
+			case "moveFromLandGueltig":
 				moveFromLandGueltig();
 				break;
-			case "moveToLandGueltig": 
+			case "moveToLandGueltig":
 				moveToLandGueltig();
 				break;
 			case "moveUnitsGueltig":
@@ -304,7 +304,16 @@ public class ClientRequestProcessor implements Runnable {
 				break;
 			case "setNextPlayer":
 				risiko.setNextPlayer();
-				allServerListeners.get(risiko.gibAktivenPlayer().getNummer()).handleEvent("anDerReihe"); // TODO:Achtung: muesste noch geandert werden weil serverListenerNr ist nicht unbedingt spielerNr
+				allServerListeners.get(risiko.gibAktivenPlayer().getNummer()).handleEvent("anDerReihe"); // TODO:Achtung:
+																											// muesste
+																											// noch
+																											// geandert
+																											// werden
+																											// weil
+																											// serverListenerNr
+																											// ist nicht
+																											// unbedingt
+																											// spielerNr
 				break;
 			case "spielSpeichern":
 				String name = null;
@@ -334,6 +343,18 @@ public class ClientRequestProcessor implements Runnable {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
+				break;
+			case "gameReady":
+				try {
+					oos.reset();
+					oos.writeObject(risiko.gameNotReady());
+					oos.reset();
+				} catch (IOException e2) {
+					e2.printStackTrace();
+				}
+				break;
+			case "gameNotReady":
+				risiko.setSpielNotReady();
 				break;
 			case "spielLadenTrue":
 				risiko.spielLadenTrue();
@@ -557,6 +578,7 @@ public class ClientRequestProcessor implements Runnable {
 				allServerListeners.get(i).handleEvent("spielEintreitenBtn");
 			}
 		}
+		risiko.setSpielReady();
 	}
 
 	public void attackLandGueltig() {
@@ -826,6 +848,7 @@ public class ClientRequestProcessor implements Runnable {
 			sl.handleEvent(welchesUpdate);
 		}
 	}
+
 /*
  * TODO: sammel methode um alle clients zu aktualisieren ausser dem aktiven spieler,
  * weil es sonst zu problemen mit der Verbindung kommt. 
@@ -862,9 +885,10 @@ public class ClientRequestProcessor implements Runnable {
 			}
 		}
 	}
-/*
- * ich hab auch mal feierabend!
- */
+
+	/*
+	 * ich hab auch mal feierabend!
+	 */
 	private void disconnect() {
 		for (ServerListener sl : allServerListeners) {
 			sl.beendeVerbindung();

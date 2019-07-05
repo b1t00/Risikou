@@ -8,7 +8,10 @@ import ris.common.interfaces.RisikoInterface;
 import ris.common.interfaces.ServerListener;
 import ris.common.valueobjects.Attack;
 
-//ist nicht wirklich ein listener
+/*
+ * ist fuer das updaten der Clients zustaendig
+ * wird in einem ArrayGespeichert
+ */
 public class ServerFassade implements ServerListener {
 
 	private RisikoInterface risiko;
@@ -16,15 +19,8 @@ public class ServerFassade implements ServerListener {
 	private ObjectOutputStream out;
 
 	public ServerFassade(ObjectOutputStream outClient, RisikoInterface risiko) {
-//		public ServerFassade(Socket clientSocket, RisikoInterface risiko) {
-//		this.clientSocket = clientSocket;
+
 		this.out = outClient;
-		/*try {
-			this.out = new ObjectOutputStream(new PrintStream(outClient));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		this.risiko = risiko;
 	}
 
@@ -35,13 +31,9 @@ public class ServerFassade implements ServerListener {
 			out.reset();
 			out.writeObject(e);
 			out.flush();
-			System.out.println(e);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// TODO Auto-generated method stub
-
 	}
 	
 	public void schickeObjekt(Attack aO) {
@@ -51,7 +43,6 @@ public class ServerFassade implements ServerListener {
 			out.writeObject(aO);
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -63,7 +54,6 @@ public class ServerFassade implements ServerListener {
 			out.writeObject(o);
 			out.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -75,18 +65,8 @@ public class ServerFassade implements ServerListener {
 			out.reset();
 
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-//		try {
-//			clientSocket.close();
-//			System.out.println("Verbindung zu " + clientSocket.getInetAddress()
-//				+ ":" + clientSocket.getPort() + " durch Client abgebrochen");
-//		} catch (Exception e) {
-//			System.out.println("--->Fehler beim Beenden der Verbindung: ");
-//			System.out.println(e.getMessage());
-//			//		out.println("Fehler");
-//		}
 	}
 
 }
